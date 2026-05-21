@@ -90,7 +90,7 @@ const { guia } = Astro.props;
           console.error('Error checkout:', data);
           btn.textContent = 'Comprar ahora';
           btn.disabled = false;
-          alert('Ha ocurrido un error. Por favor inténtalo de nuevo.');
+          alert('Error: ' + (data.error || 'Error desconocido'));
         }
       } catch (err) {
         console.error('Error:', err);

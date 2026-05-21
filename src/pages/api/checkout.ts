@@ -35,25 +35,33 @@ export const POST: APIRoute = async ({ request }) => {
 
   const siteURL = import.meta.env.SITE_URL ?? 'https://pomelo-bby-web.vercel.app';
 
-  const session = await stripe.checkout.sessions.create({
-    mode: 'payment',
-    line_items: [{ price: priceId, quantity: 1 }],
-    success_url: `${siteURL}/tienda/gracias?session_id={CHECKOUT_SESSION_ID}&guia=${guiaId}`,
-    cancel_url: `${siteURL}/tienda/${guiaId}`,
-    metadata: { guiaId },
-    // Facturación automática (necesario para IVA)
-    automatic_tax: { enabled: false },
-  });
+  try {
+    const session = await stripe.checkout.sessions.create({
+      mode: 'payment',
+      line_items: [{ price: priceId, quantity: 1 }],
+      success_url: `${siteURL}/tienda/gracias?session_id={CHECKOUT_SESSION_ID}&guia=${guiaId}`,
+      cancel_url: `${siteURL}/tienda/${guiaId}`,
+      metadata: { guiaId },
+      automatic_tax: { enabled: false },
+    });
 
-  if (!session.url) {
+    if (!session.url) {
+      return new Response(
+        JSON.stringify({ error: 'No se pudo crear la sesión de pago.' }),
+        { status: 500, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
     return new Response(
-      JSON.stringify({ error: 'No se pudo crear la sesión de pago.' }),
+      JSON.stringify({ url: session.url }),
+      { status: 200, headers: { 'Content-Type': 'application/json' } }
+    );
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Error desconocido';
+    console.error('Stripe error:', message);
+    return new Response(
+      JSON.stringify({ error: message }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }
-
-  return new Response(
-    JSON.stringify({ url: session.url }),
-    { status: 200, headers: { 'Content-Type': 'application/json' } }
-  );
 };
