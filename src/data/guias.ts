@@ -25,9 +25,8 @@ export const guias: Guia[] = [
     description: 'Todo lo que necesitas saber para empezar la alimentación complementaria con seguridad y sin estrés.',
     longDescription: 'La introducción a los sólidos es uno de los momentos que más dudas genera en las familias. Esta guía te explica cuándo empezar, qué alimentos introducir primero, qué evitar y cómo hacerlo tanto con purés como con BLW.',
     price: 9.99,
-    stripeProductId: 'prod_PLACEHOLDER',
-    stripePriceId: 'price_PLACEHOLDER',
-    blobKey: 'guia-introduccion-solidos.pdf',
+    stripeProductId: 'prod_UYdYZiJa5eobIv',
+    stripePriceId: 'price_1TZWHM2WVIl1hdpg2WAHs8Cp',
     category: 'alimentacion',
     includes: [
       'Cuándo y cómo empezar',
@@ -43,9 +42,8 @@ export const guias: Guia[] = [
     description: 'Entiende el sueño de tu bebé y encuentra estrategias reales para que toda la familia descanse mejor.',
     longDescription: 'El sueño es uno de los temas que más preocupa a las familias con bebés. Esta guía te explica cómo funciona el sueño infantil, qué es normal en cada etapa y qué puedes hacer para acompañar a tu bebé sin agotarte.',
     price: 9.99,
-    stripeProductId: 'prod_PLACEHOLDER',
-    stripePriceId: 'price_PLACEHOLDER',
-    blobKey: 'guia-sueno-bebe.pdf',
+    stripeProductId: 'prod_UYdYLwG7W7oyiI',
+    stripePriceId: 'price_1TZWHb2WVIl1hdpgoBbwnaGS',
     category: 'sueño',
     includes: [
       'Cómo funciona el sueño infantil',

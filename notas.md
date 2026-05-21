@@ -72,6 +72,7 @@ Consejos, tips y guias para padres/madres. Venta de PDFs y consultas 1:1.
 - [ ] Rellenar textos legales con un profesional (aviso legal, proteccion de datos, cookies, condiciones de venta)
 - [ ] Completar preguntas de la seccion "Sobre mi" con Mar (ver seccion Preguntas arriba)
 - [ ] Anadir numero de colegiada de Mar cuando este disponible
+- [ ] Cambiar email de cuenta Stripe al email definitivo (ahora mismo usa el email de re ytb premium)
 
 ## Fases de implementacion
 
