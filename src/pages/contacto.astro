@@ -1,0 +1,218 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Contacto" description="Contacta con Mar, enfermera pediátrica de pomelo.bby. Estoy aquí para ayudarte.">
+  <section class="contacto">
+    <div class="container">
+      <div class="contacto__header">
+        <h1>Contacto</h1>
+        <p class="contacto__subtitle">Tienes alguna pregunta? Escríbeme, estaré encantada de ayudarte.</p>
+      </div>
+
+      <div class="contacto__grid">
+        <div class="contacto__info">
+          <div class="contacto__item">
+            <h3>Instagram</h3>
+            <p>El lugar donde más activa estoy. Escríbeme un DM o sígueme para contenido diario.</p>
+            <a href="https://instagram.com/pomelo.bby" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
+              @pomelo.bby
+            </a>
+          </div>
+
+          <div class="contacto__item">
+            <h3>Email</h3>
+            <p>Para consultas más detalladas o colaboraciones.</p>
+            <a href="mailto:hola@pomelobby.com" class="btn btn--secondary">
+              hola@pomelobby.com
+            </a>
+          </div>
+
+          <div class="contacto__item">
+            <h3>Consultas 1:1</h3>
+            <p>Si quieres una sesión personalizada conmigo, reserva directamente en la página de consultas.</p>
+            <a href="/consultas" class="btn btn--secondary">
+              Ver consultas
+            </a>
+          </div>
+        </div>
+
+        <div class="contacto__form">
+          <h3>Envíame un mensaje</h3>
+          <form
+            name="contacto"
+            method="POST"
+            action="/gracias"
+            class="form"
+          >
+            <div class="form__group">
+              <label for="nombre">Nombre</label>
+              <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
+            </div>
+
+            <div class="form__group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="tu@email.com" required />
+            </div>
+
+            <div class="form__group">
+              <label for="mensaje">Mensaje</label>
+              <textarea id="mensaje" name="mensaje" rows="5" placeholder="En qué puedo ayudarte?" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--full">
+              Enviar mensaje
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .contacto {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .contacto__header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .contacto__header h1 {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .contacto__subtitle {
+    color: var(--color-text-secondary);
+    font-size: 1.05rem;
+  }
+
+  .contacto__grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--spacing-xl);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .contacto__info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+
+  .contacto__item {
+    padding: var(--spacing-lg);
+    background-color: var(--color-cream);
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+  }
+
+  .contacto__item h3 {
+    margin-bottom: var(--spacing-sm);
+    font-size: 1rem;
+    color: var(--color-coral);
+  }
+
+  .contacto__item p {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .contacto__form {
+    background-color: var(--color-cream);
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+    padding: var(--spacing-lg);
+  }
+
+  .contacto__form h3 {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .form__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .form__group label {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--color-text);
+  }
+
+  .form__group input,
+  .form__group textarea {
+    font-family: var(--font-family);
+    font-size: 0.95rem;
+    padding: 0.65rem 0.9rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background-color: var(--color-white);
+    color: var(--color-text);
+    transition: border-color 0.2s ease;
+    resize: vertical;
+  }
+
+  .form__group input:focus,
+  .form__group textarea:focus {
+    outline: none;
+    border-color: var(--color-coral);
+  }
+
+  .form__group input::placeholder,
+  .form__group textarea::placeholder {
+    color: var(--color-text-tertiary);
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 1.75rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    text-align: center;
+  }
+
+  .btn--primary {
+    background-color: var(--color-coral);
+    color: var(--color-white);
+  }
+
+  .btn--primary:hover {
+    background-color: var(--color-coral-hover);
+    color: var(--color-white);
+  }
+
+  .btn--secondary {
+    background-color: transparent;
+    color: var(--color-coral);
+    border: 2px solid var(--color-coral);
+  }
+
+  .btn--secondary:hover {
+    background-color: var(--color-coral);
+    color: var(--color-white);
+  }
+
+  .btn--full {
+    width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    .contacto__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

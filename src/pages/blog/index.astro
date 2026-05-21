@@ -1,0 +1,180 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const categories = ['alimentacion', 'sueño', 'salud', 'desarrollo', 'crianza'];
+
+const categoryLabels: Record<string, string> = {
+  alimentacion: 'Alimentación',
+  'sueño': 'Sueño',
+  salud: 'Salud',
+  desarrollo: 'Desarrollo',
+  crianza: 'Crianza',
+};
+---
+
+<Layout title="Blog" description="Artículos de enfermería pediátrica. Consejos reales para familias reales.">
+  <section class="blog">
+    <div class="container">
+      <div class="blog__header">
+        <h1>Blog</h1>
+        <p class="blog__subtitle">Tips reales para familias reales</p>
+      </div>
+
+      <div class="blog__categories">
+        <a href="/blog" class="category-tag category-tag--active">Todos</a>
+        {categories.map((cat) => (
+          <a href={`/blog/categoria/${cat}`} class="category-tag">
+            {categoryLabels[cat]}
+          </a>
+        ))}
+      </div>
+
+      <div class="blog__grid">
+        {sortedPosts.map((post) => (
+          <article class="post-card">
+            <div class="post-card__meta">
+              <span class="post-card__category">{categoryLabels[post.data.category]}</span>
+              <time class="post-card__date" datetime={post.data.pubDate.toISOString()}>
+                {post.data.pubDate.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}
+              </time>
+            </div>
+            <h2 class="post-card__title">
+              <a href={`/blog/${post.id}`}>{post.data.title}</a>
+            </h2>
+            <p class="post-card__description">{post.data.description}</p>
+            <a href={`/blog/${post.id}`} class="post-card__link">Leer artículo →</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .blog {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .blog__header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .blog__header h1 {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .blog__subtitle {
+    color: var(--color-text-secondary);
+    font-size: 1.05rem;
+  }
+
+  .blog__categories {
+    display: flex;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .category-tag {
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    transition: all 0.2s ease;
+  }
+
+  .category-tag:hover,
+  .category-tag--active {
+    background-color: var(--color-coral);
+    border-color: var(--color-coral);
+    color: var(--color-white);
+  }
+
+  .blog__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--spacing-lg);
+  }
+
+  .post-card {
+    padding: var(--spacing-lg);
+    background-color: var(--color-cream);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    transition: box-shadow 0.2s ease;
+  }
+
+  .post-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  .post-card__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  .post-card__category {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-coral);
+    background-color: var(--color-peach);
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+  }
+
+  .post-card__date {
+    font-size: 0.8rem;
+    color: var(--color-text-tertiary);
+  }
+
+  .post-card__title {
+    font-size: 1.15rem;
+    line-height: 1.4;
+  }
+
+  .post-card__title a {
+    color: var(--color-text);
+  }
+
+  .post-card__title a:hover {
+    color: var(--color-coral);
+  }
+
+  .post-card__description {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  .post-card__link {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-coral);
+    margin-top: var(--spacing-sm);
+  }
+
+  .post-card__link:hover {
+    color: var(--color-coral-hover);
+  }
+
+  @media (max-width: 768px) {
+    .blog__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

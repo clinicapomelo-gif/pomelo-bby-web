@@ -1,0 +1,163 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Links" description="Todos los links de pomelo.bby en un solo lugar.">
+  <section class="links">
+    <div class="container">
+      <div class="links__header">
+        <p class="links__avatar">🍊</p>
+        <h1>pomelo.bby</h1>
+        <p class="links__bio">Tips reales para familias reales</p>
+      </div>
+
+      <div class="links__list">
+        <a href="/recurso-gratuito" class="link-card link-card--featured">
+          <span class="link-card__emoji">🎁</span>
+          <span class="link-card__text">
+            <strong>Recurso gratuito</strong>
+            <small>Descarga gratis mi guía para familias</small>
+          </span>
+        </a>
+
+        <a href="/tienda" class="link-card">
+          <span class="link-card__emoji">📖</span>
+          <span class="link-card__text">
+            <strong>Guías y PDFs</strong>
+            <small>Recursos prácticos para el día a día</small>
+          </span>
+        </a>
+
+        <a href="/consultas" class="link-card">
+          <span class="link-card__emoji">📅</span>
+          <span class="link-card__text">
+            <strong>Reservar consulta 1:1</strong>
+            <small>Sesión personalizada conmigo</small>
+          </span>
+        </a>
+
+        <a href="/blog" class="link-card">
+          <span class="link-card__emoji">✍️</span>
+          <span class="link-card__text">
+            <strong>Blog</strong>
+            <small>Artículos y consejos de enfermería pediátrica</small>
+          </span>
+        </a>
+
+        <a href="/sobre-mi" class="link-card">
+          <span class="link-card__emoji">👋</span>
+          <span class="link-card__text">
+            <strong>Sobre mí</strong>
+            <small>Quién soy y qué hago</small>
+          </span>
+        </a>
+
+        <a
+          href="https://instagram.com/pomelo.bby"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link-card"
+        >
+          <span class="link-card__emoji">📸</span>
+          <span class="link-card__text">
+            <strong>Instagram</strong>
+            <small>@pomelo.bby</small>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .links {
+    padding: var(--spacing-xl) 0;
+    min-height: 100vh;
+    background-color: var(--color-cream);
+  }
+
+  .container {
+    max-width: 480px;
+  }
+
+  .links__header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .links__avatar {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .links__header h1 {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .links__bio {
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+  }
+
+  .links__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .link-card {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-lg);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    color: var(--color-text);
+    transition: all 0.2s ease;
+  }
+
+  .link-card:hover {
+    border-color: var(--color-coral);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(244, 132, 95, 0.15);
+    color: var(--color-text);
+  }
+
+  .link-card--featured {
+    background-color: var(--color-coral);
+    border-color: var(--color-coral);
+    color: var(--color-white);
+  }
+
+  .link-card--featured:hover {
+    background-color: var(--color-coral-hover);
+    border-color: var(--color-coral-hover);
+    color: var(--color-white);
+  }
+
+  .link-card--featured small {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .link-card__emoji {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .link-card__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .link-card__text strong {
+    font-size: 0.95rem;
+  }
+
+  .link-card__text small {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+  }
+</style>

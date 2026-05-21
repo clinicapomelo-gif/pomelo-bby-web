@@ -1,0 +1,182 @@
+---
+import SEO from '../components/SEO.astro';
+import Analytics from '@vercel/analytics/astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  pubDate?: Date;
+}
+
+const {
+  title,
+  description = 'Enfermería pediátrica. Consejos, guías y consultas para el cuidado de tu bebé.',
+  image,
+  type = 'website',
+  pubDate,
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <SEO
+      title={title}
+      description={description}
+      image={image}
+      type={type}
+      pubDate={pubDate}
+    />
+  </head>
+  <body>
+    <header class="header">
+      <nav class="container nav">
+        <a href="/" class="nav__logo">pomelo.bby</a>
+        <ul class="nav__links">
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/tienda">Tienda</a></li>
+          <li><a href="/consultas">Consultas</a></li>
+          <li><a href="/sobre-mi">Sobre mí</a></li>
+          <li><a href="/contacto">Contacto</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <Analytics />
+
+    <footer class="footer">
+      <div class="container footer__content">
+        <div class="footer__brand">
+          <p class="footer__logo">pomelo.bby</p>
+          <p class="footer__tagline">Enfermería pediátrica</p>
+        </div>
+        <div class="footer__social">
+          <a href="https://instagram.com/pomelo.bby" target="_blank" rel="noopener noreferrer">Instagram</a>
+        </div>
+        <div class="footer__legal">
+          <a href="/aviso-legal">Aviso legal</a>
+          <a href="/proteccion-datos">Protección de datos</a>
+          <a href="/cookies">Política de cookies</a>
+          <a href="/condiciones-venta">Condiciones de venta</a>
+        </div>
+        <p class="footer__copy">&copy; {new Date().getFullYear()} pomelo.bby</p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  @import '../styles/global.css';
+</style>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--color-white);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
+  }
+
+  .nav__logo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .nav__logo:hover {
+    color: var(--color-coral);
+  }
+
+  .nav__links {
+    display: flex;
+    gap: var(--spacing-lg);
+  }
+
+  .nav__links a {
+    color: var(--color-text);
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+  }
+
+  .nav__links a:hover {
+    color: var(--color-coral);
+  }
+
+  .footer {
+    background-color: var(--color-cream);
+    border-top: 1px solid var(--color-border);
+    padding: var(--spacing-xl) 0 var(--spacing-lg);
+    margin-top: var(--spacing-xl);
+  }
+
+  .footer__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+    text-align: center;
+  }
+
+  .footer__logo {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--color-text);
+  }
+
+  .footer__tagline {
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+  }
+
+  .footer__social a {
+    color: var(--color-coral);
+    font-weight: 500;
+  }
+
+  .footer__legal {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .footer__legal a {
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+  }
+
+  .footer__legal a:hover {
+    color: var(--color-coral);
+  }
+
+  .footer__copy {
+    color: var(--color-text-tertiary);
+    font-size: 0.8rem;
+  }
+
+  /* Responsive — móvil */
+  @media (max-width: 768px) {
+    .nav__links {
+      display: none; /* TODO: menú hamburguesa */
+    }
+  }
+</style>

@@ -1,0 +1,117 @@
+/* ===========================================
+   pomelo.bby — Global Styles
+   =========================================== */
+
+/* Google Fonts — Montserrat */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+/* ---- CSS Variables (paleta) ---- */
+:root {
+  /* Fondos */
+  --color-white: #FFFFFF;
+  --color-cream: #FFF8F5;
+  --color-nude: #F5EDE8;
+
+  /* Acento coral/melocotón */
+  --color-coral: #F4845F;
+  --color-coral-hover: #E06D47;
+  --color-peach: #FDDCCC;
+
+  /* Texto */
+  --color-text: #2D2D2D;
+  --color-text-secondary: #6B6B6B;
+  --color-text-tertiary: #9B9B9B;
+
+  /* Complementarios */
+  --color-green: #7CB69D;
+  --color-border: #E8E0DC;
+
+  /* Tipografía */
+  --font-family: 'Montserrat', sans-serif;
+
+  /* Espaciado base */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 4rem;
+
+  /* Ancho máximo del contenido */
+  --max-width: 1200px;
+}
+
+/* ---- Reset CSS básico ---- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family);
+  font-weight: 400;
+  color: var(--color-text);
+  background-color: var(--color-white);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+picture,
+video,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--color-coral);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-coral-hover);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-text);
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+
+p {
+  margin-bottom: var(--spacing-md);
+}
+
+ul, ol {
+  list-style: none;
+}
+
+button {
+  font-family: var(--font-family);
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* ---- Utilidades ---- */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
