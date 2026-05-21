@@ -1,0 +1,160 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { guias } from '../../data/guias';
+---
+
+<Layout title="Tienda" description="Guías prácticas de enfermería pediátrica. Recursos visuales para el día a día con tu bebé.">
+  <section class="tienda">
+    <div class="container">
+      <div class="tienda__header">
+        <h1>Guías</h1>
+        <p class="tienda__subtitle">Recursos prácticos y visuales para el día a día con tu bebé</p>
+      </div>
+
+      <div class="tienda__grid">
+        {guias.map((guia) => (
+          <article class="guia-card">
+            <div class="guia-card__body">
+              <span class="guia-card__category">{guia.category}</span>
+              <h2 class="guia-card__title">{guia.title}</h2>
+              <p class="guia-card__description">{guia.description}</p>
+              <ul class="guia-card__includes">
+                {guia.includes.slice(0, 3).map((item) => (
+                  <li>✓ {item}</li>
+                ))}
+              </ul>
+            </div>
+            <div class="guia-card__footer">
+              <span class="guia-card__price">{guia.price.toFixed(2)} €</span>
+              <a href={`/tienda/${guia.id}`} class="btn btn--primary">Ver guía</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .tienda {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .tienda__header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .tienda__header h1 {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .tienda__subtitle {
+    color: var(--color-text-secondary);
+    font-size: 1.05rem;
+  }
+
+  .tienda__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+  }
+
+  .guia-card {
+    background-color: var(--color-cream);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: box-shadow 0.2s ease;
+  }
+
+  .guia-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  .guia-card__body {
+    padding: var(--spacing-lg);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .guia-card__category {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-coral);
+    background-color: var(--color-peach);
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    align-self: flex-start;
+  }
+
+  .guia-card__title {
+    font-size: 1.15rem;
+    line-height: 1.4;
+  }
+
+  .guia-card__description {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  .guia-card__includes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin-top: var(--spacing-sm);
+  }
+
+  .guia-card__includes li {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .guia-card__footer {
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--color-white);
+  }
+
+  .guia-card__price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.6rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+  }
+
+  .btn--primary {
+    background-color: var(--color-coral);
+    color: var(--color-white);
+  }
+
+  .btn--primary:hover {
+    background-color: var(--color-coral-hover);
+    color: var(--color-white);
+  }
+
+  @media (max-width: 768px) {
+    .tienda__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

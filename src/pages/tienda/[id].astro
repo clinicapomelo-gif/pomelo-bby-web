@@ -1,0 +1,239 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { guias } from '../../data/guias';
+
+export function getStaticPaths() {
+  return guias.map((guia) => ({
+    params: { id: guia.id },
+    props: { guia },
+  }));
+}
+
+const { guia } = Astro.props;
+---
+
+<Layout title={guia.title} description={guia.description}>
+  <section class="producto">
+    <div class="container">
+      <a href="/tienda" class="producto__back">← Volver a guías</a>
+
+      <div class="producto__grid">
+        <div class="producto__info">
+          <span class="producto__category">{guia.category}</span>
+          <h1 class="producto__title">{guia.title}</h1>
+          <p class="producto__description">{guia.longDescription}</p>
+
+          <div class="producto__includes">
+            <h3>Qué incluye</h3>
+            <ul>
+              {guia.includes.map((item) => (
+                <li>
+                  <span class="check">✓</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="producto__disclaimer">
+            <p>Este recurso es orientativo y no sustituye la valoración de un profesional sanitario.</p>
+          </div>
+        </div>
+
+        <div class="producto__compra">
+          <div class="producto__card">
+            <p class="producto__precio">{guia.price.toFixed(2)} €</p>
+            <p class="producto__entrega">Descarga inmediata tras el pago</p>
+
+            <form method="POST" action="/api/checkout">
+              <input type="hidden" name="priceId" value={guia.stripePriceId} />
+              <input type="hidden" name="guiaId" value={guia.id} />
+              <button type="submit" class="btn btn--primary btn--full">
+                Comprar ahora
+              </button>
+            </form>
+
+            <ul class="producto__garantias">
+              <li>✓ Pago seguro con Stripe</li>
+              <li>✓ Descarga en PDF</li>
+              <li>✓ Acceso inmediato</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .producto {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .producto__back {
+    display: inline-block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-lg);
+    transition: color 0.2s ease;
+  }
+
+  .producto__back:hover {
+    color: var(--color-coral);
+  }
+
+  .producto__grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: var(--spacing-xl);
+    align-items: start;
+  }
+
+  .producto__category {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-coral);
+    background-color: var(--color-peach);
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    display: inline-block;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .producto__title {
+    font-size: 2rem;
+    line-height: 1.25;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .producto__description {
+    color: var(--color-text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .producto__includes {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .producto__includes h3 {
+    font-size: 1rem;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .producto__includes ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .producto__includes li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .check {
+    color: var(--color-coral);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .producto__disclaimer {
+    padding: var(--spacing-md);
+    background-color: var(--color-nude);
+    border-radius: 8px;
+    border-left: 3px solid var(--color-coral);
+  }
+
+  .producto__disclaimer p {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  /* Card de compra */
+  .producto__card {
+    position: sticky;
+    top: 100px;
+    background-color: var(--color-cream);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .producto__precio {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .producto__entrega {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.85rem 1.75rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-family);
+  }
+
+  .btn--primary {
+    background-color: var(--color-coral);
+    color: var(--color-white);
+  }
+
+  .btn--primary:hover {
+    background-color: var(--color-coral-hover);
+    color: var(--color-white);
+  }
+
+  .btn--full {
+    width: 100%;
+  }
+
+  .producto__garantias {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .producto__garantias li {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 768px) {
+    .producto__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .producto__card {
+      position: static;
+    }
+
+    .producto__title {
+      font-size: 1.6rem;
+    }
+  }
+</style>
