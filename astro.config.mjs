@@ -5,7 +5,7 @@ import vercel from '@astrojs/vercel';
 import sitemap from '@astrojs/sitemap';
 
 // TODO: cambiar por el dominio real cuando esté disponible
-const SITE_URL = 'https://pomelo-bby.vercel.app';
+const SITE_URL = 'https://pomelo-bby-web.vercel.app';
 
 // https://astro.build/config
 export default defineConfig({
