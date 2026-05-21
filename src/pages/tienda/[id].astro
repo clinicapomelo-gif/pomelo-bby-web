@@ -72,18 +72,28 @@ const { guia } = Astro.props;
       btn.textContent = 'Redirigiendo...';
       btn.disabled = true;
 
-      const formData = new FormData();
-      formData.append('priceId', priceId);
-      formData.append('guiaId', guiaId);
+      try {
+        const formData = new FormData();
+        formData.append('priceId', priceId);
+        formData.append('guiaId', guiaId);
 
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        body: formData,
-      });
+        const res = await fetch('/api/checkout', {
+          method: 'POST',
+          body: formData,
+        });
 
-      if (res.redirected) {
-        window.location.href = res.url;
-      } else {
+        const data = await res.json();
+
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          console.error('Error checkout:', data);
+          btn.textContent = 'Comprar ahora';
+          btn.disabled = false;
+          alert('Ha ocurrido un error. Por favor inténtalo de nuevo.');
+        }
+      } catch (err) {
+        console.error('Error:', err);
         btn.textContent = 'Comprar ahora';
         btn.disabled = false;
         alert('Ha ocurrido un error. Por favor inténtalo de nuevo.');

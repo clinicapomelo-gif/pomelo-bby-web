@@ -52,5 +52,8 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
-  return Response.redirect(session.url, 303);
+  return new Response(
+    JSON.stringify({ url: session.url }),
+    { status: 200, headers: { 'Content-Type': 'application/json' } }
+  );
 };
