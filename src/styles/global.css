@@ -9,13 +9,14 @@
 :root {
   /* Fondos */
   --color-white: #FFFFFF;
-  --color-cream: #FFF8F5;
-  --color-nude: #F5EDE8;
+  --color-cream: #FDF6F6;
+  --color-nude: #F5ECEC;
 
-  /* Acento coral/melocotón */
-  --color-coral: #F4845F;
-  --color-coral-hover: #E06D47;
-  --color-peach: #FDDCCC;
+  /* Acento rosa — colores de marca de Mar */
+  --color-coral: #EE9496;
+  --color-coral-hover: #E07A7C;
+  --color-peach: #EAC4C6;
+  --color-peach-light: #ECACBC;
 
   /* Texto */
   --color-text: #2D2D2D;
@@ -24,7 +25,7 @@
 
   /* Complementarios */
   --color-green: #7CB69D;
-  --color-border: #E8E0DC;
+  --color-border: #E8D8D9;
 
   /* Tipografía */
   --font-family: 'Montserrat', sans-serif;
