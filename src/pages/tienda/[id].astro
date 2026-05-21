@@ -48,7 +48,7 @@ const { guia } = Astro.props;
             <form method="POST" action="/api/checkout">
               <input type="hidden" name="priceId" value={guia.stripePriceId} />
               <input type="hidden" name="guiaId" value={guia.id} />
-              <button type="submit" class="btn btn--primary btn--full">
+              <button id="btn-comprar" type="button" class="btn btn--primary btn--full">
                 Comprar ahora
               </button>
             </form>
@@ -64,6 +64,33 @@ const { guia } = Astro.props;
     </div>
   </section>
 </Layout>
+
+<script define:vars={{ priceId: guia.stripePriceId, guiaId: guia.id }}>
+  const btn = document.getElementById('btn-comprar');
+  if (btn) {
+    btn.addEventListener('click', async () => {
+      btn.textContent = 'Redirigiendo...';
+      btn.disabled = true;
+
+      const formData = new FormData();
+      formData.append('priceId', priceId);
+      formData.append('guiaId', guiaId);
+
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (res.redirected) {
+        window.location.href = res.url;
+      } else {
+        btn.textContent = 'Comprar ahora';
+        btn.disabled = false;
+        alert('Ha ocurrido un error. Por favor inténtalo de nuevo.');
+      }
+    });
+  }
+</script>
 
 <style>
   .producto {
