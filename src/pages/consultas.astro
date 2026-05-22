@@ -1,0 +1,267 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Consultas" description="Consultas de enfermería pediátrica con Mar. Resuelve tus dudas de crianza y alimentación con acompañamiento profesional.">
+  <section class="consultas">
+    <div class="container">
+      <div class="consultas__intro">
+        <h1>Consultas</h1>
+        <p class="consultas__subtitle">Respuestas claras y prácticas. Sin juicios. Adaptado a vuestra realidad.</p>
+        <p class="consultas__desc">Para familias que quieren sentirse más tranquilas.</p>
+      </div>
+
+      <div class="consultas__grid">
+        <div class="consulta-card">
+          <div class="consulta-card__header">
+            <span class="consulta-card__badge">Express</span>
+            <h2>Consulta express</h2>
+            <p class="consulta-card__tagline">Crianza y alimentación — 20 min</p>
+            <p class="consulta-card__price">19,99€</p>
+          </div>
+          <div class="consulta-card__body">
+            <p>Para familias que necesitan resolver una duda concreta y salir tranquilas.</p>
+            <ul>
+              <li>Inicio de alimentación complementaria</li>
+              <li>BLW vs triturados</li>
+              <li>Cómo cortar alimentos de forma segura</li>
+              <li>Miedo al atragantamiento</li>
+              <li>Rechazo de alimentos</li>
+              <li>Cantidades y horarios</li>
+              <li>Sueño y rutinas básicas</li>
+              <li>Fiebre, mocos, vómitos: cuándo preocuparse</li>
+              <li>Revisión rápida de hábitos o rutinas</li>
+              <li>Dudas sobre lactancia o biberón</li>
+              <li>"Necesito saber si esto es normal"</li>
+            </ul>
+          </div>
+          <div class="consulta-card__footer">
+            <a href="#" class="btn btn--primary">Reservar consulta express</a>
+          </div>
+        </div>
+
+        <div class="consulta-card consulta-card--featured">
+          <div class="consulta-card__header">
+            <span class="consulta-card__badge">Completa</span>
+            <h2>Consulta personalizada</h2>
+            <p class="consulta-card__tagline">Acompañamiento en profundidad — 40 min</p>
+            <p class="consulta-card__price">59,99€</p>
+          </div>
+          <div class="consulta-card__body">
+            <p>Para revisar vuestra situación en profundidad y crear un plan adaptado a vuestro bebé y vuestra familia.</p>
+            <ul>
+              <li>Introducción completa de alimentación complementaria</li>
+              <li>Plan BLW adaptado</li>
+              <li>Bebé que no come / ansiedad con la comida</li>
+              <li>Transición de purés a sólidos</li>
+              <li>Selectividad alimentaria inicial</li>
+              <li>Rutinas de sueño y despertares</li>
+              <li>Gestión del miedo al atragantamiento</li>
+              <li>Organización familiar y comidas</li>
+              <li>Dudas constantes sobre crianza</li>
+              <li>Revisión de hábitos diarios</li>
+              <li>Cómo introducir alérgenos</li>
+              <li>Bebés prematuros o familias con mucha inseguridad</li>
+              <li>Seguimiento de casos que necesitan más calma</li>
+            </ul>
+            <div class="consulta-card__includes">
+              <p><strong>Incluye:</strong></p>
+              <ul>
+                <li>Resumen posterior por WhatsApp/email</li>
+                <li>Guía descargable incluida</li>
+                <li>Recursos personalizados</li>
+              </ul>
+            </div>
+          </div>
+          <div class="consulta-card__footer">
+            <a href="#" class="btn btn--primary">Reservar consulta personalizada</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="consultas__info">
+        <p>Las consultas son videollamadas individuales. Eliges el día y la hora que mejor te venga, pagas al reservar, y nos conectamos. Es un espacio para ti, sin prisas.</p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .consultas {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .consultas__intro {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .consultas__intro h1 {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .consultas__subtitle {
+    color: var(--color-coral);
+    font-weight: 500;
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .consultas__desc {
+    color: var(--color-text-secondary);
+    font-size: 1.05rem;
+  }
+
+  .consultas__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-lg);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .consulta-card {
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .consulta-card--featured {
+    border-color: var(--color-coral);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  }
+
+  .consulta-card__header {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .consulta-card__badge {
+    display: inline-block;
+    background-color: var(--color-cream);
+    color: var(--color-coral);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .consulta-card__header h2 {
+    font-size: 1.4rem;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .consulta-card__tagline {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .consulta-card__price {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .consulta-card__body {
+    flex: 1;
+  }
+
+  .consulta-card__body > p {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.6;
+  }
+
+  .consulta-card__body ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .consulta-card__body li {
+    position: relative;
+    padding-left: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .consulta-card__body li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--color-coral);
+    font-weight: 700;
+    font-size: 1.2rem;
+    line-height: 1.3;
+  }
+
+  .consulta-card__includes {
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .consulta-card__includes > p {
+    margin-bottom: var(--spacing-sm);
+    font-size: 0.9rem;
+  }
+
+  .consulta-card__includes ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .consulta-card__includes li::before {
+    content: '✓';
+    font-size: 0.85rem;
+  }
+
+  .consulta-card__footer {
+    margin-top: var(--spacing-lg);
+  }
+
+  .consulta-card__footer .btn {
+    display: block;
+    text-align: center;
+    padding: 0.85rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+  }
+
+  .btn--primary {
+    background-color: var(--color-coral);
+    color: var(--color-white);
+  }
+
+  .btn--primary:hover {
+    background-color: var(--color-coral-hover);
+    color: var(--color-white);
+  }
+
+  .consultas__info {
+    text-align: center;
+    max-width: 600px;
+    margin: var(--spacing-xl) auto 0;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 768px) {
+    .consultas__intro h1 {
+      font-size: 2rem;
+    }
+
+    .consultas__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
