@@ -2,85 +2,121 @@
 
 ## Resumen
 
-Web de enfermeria pediatrica vinculada a la cuenta de Instagram @pomelo.bby.
-Consejos, tips y guias para padres/madres. Venta de PDFs y consultas 1:1.
-
-## Preguntas:
-
-### Para la sección "Sobre mí"
-
-1. Cómo quieres que te presenten? Solo "Mar" o "Mar Vall Requena"?
-2. Tienes una frase corta que te defina como profesional, más allá del tagline de Instagram?
-3. Cuántos años llevas trabajando en total como enfermera?
-4. Qué te motivó a crear pomelo.bby? Hay una historia detrás?
-5. Tienes número de colegiada? (Refuerza mucho la credibilidad y el SEO de salud)
-6. Tienes foto profesional o una foto que quieras usar en la web?
-
-### Para las FAQs
-
-7. Qué preguntas te hacen más en Instagram o en consulta que se repiten siempre?
-8. Cuánto dura una consulta 1:1? Qué temas se pueden tratar?
-9. Cuál es el precio orientativo de las consultas? (Aunque sea un rango)
-10. Qué temas van a cubrir los primeros PDFs? (Alimentación, sueño, fiebre, vacunas...?)
-11. Hay algo que NO haces o que quieras dejar claro desde el principio? (Por ejemplo: "no hago diagnósticos", "no atiendo urgencias", etc.)
-12. En qué idioma atiende las consultas? Solo español?
+Web de enfermería pediátrica vinculada a la cuenta de Instagram @pomelo.bby.
+Acompañamiento en crianza y salud infantil. Venta de guías (PDFs) y consultas 1:1.
 
 ## Stack
 
-- **Framework:** Astro (static site)
+- **Framework:** Astro 6.3 (static + server endpoints)
 - **Hosting:** Vercel (plan gratuito, subdominio .vercel.app hasta comprar dominio)
-- **Pagos:** Stripe directo (productos individuales, precio fijo)
-- **Reservas:** Cal.com (widget embebido, cobro via Stripe)
-- **Email marketing:** Kit (ConvertKit) — lead magnet + newsletters
+- **Pagos:** Stripe (checkout sessions + webhook)
+- **Reservas:** Cal.com (popup embebido, cobro via Stripe)
+- **Formulario de contacto:** Resend (email directo + honeypot anti-spam)
+- **Email marketing:** Kit/ConvertKit (previsto, sin implementar)
+- **Almacenamiento PDFs:** Vercel Blob (previsto, sin implementar)
 - **Analytics:** Vercel Analytics (sin cookies, sin banner)
 - **Contenido:** Content Collections (markdown en repo)
 
-## Diseno
+## Diseño
 
-- **Estilo:** Calido, cercano, limpio. Inspirado en clinicapomelo.com
-- **Paleta:** Blancos + tonos nude + acento melocoton/coral
-- **Tipografia:** Montserrat
-- **Idioma:** Solo espanol
+- **Estilo:** Cálido, cercano, limpio
+- **Paleta:** Blancos + tonos nude/cream + acento coral (#EE9496)
+- **Tipografía:** Montserrat
+- **Idioma:** Solo español
+- **Sistema de diseño:** Variables CSS (--radius-sm: 8px, --radius-md: 12px, --color-coral-text para contraste AA)
+- **Botones:** Definición global en global.css (.btn, .btn--primary, .btn--secondary, .btn--full)
 
-## Paginas
+## Páginas
 
-1. Home — Hero, CTAs, propuesta de valor
-2. Blog — Listado con categorias/tags + pagina individual por post
-3. Tienda — Catalogo de PDFs + pagina de producto + Stripe Checkout
-4. Consultas — Explicacion del servicio + widget Cal.com
-5. Sobre mi / FAQ — Bio con credenciales + preguntas frecuentes
-6. Contacto — Email + Instagram + formulario
-7. Recurso gratuito — Lead magnet (PDF gratis a cambio de email)
-8. Links — Pagina tipo linktree propia (enlace en bio de Instagram)
-9. Legales — Aviso legal, proteccion de datos, cookies, condiciones de venta (placeholders)
+1. Home — Hero full-width, guías destacadas, blog, CTA consultas
+2. Blog — Listado + página individual por post (Content Collections)
+3. Tienda — Catálogo de guías + página de producto + Stripe Checkout
+4. Consultas — Servicios (express 19.99€ / personalizada 59.99€) + Cal.com popup
+5. Sobre mí / FAQ — Bio con credenciales + preguntas frecuentes
+6. Contacto — Email + Instagram + formulario funcional (Resend)
+7. Links — Página tipo linktree propia (enlace en bio de Instagram)
+8. Legales — Aviso legal, protección de datos, cookies, condiciones de venta (placeholders)
 
-## SEO y conversion
+## API Endpoints (server-rendered)
 
-- URLs cortas y descriptivas
-- Title tags + meta descriptions en cada pagina
-- Schema markup (FAQ, Article, Product)
-- Open Graph / social cards para compartir en redes
-- FAQ sections en posts del blog (long-tail keywords)
-- Secuencia de email automatizada tras lead magnet
-- Contenido optimizado para AI Search (E-E-A-T, respuestas directas)
-- Internal linking entre posts y productos
-- Blog orientado a keywords de baja competencia en pediatria
+- `POST /api/checkout` — Crea sesión de Stripe (usa stripePriceId del servidor, no del cliente)
+- `POST /api/webhook` — Recibe eventos de Stripe (valida firma)
+- `POST /api/contact` — Envía email con Resend (honeypot anti-spam)
+
+## Variables de entorno
+
+| Variable | Uso | Estado |
+|----------|-----|--------|
+| `STRIPE_SECRET_KEY` | Checkout y webhook | Configurada (test) |
+| `STRIPE_WEBHOOK_SECRET` | Verificar firma webhook | Configurada (test) |
+| `RESEND_API_KEY` | Formulario de contacto | Configurada |
+| `BLOB_READ_WRITE_TOKEN` | Vercel Blob (PDFs) | Pendiente |
+| `KIT_API_KEY` / `KIT_FORM_ID` | Email marketing | Pendiente |
+| `SITE_URL` | URLs de retorno Stripe | Configurada |
+
+## SEO y conversión
+
+- [x] URLs cortas y descriptivas
+- [x] Title tags + meta descriptions en cada página
+- [x] Open Graph / social cards
+- [x] Sitemap automático
+- [x] FAQ sections en sobre-mí
+- [ ] Schema markup (FAQ, Article, Product)
+- [ ] Secuencia de email automatizada tras lead magnet
+- [ ] Internal linking entre posts y productos
+- [ ] Blog orientado a keywords de baja competencia
+
+## Seguridad
+
+- [x] Checkout usa stripePriceId del servidor (no acepta priceId del cliente)
+- [x] Webhook valida firma de Stripe
+- [x] Headers de seguridad en vercel.json (X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy)
+- [x] Honeypot anti-spam en formulario de contacto
+- [x] Focus-visible global para accesibilidad
+- [x] Contraste AA con --color-coral-text (#C75557)
+
+## Completado
+
+- [x] Setup proyecto (Astro + Vercel + fuentes + paleta + layout)
+- [x] Páginas estáticas (Home, Sobre mí, Contacto, Links, Legales)
+- [x] Blog (Content Collections, listado, template, 2 posts)
+- [x] SEO y meta (componente SEO, sitemap, robots.txt, OG tags, Analytics)
+- [x] Deploy (GitHub + Vercel)
+- [x] Tienda (catálogo, producto, Stripe Checkout, webhook, página de éxito)
+- [x] Consultas (página + Cal.com popup integrado)
+- [x] Formulario de contacto (Resend + honeypot)
+- [x] Textos adaptados al tono de Mar (AGENTS.md)
+- [x] Género neutro en toda la web
+- [x] Sistema de diseño unificado (botones, radios, contraste, focus)
+- [x] Nav con estado activo
+- [x] Headers de seguridad
 
 ## Pendientes
 
-- [ ] Crear email hola@pomelobby.com (usado en contacto, legales y formulario)
-- [ ] Rellenar textos legales con un profesional (aviso legal, proteccion de datos, cookies, condiciones de venta)
-- [ ] Completar preguntas de la seccion "Sobre mi" con Mar (ver seccion Preguntas arriba)
-- [ ] Anadir numero de colegiada de Mar cuando este disponible
-- [ ] Cambiar email de cuenta Stripe al email definitivo (ahora mismo usa el email de re ytb premium)
+### Para lanzar ventas (bloqueante)
 
-## Fases de implementacion
+- [ ] Tener los PDFs finales de las guías
+- [ ] Subir PDFs a Vercel Blob (configurar blobKey en guias.ts)
+- [ ] Implementar entrega por email en el webhook (enviar link de descarga tras pago)
+- [ ] Pasar Stripe a producción (claves live + nuevos product/price IDs)
 
-1. Setup proyecto (Astro + Vercel adapter + fuentes + paleta + layout base)
-2. Paginas estaticas (Home, Sobre mi, Contacto, Links, Legales)
-3. Blog (Content Collections, listado, template de post, posts de ejemplo)
-4. SEO y meta (componente SEO, sitemap, robots.txt, OG tags, Vercel Analytics)
-5. Deploy inicial (GitHub + Vercel)
-6. Tienda (catalogo, producto, Stripe Checkout, webhook, pagina de exito)
-7. Consultas (pagina + Cal.com embebido)
-8. Lead magnet (pagina + integracion Kit + entrega automatica)
+### Infraestructura
+
+- [ ] Comprar dominio definitivo (dejar .vercel.app)
+- [ ] Crear email hola@pomelobby.com (necesita dominio)
+- [ ] Verificar dominio en Resend (para enviar desde @pomelobby.com)
+- [ ] Cambiar email de cuenta Stripe al definitivo
+
+### Contenido (necesita a Mar)
+
+- [ ] Imágenes de portada para las guías (ahora son placeholders SVG)
+- [ ] Textos legales definitivos (profesional legal)
+- [ ] Testimonios / social proof (necesita tiempo + clientes)
+- [ ] Lead magnet — decidir qué PDF gratuito ofrecer
+
+### Mejoras técnicas (opcionales)
+
+- [ ] Schema markup (FAQ, Article, Product) para SEO
+- [ ] Integrar Kit para lead magnet + email marketing
+- [ ] Internal linking entre posts y productos
+- [ ] Más artículos de blog (keywords de baja competencia)
