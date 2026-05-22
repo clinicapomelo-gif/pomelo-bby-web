@@ -1,5 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+// TODO: Cambiar por el username y slugs reales de Cal.com
+const CAL_USERNAME = 'pomelo-bby'; // tu username de Cal.com
+const CAL_EXPRESS_SLUG = 'consulta-express'; // slug del event type express
+const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type personalizada
 ---
 
 <Layout title="Consultas" description="Consultas de enfermería infantil con Mar. Resuelve tus dudas de crianza y alimentación con acompañamiento profesional.">
@@ -40,7 +45,7 @@ import Layout from '../layouts/Layout.astro';
             </ul>
           </div>
           <div class="consulta-card__footer">
-            <a href="#" class="btn btn--primary">Reservar consulta express</a>
+            <button data-cal-link={`${CAL_USERNAME}/${CAL_EXPRESS_SLUG}`} data-cal-config='{"layout":"month_view"}' class="btn btn--primary">Reservar consulta express</button>
           </div>
         </div>
 
@@ -75,7 +80,7 @@ import Layout from '../layouts/Layout.astro';
             </div>
           </div>
           <div class="consulta-card__footer">
-            <a href="#" class="btn btn--primary">Reservar consulta personalizada</a>
+            <button data-cal-link={`${CAL_USERNAME}/${CAL_PERSONALIZADA_SLUG}`} data-cal-config='{"layout":"month_view"}' class="btn btn--primary">Reservar consulta personalizada</button>
           </div>
         </div>
       </div>
@@ -87,6 +92,13 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 </Layout>
+
+<!-- Cal.com embed script -->
+<script is:inline>
+  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+  Cal("init", {origin:"https://cal.com"});
+  Cal("ui", {"styles":{"branding":{"brandColor":"#EE9496"}},"hideEventTypeDetails":false,"layout":"month_view"});
+</script>
 
 <style>
   .consultas {
