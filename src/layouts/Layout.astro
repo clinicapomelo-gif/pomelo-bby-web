@@ -86,6 +86,7 @@ const currentPath = Astro.url.pathname;
         </div>
         <div class="footer__social">
           <a href="https://instagram.com/pomelo.bby" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="mailto:hola@pomelobby.com">hola@pomelobby.com</a>
         </div>
         <div class="footer__legal">
           <a href="/aviso-legal">Aviso legal</a>
@@ -195,6 +196,12 @@ const currentPath = Astro.url.pathname;
   .footer__tagline {
     color: var(--color-text-secondary);
     font-size: 0.85rem;
+  }
+
+  .footer__social {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
   }
 
   .footer__social a {
