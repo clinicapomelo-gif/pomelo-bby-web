@@ -2,6 +2,8 @@ import type { APIRoute } from 'astro';
 import Stripe from 'stripe';
 import { guias } from '../../data/guias';
 
+export const prerender = false;
+
 export const POST: APIRoute = async ({ request }) => {
   // Stripe no está configurado todavía — devuelve error claro
   const stripeKey = import.meta.env.STRIPE_SECRET_KEY;

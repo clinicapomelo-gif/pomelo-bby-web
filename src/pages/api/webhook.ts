@@ -2,6 +2,8 @@ import type { APIRoute } from 'astro';
 import Stripe from 'stripe';
 import { guias } from '../../data/guias';
 
+export const prerender = false;
+
 export const POST: APIRoute = async ({ request }) => {
   const stripeKey = import.meta.env.STRIPE_SECRET_KEY;
   const webhookSecret = import.meta.env.STRIPE_WEBHOOK_SECRET;
