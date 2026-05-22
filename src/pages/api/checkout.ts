@@ -14,13 +14,20 @@ export const POST: APIRoute = async ({ request }) => {
 
   const stripe = new Stripe(stripeKey);
 
-  const formData = await request.formData();
-  const priceId = formData.get('priceId')?.toString();
-  const guiaId = formData.get('guiaId')?.toString();
+  let guiaId: string | undefined;
 
-  if (!priceId || !guiaId) {
+  const contentType = request.headers.get('content-type') || '';
+  if (contentType.includes('application/json')) {
+    const body = await request.json();
+    guiaId = body.guiaId;
+  } else {
+    const formData = await request.formData();
+    guiaId = formData.get('guiaId')?.toString();
+  }
+
+  if (!guiaId) {
     return new Response(
-      JSON.stringify({ error: 'Faltan parámetros.' }),
+      JSON.stringify({ error: 'Falta el ID del producto.' }),
       { status: 400, headers: { 'Content-Type': 'application/json' } }
     );
   }
@@ -38,7 +45,7 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
-      line_items: [{ price: priceId, quantity: 1 }],
+      line_items: [{ price: guia.stripePriceId, quantity: 1 }],
       success_url: `${siteURL}/tienda/gracias?session_id={CHECKOUT_SESSION_ID}&guia=${guiaId}`,
       cancel_url: `${siteURL}/tienda/${guiaId}`,
       metadata: { guiaId },

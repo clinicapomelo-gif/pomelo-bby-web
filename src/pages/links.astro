@@ -8,31 +8,23 @@ import Layout from '../layouts/Layout.astro';
       <div class="links__header">
         <p class="links__avatar">🍊</p>
         <h1>pomelo.bby</h1>
-        <p class="links__bio">Tips reales para familias reales</p>
+        <p class="links__bio">Enfermería infantil con calma</p>
       </div>
 
       <div class="links__list">
-        <a href="/recurso-gratuito" class="link-card link-card--featured">
-          <span class="link-card__emoji">🎁</span>
-          <span class="link-card__text">
-            <strong>Recurso gratuito</strong>
-            <small>Descarga gratis mi guía para familias</small>
-          </span>
-        </a>
-
-        <a href="/tienda" class="link-card">
+        <a href="/tienda" class="link-card link-card--featured">
           <span class="link-card__emoji">📖</span>
           <span class="link-card__text">
-            <strong>Guías y PDFs</strong>
-            <small>Recursos prácticos para el día a día</small>
+            <strong>Guías</strong>
+            <small>Información clara para tener a mano</small>
           </span>
         </a>
 
         <a href="/consultas" class="link-card">
           <span class="link-card__emoji">📅</span>
           <span class="link-card__text">
-            <strong>Reservar consulta 1:1</strong>
-            <small>Sesión personalizada conmigo</small>
+            <strong>Reservar consulta</strong>
+            <small>Hablamos de lo que te preocupa</small>
           </span>
         </a>
 
@@ -40,7 +32,7 @@ import Layout from '../layouts/Layout.astro';
           <span class="link-card__emoji">✍️</span>
           <span class="link-card__text">
             <strong>Blog</strong>
-            <small>Artículos y consejos de enfermería pediátrica</small>
+            <small>Artículos para resolver dudas</small>
           </span>
         </a>
 
@@ -73,7 +65,7 @@ import Layout from '../layouts/Layout.astro';
   .links {
     padding: var(--spacing-xl) 0;
     min-height: 100vh;
-    background-color: var(--color-cream);
+    background-color: var(--color-white);
   }
 
   .container {
@@ -113,7 +105,7 @@ import Layout from '../layouts/Layout.astro';
     padding: var(--spacing-md) var(--spacing-lg);
     background-color: var(--color-white);
     border: 1px solid var(--color-border);
-    border-radius: 12px;
+    border-radius: var(--radius-md);
     color: var(--color-text);
     transition: all 0.2s ease;
   }

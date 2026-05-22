@@ -2,19 +2,19 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Contacto" description="Contacta con Mar, enfermera pediátrica de pomelo.bby. Estoy aquí para ayudarte.">
+<Layout title="Contacto" description="Contacta con Mar, enfermera infantil. Estoy aquí para ayudarte con lo que necesites.">
   <section class="contacto">
     <div class="container">
       <div class="contacto__header">
         <h1>Contacto</h1>
-        <p class="contacto__subtitle">Tienes alguna pregunta? Escríbeme, estaré encantada de ayudarte.</p>
+        <p class="contacto__subtitle">¿Tienes alguna duda? Escríbeme, estoy aquí para ayudarte.</p>
       </div>
 
       <div class="contacto__grid">
         <div class="contacto__info">
           <div class="contacto__item">
             <h3>Instagram</h3>
-            <p>El lugar donde más activa estoy. Escríbeme un DM o sígueme para contenido diario.</p>
+            <p>Donde más activa estoy. Escríbeme por DM o sígueme para contenido del día a día.</p>
             <a href="https://instagram.com/pomelo.bby" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
               @pomelo.bby
             </a>
@@ -22,7 +22,7 @@ import Layout from '../layouts/Layout.astro';
 
           <div class="contacto__item">
             <h3>Email</h3>
-            <p>Para consultas más detalladas o colaboraciones.</p>
+            <p>Para consultas más largas o colaboraciones.</p>
             <a href="mailto:hola@pomelobby.com" class="btn btn--secondary">
               hola@pomelobby.com
             </a>
@@ -30,7 +30,7 @@ import Layout from '../layouts/Layout.astro';
 
           <div class="contacto__item">
             <h3>Consultas 1:1</h3>
-            <p>Si quieres una sesión personalizada conmigo, reserva directamente en la página de consultas.</p>
+            <p>Si prefieres que hablemos en directo, puedes reservar una consulta conmigo.</p>
             <a href="/consultas" class="btn btn--secondary">
               Ver consultas
             </a>
@@ -57,7 +57,7 @@ import Layout from '../layouts/Layout.astro';
 
             <div class="form__group">
               <label for="mensaje">Mensaje</label>
-              <textarea id="mensaje" name="mensaje" rows="5" placeholder="En qué puedo ayudarte?" required></textarea>
+              <textarea id="mensaje" name="mensaje" rows="5" placeholder="¿En qué puedo ayudarte?" required></textarea>
             </div>
 
             <button type="submit" class="btn btn--primary btn--full">
@@ -105,8 +105,8 @@ import Layout from '../layouts/Layout.astro';
 
   .contacto__item {
     padding: var(--spacing-lg);
-    background-color: var(--color-cream);
-    border-radius: 12px;
+    background-color: var(--color-white);
+    border-radius: var(--radius-md);
     border: 1px solid var(--color-border);
   }
 
@@ -123,8 +123,8 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .contacto__form {
-    background-color: var(--color-cream);
-    border-radius: 12px;
+    background-color: var(--color-white);
+    border-radius: var(--radius-md);
     border: 1px solid var(--color-border);
     padding: var(--spacing-lg);
   }
@@ -157,7 +157,7 @@ import Layout from '../layouts/Layout.astro';
     font-size: 0.95rem;
     padding: 0.65rem 0.9rem;
     border: 1px solid var(--color-border);
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     background-color: var(--color-white);
     color: var(--color-text);
     transition: border-color 0.2s ease;
@@ -173,41 +173,6 @@ import Layout from '../layouts/Layout.astro';
   .form__group input::placeholder,
   .form__group textarea::placeholder {
     color: var(--color-text-tertiary);
-  }
-
-  .btn {
-    display: inline-block;
-    padding: 0.75rem 1.75rem;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: all 0.2s ease;
-    text-align: center;
-  }
-
-  .btn--primary {
-    background-color: var(--color-coral);
-    color: var(--color-white);
-  }
-
-  .btn--primary:hover {
-    background-color: var(--color-coral-hover);
-    color: var(--color-white);
-  }
-
-  .btn--secondary {
-    background-color: transparent;
-    color: var(--color-coral);
-    border: 2px solid var(--color-coral);
-  }
-
-  .btn--secondary:hover {
-    background-color: var(--color-coral);
-    color: var(--color-white);
-  }
-
-  .btn--full {
-    width: 100%;
   }
 
   @media (max-width: 768px) {

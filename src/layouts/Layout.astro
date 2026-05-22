@@ -12,7 +12,7 @@ interface Props {
 
 const {
   title,
-  description = 'Enfermería pediátrica. Consejos, guías y consultas para el cuidado de tu bebé.',
+  description = 'Enfermería infantil. Acompañamiento, guías y consultas para cuidar a tu bebé con calma.',
   image,
   type = 'website',
   pubDate,
@@ -37,6 +37,11 @@ const {
     <header class="header">
       <nav class="container nav">
         <a href="/" class="nav__logo">pomelo.bby</a>
+        <button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false">
+          <span class="nav__toggle-bar"></span>
+          <span class="nav__toggle-bar"></span>
+          <span class="nav__toggle-bar"></span>
+        </button>
         <ul class="nav__links">
           <li><a href="/blog">Blog</a></li>
           <li><a href="/tienda">Tienda</a></li>
@@ -46,6 +51,24 @@ const {
         </ul>
       </nav>
     </header>
+
+    <script>
+      const toggle = document.querySelector('.nav__toggle');
+      const navLinks = document.querySelector('.nav__links');
+      
+      toggle?.addEventListener('click', () => {
+        const isOpen = navLinks?.classList.toggle('nav__links--open');
+        toggle.setAttribute('aria-expanded', String(isOpen));
+      });
+
+      // Cerrar menú al hacer clic en un enlace
+      navLinks?.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('nav__links--open');
+          toggle?.setAttribute('aria-expanded', 'false');
+        });
+      });
+    </script>
 
     <main>
       <slot />
@@ -57,7 +80,7 @@ const {
       <div class="container footer__content">
         <div class="footer__brand">
           <p class="footer__logo">pomelo.bby</p>
-          <p class="footer__tagline">Enfermería pediátrica</p>
+          <p class="footer__tagline">Te guio en la salud y crianza de tus hijos.</p>
         </div>
         <div class="footer__social">
           <a href="https://instagram.com/pomelo.bby" target="_blank" rel="noopener noreferrer">Instagram</a>
@@ -121,8 +144,29 @@ const {
     color: var(--color-coral);
   }
 
+  .nav__toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .nav__toggle-bar {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: var(--color-text);
+    transition: all 0.3s ease;
+  }
+
   .footer {
-    background-color: var(--color-cream);
+    background-color: var(--color-white);
     border-top: 1px solid var(--color-border);
     padding: var(--spacing-xl) 0 var(--spacing-lg);
     margin-top: var(--spacing-xl);
@@ -175,8 +219,42 @@ const {
 
   /* Responsive — móvil */
   @media (max-width: 768px) {
+    .nav__toggle {
+      display: flex;
+    }
+
     .nav__links {
-      display: none; /* TODO: menú hamburguesa */
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: var(--color-white);
+      border-bottom: 1px solid var(--color-border);
+      flex-direction: column;
+      padding: var(--spacing-md) 0;
+    }
+
+    .nav__links--open {
+      display: flex;
+    }
+
+    .nav__links li {
+      width: 100%;
+    }
+
+    .nav__links a {
+      display: block;
+      padding: var(--spacing-md) var(--spacing-lg);
+      font-size: 1rem;
+    }
+
+    .nav__links a:hover {
+      background-color: var(--color-cream);
+    }
+
+    .nav {
+      position: relative;
     }
   }
 </style>

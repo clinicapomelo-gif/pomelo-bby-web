@@ -1,13 +1,13 @@
 ---
 title: "Fiebre en bebés: cuándo preocuparse y cuándo no"
-description: "La fiebre asusta, pero no siempre es mala. Te explico qué es normal, cuándo actuar y cuándo llamar al pediatra."
+description: "La fiebre asusta, pero no siempre es mala señal. Te cuento qué es normal, cuándo actuar y cuándo llamar al pediatra."
 pubDate: 2026-05-01
 category: salud
 tags: ["fiebre", "bebé", "pediatría", "urgencias"]
 draft: false
 ---
 
-La fiebre es uno de los motivos de consulta más frecuentes en pediatría. Y también uno de los que más angustia genera en las familias. Vamos a hablar de ello sin alarmismos.
+La fiebre es uno de los motivos de consulta más frecuentes en pediatría. Y también uno de los que más angustia genera. Vamos a hablar de ello con calma.
 
 ## Qué es la fiebre
 
@@ -19,7 +19,7 @@ Se considera fiebre a partir de **38°C** medida en el recto (la más fiable en 
 
 Bajar la fiebre de forma automática no es necesario ni siempre recomendable. Los antitérmicos (paracetamol, ibuprofeno) están indicados principalmente para **mejorar el confort del niño**, no para eliminar la fiebre a toda costa.
 
-Si tu hijo tiene 38.2°C pero está jugando, comiendo y con buen estado general, no necesita medicación.
+Si tu hijo o hija tiene 38.2°C pero está jugando, comiendo y con buen estado general, no necesita medicación.
 
 ## Cuándo sí hay que actuar
 
@@ -27,7 +27,7 @@ Llama al pediatra o ve a urgencias si:
 
 - El bebé tiene **menos de 3 meses** y fiebre de 38°C o más
 - La fiebre supera **40°C** en cualquier edad
-- El niño tiene **mal estado general**: muy decaído, no responde, no come nada
+- El niño o niña tiene **mal estado general**: muy decaído/a, no responde, no come nada
 - La fiebre dura **más de 5 días**
 - Aparecen **manchas en la piel** que no desaparecen al presionar
 - Tiene **dificultad para respirar**
@@ -39,13 +39,13 @@ Llama al pediatra o ve a urgencias si:
 - **Timpánica** — válida a partir de los 6 meses si se hace bien
 - **Oral** — a partir de los 4-5 años
 
-Evita los termómetros de frente en bebés pequeños, son menos precisos.
+Los termómetros de frente son menos precisos en bebés pequeños.
 
 ## Preguntas frecuentes
 
 ### ¿Puedo alternar paracetamol e ibuprofeno?
 
-Solo si lo indica el pediatra. No es una práctica recomendada de forma rutinaria.
+Solo si lo indica el pediatra. No es algo que se recomiende de forma rutinaria.
 
 ### ¿Los baños de agua fría bajan la fiebre?
 
@@ -53,7 +53,7 @@ No. Los baños de agua tibia pueden ayudar al confort, pero el agua fría puede 
 
 ### ¿La fiebre puede causar daño cerebral?
 
-Solo en casos muy extremos (por encima de 41.5°C mantenida). La fiebre habitual de una infección no causa daño cerebral.
+Solo en casos muy extremos (por encima de 41.5°C mantenida). La fiebre habitual de una infección no causa daño cerebral. Puedes respirar tranquilo/a.
 
 ---
 

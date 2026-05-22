@@ -5,14 +5,14 @@ const guiaId = Astro.url.searchParams.get('guia');
 const sessionId = Astro.url.searchParams.get('session_id');
 ---
 
-<Layout title="Compra completada" description="Gracias por tu compra. Tu guía está lista para descargar.">
+<Layout title="Compra completada" description="Gracias por tu compra. Tu guía está lista.">
   <section class="gracias">
     <div class="container">
       <div class="gracias__content">
         <p class="gracias__icon">🎉</p>
-        <h1>Compra completada</h1>
-        <p>Gracias por tu compra. En breve recibirás un email con el enlace de descarga de tu guía.</p>
-        <p class="gracias__note">Si no recibes el email en los próximos minutos, revisa la carpeta de spam o <a href="/contacto">contáctame</a>.</p>
+        <h1>¡Listo!</h1>
+        <p>Gracias por tu compra. En unos minutos recibirás un email con el enlace para descargar tu guía.</p>
+        <p class="gracias__note">Si no lo ves, revisa la carpeta de spam. Y si sigue sin aparecer, <a href="/contacto">escríbeme</a> y lo solucionamos.</p>
         <a href="/tienda" class="btn btn--primary">Ver más guías</a>
       </div>
     </div>
@@ -55,20 +55,7 @@ const sessionId = Astro.url.searchParams.get('session_id');
     font-size: 0.9rem;
   }
 
-  .btn {
-    display: inline-block;
-    padding: 0.75rem 1.75rem;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    background-color: var(--color-coral);
-    color: var(--color-white);
-    transition: background-color 0.2s ease;
+  .gracias__content .btn {
     margin-top: var(--spacing-sm);
-  }
-
-  .btn:hover {
-    background-color: var(--color-coral-hover);
-    color: var(--color-white);
   }
 </style>

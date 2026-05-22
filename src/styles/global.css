@@ -9,19 +9,19 @@
 :root {
   /* Fondos */
   --color-white: #FFFFFF;
-  --color-cream: #FDF6F6;
+  --color-cream: #F6EFE7;
   --color-nude: #F5ECEC;
 
   /* Acento rosa — colores de marca de Mar */
   --color-coral: #EE9496;
   --color-coral-hover: #E07A7C;
+  --color-coral-text: #C75557;
   --color-peach: #EAC4C6;
-  --color-peach-light: #ECACBC;
 
   /* Texto */
   --color-text: #2D2D2D;
-  --color-text-secondary: #6B6B6B;
-  --color-text-tertiary: #9B9B9B;
+  --color-text-secondary: #5A5A5A;
+  --color-text-tertiary: #7A7A7A;
 
   /* Complementarios */
   --color-green: #7CB69D;
@@ -37,8 +37,24 @@
   --spacing-lg: 2rem;
   --spacing-xl: 4rem;
 
+  /* Radios */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+
   /* Ancho máximo del contenido */
   --max-width: 1200px;
+
+  /* Categorías (placeholders) */
+  --color-cat-alimentacion-bg: #FDF6F0;
+  --color-cat-alimentacion-accent: #EE9496;
+  --color-cat-sueno-bg: #F0F4F8;
+  --color-cat-sueno-accent: #8BA4B8;
+  --color-cat-salud-bg: #F2F8F5;
+  --color-cat-salud-accent: #7CB69D;
+  --color-cat-desarrollo-bg: #FBF8F0;
+  --color-cat-desarrollo-accent: #C4A574;
+  --color-cat-crianza-bg: #FDF6F6;
+  --color-cat-crianza-accent: #EAC4C6;
 }
 
 /* ---- Reset CSS básico ---- */
@@ -53,13 +69,14 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
+  overflow-y: scroll;
 }
 
 body {
   font-family: var(--font-family);
   font-weight: 400;
   color: var(--color-text);
-  background-color: var(--color-white);
+  background-color: var(--color-cream);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -74,7 +91,7 @@ svg {
 }
 
 a {
-  color: var(--color-coral);
+  color: var(--color-coral-text);
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -115,4 +132,48 @@ button {
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 var(--spacing-lg);
+}
+
+/* ---- Focus visible ---- */
+:focus-visible {
+  outline: 2px solid var(--color-coral);
+  outline-offset: 2px;
+}
+
+/* ---- Botones globales ---- */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-align: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn--primary {
+  background-color: var(--color-coral);
+  color: var(--color-white);
+}
+
+.btn--primary:hover {
+  background-color: var(--color-coral-hover);
+  color: var(--color-white);
+}
+
+.btn--secondary {
+  background-color: transparent;
+  color: var(--color-coral-text);
+  border: 2px solid var(--color-coral);
+}
+
+.btn--secondary:hover {
+  background-color: var(--color-coral);
+  color: var(--color-white);
+}
+
+.btn--full {
+  width: 100%;
 }

@@ -46,7 +46,6 @@ const { guia } = Astro.props;
             <p class="producto__entrega">Descarga inmediata tras el pago</p>
 
             <form method="POST" action="/api/checkout">
-              <input type="hidden" name="priceId" value={guia.stripePriceId} />
               <input type="hidden" name="guiaId" value={guia.id} />
               <button id="btn-comprar" type="button" class="btn btn--primary btn--full">
                 Comprar ahora
@@ -65,7 +64,7 @@ const { guia } = Astro.props;
   </section>
 </Layout>
 
-<script define:vars={{ priceId: guia.stripePriceId, guiaId: guia.id }}>
+<script define:vars={{ guiaId: guia.id }}>
   const btn = document.getElementById('btn-comprar');
   if (btn) {
     btn.addEventListener('click', async () => {
@@ -73,13 +72,10 @@ const { guia } = Astro.props;
       btn.disabled = true;
 
       try {
-        const formData = new FormData();
-        formData.append('priceId', priceId);
-        formData.append('guiaId', guiaId);
-
         const res = await fetch('/api/checkout', {
           method: 'POST',
-          body: formData,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ guiaId }),
         });
 
         const data = await res.json();
@@ -186,7 +182,7 @@ const { guia } = Astro.props;
   .producto__disclaimer {
     padding: var(--spacing-md);
     background-color: var(--color-nude);
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     border-left: 3px solid var(--color-coral);
   }
 
@@ -200,9 +196,9 @@ const { guia } = Astro.props;
   .producto__card {
     position: sticky;
     top: 100px;
-    background-color: var(--color-cream);
+    background-color: var(--color-white);
     border: 1px solid var(--color-border);
-    border-radius: 12px;
+    border-radius: var(--radius-md);
     padding: var(--spacing-lg);
     display: flex;
     flex-direction: column;
@@ -222,33 +218,6 @@ const { guia } = Astro.props;
     margin: 0;
   }
 
-  .btn {
-    display: inline-block;
-    padding: 0.85rem 1.75rem;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 1rem;
-    transition: all 0.2s ease;
-    text-align: center;
-    border: none;
-    cursor: pointer;
-    font-family: var(--font-family);
-  }
-
-  .btn--primary {
-    background-color: var(--color-coral);
-    color: var(--color-white);
-  }
-
-  .btn--primary:hover {
-    background-color: var(--color-coral-hover);
-    color: var(--color-white);
-  }
-
-  .btn--full {
-    width: 100%;
-  }
-
   .producto__garantias {
     display: flex;
     flex-direction: column;
@@ -260,7 +229,7 @@ const { guia } = Astro.props;
     color: var(--color-text-secondary);
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     .producto__grid {
       grid-template-columns: 1fr;
     }
@@ -268,7 +237,9 @@ const { guia } = Astro.props;
     .producto__card {
       position: static;
     }
+  }
 
+  @media (max-width: 768px) {
     .producto__title {
       font-size: 1.6rem;
     }

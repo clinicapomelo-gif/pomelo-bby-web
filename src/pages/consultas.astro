@@ -2,13 +2,13 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Consultas" description="Consultas de enfermería pediátrica con Mar. Resuelve tus dudas de crianza y alimentación con acompañamiento profesional.">
+<Layout title="Consultas" description="Consultas de enfermería infantil con Mar. Resuelve tus dudas de crianza y alimentación con acompañamiento profesional.">
   <section class="consultas">
     <div class="container">
       <div class="consultas__intro">
         <h1>Consultas</h1>
-        <p class="consultas__subtitle">Respuestas claras y prácticas. Sin juicios. Adaptado a vuestra realidad.</p>
-        <p class="consultas__desc">Para familias que quieren sentirse más tranquilas.</p>
+        <p class="consultas__subtitle">Un espacio para ti, sin prisas. Hablamos de lo que te preocupa y salimos con un plan.</p>
+        <p class="consultas__desc">Porque a veces simplemente necesitas alguien que te escuche, te comprenda y te diga que lo estás haciendo mejor de lo que crees.</p>
       </div>
 
       <div class="consultas__grid">
@@ -20,19 +20,23 @@ import Layout from '../layouts/Layout.astro';
             <p class="consulta-card__price">19,99€</p>
           </div>
           <div class="consulta-card__body">
-            <p>Para familias que necesitan resolver una duda concreta y salir tranquilas.</p>
+            <p>Para resolver esa duda que te ronda la cabeza y quedarte más tranquilo/a.</p>
             <ul>
-              <li>Inicio de alimentación complementaria</li>
-              <li>BLW vs triturados</li>
-              <li>Cómo cortar alimentos de forma segura</li>
-              <li>Miedo al atragantamiento</li>
-              <li>Rechazo de alimentos</li>
-              <li>Cantidades y horarios</li>
-              <li>Sueño y rutinas básicas</li>
+              <li>¿BLW o triturados?</li>
+              <li>Cómo y cuándo empezar alimentación complementaria</li>
+              <li>Cada cuánto come un recién nacido</li>
+              <li>"¿Esto es normal?"</li>
               <li>Fiebre, mocos, vómitos: cuándo preocuparse</li>
-              <li>Revisión rápida de hábitos o rutinas</li>
-              <li>Dudas sobre lactancia o biberón</li>
-              <li>"Necesito saber si esto es normal"</li>
+              <li>Lavados nasales y cómo identificar dificultad respiratoria real</li>
+              <li>Rechazo de alimentos</li>
+              <li>Rabietas y gestión emocional básica</li>
+              <li>Cantidad en los biberones sin obsesionarse</li>
+              <li>Tips de atragantamiento y primeros auxilios</li>
+              <li>"Necesito saber si esto es urgente o puedo esperar"</li>
+              <li>Mi bebé solo duerme encima de mí</li>
+              <li>Cómo saber si toma suficiente leche materna</li>
+              <li>Gases, cólicos y "llanto inconsolable"</li>
+              <li>Cacas normales vs señales de alarma</li>
             </ul>
           </div>
           <div class="consulta-card__footer">
@@ -48,27 +52,24 @@ import Layout from '../layouts/Layout.astro';
             <p class="consulta-card__price">59,99€</p>
           </div>
           <div class="consulta-card__body">
-            <p>Para revisar vuestra situación en profundidad y crear un plan adaptado a vuestro bebé y vuestra familia.</p>
+            <p>Acompañamiento más profundo y adaptado a vuestra familia.</p>
             <ul>
-              <li>Introducción completa de alimentación complementaria</li>
-              <li>Plan BLW adaptado</li>
-              <li>Bebé que no come / ansiedad con la comida</li>
-              <li>Transición de purés a sólidos</li>
-              <li>Selectividad alimentaria inicial</li>
-              <li>Rutinas de sueño y despertares</li>
-              <li>Gestión del miedo al atragantamiento</li>
-              <li>Organización familiar y comidas</li>
-              <li>Dudas constantes sobre crianza</li>
-              <li>Revisión de hábitos diarios</li>
-              <li>Cómo introducir alérgenos</li>
-              <li>Bebés prematuros o familias con mucha inseguridad</li>
-              <li>Seguimiento de casos que necesitan más calma</li>
+              <li>Guía completa de alimentación complementaria</li>
+              <li>Selectividad alimentaria ("mi bebé no come")</li>
+              <li>Rutina personalizada de sueño infantil y despertares</li>
+              <li>Gestión de ansiedad en madres y padres</li>
+              <li>Supervivencia con recién nacido (primeras semanas)</li>
+              <li>Vuelta a casa con un prematuro</li>
+              <li>Destete y cambios de rutinas</li>
+              <li>Casos que necesitan seguimiento y más calma</li>
+              <li>Acompañamiento tras urgencias, ingresos o sustos médicos</li>
+              <li>Bebés de alta demanda y familias agotadas</li>
+              <li>Plan personalizado según vuestra situación y crianza</li>
             </ul>
             <div class="consulta-card__includes">
               <p><strong>Incluye:</strong></p>
               <ul>
-                <li>Resumen posterior por WhatsApp/email</li>
-                <li>Guía descargable incluida</li>
+                <li>Resumen posterior por WhatsApp</li>
                 <li>Recursos personalizados</li>
               </ul>
             </div>
@@ -80,7 +81,8 @@ import Layout from '../layouts/Layout.astro';
       </div>
 
       <div class="consultas__info">
-        <p>Las consultas son videollamadas individuales. Eliges el día y la hora que mejor te venga, pagas al reservar, y nos conectamos. Es un espacio para ti, sin prisas.</p>
+        <p>Nos vemos por videollamada. Tú eliges el día y la hora, y yo me preparo para que aprovechemos el tiempo al máximo.</p>
+        <p class="consultas__note">Al reservar te pediré que me cuentes cuál es tu preocupación principal y la edad de tu peque. Así llego preparada y vamos directos a lo importante.</p>
       </div>
     </div>
   </section>
@@ -122,16 +124,17 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .consulta-card {
-    border: 1px solid var(--color-border);
-    border-radius: 12px;
+    background-color: var(--color-white);
+    border-radius: var(--radius-md);
     padding: var(--spacing-lg);
     display: flex;
     flex-direction: column;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   }
 
   .consulta-card--featured {
-    border-color: var(--color-coral);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 2px solid var(--color-coral);
   }
 
   .consulta-card__header {
@@ -147,7 +150,7 @@ import Layout from '../layouts/Layout.astro';
     text-transform: uppercase;
     letter-spacing: 0.05em;
     padding: 0.25rem 0.75rem;
-    border-radius: 20px;
+    border-radius: 999px;
     margin-bottom: var(--spacing-sm);
   }
 
@@ -229,22 +232,6 @@ import Layout from '../layouts/Layout.astro';
 
   .consulta-card__footer .btn {
     display: block;
-    text-align: center;
-    padding: 0.85rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: all 0.2s ease;
-  }
-
-  .btn--primary {
-    background-color: var(--color-coral);
-    color: var(--color-white);
-  }
-
-  .btn--primary:hover {
-    background-color: var(--color-coral-hover);
-    color: var(--color-white);
   }
 
   .consultas__info {
@@ -253,6 +240,22 @@ import Layout from '../layouts/Layout.astro';
     margin: var(--spacing-xl) auto 0;
     color: var(--color-text-secondary);
     line-height: 1.7;
+  }
+
+  .consultas__note {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-md);
+    background-color: var(--color-white);
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    color: var(--color-text);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  @media (max-width: 1024px) {
+    .consultas__grid {
+      max-width: 700px;
+    }
   }
 
   @media (max-width: 768px) {
