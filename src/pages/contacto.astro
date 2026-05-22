@@ -42,9 +42,14 @@ import Layout from '../layouts/Layout.astro';
           <form
             name="contacto"
             method="POST"
-            action="/gracias"
+            action="/api/contact"
             class="form"
           >
+            <!-- Honeypot anti-spam (oculto para usuarios, visible para bots) -->
+            <div class="form__honeypot" aria-hidden="true">
+              <input type="text" name="website" tabindex="-1" autocomplete="off" />
+            </div>
+
             <div class="form__group">
               <label for="nombre">Nombre</label>
               <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
@@ -173,6 +178,14 @@ import Layout from '../layouts/Layout.astro';
   .form__group input::placeholder,
   .form__group textarea::placeholder {
     color: var(--color-text-tertiary);
+  }
+
+  .form__honeypot {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
   }
 
   @media (max-width: 768px) {
