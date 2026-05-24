@@ -113,8 +113,8 @@ Acompañamiento en crianza y salud infantil. Venta de guías (PDFs) y consultas 
 
 ### Pendiente de Mar
 
-- [ ] Renombrar "Sobre mí" → "Quién soy" o "Conóceme" (en nav y página)
-- [ ] Decidir textos en cursiva definitivos para cada card de consultas
+- [x] Renombrar "Sobre mí" → "Quién soy" o "Conóceme" (en nav y página)
+- [x] Decidir textos en cursiva definitivos para cada card de consultas
 - [ ] Imágenes de portada para las guías (ahora son placeholders SVG)
 - [ ] Textos legales definitivos (profesional legal)
 - [ ] Testimonios / social proof (necesita tiempo + clientes)

@@ -59,8 +59,8 @@ Poca o ninguna. Antes del año, la leche (materna o de fórmula) sigue siendo el
 
 ### ¿Puedo hacer BLW si mi bebé nació prematuro?
 
-Consulta con tu pediatra. En bebés prematuros se suele usar la edad corregida para valorar si está preparado/a.
+Consulta con un profesional sanitario. En bebés prematuros se suele usar la edad corregida para valorar si está preparado/a.
 
 ---
 
-*Este artículo es orientativo y no sustituye la valoración de tu pediatra. Ante cualquier duda, consulta con un profesional.*
+*Este artículo es orientativo y educativo. No sustituye una valoración presencial. Ante cualquier duda sobre la salud de tu hijo o hija, consulta con un profesional sanitario.*

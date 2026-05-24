@@ -1,6 +1,6 @@
 ---
 title: "Fiebre en bebés: cuándo preocuparse y cuándo no"
-description: "La fiebre asusta, pero no siempre es mala señal. Te cuento qué es normal, cuándo actuar y cuándo llamar al pediatra."
+description: "La fiebre asusta, pero no siempre es mala señal. Te cuento qué es normal, cuándo actuar y cuándo consultar."
 pubDate: 2026-05-01
 category: salud
 tags: ["fiebre", "bebé", "pediatría", "urgencias"]
@@ -23,7 +23,7 @@ Si tu hijo o hija tiene 38.2°C pero está jugando, comiendo y con buen estado g
 
 ## Cuándo sí hay que actuar
 
-Llama al pediatra o ve a urgencias si:
+Llama a tu centro de salud o ve a urgencias si:
 
 - El bebé tiene **menos de 3 meses** y fiebre de 38°C o más
 - La fiebre supera **40°C** en cualquier edad
@@ -45,7 +45,7 @@ Los termómetros de frente son menos precisos en bebés pequeños.
 
 ### ¿Puedo alternar paracetamol e ibuprofeno?
 
-Solo si lo indica el pediatra. No es algo que se recomiende de forma rutinaria.
+Solo si lo indica un profesional sanitario. No es algo que se recomiende de forma rutinaria.
 
 ### ¿Los baños de agua fría bajan la fiebre?
 
@@ -57,4 +57,4 @@ Solo en casos muy extremos (por encima de 41.5°C mantenida). La fiebre habitual
 
 ---
 
-*Este artículo es orientativo y no sustituye la valoración de tu pediatra. Ante cualquier duda, consulta con un profesional.*
+*Este artículo es orientativo y educativo. No sustituye una valoración presencial. Ante cualquier duda sobre la salud de tu hijo o hija, consulta con un profesional sanitario.*
