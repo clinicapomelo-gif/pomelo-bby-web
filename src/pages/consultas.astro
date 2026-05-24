@@ -28,6 +28,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
           </div>
           <div class="consulta-card__body">
             <p>Me cuentas tu caso por escrito con un formulario y te devuelvo una valoración profesional detallada que puedes releer siempre que lo necesites. Sin agendar, sin prisas.</p>
+            <p class="consulta-card__highlight">Ideal si necesitas explicarme bien el contexto y releer la respuesta cuando quieras.</p>
             <div class="consulta-card__includes">
               <p><strong>Incluye:</strong></p>
               <ul>
@@ -53,21 +54,21 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
           <div class="consulta-card__body">
             <p>Para resolver esa duda que te ronda la cabeza y quedarte más tranquilo/a.</p>
             <ul>
+              <li>"Voy a empezar con la alimentación complementaria y estoy perdido/a"</li>
               <li>¿BLW o triturados?</li>
-              <li>Cómo y cuándo empezar alimentación complementaria</li>
-              <li>Cada cuánto come un recién nacido</li>
-              <li>"¿Esto es normal?"</li>
-              <li>Fiebre, mocos, vómitos: cuándo preocuparse</li>
-              <li>Lavados nasales y cómo identificar dificultad respiratoria real</li>
-              <li>Rechazo de alimentos</li>
-              <li>Rabietas y gestión emocional básica</li>
-              <li>Cantidad en los biberones sin obsesionarse</li>
-              <li>Tips de atragantamiento y primeros auxilios</li>
-              <li>"Necesito saber si esto es urgente o puedo esperar"</li>
-              <li>Mi bebé solo duerme encima de mí</li>
-              <li>Cómo saber si toma suficiente leche materna</li>
-              <li>Gases, cólicos y "llanto inconsolable"</li>
-              <li>Cacas normales vs señales de alarma</li>
+              <li>"Mi bebé no quiere comer, tira más de lo que come"</li>
+              <li>¿Cómo sé si está comiendo suficiente?</li>
+              <li>¿Cómo sé si toma suficiente con el pecho?</li>
+              <li>"¿Esto es un resfriado normal o le cuesta respirar de verdad?"</li>
+              <li>"No sé si esto es para urgencias o puedo esperar"</li>
+              <li>"Lleva dos días con fiebre… ¿cuándo me tengo que preocupar?"</li>
+              <li>"Se despierta cada hora y ya no sabemos qué hacer"</li>
+              <li>"Mi bebé solo se duerme encima de mí"</li>
+              <li>"No quiere estar con nadie más"</li>
+              <li>"Llora muchísimo al final del día y no sé qué le pasa"</li>
+              <li>"¿Es normal que llore así?"</li>
+              <li>"Cada vez que lo dejo en la cuna se despierta"</li>
+              <li>"No sé si estoy haciendo algo mal"</li>
             </ul>
             <div class="consulta-card__includes">
               <p><strong>Incluye:</strong></p>
@@ -91,7 +92,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
             <p class="consulta-card__price">69,99€</p>
           </div>
           <div class="consulta-card__body">
-            <p>Acompañamiento más profundo y adaptado a vuestra familia. Nos sentamos, lo trabajamos juntas/os, y luego te acompaño mientras lo pones en práctica.</p>
+            <p>Acompañamiento más profundo y adaptado a vuestra familia. Entendemos qué está pasando, hacemos un plan y te acompaño mientras lo aplicas.</p>
             <ul>
               <li>Guía completa de alimentación complementaria</li>
               <li>Selectividad alimentaria ("mi bebé no come")</li>
@@ -134,7 +135,8 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
               <p class="consulta-card__savings">Ahorras 30€ respecto a sesiones sueltas</p>
             </div>
             <div class="consulta-card__body">
-              <p>Para procesos que necesitan tiempo: introducción de sólidos, crisis de sueño, cambios de etapa. No se resuelve en una sesión y no tienes por qué hacerlo sola/o.</p>
+              <p>Para familias que necesitan algo más que una consulta puntual. No tienes que resolverlo todo solo/a en una semana.</p>
+              <p>Introducción de sólidos, crisis de sueño, cambios de etapa, bebés de alta demanda… procesos que necesitan tiempo y acompañamiento real.</p>
               <div class="consulta-card__includes">
                 <p><strong>Incluye todo lo de la consulta completa, ×3:</strong></p>
                 <ul>
@@ -299,6 +301,13 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
 
   .consulta-card__body {
     flex: 1;
+  }
+
+  .consulta-card__highlight {
+    color: var(--color-coral-text);
+    font-size: 0.85rem;
+    font-style: italic;
+    margin-bottom: var(--spacing-md);
   }
 
   .consulta-card__body > p {
