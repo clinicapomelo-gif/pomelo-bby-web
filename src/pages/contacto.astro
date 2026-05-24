@@ -7,38 +7,30 @@ import Layout from '../layouts/Layout.astro';
     <div class="container">
       <div class="contacto__header">
         <h1>Contacto</h1>
-        <p class="contacto__subtitle">¿Tienes alguna duda? Escríbeme, estoy aquí para ayudarte.</p>
+        <p class="contacto__subtitle">Estoy aquí. Escríbeme lo que necesites.</p>
       </div>
 
-      <div class="contacto__grid">
-        <div class="contacto__info">
-          <div class="contacto__item">
-            <h3>Instagram</h3>
-            <p>Donde más activa estoy. Escríbeme por DM o sígueme para contenido del día a día.</p>
-            <a href="https://instagram.com/pomelo.bby" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
-              @pomelo.bby
-            </a>
-          </div>
-
-          <div class="contacto__item">
-            <h3>Email</h3>
-            <p>Para consultas más largas o colaboraciones.</p>
-            <a href="mailto:hola@pomelobby.com" class="btn btn--secondary">
-              hola@pomelobby.com
-            </a>
-          </div>
-
-          <div class="contacto__item">
-            <h3>Consultas 1:1</h3>
-            <p>Si prefieres que hablemos en directo, puedes reservar una consulta conmigo.</p>
-            <a href="/consultas" class="btn btn--secondary">
-              Ver consultas
-            </a>
-          </div>
+      <div class="contacto__orientacion">
+        <div class="contacto__orientacion-item">
+          <p><strong>¿Duda rápida o simplemente saludar?</strong></p>
+          <p>Escríbeme por Instagram, siempre contesto.</p>
+          <a href="https://instagram.com/pomelo.bby" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
+            @pomelo.bby
+          </a>
         </div>
+        <div class="contacto__orientacion-item">
+          <p><strong>¿Necesitas ayuda profesional con tu peque?</strong></p>
+          <p>Tengo distintas formas de acompañarte según lo que necesites.</p>
+          <a href="/consultas" class="btn btn--secondary">
+            Ver mis consultas
+          </a>
+        </div>
+      </div>
 
+      <div class="contacto__form-wrapper">
         <div class="contacto__form">
-          <h3>Envíame un mensaje</h3>
+          <h3>Para todo lo demás</h3>
+          <p class="contacto__form-desc">Colaboraciones, problemas con una compra, propuestas, o lo que sea. Escríbeme aquí y te respondo lo antes posible.</p>
           <form
             name="contacto"
             method="POST"
@@ -94,37 +86,40 @@ import Layout from '../layouts/Layout.astro';
     font-size: 1.05rem;
   }
 
-  .contacto__grid {
+  .contacto__orientacion {
     display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: var(--spacing-xl);
-    max-width: 900px;
-    margin: 0 auto;
-  }
-
-  .contacto__info {
-    display: flex;
-    flex-direction: column;
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-lg);
+    max-width: 700px;
+    margin: 0 auto var(--spacing-xl);
   }
 
-  .contacto__item {
+  .contacto__orientacion-item {
     padding: var(--spacing-lg);
     background-color: var(--color-white);
     border-radius: var(--radius-md);
     border: 1px solid var(--color-border);
+    text-align: center;
   }
 
-  .contacto__item h3 {
-    margin-bottom: var(--spacing-sm);
-    font-size: 1rem;
-    color: var(--color-coral);
-  }
-
-  .contacto__item p {
+  .contacto__orientacion-item p {
     color: var(--color-text-secondary);
     font-size: 0.9rem;
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .contacto__orientacion-item p strong {
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .contacto__orientacion-item .btn {
+    margin-top: var(--spacing-sm);
+  }
+
+  .contacto__form-wrapper {
+    max-width: 550px;
+    margin: 0 auto;
   }
 
   .contacto__form {
@@ -135,7 +130,14 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .contacto__form h3 {
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .contacto__form-desc {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
     margin-bottom: var(--spacing-lg);
+    line-height: 1.5;
   }
 
   .form {
@@ -189,7 +191,7 @@ import Layout from '../layouts/Layout.astro';
   }
 
   @media (max-width: 768px) {
-    .contacto__grid {
+    .contacto__orientacion {
       grid-template-columns: 1fr;
     }
   }

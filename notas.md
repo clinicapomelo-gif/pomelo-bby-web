@@ -31,9 +31,9 @@ Acompañamiento en crianza y salud infantil. Venta de guías (PDFs) y consultas 
 1. Home — Hero full-width, guías destacadas, blog, CTA consultas
 2. Blog — Listado + página individual por post (Content Collections)
 3. Tienda — Catálogo de guías + página de producto + Stripe Checkout
-4. Consultas — Servicios (express 19.99€ / personalizada 59.99€) + Cal.com popup
-5. Sobre mí / FAQ — Bio con credenciales + preguntas frecuentes
-6. Contacto — Email + Instagram + formulario funcional (Resend)
+4. Consultas — 4 tiers: mensaje 14,99€ / express 29,99€ / completa 69,99€ / pack 179,99€ + Cal.com popup
+5. Quién soy / FAQ — Bio con credenciales + preguntas frecuentes (renombrar "Sobre mí" → "Quién soy" o "Conóceme")
+6. Contacto — Orientación (Instagram para dudas rápidas, consultas para ayuda profesional) + formulario para todo lo demás (Resend)
 7. Links — Página tipo linktree propia (enlace en bio de Instagram)
 8. Legales — Aviso legal, protección de datos, cookies, condiciones de venta (placeholders)
 
@@ -120,3 +120,16 @@ Acompañamiento en crianza y salud infantil. Venta de guías (PDFs) y consultas 
 - [ ] Integrar Kit para lead magnet + email marketing
 - [ ] Internal linking entre posts y productos
 - [ ] Más artículos de blog (keywords de baja competencia)
+
+### Escalado página de contacto (cuando haya volumen)
+
+Cuando Mar reciba +50 emails/semana de dudas pediátricas gratuitas por el formulario:
+
+1. **Fase 1:** Añadir selector de tema obligatorio (Colaboración / Problema con compra / Otra consulta). NO incluir "duda sobre mi peque" como opción — fuerza la redirección a consultas.
+2. **Fase 2:** Sustituir el formulario por un Help Center / FAQ expandido (tipo Headspace). Solo dejar formulario para casos que no se resuelven con las FAQs.
+3. **Fase 3:** Respuesta automática a emails que contengan palabras clave pediátricas ("fiebre", "caca", "duerme", "come") con un mensaje amable que redirige a consultas.
+
+Señales para actuar:
+- Mar dedica +2h/semana a responder emails que debería cobrar
+- Más del 50% de los emails son dudas sobre peques (no colaboraciones ni incidencias)
+- La conversión de consultas por mensaje baja porque la gente usa el formulario gratis
