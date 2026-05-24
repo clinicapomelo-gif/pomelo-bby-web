@@ -1,5 +1,31 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import Stripe from 'stripe';
+
+export const prerender = false;
+
+// Verificar que el session_id es válido y está pagado
+const url = new URL(Astro.request.url);
+const sessionId = url.searchParams.get('session_id');
+
+let isValid = false;
+
+if (sessionId) {
+  const stripeKey = import.meta.env.STRIPE_SECRET_KEY;
+  if (stripeKey && stripeKey !== 'sk_test_PLACEHOLDER') {
+    try {
+      const stripe = new Stripe(stripeKey);
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+      isValid = session.payment_status === 'paid' && session.metadata?.type === 'consulta-mensaje';
+    } catch {
+      isValid = false;
+    }
+  }
+}
+
+if (!isValid) {
+  return Astro.redirect('/consultas');
+}
 ---
 
 <Layout title="Cuéntame tu caso" description="Has reservado tu consulta por mensaje. Cuéntame qué te preocupa y te respondo en 24-48h.">
@@ -16,8 +42,8 @@ import Layout from '../../layouts/Layout.astro';
           method="POST"
           action="/api/consulta-mensaje"
           class="form"
-          enctype="multipart/form-data"
         >
+          <input type="hidden" name="session_id" value={sessionId} />
           <div class="form__group">
             <label for="nombre">Tu nombre</label>
             <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />

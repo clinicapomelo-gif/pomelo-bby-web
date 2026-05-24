@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
+import Stripe from 'stripe';
 
 export const prerender = false;
 
@@ -12,14 +13,40 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     );
   }
 
+  const stripeKey = import.meta.env.STRIPE_SECRET_KEY;
   const resend = new Resend(resendKey);
 
   const formData = await request.formData();
+  const sessionId = formData.get('session_id')?.toString() || '';
   const nombre = formData.get('nombre')?.toString() || '';
   const email = formData.get('email')?.toString() || '';
   const edad = formData.get('edad')?.toString() || '';
   const motivo = formData.get('motivo')?.toString() || '';
   const contexto = formData.get('contexto')?.toString() || '';
+
+  // Verificar pago válido
+  if (!sessionId || !stripeKey) {
+    return new Response(
+      JSON.stringify({ error: 'Sesión de pago no válida.' }),
+      { status: 403, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
+
+  try {
+    const stripe = new Stripe(stripeKey);
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    if (session.payment_status !== 'paid' || session.metadata?.type !== 'consulta-mensaje') {
+      return new Response(
+        JSON.stringify({ error: 'Pago no verificado.' }),
+        { status: 403, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+  } catch {
+    return new Response(
+      JSON.stringify({ error: 'No se pudo verificar el pago.' }),
+      { status: 403, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
 
   if (!nombre || !email || !edad || !motivo) {
     return new Response(
@@ -27,10 +54,6 @@ export const POST: APIRoute = async ({ request, redirect }) => {
       { status: 400, headers: { 'Content-Type': 'application/json' } }
     );
   }
-
-  // TODO: Manejar archivos adjuntos (fotos/vídeos)
-  // Por ahora se ignoran — en el futuro se pueden subir a Vercel Blob
-  // y adjuntar los links en el email
 
   try {
     await resend.emails.send({
