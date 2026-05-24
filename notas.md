@@ -126,7 +126,27 @@ Acompañamiento en crianza y salud infantil. Venta de guías (PDFs) y consultas 
 - [ ] Integrar Kit para lead magnet + email marketing
 - [ ] Internal linking entre posts y productos
 - [ ] Más artículos de blog (keywords de baja competencia)
-- [ ] Manejar archivos adjuntos en consulta por mensaje (subir a Vercel Blob)
+- [ ] Implementar upload de archivos en consulta por mensaje (ver opciones abajo)
+
+### Upload de archivos en "Cuéntame por mensaje"
+
+**Contexto:** En pediatría los vídeos son clave (respiración, llanto, movimientos, alimentación, sueño). Un vídeo de 15 segundos dice más que 3 párrafos. No podemos prescindir de ellos.
+
+**Problema:** Los vídeos pesan mucho (50-100MB). El email tiene límites (Resend max 40MB, Gmail 25MB adjuntos).
+
+**Opciones:**
+
+| Opción | Cómo funciona | Pros | Contras |
+|--------|--------------|------|---------|
+| **A: Vercel Blob** | Subir archivos a Blob, enviar links en el email | Todo en un sitio, Mar recibe links | 500MB gratis total, se llena rápido con vídeos, hay que limpiar |
+| **B: Cloudflare R2** | Subir a R2 (S3-compatible) | 10GB gratis/mes, más escalable | Más setup, otro servicio |
+| **C: Link externo (Google Drive, WeTransfer)** | El usuario sube su vídeo a un servicio y pega el link en el formulario | Cero coste, sin límites | Fricción para el usuario, depende de que sepan usar Drive |
+| **D: WhatsApp Business API** | Tras el formulario, se abre un chat de WhatsApp con un mensaje pre-rellenado para enviar archivos | Natural, sin límites, Mar ya usa WhatsApp | Coste de API, mezcla canales, difícil de trazar |
+| **E: Campo de texto + "envíalo por email"** | No hay upload. Mar pide el vídeo por email si lo necesita | Cero complejidad | Añade un paso extra, retrasa la respuesta |
+
+**Recomendación:** Empezar con **E** (sin upload, Mar pide si necesita) y migrar a **A** o **B** cuando haya volumen. La opción C es un buen intermedio si no queremos implementar nada pero queremos dar la posibilidad.
+
+**Decisión pendiente:** ¿Por dónde responde Mar? Email es lo más profesional y trazable. Todo el flujo debería ser por email (reply al hilo).
 
 ### Plan de uso de PDFs existentes
 
