@@ -3,6 +3,8 @@ dist/
 # generated types
 .astro/
 
+pdfs/*
+
 # dependencies
 node_modules/
 

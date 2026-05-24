@@ -126,6 +126,28 @@ Acompañamiento en crianza y salud infantil. Venta de guías (PDFs) y consultas 
 - [ ] Integrar Kit para lead magnet + email marketing
 - [ ] Internal linking entre posts y productos
 - [ ] Más artículos de blog (keywords de baja competencia)
+- [ ] Manejar archivos adjuntos en consulta por mensaje (subir a Vercel Blob)
+
+### Plan de uso de PDFs existentes
+
+PDFs disponibles en `/pdfs/`:
+- ALIMENTACION COMPLEMENTARIA.pdf
+- ATRAGANTAMIENTOS.pdf
+- CONSEJOS RN.pdf
+- CONSERVACIÓN LECHE MATERNA.pdf
+- POMADA DE ACEITE DE UVA.pdf
+
+Estrategia:
+
+| PDF | Uso recomendado | Acción |
+|-----|----------------|--------|
+| Alimentación complementaria | **Venta** (guía completa) | Subir a Blob, crear producto Stripe, generar 2-3 posts de blog como aperitivo |
+| Atragantamientos | **Venta** (complementa alimentación) | Subir a Blob, crear producto Stripe |
+| Consejos RN | **Venta** o **lead magnet** | Evaluar extensión — si es corto, lead magnet; si es completo, venta |
+| Conservación leche materna | **Lead magnet** (tema concreto, útil, corto) | Usar para captar emails con Kit/ConvertKit |
+| Pomada de aceite de uva | **Blog post** gratuito | Es un tip, no una guía — convertir en artículo |
+
+Cada PDF de venta puede generar 2-3 artículos de blog que sirven como contenido SEO gratuito y empujan al embudo (blog → guía de pago → consulta).
 
 ### Escalado página de contacto (cuando haya volumen)
 

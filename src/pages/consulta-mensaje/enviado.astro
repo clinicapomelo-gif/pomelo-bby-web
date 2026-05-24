@@ -1,0 +1,45 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Caso enviado" description="He recibido tu caso. Te respondo en 24-48h.">
+  <section class="enviado">
+    <div class="container">
+      <div class="enviado__content">
+        <h1>¡Recibido!</h1>
+        <p class="enviado__message">Ya tengo tu caso. Lo voy a leer con calma y te respondo en 24-48h por email.</p>
+        <p class="enviado__note">Si necesitas añadir algo que se te haya olvidado, escríbeme por Instagram sin problema.</p>
+        <a href="/" class="btn btn--secondary">Volver al inicio</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .enviado {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .enviado__content {
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .enviado__content h1 {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .enviado__message {
+    color: var(--color-text-secondary);
+    font-size: 1.05rem;
+    margin-bottom: var(--spacing-md);
+    line-height: 1.6;
+  }
+
+  .enviado__note {
+    color: var(--color-text-tertiary);
+    font-size: 0.9rem;
+    margin-bottom: var(--spacing-lg);
+  }
+</style>

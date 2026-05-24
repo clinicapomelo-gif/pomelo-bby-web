@@ -1,0 +1,145 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Cuéntame tu caso" description="Has reservado tu consulta por mensaje. Cuéntame qué te preocupa y te respondo en 24-48h.">
+  <section class="consulta-form">
+    <div class="container">
+      <div class="consulta-form__header">
+        <h1>Cuéntame tu caso</h1>
+        <p class="consulta-form__subtitle">Gracias por confiar en mí. Ahora cuéntame qué te preocupa con calma — te respondo en 24-48h.</p>
+      </div>
+
+      <div class="consulta-form__wrapper">
+        <form
+          name="consulta-mensaje"
+          method="POST"
+          action="/api/consulta-mensaje"
+          class="form"
+          enctype="multipart/form-data"
+        >
+          <div class="form__group">
+            <label for="nombre">Tu nombre</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
+          </div>
+
+          <div class="form__group">
+            <label for="email">Tu email (para responderte)</label>
+            <input type="email" id="email" name="email" placeholder="tu@email.com" required />
+          </div>
+
+          <div class="form__group">
+            <label for="edad">Edad del bebé</label>
+            <input type="text" id="edad" name="edad" placeholder="Ej: 4 meses, 14 meses..." required />
+          </div>
+
+          <div class="form__group">
+            <label for="motivo">¿Qué te preocupa?</label>
+            <textarea id="motivo" name="motivo" rows="6" placeholder="Cuéntame con calma qué está pasando, desde cuándo, qué habéis probado... Todo lo que creas que me puede ayudar a entender vuestro caso." required></textarea>
+          </div>
+
+          <div class="form__group">
+            <label for="contexto">Contexto adicional (opcional)</label>
+            <textarea id="contexto" name="contexto" rows="3" placeholder="Antecedentes, medicación, si ha pasado algo reciente..."></textarea>
+          </div>
+
+          <div class="form__group">
+            <label for="archivos">Fotos o vídeos (opcional)</label>
+            <input type="file" id="archivos" name="archivos" multiple accept="image/*,video/*" />
+            <p class="form__help">Puedes adjuntar fotos o vídeos que me ayuden a entender mejor la situación.</p>
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--full">
+            Enviar mi caso
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .consulta-form {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .consulta-form__header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .consulta-form__header h1 {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .consulta-form__subtitle {
+    color: var(--color-text-secondary);
+    font-size: 1.05rem;
+    max-width: 550px;
+    margin: 0 auto;
+  }
+
+  .consulta-form__wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: var(--color-white);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    padding: var(--spacing-lg);
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .form__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .form__group label {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--color-text);
+  }
+
+  .form__group input,
+  .form__group textarea {
+    font-family: var(--font-family);
+    font-size: 0.95rem;
+    padding: 0.65rem 0.9rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-white);
+    color: var(--color-text);
+    transition: border-color 0.2s ease;
+    resize: vertical;
+  }
+
+  .form__group input:focus,
+  .form__group textarea:focus {
+    outline: none;
+    border-color: var(--color-coral);
+  }
+
+  .form__group input::placeholder,
+  .form__group textarea::placeholder {
+    color: var(--color-text-tertiary);
+  }
+
+  .form__group input[type="file"] {
+    padding: 0.5rem;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+  }
+
+  .form__help {
+    font-size: 0.8rem;
+    color: var(--color-text-tertiary);
+    margin-top: 0.25rem;
+  }
+</style>
