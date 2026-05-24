@@ -31,9 +31,14 @@ Acompañamiento en crianza y salud infantil. Venta de guías (PDFs) y consultas 
 1. Home — Hero full-width, guías destacadas, blog, CTA consultas
 2. Blog — Listado + página individual por post (Content Collections)
 3. Tienda — Catálogo de guías + página de producto + Stripe Checkout
-4. Consultas — 4 tiers: mensaje 14,99€ / express 29,99€ / completa 69,99€ / pack 179,99€ + Cal.com popup
+4. Consultas — 4 tiers con checklist ✓/✗:
+   - Cuéntame por mensaje (19€) — respuesta escrita en 24-48h
+   - Duda rápida (35€) — videollamada 15-20 min
+   - Hablemos tranquilamente (79€) — videollamada 45-50 min + 7 días seguimiento ← ESTRELLA
+   - Te acompaño (199€) — 3 sesiones en 1-2 meses (pack separado abajo)
+   Layout: 3 columnas desktop, 2 tablet, 1 móvil + pack horizontal abajo
 5. Quién soy / FAQ — Bio con credenciales + preguntas frecuentes (renombrar "Sobre mí" → "Quién soy" o "Conóceme")
-6. Contacto — Orientación (Instagram para dudas rápidas, consultas para ayuda profesional) + formulario para todo lo demás (Resend)
+6. Contacto — Orientación (Instagram para saludos, consultas para ayuda profesional) + formulario para todo lo demás (Resend)
 7. Links — Página tipo linktree propia (enlace en bio de Instagram)
 8. Legales — Aviso legal, protección de datos, cookies, condiciones de venta (placeholders)
 
@@ -90,6 +95,9 @@ Acompañamiento en crianza y salud infantil. Venta de guías (PDFs) y consultas 
 - [x] Sistema de diseño unificado (botones, radios, contraste, focus)
 - [x] Nav con estado activo
 - [x] Headers de seguridad
+- [x] Rediseño consultas: 4 tiers con nombres propios, precios redondos, checklist ✓/✗
+- [x] Rediseño contacto: orientación por intención + formulario para el resto
+- [x] Fix sobre-mi: "profesional sanitario" + "con interés y ganas"
 
 ## Pendientes
 
@@ -99,16 +107,14 @@ Acompañamiento en crianza y salud infantil. Venta de guías (PDFs) y consultas 
 - [ ] Subir PDFs a Vercel Blob (configurar blobKey en guias.ts)
 - [ ] Implementar entrega por email en el webhook (enviar link de descarga tras pago)
 - [ ] Pasar Stripe a producción (claves live + nuevos product/price IDs)
+- [ ] Crear productos en Stripe para las consultas (19€, 35€, 79€, 199€)
+- [ ] Implementar flujo de pago para "Cuéntame por mensaje" (Stripe checkout → formulario)
+- [ ] Configurar Cal.com con los nuevos precios y duraciones (15-20 min, 45-50 min)
 
-### Infraestructura
+### Pendiente de Mar
 
-- [ ] Comprar dominio definitivo (dejar .vercel.app)
-- [ ] Crear email hola@pomelobby.com (necesita dominio)
-- [ ] Verificar dominio en Resend (para enviar desde @pomelobby.com)
-- [ ] Cambiar email de cuenta Stripe al definitivo
-
-### Contenido (necesita a Mar)
-
+- [ ] Renombrar "Sobre mí" → "Quién soy" o "Conóceme" (en nav y página)
+- [ ] Decidir textos en cursiva definitivos para cada card de consultas
 - [ ] Imágenes de portada para las guías (ahora son placeholders SVG)
 - [ ] Textos legales definitivos (profesional legal)
 - [ ] Testimonios / social proof (necesita tiempo + clientes)
