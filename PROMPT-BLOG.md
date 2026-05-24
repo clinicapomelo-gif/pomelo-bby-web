@@ -31,7 +31,7 @@ REQUISITOS DE CONTENIDO:
 - Usa listas cuando sea útil para facilitar la lectura
 - Incluye una sección "## Preguntas frecuentes" al final con 2-3 preguntas reales que se hacen los padres
 - Termina siempre con este párrafo en cursiva:
-  *Este artículo es orientativo y no sustituye la valoración de tu pediatra. Ante cualquier duda, consulta con un profesional.*
+  *Este artículo es orientativo y educativo. No sustituye una valoración presencial. Ante cualquier duda sobre la salud de tu hijo o hija, consulta con un profesional sanitario.*
 
 REQUISITOS DEL FRONTMATTER:
 Genera el bloque frontmatter con estos campos exactos:
@@ -64,6 +64,7 @@ CONTENIDO A TRANSFORMAR:
 
 ## Notas importantes
 
+- **NUNCA usar "pediatra" ni "tu pediatra"** en los artículos. Usar siempre "profesional sanitario", "centro de salud" o "valoración presencial". Mar es enfermera pediátrica — referir al pediatra socava su autoridad profesional.
 - Si añades una nueva categoría, actualízala también en `src/content.config.ts` (en el enum de `category`) y en `src/pages/blog/index.astro` (en los arrays `categories` y `categoryLabels`)
 - Si eliminas una categoría, asegúrate de que no haya posts existentes con esa categoría antes de borrarla del enum
 - El campo `draft: true` permite guardar un post sin que se publique hasta que lo cambies a `false`
