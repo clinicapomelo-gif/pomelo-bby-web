@@ -24,6 +24,8 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
             <span class="consulta-card__badge">💌 Por mensaje</span>
             <h2>Duda por mensaje</h2>
             <p class="consulta-card__tagline">Para una duda puntual que puedas explicarme por escrito.</p>
+          </div>
+          <div class="consulta-card__pricing">
             <p class="consulta-card__price">19€</p>
           </div>
           <div class="consulta-card__examples">
@@ -55,6 +57,8 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
             <span class="consulta-card__badge">🎥 Express</span>
             <h2>Consulta rápida</h2>
             <p class="consulta-card__tagline">Para un problema concreto que necesita contexto y preguntas para poder ayudarte.</p>
+          </div>
+          <div class="consulta-card__pricing">
             <p class="consulta-card__price">35€</p>
           </div>
           <div class="consulta-card__examples">
@@ -88,8 +92,9 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
             <span class="consulta-card__badge consulta-card__badge--featured">❤️ Más popular</span>
             <h2>Consulta completa</h2>
             <p class="consulta-card__tagline">Para situaciones que están afectando a vuestro día a día y necesitan una valoración global.</p>
+          </div>
+          <div class="consulta-card__pricing">
             <p class="consulta-card__price">79€</p>
-            <p class="consulta-card__highlight">Incluye una revisión completa de vuestra situación + un plan de acción adaptado a vuestra familia + respuesta a dudas durante 7 días por correo (respuesta en 24h).</p>
           </div>
           <div class="consulta-card__examples">
             <p class="consulta-card__examples-label">Consultas frecuentes</p>
@@ -107,7 +112,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
             <li class="checklist--yes">Entender contexto completo</li>
             <li class="checklist--yes">Plan adaptado a la familia</li>
             <li class="checklist--yes">Recomendaciones prácticas</li>
-            <li class="checklist--yes">Seguimiento durante 7 días</li>
+            <li class="checklist--yes">Seguimiento durante 7 días (respuesta en 24h)</li>
             <li class="checklist--yes">Audios explicativos</li>
             <li class="checklist--yes">Ajustes durante la semana</li>
             <li class="checklist--yes">Nuevas dudas derivadas</li>
@@ -226,7 +231,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
   .consultas__grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(4, auto);
+    grid-template-rows: repeat(5, auto);
     gap: var(--spacing-lg);
     max-width: 1100px;
     margin: 0 auto;
@@ -234,8 +239,9 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
 
   .consulta-card {
     display: grid;
-    grid-row: span 4;
+    grid-row: span 5;
     grid-template-rows: subgrid;
+    row-gap: var(--spacing-sm);
     background-color: var(--color-white);
     border-radius: var(--radius-md);
     padding: var(--spacing-lg);
