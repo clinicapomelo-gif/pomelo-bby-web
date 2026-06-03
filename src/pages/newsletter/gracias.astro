@@ -1,0 +1,45 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Suscripción confirmada" description="Te has suscrito a la newsletter de pomelo.bby">
+  <section class="gracias">
+    <div class="container">
+      <div class="gracias__content">
+        <p class="gracias__icon">💌</p>
+        <h1>Te has suscrito</h1>
+        <p>Gracias por unirte. Cada semana recibirás un email con lo nuevo en pomelo.bby.</p>
+        <a href="/" class="btn btn--primary">Volver al inicio</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .gracias {
+    padding: var(--spacing-xl) 0;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .gracias__content {
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .gracias__icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .gracias__content h1 {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .gracias__content p {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-lg);
+  }
+</style>

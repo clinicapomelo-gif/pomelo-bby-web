@@ -1,0 +1,176 @@
+---
+---
+
+<section class="newsletter">
+  <div class="container">
+    <div class="newsletter__content">
+      <h2>El Chisme de Mar</h2>
+      <p class="newsletter__desc">Cada semana te envío un email con lo que no cuento en Instagram. Sin spam, sin agobios.</p>
+      <form method="POST" action="/api/subscribe" class="newsletter__form">
+        <div class="form__honeypot" aria-hidden="true">
+          <input type="text" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="newsletter__fields">
+          <input
+            type="email"
+            name="email"
+            placeholder="tu@email.com"
+            required
+            class="newsletter__input"
+            id="newsletter-email"
+            aria-label="Email"
+          />
+          <input
+            type="text"
+            name="nombre"
+            placeholder="Tu nombre (opcional)"
+            class="newsletter__input"
+            id="newsletter-nombre"
+            aria-label="Nombre"
+          />
+          <button type="submit" class="btn btn--primary newsletter__btn">Suscribirme</button>
+        </div>
+
+        <label class="newsletter__privacy">
+          <input type="checkbox" name="privacy" required oninvalid="this.setCustomValidity('Debes aceptar la política de privacidad')" oninput="this.setCustomValidity('')" />
+          Acepto la <a href="/proteccion-datos" target="_blank">política de privacidad</a>
+        </label>
+      </form>
+      <p class="newsletter__message" aria-live="polite" hidden></p>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.querySelector('.newsletter__form') as HTMLFormElement;
+  const message = document.querySelector('.newsletter__message') as HTMLParagraphElement;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form));
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) {
+        form.hidden = true;
+        message.hidden = false;
+        message.textContent = 'Hecho. Te doy la bienvenida a la newsletter.';
+        message.className = 'newsletter__message newsletter__message--success';
+      } else {
+        const { error } = await res.json();
+        message.hidden = false;
+        message.textContent = error || 'Algo ha fallado. Inténtalo de nuevo.';
+        message.className = 'newsletter__message newsletter__message--error';
+      }
+    } catch {
+      message.hidden = false;
+      message.textContent = 'Error de conexión. Inténtalo de nuevo.';
+      message.className = 'newsletter__message newsletter__message--error';
+    }
+  });
+</script>
+
+<style>
+  .newsletter {
+    padding: var(--spacing-xl) 0;
+    background-color: var(--color-cream);
+  }
+
+  .newsletter__content {
+    max-width: 550px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .newsletter h2 {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .newsletter__desc {
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: var(--spacing-lg);
+    line-height: 1.6;
+  }
+
+  .newsletter__fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .newsletter__input {
+    flex: 1;
+    min-width: 180px;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    font-family: inherit;
+  }
+
+  .newsletter__input:focus {
+    outline: none;
+    border-color: var(--color-coral);
+  }
+
+  .newsletter__btn {
+    white-space: nowrap;
+  }
+
+  .newsletter__privacy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    font-size: 0.82rem;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+  }
+
+  .newsletter__privacy a {
+    color: var(--color-coral);
+    text-decoration: underline;
+  }
+
+  .newsletter__message {
+    margin-top: var(--spacing-md);
+    font-size: 0.95rem;
+  }
+
+  .newsletter__message--success {
+    color: var(--color-green, #2e7d32);
+  }
+
+  .newsletter__message--error {
+    color: var(--color-coral);
+  }
+
+  .form__honeypot {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+  }
+
+  @media (max-width: 768px) {
+    .newsletter h2 {
+      font-size: 1.3rem;
+    }
+
+    .newsletter__fields {
+      flex-direction: column;
+    }
+
+    .newsletter__input {
+      min-width: 100%;
+    }
+  }
+</style>

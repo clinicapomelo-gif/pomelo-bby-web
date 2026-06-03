@@ -1,0 +1,85 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import NewsletterForm from '../../components/NewsletterForm.astro';
+---
+
+<Layout title="El Chisme de Mar" description="Cada semana, un email con lo que no cuento en Instagram. Historias reales, respuestas tranquilas y acompañamiento sin ruido.">
+  <section class="newsletter-landing">
+    <div class="container">
+      <div class="newsletter-landing__content">
+        <h1>El Chisme de Mar</h1>
+        <p class="newsletter-landing__hook">Cada semana te escribo un email con lo que no cuento en Instagram.</p>
+        <p class="newsletter-landing__desc">Historias reales de familias, respuestas a dudas que se repiten, reflexiones sobre crianza y alguna recomendación que me guardo para aquí. Sin spam, sin fórmulas mágicas. Solo acompañamiento real.</p>
+        <ul class="newsletter-landing__bullets">
+          <li>200-300 palabras que puedes leer mientras el peque duerme</li>
+          <li>Un email a la semana, siempre el mismo día</li>
+          <li>Te puedes dar de baja cuando quieras</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <NewsletterForm />
+</Layout>
+
+<style>
+  .newsletter-landing {
+    padding: var(--spacing-xl) 0 var(--spacing-md);
+    padding-top: calc(var(--spacing-xl) + 2rem);
+    background-color: var(--color-white);
+  }
+
+  .newsletter-landing__content {
+    max-width: 550px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .newsletter-landing h1 {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .newsletter-landing__hook {
+    font-size: 1.1rem;
+    color: var(--color-coral);
+    font-weight: 500;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .newsletter-landing__desc {
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .newsletter-landing__bullets {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .newsletter-landing__bullets li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .newsletter-landing__bullets li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-coral);
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    .newsletter-landing h1 {
+      font-size: 1.6rem;
+    }
+  }
+</style>

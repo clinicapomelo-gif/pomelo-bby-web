@@ -18,75 +18,100 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
 
       <div class="consultas__grid">
 
-        <!-- Tier 1: Consulta por mensaje -->
+        <!-- Tier 1: Duda por mensaje -->
         <div class="consulta-card">
           <div class="consulta-card__header">
-            <span class="consulta-card__badge">Por mensaje</span>
-            <h2>Cuéntame por mensaje</h2>
-            <p class="consulta-card__tagline">Te respondo con calma en 24-48h</p>
+            <span class="consulta-card__badge">💌 Por mensaje</span>
+            <h2>Duda por mensaje</h2>
+            <p class="consulta-card__tagline">Para una duda puntual que puedas explicarme por escrito.</p>
             <p class="consulta-card__price">19€</p>
           </div>
-          <div class="consulta-card__body">
-            <p class="consulta-card__highlight">Ideal si necesitas explicarme bien el contexto y releer la respuesta cuando quieras.</p>
-            <ul class="consulta-card__checklist">
-              <li class="checklist--yes">Resolver una duda concreta por chat</li>
-              <li class="checklist--yes">Respuesta personalizada</li>
-              <li class="checklist--yes">Posibilidad de enviar contexto, fotos o vídeos</li>
-              <li class="checklist--yes">Ideal para dudas que no necesitan videollamada</li>
-              <li class="checklist--no">Seguimiento prolongado</li>
+          <div class="consulta-card__examples">
+            <p class="consulta-card__examples-label">Consultas frecuentes</p>
+            <ul>
+              <li>¿Esta caca es normal?</li>
+              <li>¿Puede ser una crisis de sueño?</li>
+              <li>¿Qué crema o protector solar le compro?</li>
+              <li>¿Debo preocuparme por estos mocos?</li>
+              <li>¿Esta herida está cicatrizando bien?</li>
+              <li>¿Es normal esto o voy al pediatra?</li>
             </ul>
           </div>
+          <ul class="consulta-card__checklist">
+            <li class="checklist--yes">Resolver una duda concreta por chat</li>
+            <li class="checklist--yes">Respuesta personalizada</li>
+            <li class="checklist--yes">Posibilidad de enviar contexto, fotos o vídeos</li>
+            <li class="checklist--yes">Ideal para dudas que no necesitan videollamada</li>
+            <li class="checklist--no">Seguimiento prolongado</li>
+          </ul>
           <div class="consulta-card__footer">
             <button class="btn btn--primary" id="btn-consulta-mensaje">Consultar por mensaje</button>
           </div>
         </div>
 
-        <!-- Tier 2: Duda rápida -->
+        <!-- Tier 2: Consulta rápida -->
         <div class="consulta-card">
           <div class="consulta-card__header">
-            <span class="consulta-card__badge">Express</span>
-            <h2>Duda rápida</h2>
-            <p class="consulta-card__tagline">Videollamada de 15-20 min</p>
+            <span class="consulta-card__badge">🎥 Express</span>
+            <h2>Consulta rápida</h2>
+            <p class="consulta-card__tagline">Para un problema concreto que necesita contexto y preguntas para poder ayudarte.</p>
             <p class="consulta-card__price">35€</p>
           </div>
-          <div class="consulta-card__body">
-            <p class="consulta-card__highlight">Para resolver esa duda que te ronda la cabeza y quedarte más tranquilo/a.</p>
-            <ul class="consulta-card__checklist">
-              <li class="checklist--yes">Videollamada 15-20 min</li>
-              <li class="checklist--yes">Una duda concreta</li>
-              <li class="checklist--yes">Orientación clara y práctica</li>
-              <li class="checklist--yes">Ideal para salir de dudas rápido</li>
-              <li class="checklist--no">Seguimiento</li>
-              <li class="checklist--no">Resumen escrito</li>
-              <li class="checklist--no">Plan personalizado</li>
+          <div class="consulta-card__examples">
+            <p class="consulta-card__examples-label">Consultas frecuentes</p>
+            <ul>
+              <li>Mi bebé se despierta muchas veces por la noche.</li>
+              <li>Voy a empezar alimentación complementaria y tengo dudas.</li>
+              <li>Quiero retirar el chupete.</li>
+              <li>Quiero retirar el pañal.</li>
+              <li>Mi hijo tiene rabietas y no sé cómo gestionarlas.</li>
+              <li>Me han dado recomendaciones contradictorias y estoy confundida.</li>
             </ul>
           </div>
+          <ul class="consulta-card__checklist">
+            <li class="checklist--yes">Videollamada 15-20 min</li>
+            <li class="checklist--yes">Una duda concreta</li>
+            <li class="checklist--yes">Orientación clara y práctica</li>
+            <li class="checklist--yes">Ideal para salir de dudas rápido</li>
+            <li class="checklist--no">Seguimiento</li>
+            <li class="checklist--no">Resumen escrito</li>
+            <li class="checklist--no">Plan personalizado</li>
+          </ul>
           <div class="consulta-card__footer">
             <button data-cal-link={`${CAL_USERNAME}/${CAL_EXPRESS_SLUG}`} data-cal-config='{"layout":"month_view"}' class="btn btn--primary">Reservar duda rápida</button>
           </div>
         </div>
 
-        <!-- Tier 3: Hablemos tranquilamente (ESTRELLA) -->
+        <!-- Tier 3: Consulta completa (ESTRELLA) -->
         <div class="consulta-card consulta-card--featured">
           <div class="consulta-card__header">
-            <span class="consulta-card__badge consulta-card__badge--featured">Más popular</span>
-            <h2>Hablemos tranquilamente</h2>
-            <p class="consulta-card__tagline">Videollamada 45-50 min + 7 días de acompañamiento</p>
+            <span class="consulta-card__badge consulta-card__badge--featured">❤️ Más popular</span>
+            <h2>Consulta completa</h2>
+            <p class="consulta-card__tagline">Para situaciones que están afectando a vuestro día a día y necesitan una valoración global.</p>
             <p class="consulta-card__price">79€</p>
+            <p class="consulta-card__highlight">Incluye una revisión completa de vuestra situación + un plan de acción adaptado a vuestra familia + respuesta a dudas durante 7 días por correo (respuesta en 24h).</p>
           </div>
-          <div class="consulta-card__body">
-            <p class="consulta-card__highlight">Acompañamiento más profundo y adaptado a vuestra familia. Entendemos qué está pasando, hacemos un plan y te acompaño mientras lo aplicas.</p>
-            <ul class="consulta-card__checklist">
-              <li class="checklist--yes">Videollamada 45-50 min</li>
-              <li class="checklist--yes">Entender contexto completo</li>
-              <li class="checklist--yes">Plan adaptado a la familia</li>
-              <li class="checklist--yes">Recomendaciones prácticas</li>
-              <li class="checklist--yes">Seguimiento durante 7 días</li>
-              <li class="checklist--yes">Audios explicativos</li>
-              <li class="checklist--yes">Ajustes durante la semana</li>
-              <li class="checklist--yes">Nuevas dudas derivadas</li>
+          <div class="consulta-card__examples">
+            <p class="consulta-card__examples-label">Consultas frecuentes</p>
+            <ul>
+              <li>Llevamos meses durmiendo mal.</li>
+              <li>Las comidas son una batalla constante.</li>
+              <li>Hay dificultades con sueño, alimentación o conducta.</li>
+              <li>Nos preocupa el uso de pantallas.</li>
+              <li>Acabamos de recibir un diagnóstico y necesitamos orientación.</li>
+              <li>Queremos un plan adaptado a nuestra situación.</li>
             </ul>
           </div>
+          <ul class="consulta-card__checklist">
+            <li class="checklist--yes">Videollamada 45-50 min</li>
+            <li class="checklist--yes">Entender contexto completo</li>
+            <li class="checklist--yes">Plan adaptado a la familia</li>
+            <li class="checklist--yes">Recomendaciones prácticas</li>
+            <li class="checklist--yes">Seguimiento durante 7 días</li>
+            <li class="checklist--yes">Audios explicativos</li>
+            <li class="checklist--yes">Ajustes durante la semana</li>
+            <li class="checklist--yes">Nuevas dudas derivadas</li>
+          </ul>
           <div class="consulta-card__footer">
             <button data-cal-link={`${CAL_USERNAME}/${CAL_PERSONALIZADA_SLUG}`} data-cal-config='{"layout":"month_view"}' class="btn btn--primary">Reservar consulta</button>
           </div>
@@ -94,18 +119,31 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
 
       </div>
 
-      <!-- Tier 4: Te acompaño — separado, ancho completo -->
+      <!-- Tier 4: Acompañamiento — separado, ancho completo -->
       <div class="consultas__pack">
         <div class="consulta-card consulta-card--pack">
           <div class="consulta-card--pack__layout">
             <div class="consulta-card__header">
-              <span class="consulta-card__badge">Pack</span>
-              <h2>Te acompaño</h2>
+              <span class="consulta-card__badge">❤️ Pack</span>
+              <h2>Acompañamiento</h2>
               <p class="consulta-card__tagline">3 sesiones en 1-2 meses</p>
               <p class="consulta-card__price">199€</p>
             </div>
             <div class="consulta-card__body">
-              <p>Sueño, alimentación, destete, cambios de etapa… procesos que necesitan tiempo, ajustes y seguimiento.</p>
+              <p>Para procesos que necesitan seguimiento, ajustes y apoyo durante varias semanas. Incluye valoración inicial, plan personalizado y seguimiento por videollamada para adaptar las recomendaciones según evolucionéis.</p>
+              <div class="consulta-card__examples">
+                <p class="consulta-card__examples-label">Consultas frecuentes</p>
+                <ul>
+                  <li>Problemas de sueño de larga evolución.</li>
+                  <li>Rechazo de alimentos o alimentación muy limitada.</li>
+                  <li>Destete.</li>
+                  <li>Inicio de alimentación complementaria con acompañamiento.</li>
+                  <li>Adaptación a la guardería.</li>
+                  <li>Llegada de un hermano.</li>
+                  <li>Cambio de cuna a cama.</li>
+                  <li>Prematuridad y adaptación en casa.</li>
+                </ul>
+              </div>
               <ul class="consulta-card__checklist">
                 <li class="checklist--yes">3 sesiones</li>
                 <li class="checklist--yes">Seguimiento entre sesiones</li>
@@ -113,7 +151,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
                 <li class="checklist--yes">Prioridad en mensajes</li>
                 <li class="checklist--yes">Adaptación según evolucione el bebé</li>
               </ul>
-              <p class="consulta-card__highlight consulta-card__highlight--pack">Para dejar de improvisar y sentirte acompañado/a de verdad.</p>
+              <p class="consulta-card__highlight consulta-card__highlight--pack">No tienes que resolverlo todo de golpe. Avanzamos paso a paso, adaptándonos a vuestra realidad.</p>
             </div>
             <div class="consulta-card__footer">
               <button class="btn btn--primary">Reservar acompañamiento</button>
@@ -188,17 +226,19 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
   .consultas__grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, auto);
     gap: var(--spacing-lg);
     max-width: 1100px;
     margin: 0 auto;
   }
 
   .consulta-card {
+    display: grid;
+    grid-row: span 4;
+    grid-template-rows: subgrid;
     background-color: var(--color-white);
     border-radius: var(--radius-md);
     padding: var(--spacing-lg);
-    display: flex;
-    flex-direction: column;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   }
 
@@ -237,15 +277,6 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
     margin-top: 0;
   }
 
-  .consulta-card {
-    background-color: var(--color-white);
-    border-radius: var(--radius-md);
-    padding: var(--spacing-lg);
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  }
-
   .consulta-card--featured {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     border: 2px solid var(--color-coral);
@@ -253,43 +284,6 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
 
   .consulta-card__header {
     margin-bottom: var(--spacing-md);
-  }
-
-  .consulta-card__badge {
-    display: inline-block;
-    background-color: var(--color-cream);
-    color: var(--color-coral);
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 0.25rem 0.75rem;
-    border-radius: 999px;
-    margin-bottom: var(--spacing-sm);
-  }
-
-  .consulta-card__badge--featured {
-    background-color: var(--color-coral);
-    color: var(--color-white);
-  }
-
-  .consulta-card__header h2 {
-    font-size: 1.3rem;
-    margin-bottom: var(--spacing-xs);
-  }
-
-  .consulta-card__tagline {
-    color: var(--color-text-secondary);
-    font-size: 0.9rem;
-    margin-bottom: var(--spacing-sm);
-    min-height: 2.8em;
-  }
-
-  .consulta-card__tagline {
-    color: var(--color-text-secondary);
-    font-size: 0.9rem;
-    margin-bottom: var(--spacing-sm);
-    min-height: 2.7rem;
   }
 
   .consulta-card__badge {
@@ -334,22 +328,53 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
     margin-top: 0.25rem;
   }
 
-  .consulta-card__body {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
   .consulta-card__includes {
     margin-top: auto;
     padding-top: var(--spacing-lg);
   }
 
   .consulta-card__highlight {
-    color: var(--color-coral-text);
+    color: var(--color-text-secondary);
     font-size: 0.85rem;
     font-style: italic;
     margin-bottom: var(--spacing-md);
+  }
+
+  .consulta-card__examples {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .consulta-card__examples-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-coral);
+    margin-bottom: 0.4rem;
+  }
+
+  .consulta-card__examples ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .consulta-card__examples li {
+    position: relative;
+    font-size: 0.88rem;
+    color: var(--color-text-secondary);
+    font-style: italic;
+    padding-left: 1.5rem;
+    margin-bottom: 0.3rem;
+    line-height: 1.4;
+  }
+
+  .consulta-card__examples li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--color-coral);
+    font-style: normal;
+    font-weight: 700;
   }
 
   .consulta-card__note {
@@ -364,18 +389,13 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
     margin-bottom: 0;
   }
 
-  .consulta-card__body > p {
-    color: var(--color-text-secondary);
-    margin-bottom: var(--spacing-md);
-    line-height: 1.6;
-  }
-
-  .consulta-card__body ul {
+  .consulta-card__checklist {
     list-style: none;
     padding: 0;
+    padding-top: var(--spacing-md);
   }
 
-  .consulta-card__body li {
+  .consulta-card__checklist li {
     position: relative;
     padding-left: 1.5rem;
     margin-bottom: 0.5rem;
@@ -384,7 +404,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
     line-height: 1.5;
   }
 
-  .consulta-card__body li::before {
+  .consulta-card__checklist li::before {
     position: absolute;
     left: 0;
     font-weight: 600;
@@ -392,17 +412,17 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
     line-height: 1.5;
   }
 
-  .consulta-card__body li.checklist--yes::before {
+  .consulta-card__checklist li.checklist--yes::before {
     content: '✓';
     color: var(--color-coral);
   }
 
-  .consulta-card__body li.checklist--no::before {
+  .consulta-card__checklist li.checklist--no::before {
     content: '✗';
     color: var(--color-text-tertiary);
   }
 
-  .consulta-card__body li.checklist--no {
+  .consulta-card__checklist li.checklist--no {
     color: var(--color-text-tertiary);
   }
 
@@ -470,7 +490,14 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
 
     .consultas__grid {
       grid-template-columns: 1fr;
+      grid-template-rows: none;
       max-width: 500px;
+    }
+
+    .consulta-card {
+      display: flex;
+      flex-direction: column;
+      grid-row: unset;
     }
 
     .consulta-card--pack__layout {

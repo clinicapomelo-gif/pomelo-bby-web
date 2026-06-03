@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { guias } from '../data/guias';
+import NewsletterForm from '../components/NewsletterForm.astro';
 
 // Get published blog posts, sorted by date (newest first)
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
@@ -110,6 +111,9 @@ const categoryColors: Record<string, { bg: string; accent: string }> = {
       </div>
     </div>
   </section>
+
+  <!-- Newsletter -->
+  <NewsletterForm />
 
   <!-- CTA Consultas -->
   <section class="cta-consultas">
