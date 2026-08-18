@@ -1,56 +1,76 @@
-// Catálogo de guías/PDFs de pomelo.bby
-// Para añadir un producto:
-// 1. Añade una entrada aquí con su stripeProductId y stripePriceId
-// 2. Crea el producto en el panel de Stripe (https://dashboard.stripe.com/products)
-// 3. Sube el PDF a Vercel Blob y actualiza el campo `blobKey`
+export type GuiaStatus = 'free' | 'coming-soon' | 'available';
 
 export interface Guia {
-  id: string;               // slug único (usado en la URL)
+  id: string;
   title: string;
-  description: string;      // descripción corta (para la tarjeta)
-  longDescription: string;  // descripción larga (para la página de producto)
-  price: number;            // precio en euros
-  stripeProductId: string;  // ID del producto en Stripe (prod_xxx)
-  stripePriceId: string;    // ID del precio en Stripe (price_xxx)
-  blobKey: string;          // nombre del archivo en Vercel Blob
+  description: string;
+  price: number;
+  status: GuiaStatus;
   category: string;
-  includes: string[];       // qué incluye la guía (lista de puntos)
-  image?: string;           // imagen de portada (opcional)
+  leadMagnetUrl?: string;
+  stripeProductId?: string;
+  stripePriceId?: string;
+  blobKey?: string;
+  image?: string;
 }
+
+export const formatGuiaPrice = (price: number) =>
+  price === 0 ? 'Gratis' : `${price.toFixed(2).replace('.', ',')} €`;
+
+export const isGuiaPurchasable = (guia: Guia): guia is Guia & { stripePriceId: string; blobKey: string } =>
+  guia.status === 'available' &&
+  Boolean(guia.blobKey) &&
+  Boolean(guia.stripePriceId?.startsWith('price_')) &&
+  !guia.stripePriceId?.includes('PLACEHOLDER');
 
 export const guias: Guia[] = [
   {
-    id: 'guia-introduccion-solidos',
-    title: 'Guía de introducción a los sólidos',
-    description: 'Todo lo que necesitas para empezar la alimentación complementaria con calma y seguridad.',
-    longDescription: 'Empezar con los sólidos genera muchas dudas (y es normal). En esta guía te explico cuándo empezar, qué alimentos introducir primero, cuáles evitar, y cómo hacerlo tanto con purés como con BLW. Sin agobios.',
-    price: 9.99,
-    stripeProductId: 'prod_UYdYZiJa5eobIv',
-    stripePriceId: 'price_1TZWHM2WVIl1hdpg2WAHs8Cp',
-    category: 'alimentacion',
-    includes: [
-      'Cuándo y cómo empezar',
-      'Alimentos recomendados y a evitar',
-      'Guía de texturas por edad',
-      'Diferencias entre purés y BLW',
-      'Tabla de raciones orientativas',
-    ],
+    id: '25-cosas-normales-bebes',
+    title: '25 cosas normales en los bebés',
+    description: 'Una guía breve para entender mejor algunas cosas habituales en los bebés.',
+    price: 0,
+    status: 'free',
+    category: 'salud',
+    leadMagnetUrl: '/newsletter?recurso=25-cosas-normales-bebes',
   },
   {
-    id: 'guia-sueno-bebe',
-    title: 'Guía de sueño del bebé',
-    description: 'Entiende cómo duerme tu bebé y encuentra estrategias reales para descansar mejor.',
-    longDescription: 'El sueño es uno de los temas que más agota a las familias. En esta guía te explico cómo funciona el sueño infantil, qué es normal en cada etapa, y qué puedes hacer para acompañar a tu bebé sin perderte tú por el camino.',
-    price: 9.99,
-    stripeProductId: 'prod_UYdYLwG7W7oyiI',
-    stripePriceId: 'price_1TZWHb2WVIl1hdpgoBbwnaGS',
+    id: 'sueno-infantil-palabras-normales',
+    title: 'El sueño infantil explicado en palabras normales',
+    description: 'Una explicación clara y cercana sobre el sueño infantil.',
+    price: 14.9,
+    status: 'coming-soon',
     category: 'sueño',
-    includes: [
-      'Cómo funciona el sueño infantil',
-      'Qué es normal en cada etapa',
-      'Estrategias para mejorar el descanso',
-      'Colecho seguro',
-      'Cuándo pedir ayuda profesional',
-    ],
+  },
+  {
+    id: 'guia-rabietas',
+    title: 'La guía de las rabietas',
+    description: 'Una guía práctica para acompañar las rabietas.',
+    price: 14.9,
+    status: 'coming-soon',
+    category: 'crianza',
+  },
+  {
+    id: 'retirada-panal-sin-dramas',
+    title: 'Retirada del pañal sin dramas',
+    description: 'Una guía práctica para acompañar la retirada del pañal.',
+    price: 12.9,
+    status: 'coming-soon',
+    category: 'desarrollo',
+  },
+  {
+    id: 'destete-sin-culpa',
+    title: 'Destete sin culpa',
+    description: 'Una guía para acompañar el destete sin culpa.',
+    price: 12.9,
+    status: 'coming-soon',
+    category: 'alimentacion',
+  },
+  {
+    id: 'alimentacion-complementaria-familias-reales',
+    title: 'Alimentación complementaria para familias reales',
+    description: 'Una guía clara sobre alimentación complementaria para el día a día.',
+    price: 14.9,
+    status: 'coming-soon',
+    category: 'alimentacion',
   },
 ];

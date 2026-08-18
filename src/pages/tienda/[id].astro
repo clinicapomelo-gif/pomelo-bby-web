@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { guias } from '../../data/guias';
+import { formatGuiaPrice, guias, isGuiaPurchasable } from '../../data/guias';
 
 export function getStaticPaths() {
   return guias.map((guia) => ({
@@ -10,6 +10,7 @@ export function getStaticPaths() {
 }
 
 const { guia } = Astro.props;
+const canCheckout = isGuiaPurchasable(guia);
 ---
 
 <Layout title={guia.title} description={guia.description}>
@@ -21,19 +22,7 @@ const { guia } = Astro.props;
         <div class="producto__info">
           <span class="producto__category">{guia.category}</span>
           <h1 class="producto__title">{guia.title}</h1>
-          <p class="producto__description">{guia.longDescription}</p>
-
-          <div class="producto__includes">
-            <h3>Qué incluye</h3>
-            <ul>
-              {guia.includes.map((item) => (
-                <li>
-                  <span class="check">✓</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
+          <p class="producto__description">{guia.description}</p>
 
           <div class="producto__disclaimer">
             <p>Este recurso es orientativo y no sustituye la valoración de un profesional sanitario.</p>
@@ -42,21 +31,37 @@ const { guia } = Astro.props;
 
         <div class="producto__compra">
           <div class="producto__card">
-            <p class="producto__precio">{guia.price.toFixed(2)} €</p>
-            <p class="producto__entrega">Descarga inmediata tras el pago</p>
+            <p class="producto__precio">{formatGuiaPrice(guia.price)}</p>
 
-            <form method="POST" action="/api/checkout">
-              <input type="hidden" name="guiaId" value={guia.id} />
-              <button id="btn-comprar" type="button" class="btn btn--primary btn--full">
-                Comprar ahora
-              </button>
-            </form>
+            {guia.status === 'free' && (
+              <div class="producto__action">
+                <p class="producto__entrega">Un recurso gratuito para acompañarte con información clara.</p>
+                <a href={guia.leadMagnetUrl} class="btn btn--primary btn--full">Descargar gratis</a>
+              </div>
+            )}
 
-            <ul class="producto__garantias">
-              <li>✓ Pago seguro con Stripe</li>
-              <li>✓ Descarga en PDF</li>
-              <li>✓ Acceso inmediato</li>
-            </ul>
+            {canCheckout && (
+              <div class="producto__action">
+                <p class="producto__entrega">Descarga en PDF tras el pago.</p>
+                <form id="checkout-form" method="POST" action="/api/checkout">
+                  <input type="hidden" name="guiaId" value={guia.id} />
+                  <button id="btn-comprar" type="submit" class="btn btn--primary btn--full">
+                    Comprar ahora
+                  </button>
+                </form>
+                <ul class="producto__garantias">
+                  <li>✓ Pago seguro con Stripe</li>
+                  <li>✓ Descarga en PDF</li>
+                </ul>
+              </div>
+            )}
+
+            {guia.status !== 'free' && !canCheckout && (
+              <div class="producto__action">
+                <p class="producto__entrega">Esta guía todavía se está preparando.</p>
+                <span class="btn btn--disabled btn--full" aria-disabled="true">Próximamente</span>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -64,35 +69,33 @@ const { guia } = Astro.props;
   </section>
 </Layout>
 
-<script define:vars={{ guiaId: guia.id }}>
-  const btn = document.getElementById('btn-comprar');
-  if (btn) {
-    btn.addEventListener('click', async () => {
-      btn.textContent = 'Redirigiendo...';
-      btn.disabled = true;
+<script>
+  const form = document.querySelector<HTMLFormElement>('#checkout-form');
+  const button = document.querySelector<HTMLButtonElement>('#btn-comprar');
+
+  if (form && button) {
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      button.textContent = 'Redirigiendo...';
+      button.disabled = true;
 
       try {
-        const res = await fetch('/api/checkout', {
+        const response = await fetch(form.action, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ guiaId }),
+          body: new FormData(form),
         });
+        const data = await response.json();
 
-        const data = await res.json();
-
-        if (data.url) {
+        if (response.ok && data.url) {
           window.location.href = data.url;
-        } else {
-          console.error('Error checkout:', data);
-          btn.textContent = 'Comprar ahora';
-          btn.disabled = false;
-          alert('Error: ' + (data.error || 'Error desconocido'));
+          return;
         }
-      } catch (err) {
-        console.error('Error:', err);
-        btn.textContent = 'Comprar ahora';
-        btn.disabled = false;
-        alert('Ha ocurrido un error. Por favor inténtalo de nuevo.');
+
+        throw new Error(data.error || 'No se pudo iniciar el pago.');
+      } catch (error) {
+        button.textContent = 'Comprar ahora';
+        button.disabled = false;
+        alert(error instanceof Error ? error.message : 'Ha ocurrido un error. Por favor, inténtalo de nuevo.');
       }
     });
   }
@@ -149,36 +152,6 @@ const { guia } = Astro.props;
     margin-bottom: var(--spacing-lg);
   }
 
-  .producto__includes {
-    margin-bottom: var(--spacing-lg);
-  }
-
-  .producto__includes h3 {
-    font-size: 1rem;
-    margin-bottom: var(--spacing-md);
-  }
-
-  .producto__includes ul {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-sm);
-  }
-
-  .producto__includes li {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--spacing-sm);
-    color: var(--color-text-secondary);
-    font-size: 0.95rem;
-    line-height: 1.5;
-  }
-
-  .check {
-    color: var(--color-coral);
-    font-weight: 700;
-    flex-shrink: 0;
-  }
-
   .producto__disclaimer {
     padding: var(--spacing-md);
     background-color: var(--color-nude);
@@ -212,10 +185,22 @@ const { guia } = Astro.props;
     margin: 0;
   }
 
+  .producto__action {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
   .producto__entrega {
     font-size: 0.85rem;
     color: var(--color-text-secondary);
     margin: 0;
+  }
+
+  .btn--disabled {
+    background-color: var(--color-border);
+    color: var(--color-text-secondary);
+    cursor: not-allowed;
   }
 
   .producto__garantias {

@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
-import { guias } from '../data/guias';
+import { formatGuiaPrice, guias } from '../data/guias';
 import NewsletterForm from '../components/NewsletterForm.astro';
 
 // Get published blog posts, sorted by date (newest first)
@@ -64,7 +64,10 @@ const categoryColors: Record<string, { bg: string; accent: string }> = {
               <div class="guide-card__content">
                 <h3 class="guide-card__title">{guia.title}</h3>
                 <p class="guide-card__desc">{guia.description}</p>
-                <p class="guide-card__price">{guia.price.toFixed(2).replace('.', ',')} €</p>
+                <p class="guide-card__price">
+                  {formatGuiaPrice(guia.price)}
+                  {guia.status === 'coming-soon' && <span> · Próximamente</span>}
+                </p>
               </div>
             </a>
           );
