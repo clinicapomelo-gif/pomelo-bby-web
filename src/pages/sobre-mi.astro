@@ -6,12 +6,23 @@ import Layout from '../layouts/Layout.astro';
   <section class="about">
     <div class="container">
       <div class="about__intro">
-        <img src="/mar.jpg" alt="Mar, enfermera infantil de pomelo.bby" class="about__photo" />
-        <h1>Hola, soy Mar</h1>
-        <p class="about__subtitle">Enfermera infantil y neonatal · Colegiada nº 16700</p>
-        <p class="about__bio">
-          Entre la crianza de redes y ser mala madre o mal padre, existe una escala de grises. Tips reales para familias reales.
-        </p>
+        <div class="about__intro-copy">
+          <h1>Hola, soy Mar</h1>
+          <p class="about__subtitle">Enfermera infantil y neonatal · Colegiada nº 16700</p>
+          <p class="about__bio">
+            Entre la crianza de redes y ser mala madre o mal padre, existe una escala de grises. Tips reales para familias reales.
+          </p>
+        </div>
+        <div class="about__portrait">
+          <img
+            src="/mar-sobre-mi.webp"
+            alt="Mar con su uniforme de enfermera pediátrica"
+            class="about__photo"
+            width="1200"
+            height="1601"
+            fetchpriority="high"
+          />
+        </div>
       </div>
 
       <div class="about__formation">
@@ -186,25 +197,43 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .about__intro {
-    text-align: center;
-    margin-bottom: var(--spacing-xl);
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 400px);
     align-items: center;
+    gap: clamp(var(--spacing-xl), 7vw, 5rem);
+    max-width: 940px;
+    margin: 0 auto var(--spacing-xl);
+  }
+
+  .about__intro-copy {
+    min-width: 0;
+  }
+
+  .about__portrait {
+    position: relative;
+    aspect-ratio: 3 / 4;
+  }
+
+  .about__portrait::before {
+    content: '';
+    position: absolute;
+    inset: -1rem var(--spacing-md) var(--spacing-md) -1rem;
+    border: 1px solid var(--color-peach);
+    border-radius: var(--radius-md) 6rem var(--radius-md) 6rem;
+    background-color: var(--color-nude);
   }
 
   .about__photo {
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-md) 6rem var(--radius-md) 6rem;
     object-fit: cover;
-    margin-bottom: var(--spacing-md);
-    border: 4px solid var(--color-white);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 12px 32px rgba(45, 45, 45, 0.1);
   }
 
   .about__intro h1 {
-    font-size: 2.5rem;
+    font-size: clamp(2rem, 5vw, 3rem);
     margin-bottom: var(--spacing-xs);
   }
 
@@ -218,8 +247,8 @@ import Layout from '../layouts/Layout.astro';
   .about__bio {
     color: var(--color-text-secondary);
     font-size: 1.05rem;
-    max-width: 600px;
-    margin: 0 auto;
+    max-width: 520px;
+    margin-bottom: 0;
   }
 
   .about__experience {
@@ -359,6 +388,22 @@ import Layout from '../layouts/Layout.astro';
   }
 
   @media (max-width: 768px) {
+    .about__intro {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      gap: var(--spacing-xl);
+      max-width: 520px;
+      text-align: center;
+    }
+
+    .about__portrait {
+      width: min(78vw, 340px);
+    }
+
+    .about__portrait::before {
+      inset: -0.75rem 0.75rem 0.75rem -0.75rem;
+    }
+
     .about__intro h1 {
       font-size: 2rem;
     }
