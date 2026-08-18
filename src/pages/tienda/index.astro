@@ -1,14 +1,14 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { guias } from '../../data/guias';
+import { formatGuiaPrice, guias, isGuiaPurchasable } from '../../data/guias';
 ---
 
-<Layout title="Tienda" description="Guías prácticas de enfermería infantil. Información clara para tener siempre a mano.">
+<Layout title="Las guías Pomelo Bby" description="Guías prácticas para acompañar a las familias con información clara y cercana.">
   <section class="tienda">
     <div class="container">
       <div class="tienda__header">
-        <h1>Guías</h1>
-        <p class="tienda__subtitle">Información clara y visual para consultar cuando la necesites</p>
+        <h1>Las guías Pomelo Bby</h1>
+        <p class="tienda__subtitle">Información clara y práctica para consultar cuando la necesites</p>
       </div>
 
       <div class="tienda__grid">
@@ -18,15 +18,19 @@ import { guias } from '../../data/guias';
               <span class="guia-card__category">{guia.category}</span>
               <h2 class="guia-card__title">{guia.title}</h2>
               <p class="guia-card__description">{guia.description}</p>
-              <ul class="guia-card__includes">
-                {guia.includes.slice(0, 3).map((item) => (
-                  <li>✓ {item}</li>
-                ))}
-              </ul>
             </div>
             <div class="guia-card__footer">
-              <span class="guia-card__price">{guia.price.toFixed(2)} €</span>
-              <a href={`/tienda/${guia.id}`} class="btn btn--primary">Ver guía</a>
+              <div class="guia-card__availability">
+                <span class="guia-card__price">{formatGuiaPrice(guia.price)}</span>
+                {guia.status !== 'free' && !isGuiaPurchasable(guia) && (
+                  <span class="guia-card__status">Próximamente</span>
+                )}
+              </div>
+              {guia.status === 'free' ? (
+                <a href={guia.leadMagnetUrl} class="btn btn--primary">Descargar gratis</a>
+              ) : (
+                <a href={`/tienda/${guia.id}`} class="btn btn--secondary">Ver guía</a>
+              )}
             </div>
           </article>
         ))}
@@ -106,18 +110,6 @@ import { guias } from '../../data/guias';
     flex: 1;
   }
 
-  .guia-card__includes {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-    margin-top: var(--spacing-sm);
-  }
-
-  .guia-card__includes li {
-    font-size: 0.85rem;
-    color: var(--color-text-secondary);
-  }
-
   .guia-card__footer {
     padding: var(--spacing-md) var(--spacing-lg);
     border-top: 1px solid var(--color-border);
@@ -127,10 +119,21 @@ import { guias } from '../../data/guias';
     background-color: var(--color-white);
   }
 
+  .guia-card__availability {
+    display: flex;
+    flex-direction: column;
+  }
+
   .guia-card__price {
     font-size: 1.3rem;
     font-weight: 700;
     color: var(--color-text);
+  }
+
+  .guia-card__status {
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    font-weight: 600;
   }
 
   @media (max-width: 768px) {

@@ -1,47 +1,55 @@
 import type { APIRoute } from 'astro';
 import Stripe from 'stripe';
-import { guias } from '../../data/guias';
+import { guias, isGuiaPurchasable } from '../../data/guias';
 
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
-  // Stripe no está configurado todavía — devuelve error claro
+  let guiaId: unknown;
+
+  try {
+    if (request.headers.get('content-type')?.includes('application/json')) {
+      const body: unknown = await request.json();
+      guiaId = typeof body === 'object' && body !== null && 'guiaId' in body
+        ? body.guiaId
+        : undefined;
+    } else {
+      guiaId = (await request.formData()).get('guiaId');
+    }
+  } catch {
+    return Response.json({ error: 'La solicitud no es válida.' }, { status: 400 });
+  }
+
+  if (typeof guiaId !== 'string' || !guiaId.trim()) {
+    return Response.json({ error: 'Falta el ID del producto.' }, { status: 400 });
+  }
+
+  const guia = guias.find((item) => item.id === guiaId);
+  if (!guia) {
+    return Response.json({ error: 'Producto no encontrado.' }, { status: 404 });
+  }
+
+  if (guia.status === 'free') {
+    return Response.json({ error: 'Los recursos gratuitos no pasan por el checkout.' }, { status: 400 });
+  }
+
+  if (guia.status === 'coming-soon') {
+    return Response.json({ error: 'Esta guía estará disponible próximamente.' }, { status: 409 });
+  }
+
+  if (!isGuiaPurchasable(guia)) {
+    return Response.json(
+      { error: 'La guía no tiene un precio de Stripe y un PDF válidos.' },
+      { status: 503 },
+    );
+  }
+
   const stripeKey = import.meta.env.STRIPE_SECRET_KEY;
   if (!stripeKey || stripeKey === 'sk_test_PLACEHOLDER') {
-    return new Response(
-      JSON.stringify({ error: 'Stripe no está configurado todavía.' }),
-      { status: 503, headers: { 'Content-Type': 'application/json' } }
-    );
+    return Response.json({ error: 'Stripe no está configurado todavía.' }, { status: 503 });
   }
 
   const stripe = new Stripe(stripeKey);
-
-  let guiaId: string | undefined;
-
-  const contentType = request.headers.get('content-type') || '';
-  if (contentType.includes('application/json')) {
-    const body = await request.json();
-    guiaId = body.guiaId;
-  } else {
-    const formData = await request.formData();
-    guiaId = formData.get('guiaId')?.toString();
-  }
-
-  if (!guiaId) {
-    return new Response(
-      JSON.stringify({ error: 'Falta el ID del producto.' }),
-      { status: 400, headers: { 'Content-Type': 'application/json' } }
-    );
-  }
-
-  const guia = guias.find((g) => g.id === guiaId);
-  if (!guia) {
-    return new Response(
-      JSON.stringify({ error: 'Producto no encontrado.' }),
-      { status: 404, headers: { 'Content-Type': 'application/json' } }
-    );
-  }
-
   const siteURL = import.meta.env.SITE_URL ?? 'https://pomelo-bby-web.vercel.app';
 
   try {
@@ -55,22 +63,12 @@ export const POST: APIRoute = async ({ request }) => {
     });
 
     if (!session.url) {
-      return new Response(
-        JSON.stringify({ error: 'No se pudo crear la sesión de pago.' }),
-        { status: 500, headers: { 'Content-Type': 'application/json' } }
-      );
+      return Response.json({ error: 'No se pudo crear la sesión de pago.' }, { status: 500 });
     }
 
-    return new Response(
-      JSON.stringify({ url: session.url }),
-      { status: 200, headers: { 'Content-Type': 'application/json' } }
-    );
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : 'Error desconocido';
-    console.error('Stripe error:', message);
-    return new Response(
-      JSON.stringify({ error: message }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
-    );
+    return Response.json({ url: session.url });
+  } catch (error: unknown) {
+    console.error('Stripe checkout error:', error instanceof Error ? error.message : 'Error desconocido');
+    return Response.json({ error: 'No se pudo iniciar el pago. Inténtalo de nuevo.' }, { status: 500 });
   }
 };
