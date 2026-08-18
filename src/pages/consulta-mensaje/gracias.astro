@@ -42,26 +42,36 @@ if (!isValid) {
           method="POST"
           action="/api/consulta-mensaje"
           class="form"
+          data-friendly-validation
+          novalidate
         >
           <input type="hidden" name="session_id" value={sessionId} />
-          <div class="form__group">
+          <div class="form__group" data-validation-field>
             <label for="nombre">Tu nombre</label>
-            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
+            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required data-error-required="Cuéntame cómo te llamas." />
           </div>
 
-          <div class="form__group">
+          <div class="form__group" data-validation-field>
             <label for="email">Tu email (para responderte)</label>
-            <input type="email" id="email" name="email" placeholder="tu@email.com" required />
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="tu@email.com"
+              required
+              data-error-required="Escribe tu correo para que pueda responderte."
+              data-error-invalid="Revisa el correo. Debe tener un formato como nombre@correo.com."
+            />
           </div>
 
-          <div class="form__group">
+          <div class="form__group" data-validation-field>
             <label for="edad">Edad del bebé</label>
-            <input type="text" id="edad" name="edad" placeholder="Ej: 4 meses, 14 meses..." required />
+            <input type="text" id="edad" name="edad" placeholder="Ej: 4 meses, 14 meses..." required data-error-required="Cuéntame qué edad tiene tu bebé." />
           </div>
 
-          <div class="form__group">
+          <div class="form__group" data-validation-field>
             <label for="motivo">¿Qué te preocupa?</label>
-            <textarea id="motivo" name="motivo" rows="6" placeholder="Cuéntame con calma qué está pasando, desde cuándo, qué habéis probado... Todo lo que creas que me puede ayudar a entender vuestro caso." required></textarea>
+            <textarea id="motivo" name="motivo" rows="6" placeholder="Cuéntame con calma qué está pasando, desde cuándo, qué habéis probado... Todo lo que creas que me puede ayudar a entender vuestro caso." required data-error-required="Cuéntame qué te preocupa para que pueda ayudarte."></textarea>
           </div>
 
           <div class="form__group">

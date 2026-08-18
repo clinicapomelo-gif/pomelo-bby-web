@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { formatGuiaPrice, guias } from '../data/guias';
-import NewsletterForm from '../components/NewsletterForm.astro';
+import LeadMagnetForm from '../components/LeadMagnetForm.astro';
 
 // Get published blog posts, sorted by date (newest first)
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
@@ -127,8 +127,8 @@ const categoryColors: Record<string, { bg: string; accent: string }> = {
     </div>
   </section>
 
-  <!-- Newsletter -->
-  <NewsletterForm />
+  <!-- Guía gratuita -->
+  <LeadMagnetForm />
 
   <!-- CTA Consultas -->
   <section class="cta-consultas">

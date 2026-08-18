@@ -177,3 +177,25 @@ button {
 .btn--full {
   width: 100%;
 }
+
+/* ---- Validación amable de formularios ---- */
+.form-validation-error {
+  margin: 0.4rem 0 0;
+  padding-left: 0.6rem;
+  border-left: 2px solid var(--color-coral);
+  color: var(--color-coral-text);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  text-align: left;
+}
+
+[data-validation-field].is-invalid input:not([type='checkbox']),
+[data-validation-field].is-invalid textarea,
+[data-validation-field].is-invalid select {
+  border-color: var(--color-coral-text);
+  background-color: #fffafa;
+}
+
+[data-validation-field].is-invalid input[type='checkbox'] {
+  accent-color: var(--color-coral-text);
+}

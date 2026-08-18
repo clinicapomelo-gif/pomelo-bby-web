@@ -36,25 +36,35 @@ import Layout from '../layouts/Layout.astro';
             method="POST"
             action="/api/contact"
             class="form"
+            data-friendly-validation
+            novalidate
           >
             <!-- Honeypot anti-spam (oculto para usuarios, visible para bots) -->
             <div class="form__honeypot" aria-hidden="true">
               <input type="text" name="website" tabindex="-1" autocomplete="off" />
             </div>
 
-            <div class="form__group">
+            <div class="form__group" data-validation-field>
               <label for="nombre">Nombre</label>
-              <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
+              <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required data-error-required="Cuéntame cómo te llamas." />
             </div>
 
-            <div class="form__group">
+            <div class="form__group" data-validation-field>
               <label for="email">Email</label>
-              <input type="email" id="email" name="email" placeholder="tu@email.com" required />
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="tu@email.com"
+                required
+                data-error-required="Escribe tu correo para que pueda responderte."
+                data-error-invalid="Revisa el correo. Debe tener un formato como nombre@correo.com."
+              />
             </div>
 
-            <div class="form__group">
+            <div class="form__group" data-validation-field>
               <label for="mensaje">Mensaje</label>
-              <textarea id="mensaje" name="mensaje" rows="5" placeholder="¿En qué puedo ayudarte?" required></textarea>
+              <textarea id="mensaje" name="mensaje" rows="5" placeholder="¿En qué puedo ayudarte?" required data-error-required="Cuéntame en qué puedo ayudarte."></textarea>
             </div>
 
             <button type="submit" class="btn btn--primary btn--full">

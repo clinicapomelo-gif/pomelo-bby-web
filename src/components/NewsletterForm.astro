@@ -6,21 +6,25 @@
     <div class="newsletter__content">
       <h2>El Chisme de Mar</h2>
       <p class="newsletter__desc">Cada dos semanas te envío un email con lo que no cuento en Instagram. Sin spam, sin agobios.</p>
-      <form method="POST" action="/api/subscribe" class="newsletter__form">
+      <form method="POST" action="/api/subscribe" class="newsletter__form" data-friendly-validation novalidate>
         <div class="form__honeypot" aria-hidden="true">
           <input type="text" name="website" tabindex="-1" autocomplete="off" />
         </div>
 
         <div class="newsletter__fields">
-          <input
-            type="email"
-            name="email"
-            placeholder="tu@email.com"
-            required
-            class="newsletter__input"
-            id="newsletter-email"
-            aria-label="Email"
-          />
+          <div class="newsletter__field" data-validation-field>
+            <input
+              type="email"
+              name="email"
+              placeholder="tu@email.com"
+              required
+              class="newsletter__input"
+              id="newsletter-email"
+              aria-label="Email"
+              data-error-required="Escribe tu correo para apuntarte a El Chisme de Mar."
+              data-error-invalid="Revisa el correo. Debe tener un formato como nombre@correo.com."
+            />
+          </div>
           <input
             type="text"
             name="nombre"
@@ -32,10 +36,18 @@
           <button type="submit" class="btn btn--primary newsletter__btn">Suscribirme</button>
         </div>
 
-        <label class="newsletter__privacy">
-          <input type="checkbox" name="privacy" required oninvalid="this.setCustomValidity('Debes aceptar la política de privacidad')" oninput="this.setCustomValidity('')" />
-          Acepto la <a href="/proteccion-datos" target="_blank">política de privacidad</a>
-        </label>
+        <div class="newsletter__privacy-field" data-validation-field>
+          <label class="newsletter__privacy">
+            <input
+              id="newsletter-privacy"
+              type="checkbox"
+              name="privacy"
+              required
+              data-error-required="Necesito que aceptes la política de privacidad para completar la suscripción."
+            />
+            <span>Acepto la <a href="/proteccion-datos" target="_blank" rel="noopener">política de privacidad</a></span>
+          </label>
+        </div>
       </form>
       <p class="newsletter__message" aria-live="polite" hidden></p>
     </div>
@@ -58,7 +70,7 @@
       if (res.ok) {
         form.hidden = true;
         message.hidden = false;
-        message.textContent = 'Hecho. Te doy la bienvenida a la newsletter.';
+        message.textContent = 'Hecho. Ya formas parte de El Chisme de Mar.';
         message.className = 'newsletter__message newsletter__message--success';
       } else {
         const { error } = await res.json();
@@ -100,9 +112,20 @@
 
   .newsletter__fields {
     display: flex;
+    align-items: flex-start;
     flex-wrap: wrap;
     gap: var(--spacing-sm);
     margin-bottom: var(--spacing-sm);
+  }
+
+  .newsletter__field {
+    flex: 1;
+    min-width: 180px;
+  }
+
+  .newsletter__field .newsletter__input {
+    width: 100%;
+    min-width: 0;
   }
 
   .newsletter__input {
@@ -121,6 +144,10 @@
 
   .newsletter__btn {
     white-space: nowrap;
+  }
+
+  .newsletter__privacy-field {
+    margin-top: var(--spacing-sm);
   }
 
   .newsletter__privacy {
@@ -168,8 +195,13 @@
       flex-direction: column;
     }
 
-    .newsletter__input {
+    .newsletter__input,
+    .newsletter__field {
       min-width: 100%;
+    }
+
+    .newsletter__field .newsletter__input {
+      min-width: 0;
     }
   }
 </style>

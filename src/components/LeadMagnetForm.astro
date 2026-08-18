@@ -1,0 +1,279 @@
+---
+interface Props {
+  heading?: 'h1' | 'h2';
+}
+
+const { heading = 'h2' } = Astro.props;
+---
+
+<section class="lead-magnet" aria-labelledby="lead-magnet-title">
+  <div class="container">
+    <div class="lead-magnet__card">
+      <div class="lead-magnet__content">
+        <p class="lead-magnet__eyebrow">Guía gratuita</p>
+        {heading === 'h1' ? (
+          <h1 id="lead-magnet-title">25 cosas normales en los bebés</h1>
+        ) : (
+          <h2 id="lead-magnet-title">25 cosas normales en los bebés</h2>
+        )}
+        <p>Una guía breve para entender mejor algunas cosas habituales en los bebés, explicadas con calma y en palabras sencillas.</p>
+        <p>Recíbela gratis al unirte a <strong>El Chisme de Mar</strong>.</p>
+        <p class="lead-magnet__newsletter">Te enviaré el PDF y, cada dos semanas, un email con historias reales, respuestas tranquilas y acompañamiento sin ruido. Puedes darte de baja cuando quieras.</p>
+        <p class="lead-magnet__disclaimer">Este recurso es informativo y no sustituye la valoración de un profesional sanitario.</p>
+      </div>
+
+      <div class="lead-magnet__form-card">
+        <form method="POST" action="/api/subscribe" data-lead-magnet-form data-friendly-validation novalidate>
+          <input type="hidden" name="recurso" value="25-cosas-normales-bebes" />
+
+          <div class="lead-magnet__honeypot" aria-hidden="true">
+            <label for="lead-magnet-website">No rellenes este campo</label>
+            <input id="lead-magnet-website" type="text" name="website" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div class="lead-magnet__field" data-validation-field>
+            <label for="lead-magnet-email">Correo electrónico</label>
+            <input
+              id="lead-magnet-email"
+              type="email"
+              name="email"
+              placeholder="tu@email.com"
+              autocomplete="email"
+              inputmode="email"
+              maxlength="254"
+              required
+              data-error-required="Escribe tu correo para que pueda enviarte la guía."
+              data-error-invalid="Revisa el correo. Debe tener un formato como nombre@correo.com."
+            />
+          </div>
+
+          <div class="lead-magnet__field">
+            <label for="lead-magnet-nombre">Nombre <span>(opcional)</span></label>
+            <input
+              id="lead-magnet-nombre"
+              type="text"
+              name="nombre"
+              placeholder="Tu nombre"
+              autocomplete="given-name"
+              maxlength="100"
+            />
+          </div>
+
+          <div class="lead-magnet__privacy-field" data-validation-field>
+            <label class="lead-magnet__privacy">
+              <input
+                id="lead-magnet-privacy"
+                type="checkbox"
+                name="privacy"
+                required
+                data-error-required="Necesito que aceptes la política de privacidad para enviarte la guía."
+              />
+              <span>He leído y acepto la <a href="/proteccion-datos" target="_blank" rel="noopener">política de privacidad</a>.</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn--primary lead-magnet__button">Quiero la guía y unirme al Chisme</button>
+        </form>
+
+        <p class="lead-magnet__message" data-lead-magnet-message aria-live="polite" tabindex="-1" hidden></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-lead-magnet-form]');
+  const message = document.querySelector<HTMLParagraphElement>('[data-lead-magnet-message]');
+  const button = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!message || !button) return;
+
+    button.disabled = true;
+    button.textContent = 'Enviando…';
+    message.hidden = true;
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+      });
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Algo ha fallado. Inténtalo de nuevo.');
+      }
+
+      form.hidden = true;
+      message.textContent = '¡Hecho! Te he enviado la guía. Revisa también las carpetas de spam o promociones.';
+      message.className = 'lead-magnet__message lead-magnet__message--success';
+    } catch (error) {
+      button.disabled = false;
+      button.textContent = 'Quiero la guía y unirme al Chisme';
+      message.textContent = error instanceof Error ? error.message : 'Error de conexión. Inténtalo de nuevo.';
+      message.className = 'lead-magnet__message lead-magnet__message--error';
+    }
+
+    message.hidden = false;
+    message.focus();
+  });
+</script>
+
+<style>
+  .lead-magnet {
+    padding: var(--spacing-xl) 0;
+    background-color: var(--color-white);
+  }
+
+  .lead-magnet__card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.8fr);
+    gap: var(--spacing-xl);
+    align-items: center;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: var(--spacing-xl);
+    background-color: var(--color-cream);
+    border-radius: var(--radius-md);
+  }
+
+  .lead-magnet__eyebrow {
+    color: var(--color-coral-text);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .lead-magnet h1,
+  .lead-magnet h2 {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .lead-magnet__content > p:not(.lead-magnet__eyebrow) {
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+
+  .lead-magnet__newsletter {
+    font-size: 0.9rem;
+  }
+
+  .lead-magnet__disclaimer {
+    font-size: 0.8rem;
+    margin-bottom: 0;
+  }
+
+  .lead-magnet__form-card {
+    padding: var(--spacing-lg);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+
+  .lead-magnet__field {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .lead-magnet__field label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .lead-magnet__field label span {
+    color: var(--color-text-secondary);
+    font-weight: 400;
+  }
+
+  .lead-magnet__field input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font: inherit;
+    font-size: 0.95rem;
+    background-color: var(--color-white);
+  }
+
+  .lead-magnet__field input:focus {
+    border-color: var(--color-coral);
+    outline: none;
+  }
+
+  .lead-magnet__privacy-field {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .lead-magnet__privacy {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    color: var(--color-text-secondary);
+    font-size: 0.78rem;
+    line-height: 1.5;
+    cursor: pointer;
+  }
+
+  .lead-magnet__privacy input {
+    flex: 0 0 auto;
+    margin-top: 0.2rem;
+  }
+
+  .lead-magnet__privacy a {
+    text-decoration: underline;
+  }
+
+  .lead-magnet__button {
+    width: 100%;
+  }
+
+  .lead-magnet__button:disabled {
+    cursor: wait;
+    opacity: 0.7;
+  }
+
+  .lead-magnet__message {
+    margin: 0;
+    font-size: 0.95rem;
+    text-align: center;
+  }
+
+  .lead-magnet__message--success {
+    color: #2e7d32;
+  }
+
+  .lead-magnet__message--error {
+    color: var(--color-coral-text);
+  }
+
+  .lead-magnet__honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  @media (max-width: 768px) {
+    .lead-magnet__card {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-lg);
+      padding: var(--spacing-lg);
+    }
+
+    .lead-magnet h1,
+    .lead-magnet h2 {
+      font-size: 1.5rem;
+    }
+
+    .lead-magnet__form-card {
+      padding: var(--spacing-md);
+    }
+  }
+</style>

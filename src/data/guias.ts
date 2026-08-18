@@ -31,7 +31,7 @@ export const guias: Guia[] = [
     price: 0,
     status: 'free',
     category: 'salud',
-    leadMagnetUrl: '/newsletter?recurso=25-cosas-normales-bebes',
+    leadMagnetUrl: '/recursos/25-cosas-normales-bebes',
   },
   {
     id: 'sueno-infantil-palabras-normales',

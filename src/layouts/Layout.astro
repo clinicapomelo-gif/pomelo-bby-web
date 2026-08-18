@@ -76,6 +76,62 @@ const currentPath = Astro.url.pathname;
           toggle?.setAttribute('aria-label', 'Abrir menú');
         });
       });
+
+      type ValidatedField = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+
+      const clearValidationError = (field: ValidatedField) => {
+        const group = field.closest<HTMLElement>('[data-validation-field]');
+        group?.classList.remove('is-invalid');
+        group?.querySelector('.form-validation-error')?.remove();
+        field.removeAttribute('aria-invalid');
+        field.removeAttribute('aria-describedby');
+      };
+
+      const validationMessage = (field: ValidatedField) => {
+        if (field.validity.typeMismatch) {
+          return field.dataset.errorInvalid || 'Revisa este dato antes de continuar.';
+        }
+        return field.dataset.errorRequired || 'Completa este campo para continuar.';
+      };
+
+      const showValidationError = (field: ValidatedField) => {
+        const group = field.closest<HTMLElement>('[data-validation-field]');
+        if (!group) return;
+
+        clearValidationError(field);
+        const error = document.createElement('p');
+        error.id = `${field.id || field.name}-error`;
+        error.className = 'form-validation-error';
+        error.textContent = validationMessage(field);
+        group.classList.add('is-invalid');
+        group.append(error);
+        field.setAttribute('aria-invalid', 'true');
+        field.setAttribute('aria-describedby', error.id);
+      };
+
+      document.addEventListener('submit', (event) => {
+        if (!(event.target instanceof HTMLFormElement) || !event.target.matches('[data-friendly-validation]')) return;
+
+        const fields = Array.from(event.target.querySelectorAll<ValidatedField>('[required]'));
+        const invalidFields = fields.filter((field) => !field.validity.valid);
+        fields.forEach(clearValidationError);
+
+        if (invalidFields.length === 0) return;
+
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        invalidFields.forEach(showValidationError);
+        invalidFields[0].focus();
+      }, true);
+
+      const clearChangedField = (event: Event) => {
+        if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement || event.target instanceof HTMLSelectElement) {
+          clearValidationError(event.target);
+        }
+      };
+
+      document.addEventListener('input', clearChangedField);
+      document.addEventListener('change', clearChangedField);
     </script>
 
     <main>

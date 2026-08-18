@@ -1,0 +1,60 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+---
+
+<Layout title="Tu guía está en camino" description="Te hemos enviado la guía 25 cosas normales en los bebés.">
+  <section class="gracias">
+    <div class="container">
+      <div class="gracias__content">
+        <p class="gracias__icon" aria-hidden="true">💌</p>
+        <h1>Tu guía está en camino</h1>
+        <p>Te he enviado <strong>25 cosas normales en los bebés</strong>. Revisa también las carpetas de spam o promociones.</p>
+        <a href="/" class="btn btn--primary">Volver al inicio</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style is:global>
+  .footer {
+    margin-top: 0 !important;
+    border-top: 0 !important;
+  }
+</style>
+
+<style>
+  .gracias {
+    min-height: 60vh;
+    padding: var(--spacing-xl) 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .gracias__content {
+    max-width: 550px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .gracias__icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .gracias h1 {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .gracias__content > p:not(.gracias__icon) {
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  @media (max-width: 768px) {
+    .gracias h1 {
+      font-size: 1.6rem;
+    }
+  }
+</style>
