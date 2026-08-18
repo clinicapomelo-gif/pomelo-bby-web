@@ -12,10 +12,10 @@
   --color-cream: #F6EFE7;
   --color-nude: #F5ECEC;
 
-  /* Acento rosa — colores de marca de Mar */
-  --color-coral: #EE9496;
-  --color-coral-hover: #E07A7C;
-  --color-coral-text: #C75557;
+  /* Acento rosa — oscuro para mantener legibilidad sobre fondos claros */
+  --color-coral: #B04447;
+  --color-coral-hover: #92363A;
+  --color-coral-text: #B04447;
   --color-peach: #EAC4C6;
 
   /* Texto */
