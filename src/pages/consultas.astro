@@ -51,7 +51,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
                 <li>¿Esta cosmética, ropa o juguete es apropiado para su edad?</li>
               </ul>
             </div>
-            <p class="consulta-card__examples-label">Incluye</p>
+            <p class="consulta-card__examples-label consulta-card__include-label">Incluye</p>
             <ul class="consulta-card__checklist">
               <li class="checklist--yes">Una consulta por correo electrónico.</li>
               <li class="checklist--yes">Posibilidad de adjuntar fotografías si son relevantes.</li>
@@ -96,7 +96,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
               </ul>
             </div>
             <p class="consulta-card__description">En unos 20 minutos podemos entender qué está pasando y establecer unas primeras pautas para que salgáis de la llamada con más calma y más claridad.</p>
-            <p class="consulta-card__examples-label">Incluye</p>
+            <p class="consulta-card__examples-label consulta-card__include-label">Incluye</p>
             <ul class="consulta-card__checklist">
               <li class="checklist--yes">Videollamada de unos 20 minutos.</li>
               <li class="checklist--yes">Valoración personalizada de una situación concreta.</li>
@@ -146,7 +146,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
             </div>
             <p class="consulta-card__closing">Porque a veces no necesitáis más consejos.</p>
             <p class="consulta-card__closing">Necesitáis que alguien os escuche, os ayude a ordenar todo el ruido y os acompañe para que podáis volver a confiar en vosotros/as mismos/as.</p>
-            <p class="consulta-card__examples-label">Incluye</p>
+            <p class="consulta-card__examples-label consulta-card__include-label">Incluye</p>
             <ul class="consulta-card__checklist">
               <li class="checklist--yes">Valoración integral de vuestra situación.</li>
               <li class="checklist--yes">Preguntas de profundización.</li>
@@ -409,10 +409,14 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
   }
 
   /* --- CHECKLIST --- */
+  .consulta-card__include-label {
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-xs);
+  }
+
   .consulta-card__checklist {
     list-style: none;
     padding: 0;
-    padding-top: var(--spacing-md);
   }
 
   .consulta-card__checklist li {
