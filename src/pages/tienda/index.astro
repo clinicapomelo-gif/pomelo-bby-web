@@ -27,7 +27,7 @@ import { formatGuiaPrice, guias, isGuiaPurchasable } from '../../data/guias';
                 )}
               </div>
               {guia.status === 'free' ? (
-                <a href={guia.leadMagnetUrl} class="btn btn--primary">Descargar gratis</a>
+                <a href={guia.leadMagnetUrl} class="btn btn--primary">Recibir la guía gratis</a>
               ) : (
                 <a href={`/tienda/${guia.id}`} class="btn btn--secondary">Ver guía</a>
               )}

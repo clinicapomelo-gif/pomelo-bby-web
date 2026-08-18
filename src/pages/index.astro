@@ -10,8 +10,8 @@ const latestPosts = allPosts
   .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
   .slice(0, 2);
 
-// Get latest guides (max 2 for balanced grid)
-const latestGuias = guias.slice(0, 2);
+// Get latest paid guides (max 2 for balanced grid)
+const latestGuias = guias.filter((guia) => guia.status !== 'free').slice(0, 2);
 
 // Category colors for placeholders (using CSS variable values)
 const categoryColors: Record<string, { bg: string; accent: string }> = {
@@ -51,6 +51,9 @@ const categoryColors: Record<string, { bg: string; accent: string }> = {
       </div>
     </div>
   </section>
+
+  <!-- Guía gratuita -->
+  <LeadMagnetForm />
 
   <!-- Guías -->
   <section class="guides">
@@ -126,9 +129,6 @@ const categoryColors: Record<string, { bg: string; accent: string }> = {
       </div>
     </div>
   </section>
-
-  <!-- Guía gratuita -->
-  <LeadMagnetForm />
 
   <!-- CTA Consultas -->
   <section class="cta-consultas">
