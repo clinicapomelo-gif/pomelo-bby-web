@@ -24,10 +24,10 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
             <div class="consulta-card__summary-left">
               <span class="consulta-card__badge">✉️ Cuéntame por correo</span>
               <h2>Cuéntame por correo</h2>
-              <p class="consulta-card__aside">Esta sería el equivalente a cuando una amiga me escribe por WhatsApp: «Mar, mira, ha hecho esta caca súper rara, ¿pasa algo?»</p>
+              <p class="consulta-card__aside">(Esta sería el equivalente a cuando una amiga me escribe por WhatsApp: «Mar, mira, ha hecho esta caca súper rara, ¿pasa algo?»).</p>
             </div>
             <div class="consulta-card__summary-right">
-              <span class="consulta-card__price">25€</span>
+              <span class="consulta-card__price">25 €</span>
               <span class="consulta-card__chevron" aria-hidden="true">▾</span>
             </div>
           </summary>
@@ -51,12 +51,13 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
                 <li>¿Esta cosmética, ropa o juguete es apropiado para su edad?</li>
               </ul>
             </div>
+            <p class="consulta-card__examples-label">Incluye</p>
             <ul class="consulta-card__checklist">
-              <li class="checklist--yes">Una consulta por correo electrónico</li>
-              <li class="checklist--yes">Posibilidad de adjuntar fotografías si son relevantes</li>
-              <li class="checklist--yes">Respuesta personalizada en 24-48 horas laborables (casi siempre en menos de 24 horas)</li>
-              <li class="checklist--yes">Orientación clara, práctica y basada en evidencia</li>
-              <li class="checklist--yes">La tranquilidad de poder releer la respuesta siempre que la necesitéis</li>
+              <li class="checklist--yes">Una consulta por correo electrónico.</li>
+              <li class="checklist--yes">Posibilidad de adjuntar fotografías si son relevantes.</li>
+              <li class="checklist--yes">Respuesta personalizada en 24-48 horas laborables (casi siempre en menos de 24 horas).</li>
+              <li class="checklist--yes">Orientación clara, práctica y basada en evidencia.</li>
+              <li class="checklist--yes">La tranquilidad de poder releer la respuesta siempre que la necesitéis.</li>
             </ul>
             <div class="consulta-card__footer">
               <button class="btn btn--primary" id="btn-consulta-mensaje">Consultar por mensaje</button>
@@ -70,10 +71,10 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
             <div class="consulta-card__summary-left">
               <span class="consulta-card__badge">🎥 Duda rápida</span>
               <h2>Duda rápida</h2>
-              <p class="consulta-card__aside">Esta sería como decirme: «Mar, llámame cuando puedas, que me pasa una cosa con el niño y necesito preguntarte varias cosas».</p>
+              <p class="consulta-card__aside">(Esta sería como decirme: «Mar, llámame cuando puedas, que me pasa una cosa con el niño o la niña y necesito preguntarte varias cosas»).</p>
             </div>
             <div class="consulta-card__summary-right">
-              <span class="consulta-card__price">45€</span>
+              <span class="consulta-card__price">45 €</span>
               <span class="consulta-card__chevron" aria-hidden="true">▾</span>
             </div>
           </summary>
@@ -81,10 +82,9 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
             <div class="consulta-card__header">
               <p class="consulta-card__tagline">Para situaciones concretas en las que necesitas hablarlo con alguien, hacer preguntas y terminar la llamada con las ideas claras.</p>
               <p class="consulta-card__description">No hace falta un acompañamiento largo. Solo parar un momento, ordenar todo el ruido y saber por dónde empezar.</p>
-              <p class="consulta-card__description">En unos 20 minutos podemos entender qué está pasando y establecer unas primeras pautas para que salgáis de la llamada con más calma y más claridad.</p>
             </div>
             <div class="consulta-card__examples">
-              <p class="consulta-card__examples-label">Ideal para</p>
+              <p class="consulta-card__examples-label">Ideal para…</p>
               <ul>
                 <li>«¿Es normal que haga esto o debería preocuparme?»</li>
                 <li>«¿Voy al pediatra o puedo observar en casa?»</li>
@@ -92,14 +92,16 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
                 <li>«Quiero destetar de forma respetuosa.»</li>
                 <li>«Mi bebé se despierta muchísimo y no sé si puede ser una crisis de sueño.»</li>
                 <li>«He recibido recomendaciones contradictorias y estoy hecho/a un lío.»</li>
-                <li>«Mi hijo tiene rabietas y no sé cómo acompañarlas.»</li>
+                <li>«Mi hijo o hija tiene rabietas y no sé cómo acompañarlas.»</li>
               </ul>
             </div>
+            <p class="consulta-card__description">En unos 20 minutos podemos entender qué está pasando y establecer unas primeras pautas para que salgáis de la llamada con más calma y más claridad.</p>
+            <p class="consulta-card__examples-label">Incluye</p>
             <ul class="consulta-card__checklist">
-              <li class="checklist--yes">Videollamada de unos 20 minutos</li>
-              <li class="checklist--yes">Valoración de una situación concreta</li>
-              <li class="checklist--yes">Espacio para preguntas y aclaraciones</li>
-              <li class="checklist--yes">Orientación práctica, realista y adaptada a vuestra familia</li>
+              <li class="checklist--yes">Videollamada de unos 20 minutos.</li>
+              <li class="checklist--yes">Valoración de una situación concreta.</li>
+              <li class="checklist--yes">Espacio para preguntas y aclaraciones.</li>
+              <li class="checklist--yes">Orientación práctica, realista y adaptada a vuestra familia.</li>
             </ul>
             <div class="consulta-card__footer">
               <button data-cal-link={`${CAL_USERNAME}/${CAL_EXPRESS_SLUG}`} data-cal-config='{"layout":"month_view"}' class="btn btn--primary">Reservar duda rápida</button>
@@ -107,46 +109,52 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
           </div>
         </details>
 
-        <!-- Tier 3: Consulta completa (ESTRELLA) -->
+        <!-- Tier 3: Hablemos tranquilamente -->
         <details class="consulta-card consulta-card--featured">
           <summary class="consulta-card__summary">
             <div class="consulta-card__summary-left">
-              <span class="consulta-card__badge consulta-card__badge--featured">❤️ Más popular</span>
+              <span class="consulta-card__badge consulta-card__badge--featured">❤️ Hablemos tranquilamente</span>
               <h2>Hablemos tranquilamente</h2>
-              <p class="consulta-card__aside">Esta sería como decirme: «Mar, ¿nos tomamos un café? Estoy agotada con este tema».</p>
+              <p class="consulta-card__aside">(Esta sería como decirme: «Mar, ¿nos tomamos un café? Estoy agotado/a con este tema»).</p>
             </div>
             <div class="consulta-card__summary-right">
-              <span class="consulta-card__price">89€</span>
+              <span class="consulta-card__price">89 €</span>
               <span class="consulta-card__chevron" aria-hidden="true">▾</span>
             </div>
           </summary>
           <div class="consulta-card__body">
             <div class="consulta-card__header">
               <p class="consulta-card__tagline">Para esas situaciones que llevan tiempo preocupándoos, os están quitando energía y sentís que ya habéis probado de todo.</p>
-              <p class="consulta-card__description">Aquí no os daré consejos genéricos. Quiero conocer vuestra historia, vuestro contexto y entender cómo estáis viviendo la situación para elaborar un plan adaptado de verdad a vuestra familia.</p>
-              <p class="consulta-card__description">Me contaréis con detalle qué está ocurriendo. Os haré las preguntas necesarias para comprender todas las piezas del puzle y, a partir de ahí, elaboraré un plan de actuación personalizado, con pautas y recursos adaptados a vosotros.</p>
-              <p class="consulta-card__tagline">Y no os dejaré solas/os con un documento y un «a ver qué tal». Durante las dos semanas siguientes seguiremos en contacto, revisaremos la evolución y ajustaremos el plan siempre que sea necesario.</p>
+              <p class="consulta-card__description">Aquí no os daré consejos genéricos.</p>
+              <p class="consulta-card__description">Quiero conocer vuestra historia, vuestro contexto y entender cómo estáis viviendo la situación para elaborar un plan adaptado de verdad a vuestra familia.</p>
+              <p class="consulta-card__description">Me contaréis con detalle qué está ocurriendo. Os haré las preguntas necesarias para comprender todas las piezas del puzle y, a partir de ahí, elaboraré un plan de actuación personalizado, con pautas y recursos adaptados a vuestra familia.</p>
+              <p class="consulta-card__description">Y no os dejaré solos/as con un documento y un «a ver qué tal».</p>
+              <p class="consulta-card__description">Durante las dos semanas siguientes seguiremos en contacto, revisaremos la evolución y ajustaremos el plan siempre que sea necesario.</p>
             </div>
             <div class="consulta-card__examples">
-              <p class="consulta-card__examples-label">Ideal para</p>
+              <p class="consulta-card__examples-label">Ideal para…</p>
               <ul>
                 <li>Llevamos meses durmiendo mal y ya no sabemos qué más probar.</li>
                 <li>Las comidas se han convertido en una batalla constante.</li>
                 <li>Queremos retirar el pañal y no sabemos por dónde empezar.</li>
-                <li>Estamos viviendo muchas rabietas y nos sentimos perdidos.</li>
+                <li>Estamos viviendo muchas rabietas y nos sentimos perdidos/as.</li>
                 <li>Acabamos de recibir un diagnóstico y necesitamos orientación.</li>
-                <li>Estamos agotados. Necesitamos un espacio seguro donde sentirnos escuchadas/os y recuperar la tranquilidad.</li>
+                <li>Mi bebé fue prematuro, acabamos de llegar a casa y tenemos mil dudas y miedos.</li>
+                <li>Hay varias dificultades a la vez y necesitamos una visión global y un plan adaptado a nuestra situación.</li>
+                <li>O simplemente: estamos agotados/as. Todo el mundo opina, todo el mundo juzga y todo el mundo parece tener la solución. Necesitamos un espacio seguro donde sentirnos escuchados/as, sin culpas ni juicios, entender qué está pasando y recuperar la tranquilidad.</li>
               </ul>
             </div>
+            <p class="consulta-card__closing">Porque a veces no necesitáis más consejos.</p>
+            <p class="consulta-card__closing">Necesitáis que alguien os escuche, os ayude a ordenar todo el ruido y os acompañe para que podáis volver a confiar en vosotros/as mismos/as.</p>
+            <p class="consulta-card__examples-label">Incluye</p>
             <ul class="consulta-card__checklist">
-              <li class="checklist--yes">Valoración exhaustiva de vuestra situación</li>
-              <li class="checklist--yes">Preguntas de profundización</li>
-              <li class="checklist--yes">Plan de actuación individualizado</li>
-              <li class="checklist--yes">Material y recursos asociados</li>
-              <li class="checklist--yes">Seguimiento por correo durante 14 días</li>
-              <li class="checklist--yes">Ajustes del plan según la evolución</li>
+              <li class="checklist--yes">Valoración exhaustiva de vuestra situación.</li>
+              <li class="checklist--yes">Preguntas de profundización.</li>
+              <li class="checklist--yes">Plan de actuación individualizado.</li>
+              <li class="checklist--yes">Material y recursos asociados.</li>
+              <li class="checklist--yes">Seguimiento por correo durante 14 días.</li>
+              <li class="checklist--yes">Ajustes del plan según la evolución.</li>
             </ul>
-            <p class="consulta-card__closing">Porque a veces no necesitáis más consejos. Necesitáis que alguien os escuche, os ayude a ordenar todo el ruido y os acompañe para que podáis volver a confiar en vosotros mismos.</p>
             <div class="consulta-card__footer">
               <button data-cal-link={`${CAL_USERNAME}/${CAL_PERSONALIZADA_SLUG}`} data-cal-config='{"layout":"month_view"}' class="btn btn--primary">Reservar consulta</button>
             </div>
@@ -261,6 +269,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
 
   .consulta-card__summary-left {
     flex: 1;
+    min-width: 0;
   }
 
   .consulta-card__summary-right {
@@ -479,6 +488,16 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
       width: 100%;
       justify-content: space-between;
       margin-top: var(--spacing-sm);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .consulta-card__summary {
+      padding: var(--spacing-md);
+    }
+
+    .consulta-card__body {
+      padding: 0 var(--spacing-md) var(--spacing-md);
     }
   }
 </style>
