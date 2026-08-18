@@ -26,7 +26,7 @@ const currentPath = Astro.url.pathname;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/jpeg" href="/logo-pomelo.jpeg" />
     <SEO
       title={title}
       description={description}
@@ -38,7 +38,10 @@ const currentPath = Astro.url.pathname;
   <body>
     <header class="header">
       <nav class="container nav">
-        <a href="/" class="nav__logo">pomelo.bby</a>
+        <a href="/" class="nav__logo" aria-label="Inicio — pomelo.bby">
+          <img src="/logo-pomelo.jpeg" alt="" width="1600" height="1600" />
+          <span>pomelo.bby</span>
+        </a>
         <button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false">
           <span class="nav__toggle-bar"></span>
           <span class="nav__toggle-bar"></span>
@@ -82,7 +85,14 @@ const currentPath = Astro.url.pathname;
     <footer class="footer">
       <div class="container footer__content">
         <div class="footer__brand">
-          <p class="footer__logo">pomelo.bby</p>
+          <img
+            class="footer__logo"
+            src="/logo-pomelo-bby.jpeg"
+            alt="pomelo.bby — Criar sin culpa"
+            width="1600"
+            height="1600"
+            loading="lazy"
+          />
           <p class="footer__tagline">Te guio en la salud y crianza de tus hijos.</p>
         </div>
         <div class="footer__social">
@@ -123,13 +133,23 @@ const currentPath = Astro.url.pathname;
   }
 
   .nav__logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    flex-shrink: 0;
+    color: var(--color-text);
     font-size: 1.25rem;
     font-weight: 700;
-    color: var(--color-text);
   }
 
   .nav__logo:hover {
     color: var(--color-coral);
+  }
+
+  .nav__logo img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--radius-sm);
   }
 
   .nav__links {
@@ -189,9 +209,8 @@ const currentPath = Astro.url.pathname;
   }
 
   .footer__logo {
-    font-weight: 700;
-    font-size: 1.1rem;
-    color: var(--color-text);
+    width: min(18rem, 80vw);
+    height: auto;
   }
 
   .footer__tagline {
