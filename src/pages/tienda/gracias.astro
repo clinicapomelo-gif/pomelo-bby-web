@@ -1,19 +1,88 @@
 ---
+import Stripe from 'stripe';
 import Layout from '../../layouts/Layout.astro';
+import { guias } from '../../data/guias';
 
-const guiaId = Astro.url.searchParams.get('guia');
+export const prerender = false;
+
+type PurchaseState = 'paid' | 'pending' | 'invalid' | 'error';
+
 const sessionId = Astro.url.searchParams.get('session_id');
+const validSessionId = sessionId?.startsWith('cs_') && sessionId.length <= 255
+  ? sessionId
+  : undefined;
+const stripeKey = import.meta.env.STRIPE_SECRET_KEY;
+let state: PurchaseState = validSessionId ? 'error' : 'invalid';
+let guiaTitle: string | undefined;
+
+if (validSessionId && stripeKey) {
+  try {
+    const stripe = new Stripe(stripeKey);
+    const session = await stripe.checkout.sessions.retrieve(validSessionId);
+    const guia = guias.find((item) => item.id === session.metadata?.guiaId);
+
+    if (session.metadata?.type === 'guia' && guia) {
+      guiaTitle = guia.title;
+      state = session.payment_status === 'paid'
+        ? 'paid'
+        : session.status === 'complete'
+          ? 'pending'
+          : 'invalid';
+    } else {
+      state = 'invalid';
+    }
+  } catch (error: unknown) {
+    const type = typeof error === 'object' && error !== null && 'type' in error
+      ? String(error.type)
+      : error instanceof Error
+        ? error.name
+        : 'UnknownError';
+    state = type === 'StripeInvalidRequestError' ? 'invalid' : 'error';
+  }
+}
 ---
 
-<Layout title="Compra completada" description="Gracias por tu compra. Tu guía está lista.">
+<Layout title="Estado de tu compra" description="Consulta el estado de tu compra en pomelo.bby.">
   <section class="gracias">
     <div class="container">
       <div class="gracias__content">
-        <p class="gracias__icon">🎉</p>
-        <h1>¡Listo!</h1>
-        <p>Gracias por tu compra. En unos minutos recibirás un email con el enlace para descargar tu guía.</p>
-        <p class="gracias__note">Si no lo ves, revisa la carpeta de spam. Y si sigue sin aparecer, <a href="/contacto">escríbeme</a> y lo solucionamos.</p>
-        <a href="/tienda" class="btn btn--primary">Ver más guías</a>
+        {state === 'paid' && (
+          <>
+            <p class="gracias__icon">🎉</p>
+            <h1>Pago confirmado</h1>
+            <p>Gracias por tu compra{guiaTitle ? ` de «${guiaTitle}»` : ''}. Estamos preparando el email con tu enlace de descarga.</p>
+            <p class="gracias__note">Puede tardar unos minutos. Revisa también spam y promociones. Si no aparece, <a href="/contacto">escríbeme</a> y lo solucionamos.</p>
+          </>
+        )}
+
+        {state === 'pending' && (
+          <>
+            <p class="gracias__icon">⏳</p>
+            <h1>Estamos confirmando el pago</h1>
+            <p>En cuanto Stripe lo confirme, prepararemos el email con tu guía.</p>
+            <p class="gracias__note">No necesitas volver a pagar. Si tarda más de lo esperado, <a href="/contacto">escríbeme</a>.</p>
+          </>
+        )}
+
+        {state === 'invalid' && (
+          <>
+            <p class="gracias__icon">🤍</p>
+            <h1>No hemos podido verificar esta compra</h1>
+            <p>El enlace puede ser incorrecto o la sesión puede haber caducado.</p>
+            <p class="gracias__note">Si has realizado el pago, <a href="/contacto">escríbeme</a> con el correo usado en Stripe y lo revisamos.</p>
+          </>
+        )}
+
+        {state === 'error' && (
+          <>
+            <p class="gracias__icon">🤍</p>
+            <h1>No podemos comprobar la compra ahora mismo</h1>
+            <p>Es un problema temporal. No vuelvas a pagar.</p>
+            <p class="gracias__note">Prueba de nuevo en unos minutos o <a href="/contacto">escríbeme</a> y lo revisamos.</p>
+          </>
+        )}
+
+        <a href="/tienda" class="btn btn--primary">Volver a las guías</a>
       </div>
     </div>
   </section>

@@ -42,7 +42,7 @@ const canCheckout = isGuiaPurchasable(guia);
 
             {canCheckout && (
               <div class="producto__action">
-                <p class="producto__entrega">Descarga en PDF tras el pago.</p>
+                <p class="producto__entrega">Recibirás por email un enlace de descarga disponible durante 30 días.</p>
                 <form id="checkout-form" method="POST" action="/api/checkout">
                   <input type="hidden" name="guiaId" value={guia.id} />
                   <button id="btn-comprar" type="submit" class="btn btn--primary btn--full">
@@ -52,6 +52,7 @@ const canCheckout = isGuiaPurchasable(guia);
                 <ul class="producto__garantias">
                   <li>✓ Pago seguro con Stripe</li>
                   <li>✓ Descarga en PDF</li>
+                  <li>✓ Si pierdes el enlace, escríbeme y revisamos tu compra</li>
                 </ul>
               </div>
             )}
