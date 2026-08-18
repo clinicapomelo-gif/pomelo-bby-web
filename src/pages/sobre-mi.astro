@@ -19,7 +19,7 @@ import Layout from '../layouts/Layout.astro';
             alt="Mar con su uniforme de enfermera pediátrica"
             class="about__photo"
             width="1200"
-            height="1601"
+            height="1600"
             fetchpriority="high"
           />
         </div>
@@ -198,38 +198,32 @@ import Layout from '../layouts/Layout.astro';
 
   .about__intro {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(300px, 400px);
-    align-items: center;
-    gap: clamp(var(--spacing-xl), 7vw, 5rem);
-    max-width: 940px;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+    align-items: stretch;
+    max-width: 1000px;
     margin: 0 auto var(--spacing-xl);
+    overflow: hidden;
+    background-color: var(--color-white);
+    border-radius: var(--radius-md) 5rem var(--radius-md) var(--radius-md);
+    box-shadow: 0 8px 28px rgba(45, 45, 45, 0.07);
   }
 
   .about__intro-copy {
     min-width: 0;
+    align-self: center;
+    padding: clamp(var(--spacing-lg), 5vw, var(--spacing-xl));
   }
 
   .about__portrait {
-    position: relative;
-    aspect-ratio: 3 / 4;
-  }
-
-  .about__portrait::before {
-    content: '';
-    position: absolute;
-    inset: -1rem var(--spacing-md) var(--spacing-md) -1rem;
-    border: 1px solid var(--color-peach);
-    border-radius: var(--radius-md) 6rem var(--radius-md) 6rem;
-    background-color: var(--color-nude);
+    min-height: 520px;
   }
 
   .about__photo {
-    position: relative;
     width: 100%;
     height: 100%;
-    border-radius: var(--radius-md) 6rem var(--radius-md) 6rem;
+    border-radius: 6rem 0 0 0;
     object-fit: cover;
-    box-shadow: 0 12px 32px rgba(45, 45, 45, 0.1);
+    object-position: center;
   }
 
   .about__intro h1 {
@@ -390,18 +384,22 @@ import Layout from '../layouts/Layout.astro';
   @media (max-width: 768px) {
     .about__intro {
       grid-template-columns: 1fr;
-      justify-items: center;
-      gap: var(--spacing-xl);
       max-width: 520px;
       text-align: center;
     }
 
-    .about__portrait {
-      width: min(78vw, 340px);
+    .about__intro-copy {
+      padding: var(--spacing-lg);
     }
 
-    .about__portrait::before {
-      inset: -0.75rem 0.75rem 0.75rem -0.75rem;
+    .about__portrait {
+      width: 100%;
+      min-height: 0;
+      aspect-ratio: 4 / 5;
+    }
+
+    .about__photo {
+      border-radius: 4rem 0 0 0;
     }
 
     .about__intro h1 {
