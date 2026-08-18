@@ -28,9 +28,7 @@ const categoryLabels: Record<string, string> = {
     <div class="container">
       <header class="post__header">
         <div class="post__meta">
-          <a href={`/blog/categoria/${post.data.category}`} class="post__category">
-            {categoryLabels[post.data.category]}
-          </a>
+          <span class="post__category">{categoryLabels[post.data.category]}</span>
           <time datetime={post.data.pubDate.toISOString()} class="post__date">
             {post.data.pubDate.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}
           </time>
@@ -89,11 +87,6 @@ const categoryLabels: Record<string, string> = {
     background-color: var(--color-peach);
     padding: 0.2rem 0.6rem;
     border-radius: 999px;
-  }
-
-  .post__category:hover {
-    background-color: var(--color-coral);
-    color: var(--color-white);
   }
 
   .post__date {

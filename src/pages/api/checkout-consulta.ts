@@ -12,16 +12,21 @@ export const POST: APIRoute = async () => {
     );
   }
 
+  const priceId = import.meta.env.STRIPE_CONSULTA_MENSAJE_PRICE_ID;
+  if (!priceId?.startsWith('price_') || priceId.includes('PLACEHOLDER')) {
+    return new Response(
+      JSON.stringify({ error: 'La consulta todavía no tiene un precio configurado.' }),
+      { status: 503, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
+
   const stripe = new Stripe(stripeKey);
   const siteURL = import.meta.env.SITE_URL ?? 'https://pomelo-bby-web.vercel.app';
-
-  // TODO: Crear este producto/precio en Stripe y actualizar el ID
-  const CONSULTA_MENSAJE_PRICE_ID = import.meta.env.STRIPE_CONSULTA_MENSAJE_PRICE_ID ?? 'price_PLACEHOLDER';
 
   try {
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
-      line_items: [{ price: CONSULTA_MENSAJE_PRICE_ID, quantity: 1 }],
+      line_items: [{ price: priceId, quantity: 1 }],
       success_url: `${siteURL}/consulta-mensaje/gracias?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${siteURL}/consultas`,
       metadata: { type: 'consulta-mensaje' },
@@ -40,10 +45,9 @@ export const POST: APIRoute = async () => {
       { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : 'Error desconocido';
-    console.error('Stripe error:', message);
+    console.error('Stripe checkout error:', err instanceof Error ? err.message : 'Error desconocido');
     return new Response(
-      JSON.stringify({ error: message }),
+      JSON.stringify({ error: 'No se pudo iniciar el pago. Inténtalo de nuevo.' }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }
