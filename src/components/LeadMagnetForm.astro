@@ -6,7 +6,7 @@ interface Props {
 const { heading = 'h2' } = Astro.props;
 ---
 
-<section class="lead-magnet" aria-labelledby="lead-magnet-title">
+<section id="guia-gratuita" class="lead-magnet" aria-labelledby="lead-magnet-title">
   <div class="container">
     <div class="lead-magnet__card">
       <div class="lead-magnet__content">
@@ -17,8 +17,8 @@ const { heading = 'h2' } = Astro.props;
           <h2 id="lead-magnet-title">25 cosas normales en los bebés</h2>
         )}
         <p>Una guía breve para entender mejor algunas cosas habituales en los bebés, explicadas con calma y en palabras sencillas.</p>
-        <p>Recíbela gratis al unirte a <strong>El Chisme de Mar</strong>: un email cada dos semanas para hablar de crianza, salud infantil y esas dudas que Google consigue convertir en una tragedia.</p>
-        <p class="lead-magnet__newsletter">Te enviaré el PDF y nos leeremos cada dos semanas. Sin spam ni agobios. Puedes darte de baja cuando quieras.</p>
+        <p>Recíbela gratis al unirte a <strong>El Chisme de Mar</strong>: un email cada dos semanas con historias reales de crianza y salud infantil. Situaciones que han pasado, errores que nos pueden enseñar algo, sustos que luego se quedaron en anécdota y esas cosas que pensamos que solo nos pasan a nosotros.</p>
+        <p class="lead-magnet__newsletter">Porque a veces el mejor aprendizaje es la experiencia de otra familia. Sin spam ni agobios. Puedes darte de baja cuando quieras.</p>
         <p class="lead-magnet__disclaimer">Este recurso es informativo y no sustituye la valoración de un profesional sanitario.</p>
       </div>
 
@@ -125,6 +125,7 @@ const { heading = 'h2' } = Astro.props;
 
 <style>
   .lead-magnet {
+    scroll-margin-top: 5rem;
     padding: var(--spacing-xl) 0;
     background-color: var(--color-white);
   }

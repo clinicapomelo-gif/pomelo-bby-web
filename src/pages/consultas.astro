@@ -15,6 +15,8 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
         <p class="consultas__desc">Porque a veces simplemente necesitas alguien que te escuche, te comprenda y te diga que lo estás haciendo mejor de lo que crees.</p>
       </div>
 
+      <p class="consultas__scope">Son consultas de enfermería, no consultas médicas de pediatría ni un servicio de urgencias. Consulta el <a href="/aviso-legal">alcance profesional</a>.</p>
+
       <div class="consultas__grid">
 
         <!-- Tier 1: Cuéntame por correo -->
@@ -32,7 +34,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
           </summary>
           <div class="consulta-card__body">
             <div class="consulta-card__header">
-              <p class="consulta-card__tagline">Para esas dudas que te basta con contarme por escrito, enviarme alguna foto si hace falta y recibir una respuesta que te deje tranquilo/a.</p>
+              <p class="consulta-card__tagline">Para esas dudas que te basta con contarme por escrito y recibir una respuesta que te ayude a entender qué está pasando y cuál puede ser el siguiente paso.</p>
               <p class="consulta-card__description">Porque muchas veces no hace falta una consulta larga. Solo necesitas que alguien te diga:</p>
               <p class="consulta-card__quote">«Sí, esto entra dentro de la normalidad.»<br>«Yo vigilaría esto otro.»<br>«En este caso sí consultaría con el pediatra.»</p>
               <p class="consulta-card__description">Y seguir con tu día.</p>
@@ -45,7 +47,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
                 <li>¿Esta caca tiene buena pinta?</li>
                 <li>¿Esta cantidad de comida es normal para su edad?</li>
                 <li>¿Esto es una etapa normal o debería preocuparme?</li>
-                <li>¿Esta herida o picadura está evolucionando bien? (Puedes enviarme una foto).</li>
+                <li>¿Esta herida o picadura está evolucionando bien? Si necesito verla, te indicaré cómo enviarla.</li>
                 <li>¿Sería mejor esto o esto?</li>
                 <li>¿Esta cosmética, ropa o juguete es apropiado para su edad?</li>
               </ul>
@@ -53,13 +55,13 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
             <p class="consulta-card__examples-label consulta-card__include-label">Incluye</p>
             <ul class="consulta-card__checklist">
               <li class="checklist--yes">Una consulta por correo electrónico.</li>
-              <li class="checklist--yes">Posibilidad de adjuntar fotografías si son relevantes.</li>
+              <li class="checklist--yes">Si necesito alguna imagen, te explicaré qué hace falta y cómo enviarla de forma segura.</li>
               <li class="checklist--yes">Respuesta personalizada en 24-48 horas laborables (casi siempre en menos de 24 horas).</li>
               <li class="checklist--yes">Orientación clara, práctica y basada en evidencia.</li>
               <li class="checklist--yes">La tranquilidad de poder releer la respuesta siempre que la necesitéis.</li>
             </ul>
             <div class="consulta-card__footer">
-              <button class="btn btn--primary" id="btn-consulta-mensaje">Consultar por mensaje</button>
+              <button class="btn btn--primary" id="btn-consulta-mensaje">Consultar por correo</button>
             </div>
           </div>
         </details>
@@ -167,7 +169,6 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
         <p class="consultas__note">Al reservar te pediré que me cuentes cuál es tu preocupación principal y la edad de tu peque. Así llego preparada y vamos directos a lo importante.</p>
       </div>
 
-      <p class="consultas__scope">Son consultas de enfermería, no consultas médicas de pediatría ni un servicio de urgencias. Consulta el <a href="/aviso-legal">alcance profesional</a>.</p>
     </div>
   </section>
 
@@ -190,11 +191,11 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
           window.location.href = data.url;
         } else {
           alert(data.error || 'Error al crear el pago. Inténtalo de nuevo.');
-          if (btn) btn.textContent = 'Consultar por mensaje';
+          if (btn) btn.textContent = 'Consultar por correo';
         }
       } catch {
         alert('Error de conexión. Inténtalo de nuevo.');
-        if (btn) btn.textContent = 'Consultar por mensaje';
+        if (btn) btn.textContent = 'Consultar por correo';
       }
     });
   </script>
@@ -230,7 +231,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
 
   .consultas__scope {
     max-width: 720px;
-    margin: var(--spacing-lg) auto 0;
+    margin: 0 auto var(--spacing-lg);
     color: var(--color-text-tertiary);
     font-size: 0.78rem;
     line-height: 1.6;
