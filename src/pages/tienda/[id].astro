@@ -24,6 +24,12 @@ const canCheckout = isGuiaPurchasable(guia);
           <h1 class="producto__title">{guia.title}</h1>
           <p class="producto__description">{guia.description}</p>
 
+          {guia.benefits && (
+            <ul class="producto__benefits" aria-label="Qué aprenderás con esta guía">
+              {guia.benefits.map((benefit) => <li>{benefit}</li>)}
+            </ul>
+          )}
+
           <div class="producto__disclaimer">
             <p>Este recurso es orientativo y no sustituye la valoración de un profesional sanitario.</p>
           </div>
@@ -151,6 +157,28 @@ const canCheckout = isGuiaPurchasable(guia);
     font-size: 1.05rem;
     line-height: 1.8;
     margin-bottom: var(--spacing-lg);
+  }
+
+  .producto__benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .producto__benefits li {
+    position: relative;
+    padding-left: 1.75rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
+  .producto__benefits li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-green);
+    font-weight: 700;
   }
 
   .producto__disclaimer {

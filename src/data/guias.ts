@@ -4,6 +4,7 @@ export interface Guia {
   id: string;
   title: string;
   description: string;
+  benefits?: string[];
   price: number;
   status: GuiaStatus;
   category: string;
@@ -37,6 +38,14 @@ export const guias: Guia[] = [
     id: 'sueno-infantil-palabras-normales',
     title: 'El sueño infantil explicado en palabras normales',
     description: 'Una explicación clara y cercana sobre el sueño infantil.',
+    benefits: [
+      'Entenderás cómo funciona realmente el sueño infantil.',
+      'Sabrás qué es normal según la edad de tu bebé.',
+      'Desmontarás los mitos que más culpa generan.',
+      'Descubrirás estrategias que pueden ayudaros a dormir mejor.',
+      'Comprenderás por qué, a veces, el sueño cambia de repente.',
+      'Aprenderás cuándo merece la pena consultar con un profesional.',
+    ],
     price: 14.9,
     status: 'coming-soon',
     category: 'sueño',
