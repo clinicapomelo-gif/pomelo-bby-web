@@ -52,7 +52,7 @@ Decisiones de UX:
 - La persona puede darse de baja de forma sencilla cuando quiera.
 - Las páginas permanecen separadas:
   - `/recursos/25-cosas-normales-bebes`
-  - `/newsletter`
+  - `/chisme`
 
 ## Identidad de El Chisme de Mar
 

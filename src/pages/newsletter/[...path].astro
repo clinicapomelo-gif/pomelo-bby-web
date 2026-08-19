@@ -1,0 +1,6 @@
+---
+export const prerender = false;
+
+const suffix = Astro.params.path ? `/${Astro.params.path}` : '';
+return Astro.redirect(`/chisme${suffix}${Astro.url.search}`, 301);
+---

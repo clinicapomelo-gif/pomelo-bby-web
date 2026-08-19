@@ -32,7 +32,7 @@ const temporary = error === 'temporary';
                 ? 'Pulsa el botón para confirmar tu correo y descargar la guía.'
                 : 'Pulsa el botón para confirmar tu correo y unirte a El Chisme de Mar.'}
             </p>
-            <form method="POST" action="/api/newsletter/confirm">
+            <form method="POST" action="/api/chisme/confirm">
               <input type="hidden" name="token" value={token} />
               <button type="submit" class="btn btn--primary">
                 {source === 'lead_magnet_25_cosas'
@@ -49,7 +49,7 @@ const temporary = error === 'temporary';
                 ? 'Ha ocurrido un problema temporal. Puedes volver a intentarlo desde el email dentro de unos minutos.'
                 : 'Puede que el enlace haya caducado. Vuelve a solicitarlo para continuar.'}
             </p>
-            <a href="/newsletter" class="btn btn--primary">Solicitar otro enlace</a>
+            <a href="/chisme" class="btn btn--primary">Solicitar otro enlace</a>
           </>
         )}
       </div>

@@ -76,7 +76,7 @@ export const POST: APIRoute = async ({ request }) => {
   const isLeadMagnet = recurso === LEAD_MAGNET_ID;
   const successUrl = isLeadMagnet
     ? '/recursos/25-cosas-normales-bebes/gracias'
-    : '/newsletter/gracias';
+    : '/chisme/gracias';
 
   if (honeypot) {
     return expectsJson
@@ -138,7 +138,7 @@ export const POST: APIRoute = async ({ request }) => {
       expiresAt: Date.now() + CONFIRMATION_TTL_MS,
     }, confirmationSecret);
 
-    confirmationUrl = new URL('/newsletter/confirm', getSiteUrl(request));
+    confirmationUrl = new URL('/chisme/confirm', getSiteUrl(request));
     confirmationUrl.searchParams.set('token', token);
   } catch (error) {
     console.error('Newsletter confirmation token error:', error instanceof Error ? error.name : 'UnknownError');

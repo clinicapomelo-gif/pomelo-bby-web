@@ -18,7 +18,9 @@ export default defineConfig({
         !page.includes('/proteccion-datos') &&
         !page.includes('/cookies') &&
         !page.includes('/condiciones-venta') &&
-        !page.includes('/gracias'),
+        !page.includes('/gracias') &&
+        !page.includes('/newsletter') &&
+        !page.includes('/chisme/confirm'),
     }),
   ],
 });

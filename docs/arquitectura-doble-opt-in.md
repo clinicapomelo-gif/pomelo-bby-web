@@ -17,8 +17,8 @@ flowchart TB
     subgraph WEB[Astro en Vercel]
         FORM[Formulario]
         SUB[POST /api/subscribe]
-        LAND[GET /newsletter/confirm<br/>sin efectos]
-        CONF[POST /api/newsletter/confirm]
+        LAND[GET /chisme/confirm<br/>sin efectos]
+        CONF[POST /api/chisme/confirm]
         DOWN[Descarga de la guía]
         TX[Contacto y consultas]
     end
