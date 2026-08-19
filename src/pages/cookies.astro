@@ -2,14 +2,39 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Política de cookies" description="Política de cookies de pomelo.bby">
+<Layout title="Política de cookies" description="Información sobre el uso de cookies y analítica en Pomelo Baby.">
   <section class="legal">
     <div class="container">
       <h1>Política de cookies</h1>
-      <p class="legal__placeholder">
-        Este contenido está pendiente de redacción por parte de un profesional legal.
-        Si tienes alguna pregunta, contacta con nosotros en <a href="mailto:hola@pomelobaby.es">hola@pomelobaby.es</a>.
-      </p>
+      <p class="legal__updated">Última actualización: 19 de agosto de 2026</p>
+
+      <section class="legal__section" aria-labelledby="que-son-cookies">
+        <h2 id="que-son-cookies">Qué son las cookies</h2>
+        <p>Las cookies son pequeños archivos que una página web puede guardar en tu navegador para recordar información sobre tu visita. Algunas son necesarias para que una web funcione y otras se utilizan, por ejemplo, para medir visitas o mostrar publicidad.</p>
+      </section>
+
+      <section class="legal__section" aria-labelledby="cookies-utilizadas">
+        <h2 id="cookies-utilizadas">Qué cookies utilizamos</h2>
+        <p>Pomelo Baby no crea cookies propias. Sí utilizamos los siguientes servicios:</p>
+        <h3>Analítica sin cookies</h3>
+        <p>Utilizamos Vercel Web Analytics para conocer de forma agregada qué páginas se visitan. Según la información facilitada por Vercel, este servicio no utiliza cookies ni permite identificar personalmente a quien visita la web. La sesión se distingue mediante un identificador hash que se elimina automáticamente después de 24 horas.</p>
+        <p>Puedes consultar la <a href="https://vercel.com/docs/analytics/privacy-policy" target="_blank" rel="noopener noreferrer">información de privacidad de Vercel Web Analytics</a>.</p>
+        <h3>Calendario de reservas de Cal.com</h3>
+        <p>En la página de Consultas integramos el calendario de Cal.com para que puedas reservar sin salir de Pomelo Baby. Al cargar o utilizar este calendario, Cal.com puede guardar cookies de terceros y usar tecnologías similares para prestar el servicio, mantener la sesión, recordar preferencias, reforzar la seguridad y medir su uso.</p>
+        <p>Estas cookies son gestionadas por Cal.com. Su duración depende del tipo de cookie y de la configuración que mantenga este proveedor. Puedes consultar la <a href="https://cal.com/privacy" target="_blank" rel="noopener noreferrer">política de privacidad de Cal.com</a>. Si las bloqueas desde tu navegador, es posible que el calendario no funcione correctamente.</p>
+      </section>
+
+      <section class="legal__section" aria-labelledby="servicios-externos">
+        <h2 id="servicios-externos">Pagos y enlaces externos</h2>
+        <p>Al iniciar un pago, accedes al entorno seguro de Stripe. Desde ese momento, Stripe puede utilizar sus propias cookies conforme a su <a href="https://stripe.com/es/legal/cookies-policy" target="_blank" rel="noopener noreferrer">política de cookies</a>.</p>
+        <p>Lo mismo ocurre al seguir cualquier otro enlace a una web externa: desde ese momento se aplica la política del sitio que visitas.</p>
+      </section>
+
+      <section class="legal__section" aria-labelledby="cambios-contacto">
+        <h2 id="cambios-contacto">Cambios y contacto</h2>
+        <p>Revisaremos esta página si cambian los servicios o las cookies utilizadas. Puedes borrar o bloquear las cookies desde la configuración de tu navegador.</p>
+        <p>El titular de esta web es Piel de Pomelo SLP. Si tienes alguna duda, puedes escribir a <a href="mailto:hola@pomelobaby.es">hola@pomelobaby.es</a>.</p>
+      </section>
     </div>
   </section>
 </Layout>
@@ -17,15 +42,39 @@ import Layout from '../layouts/Layout.astro';
 <style>
   .legal {
     padding: var(--spacing-xl) 0;
-    max-width: 700px;
+  }
+
+  .legal .container {
+    max-width: 780px;
   }
 
   .legal h1 {
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-xs);
   }
 
-  .legal__placeholder {
+  .legal__updated {
+    margin-bottom: var(--spacing-lg);
+    color: var(--color-text-tertiary);
+    font-size: 0.85rem;
+  }
+
+  .legal__section + .legal__section {
+    margin-top: var(--spacing-xl);
+  }
+
+  .legal h2 {
+    margin-bottom: var(--spacing-md);
+    font-size: 1.35rem;
+  }
+
+  .legal h3 {
+    margin: var(--spacing-lg) 0 var(--spacing-sm);
+    font-size: 1rem;
+  }
+
+  .legal p {
     color: var(--color-text-secondary);
     line-height: 1.8;
   }
+
 </style>
