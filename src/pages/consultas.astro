@@ -18,7 +18,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
       <div class="consultas__grid">
 
         <!-- Tier 1: Cuéntame por correo -->
-        <details class="consulta-card">
+        <details id="consulta-correo" class="consulta-card">
           <summary class="consulta-card__summary">
             <div class="consulta-card__summary-left">
               <span class="consulta-card__badge">✉️ Cuéntame por correo</span>
@@ -65,7 +65,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
         </details>
 
         <!-- Tier 2: Duda concreta -->
-        <details class="consulta-card consulta-card--featured">
+        <details id="duda-concreta" class="consulta-card consulta-card--featured">
           <summary class="consulta-card__summary">
             <div class="consulta-card__summary-left">
               <span class="consulta-card__badge consulta-card__badge--featured">🎥 Duda concreta</span>
@@ -109,7 +109,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
         </details>
 
         <!-- Tier 3: Hablemos tranquilamente -->
-        <details class="consulta-card">
+        <details id="hablemos-tranquilamente" class="consulta-card">
           <summary class="consulta-card__summary">
             <div class="consulta-card__summary-left">
               <span class="consulta-card__badge">❤️ Hablemos tranquilamente</span>
@@ -169,6 +169,16 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
 
     </div>
   </section>
+
+  <script is:inline>
+    const openConsultationFromHash = () => {
+      const consultation = document.getElementById(window.location.hash.slice(1));
+      if (consultation instanceof HTMLDetailsElement) consultation.open = true;
+    };
+
+    openConsultationFromHash();
+    window.addEventListener('hashchange', openConsultationFromHash);
+  </script>
 
   <!-- Cal.com popup -->
   <script is:inline>
@@ -237,6 +247,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
 
   /* --- CARD WRAPPER (details) --- */
   .consulta-card {
+    scroll-margin-top: 6rem;
     background-color: var(--color-white);
     border-radius: var(--radius-md);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
