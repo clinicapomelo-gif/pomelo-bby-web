@@ -2,10 +2,28 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Aviso legal" description="Información sobre la finalidad educativa y sanitaria de los contenidos de Pomelo Baby.">
+<Layout title="Aviso legal" description="Información legal, profesional y sanitaria de Pomelo Baby, titularidad de Piel de Pomelo SLP.">
   <section class="legal">
     <div class="container">
       <h1>Aviso legal</h1>
+
+      <section class="legal__section" aria-labelledby="titular-sitio">
+        <h2 id="titular-sitio">Titular del sitio</h2>
+        <dl class="legal__details">
+          <div>
+            <dt>Razón social</dt>
+            <dd>Piel de Pomelo SLP</dd>
+          </div>
+          <div>
+            <dt>Nombre comercial</dt>
+            <dd>Pomelo Baby · pomelo.bby</dd>
+          </div>
+          <div>
+            <dt>Contacto</dt>
+            <dd><a href="mailto:hola@pomelobby.com">hola@pomelobby.com</a></dd>
+          </div>
+        </dl>
+      </section>
 
       <section class="legal__section" aria-labelledby="responsable-sanitario">
         <h2 id="responsable-sanitario">Responsable profesional de los contenidos sanitarios</h2>
@@ -15,18 +33,31 @@ import Layout from '../layouts/Layout.astro';
             <dd>Mar Vall Requena</dd>
           </div>
           <div>
-            <dt>Ámbito profesional</dt>
-            <dd>Enfermería infantil</dd>
+            <dt>Profesión sanitaria</dt>
+            <dd>Enfermería</dd>
+          </div>
+          <div>
+            <dt>Ámbito de actividad</dt>
+            <dd>Salud y cuidados infantiles y neonatales</dd>
           </div>
           <div>
             <dt>Número de colegiación</dt>
             <dd>16700</dd>
           </div>
-          <div>
-            <dt>Contacto</dt>
-            <dd><a href="mailto:hola@pomelobby.com">hola@pomelobby.com</a></dd>
-          </div>
         </dl>
+        <h3>Normativa profesional</h3>
+        <ul class="legal__links">
+          <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2003-21340" target="_blank" rel="noopener noreferrer">Ley 44/2003, de ordenación de las profesiones sanitarias</a></li>
+          <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2001-20934" target="_blank" rel="noopener noreferrer">Estatutos de la Organización Colegial de Enfermería de España</a></li>
+          <li><a href="https://www.consejogeneralenfermeria.org/codigo-deontologico" target="_blank" rel="noopener noreferrer">Código Deontológico de la Enfermería Española</a></li>
+        </ul>
+      </section>
+
+      <section class="legal__section" aria-labelledby="consultas-enfermeria">
+        <h2 id="consultas-enfermeria">Consultas individualizadas de enfermería</h2>
+        <p>Las consultas 1:1 ofrecidas en este sitio son servicios individualizados de enfermería, no consultas médicas de pediatría. Su alcance, modalidades, precios y límites se describen en la página de <a href="/consultas">Consultas</a>.</p>
+        <p>Estos servicios no incluyen diagnóstico médico ni prescripción de tratamientos, no sustituyen una exploración presencial cuando sea necesaria y no funcionan como servicio de urgencias. Cuando el caso requiere valoración médica, exploración física o atención urgente, se recomienda acudir al recurso sanitario adecuado.</p>
+        <p>La contratación de una consulta 1:1 es distinta del acceso a los contenidos educativos generales y puede dar lugar a una atención de enfermería individualizada.</p>
       </section>
 
       <section class="legal__section" aria-labelledby="educacion-sanitaria">
@@ -34,7 +65,7 @@ import Layout from '../layouts/Layout.astro';
         <p>Los contenidos, artículos, guías, ebooks, PDFs y demás materiales publicados en Pomelo Baby tienen finalidad de educación sanitaria e información y son elaborados desde el ámbito profesional de la enfermería infantil, de acuerdo con la evidencia científica y las recomendaciones sanitarias disponibles en el momento de su elaboración.</p>
         <p>Estos contenidos están destinados a facilitar a madres, padres y personas cuidadoras una mejor comprensión de aspectos relacionados con la salud, los cuidados y el bienestar infantil. La información se presenta de forma clara y práctica, sin perjuicio de que cada niño o niña pueda requerir una valoración individualizada atendiendo a sus características y circunstancias.</p>
         <p>Los contenidos de carácter general no constituyen por sí mismos una valoración sanitaria individualizada, ni sustituyen el diagnóstico, tratamiento o seguimiento que pueda corresponder en cada caso. Cuando una situación concreta requiera valoración profesional, se recomienda consultar con el profesional sanitario correspondiente.</p>
-        <p>La información sanitaria puede actualizarse con el avance de la evidencia científica y con los cambios en las recomendaciones y protocolos asistenciales. Por ello, la fecha de revisión indicada en cada material identifica el momento en que su contenido fue revisado.</p>
+        <p>La información refleja la evidencia científica y las recomendaciones sanitarias disponibles en el momento de su elaboración o última revisión. Puede quedar desactualizada cuando cambian la evidencia, las recomendaciones o los protocolos asistenciales.</p>
         <p>Pomelo Baby procura que sus contenidos sean rigurosos, comprensibles y estén basados en fuentes científicas y recomendaciones sanitarias reconocidas, sin atribuir a los materiales efectos preventivos o terapéuticos que no estén respaldados por evidencia suficiente.</p>
         <p>La adquisición o consulta de un material educativo no implica por sí misma la realización de una consulta sanitaria individualizada ni el establecimiento de una relación asistencial.</p>
       </section>
@@ -89,9 +120,40 @@ import Layout from '../layouts/Layout.astro';
     color: var(--color-text-secondary);
   }
 
+  .legal h3 {
+    font-size: 1rem;
+    margin: var(--spacing-lg) 0 var(--spacing-sm);
+  }
+
   .legal p {
     color: var(--color-text-secondary);
     line-height: 1.8;
+  }
+
+  .legal__links {
+    display: grid;
+    gap: var(--spacing-sm);
+  }
+
+  .legal__links li {
+    position: relative;
+    padding-left: 1.25rem;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .legal__links li::before {
+    content: '·';
+    position: absolute;
+    left: 0.25rem;
+    color: var(--color-coral-text);
+    font-weight: 700;
+  }
+
+  .legal__links a {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
   }
 
   @media (max-width: 600px) {
