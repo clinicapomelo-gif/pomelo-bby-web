@@ -1,5 +1,7 @@
 # WEB — pomelo.bby
 
+> Notas históricas de producto. El estado operativo vigente se mantiene en `TODO.md`.
+
 ## Resumen
 
 Web de enfermería pediátrica vinculada a la cuenta de Instagram @pomelo.bby.
@@ -12,8 +14,8 @@ Acompañamiento en crianza y salud infantil. Venta de guías (PDFs) y consultas 
 - **Pagos:** Stripe (checkout sessions + webhook)
 - **Reservas:** Cal.com (popup embebido, cobro via Stripe)
 - **Formulario de contacto:** Resend (email directo + honeypot anti-spam)
-- **Email marketing:** Kit/ConvertKit (previsto, sin implementar)
-- **Almacenamiento PDFs:** Vercel Blob (previsto, sin implementar)
+- **Email marketing:** Resend Contacts, Segments, Topics, Broadcasts y Automations
+- **Almacenamiento PDFs:** Vercel Blob privado; el lead magnet ya está alojado
 - **Analytics:** Vercel Analytics (sin cookies, sin banner)
 - **Contenido:** Content Collections (markdown en repo)
 
@@ -31,12 +33,10 @@ Acompañamiento en crianza y salud infantil. Venta de guías (PDFs) y consultas 
 1. Home — Hero full-width, guías destacadas, blog, CTA consultas
 2. Blog — Listado + página individual por post (Content Collections)
 3. Tienda — Catálogo de guías + página de producto + Stripe Checkout
-4. Consultas — 4 tiers con checklist ✓/✗:
-   - Cuéntame por mensaje (19€) — respuesta escrita en 24-48h
-   - Duda rápida (35€) — videollamada 15-20 min
-   - Hablemos tranquilamente (79€) — videollamada 45-50 min + 7 días seguimiento ← ESTRELLA
-   - Te acompaño (199€) — 3 sesiones en 1-2 meses (pack separado abajo)
-   Layout: 3 columnas desktop, 2 tablet, 1 móvil + pack horizontal abajo
+4. Consultas — 3 servicios:
+   - Cuéntame por correo (19 €) — respuesta escrita en 24-48 h laborables
+   - Duda concreta (49 €) — videollamada de unos 20 min
+   - Hablemos tranquilamente (89 €) — videollamada y seguimiento durante 14 días
 5. Quién soy / FAQ — Bio con credenciales + preguntas frecuentes (renombrar "Sobre mí" → "Quién soy" o "Conóceme")
 6. Contacto — Orientación (Instagram para saludos, consultas para ayuda profesional) + formulario para todo lo demás (Resend)
 7. Links — Página tipo linktree propia (enlace en bio de Instagram)
@@ -54,9 +54,10 @@ Acompañamiento en crianza y salud infantil. Venta de guías (PDFs) y consultas 
 |----------|-----|--------|
 | `STRIPE_SECRET_KEY` | Checkout y webhook | Configurada (test) |
 | `STRIPE_WEBHOOK_SECRET` | Verificar firma webhook | Configurada (test) |
-| `RESEND_API_KEY` | Formulario de contacto | Configurada |
-| `BLOB_READ_WRITE_TOKEN` | Vercel Blob (PDFs) | Pendiente |
-| `KIT_API_KEY` / `KIT_FORM_ID` | Email marketing | Pendiente |
+| `RESEND_API_KEY` | Correo transaccional y marketing | Configurada |
+| `RESEND_NEWSLETTER_SEGMENT_ID` | Segmento de El Chisme | Configurado |
+| `RESEND_NEWSLETTER_TOPIC_ID` | Preferencia pública de El Chisme | Configurado |
+| `BLOB_STORE_ID` + OIDC | Vercel Blob (PDF gratuito) | Configurado |
 | `SITE_URL` | URLs de retorno Stripe | Configurada |
 
 ## SEO y conversión
@@ -95,7 +96,7 @@ Acompañamiento en crianza y salud infantil. Venta de guías (PDFs) y consultas 
 - [x] Sistema de diseño unificado (botones, radios, contraste, focus)
 - [x] Nav con estado activo
 - [x] Headers de seguridad
-- [x] Rediseño consultas: 4 tiers con nombres propios, precios redondos, checklist ✓/✗
+- [x] Rediseño consultas: 3 servicios con nombres propios, precios y checklist
 - [x] Rediseño contacto: orientación por intención + formulario para el resto
 - [x] Fix sobre-mi: "profesional sanitario" + "con interés y ganas"
 
@@ -107,9 +108,9 @@ Acompañamiento en crianza y salud infantil. Venta de guías (PDFs) y consultas 
 - [ ] Subir PDFs a Vercel Blob (configurar blobKey en guias.ts)
 - [ ] Implementar entrega por email en el webhook (enviar link de descarga tras pago)
 - [ ] Pasar Stripe a producción (claves live + nuevos product/price IDs)
-- [ ] Crear productos en Stripe para las consultas (19€, 35€, 79€, 199€)
+- [ ] Crear los precios definitivos de las consultas (19 €, 49 € y 89 €) en las cuentas de Stripe y Cal.com de pomelo.bby
 - [ ] Implementar flujo de pago para "Cuéntame por mensaje" (Stripe checkout → formulario)
-- [ ] Configurar Cal.com con los nuevos precios y duraciones (15-20 min, 45-50 min)
+- [ ] Configurar Cal.com con los nombres, precios y duraciones definitivos
 
 ### Pendiente de Mar
 
@@ -118,12 +119,12 @@ Acompañamiento en crianza y salud infantil. Venta de guías (PDFs) y consultas 
 - [ ] Imágenes de portada para las guías (ahora son placeholders SVG)
 - [ ] Textos legales definitivos (profesional legal)
 - [ ] Testimonios / social proof (necesita tiempo + clientes)
-- [ ] Lead magnet — decidir qué PDF gratuito ofrecer
+- [x] Lead magnet — “25 cosas normales en los bebés” alojado en Vercel Blob privado
 
 ### Mejoras técnicas (opcionales)
 
 - [ ] Schema markup (FAQ, Article, Product) para SEO
-- [ ] Integrar Kit para lead magnet + email marketing
+- [ ] Configurar Resend para lead magnet, Broadcasts y Automations
 - [ ] Internal linking entre posts y productos
 - [ ] Más artículos de blog (keywords de baja competencia)
 - [ ] Implementar upload de archivos en consulta por mensaje (ver opciones abajo)
@@ -164,7 +165,7 @@ Estrategia:
 | Alimentación complementaria | **Venta** (guía completa) | Subir a Blob, crear producto Stripe, generar 2-3 posts de blog como aperitivo |
 | Atragantamientos | **Venta** (complementa alimentación) | Subir a Blob, crear producto Stripe |
 | Consejos RN | **Venta** o **lead magnet** | Evaluar extensión — si es corto, lead magnet; si es completo, venta |
-| Conservación leche materna | **Lead magnet** (tema concreto, útil, corto) | Usar para captar emails con Kit/ConvertKit |
+| Conservación leche materna | **Lead magnet** (tema concreto, útil, corto) | Usar para captar emails con Resend |
 | Pomada de aceite de uva | **Blog post** gratuito | Es un tip, no una guía — convertir en artículo |
 
 Cada PDF de venta puede generar 2-3 artículos de blog que sirven como contenido SEO gratuito y empujan al embudo (blog → guía de pago → consulta).
