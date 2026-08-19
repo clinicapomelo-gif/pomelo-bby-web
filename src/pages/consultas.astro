@@ -1,9 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-const CAL_BASE_URL = 'https://cal.com/pomelo-bby';
-const CAL_EXPRESS_URL = `${CAL_BASE_URL}/consulta-express`;
-const CAL_PERSONALIZADA_URL = `${CAL_BASE_URL}/consulta-personalizada`;
+const CAL_USERNAME = 'pomelo-bby';
+const CAL_EXPRESS_SLUG = 'consulta-express';
+const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
 ---
 
 <Layout title="Consultas" description="Consultas de enfermería infantil con Mar. Resuelve tus dudas de crianza y alimentación con acompañamiento profesional.">
@@ -14,12 +14,6 @@ const CAL_PERSONALIZADA_URL = `${CAL_BASE_URL}/consulta-personalizada`;
         <p class="consultas__subtitle">Un espacio para ti, sin prisas. Hablamos de lo que te preocupa y salimos con un plan.</p>
         <p class="consultas__desc">Porque a veces simplemente necesitas alguien que te escuche, te comprenda y te diga que lo estás haciendo mejor de lo que crees.</p>
       </div>
-
-      <aside class="consultas__scope" aria-labelledby="consultas-scope-title">
-        <h2 id="consultas-scope-title">Qué puedo hacer por ti (y qué no)</h2>
-        <p><strong>Soy enfermera infantil y neonatal, no pediatra.</strong> En estas consultas ofrezco orientación y educación sanitaria: escucho vuestro contexto, reviso la información que me dais y os ayudo a entender qué podéis hacer, qué conviene vigilar y cuándo consultar con otro profesional.</p>
-        <p>No realizo diagnósticos médicos ni prescribo tratamientos. Estas consultas no sustituyen una valoración presencial y no son un servicio de urgencias. Si veo que hace falta una exploración, un diagnóstico o atención urgente, os lo diré con claridad para que acudáis al recurso sanitario adecuado.</p>
-      </aside>
 
       <div class="consultas__grid">
 
@@ -109,7 +103,7 @@ const CAL_PERSONALIZADA_URL = `${CAL_BASE_URL}/consulta-personalizada`;
               <li class="checklist--yes">Orientación práctica, realista y adaptada a vuestra familia.</li>
             </ul>
             <div class="consulta-card__footer">
-              <a href={CAL_EXPRESS_URL} class="btn btn--primary">Reservar duda concreta</a>
+              <button data-cal-link={`${CAL_USERNAME}/${CAL_EXPRESS_SLUG}`} data-cal-config='{"layout":"month_view"}' class="btn btn--primary">Reservar duda concreta</button>
             </div>
           </div>
         </details>
@@ -161,7 +155,7 @@ const CAL_PERSONALIZADA_URL = `${CAL_BASE_URL}/consulta-personalizada`;
               <li class="checklist--yes">Ajustes del plan según la evolución.</li>
             </ul>
             <div class="consulta-card__footer">
-              <a href={CAL_PERSONALIZADA_URL} class="btn btn--primary">Reservar consulta</a>
+              <button data-cal-link={`${CAL_USERNAME}/${CAL_PERSONALIZADA_SLUG}`} data-cal-config='{"layout":"month_view"}' class="btn btn--primary">Reservar consulta</button>
             </div>
           </div>
         </details>
@@ -172,31 +166,40 @@ const CAL_PERSONALIZADA_URL = `${CAL_BASE_URL}/consulta-personalizada`;
         <p>En las consultas por videollamada, tú eliges el día y la hora, y yo me preparo para que aprovechemos el tiempo al máximo.</p>
         <p class="consultas__note">Al reservar te pediré que me cuentes cuál es tu preocupación principal y la edad de tu peque. Así llego preparada y vamos directos a lo importante.</p>
       </div>
+
+      <p class="consultas__scope">Son consultas de enfermería, no consultas médicas de pediatría ni un servicio de urgencias. Consulta el <a href="/aviso-legal">alcance profesional</a>.</p>
     </div>
   </section>
-</Layout>
 
+  <!-- Cal.com popup -->
+  <script is:inline>
+    (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+    Cal("init", {origin:"https://cal.com"});
+    Cal("ui", {"styles":{"branding":{"brandColor":"#EE9496"}},"hideEventTypeDetails":false,"layout":"month_view","locale":"es"});
+  </script>
 
-<!-- Consulta por mensaje: checkout flow -->
-<script is:inline>
-  document.getElementById('btn-consulta-mensaje')?.addEventListener('click', async () => {
-    const btn = document.getElementById('btn-consulta-mensaje');
-    if (btn) btn.textContent = 'Procesando...';
-    try {
-      const res = await fetch('/api/checkout-consulta', { method: 'POST' });
-      const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        alert('Error al crear el pago. Inténtalo de nuevo.');
+  <!-- Consulta por mensaje: checkout flow -->
+  <script is:inline>
+    document.getElementById('btn-consulta-mensaje')?.addEventListener('click', async () => {
+      const btn = document.getElementById('btn-consulta-mensaje');
+      if (btn) btn.textContent = 'Procesando...';
+      try {
+        const res = await fetch('/api/checkout-consulta', { method: 'POST' });
+        const data = await res.json();
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          alert(data.error || 'Error al crear el pago. Inténtalo de nuevo.');
+          if (btn) btn.textContent = 'Consultar por mensaje';
+        }
+      } catch {
+        alert('Error de conexión. Inténtalo de nuevo.');
         if (btn) btn.textContent = 'Consultar por mensaje';
       }
-    } catch {
-      alert('Error de conexión. Inténtalo de nuevo.');
-      if (btn) btn.textContent = 'Consultar por mensaje';
-    }
-  });
-</script>
+    });
+  </script>
+</Layout>
+
 
 <style>
   .consultas {
@@ -227,32 +230,16 @@ const CAL_PERSONALIZADA_URL = `${CAL_BASE_URL}/consulta-personalizada`;
 
   .consultas__scope {
     max-width: 720px;
-    margin: 0 auto var(--spacing-xl);
-    padding: var(--spacing-lg);
-    background-color: var(--color-white);
-    border-left: 4px solid var(--color-coral);
-    border-radius: var(--radius-md);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    margin: var(--spacing-lg) auto 0;
+    color: var(--color-text-tertiary);
+    font-size: 0.78rem;
+    line-height: 1.6;
+    text-align: center;
   }
 
-  .consultas__scope h2 {
-    font-size: 1.2rem;
-    margin-bottom: var(--spacing-sm);
-  }
-
-  .consultas__scope p {
-    color: var(--color-text-secondary);
-    font-size: 0.9rem;
-    line-height: 1.7;
-    margin-bottom: var(--spacing-sm);
-  }
-
-  .consultas__scope p:last-child {
-    margin-bottom: 0;
-  }
-
-  .consultas__scope strong {
-    color: var(--color-text);
+  .consultas__scope a {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
   }
 
   .consultas__grid {
