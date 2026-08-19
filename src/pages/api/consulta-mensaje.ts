@@ -12,7 +12,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   const toEmail = import.meta.env.RESEND_TO_EMAIL;
   if (!resendKey || !fromEmail || !toEmail) {
     return new Response(
-      JSON.stringify({ error: 'Resend no está configurado.' }),
+      JSON.stringify({ error: 'El envío no está disponible ahora mismo. Inténtalo de nuevo más tarde.' }),
       { status: 503, headers: { 'Content-Type': 'application/json' } }
     );
   }
@@ -45,14 +45,20 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     );
   }
 
+  const stripe = new Stripe(stripeKey);
+  let session: Stripe.Checkout.Session;
+
   try {
-    const stripe = new Stripe(stripeKey);
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    session = await stripe.checkout.sessions.retrieve(sessionId);
     if (session.payment_status !== 'paid' || session.metadata?.type !== 'consulta-mensaje') {
       return new Response(
         JSON.stringify({ error: 'Pago no verificado.' }),
         { status: 403, headers: { 'Content-Type': 'application/json' } }
       );
+    }
+
+    if (session.metadata?.consultaEnviada === 'true') {
+      return redirect('/consulta-mensaje/enviado', 303);
     }
   } catch {
     return new Response(
@@ -81,22 +87,51 @@ export const POST: APIRoute = async ({ request, redirect }) => {
       replyTo: email,
       subject: `Consulta por mensaje de ${nombre} — pomelo.bby`,
       text: `Nueva consulta por mensaje\n\nNombre: ${nombre}\nEmail: ${email}\nEdad del bebé: ${edad}\n\n¿Qué le preocupa?\n${motivo}${contexto ? `\n\nContexto adicional\n${contexto}` : ''}`,
+    }, {
+      idempotencyKey: `consulta-mensaje-${sessionId}`,
     });
 
     if (error) {
-      console.error('Resend consultation error:', error.name);
+      console.error('Resend consultation error:', error.name, error.statusCode);
       return new Response(
         JSON.stringify({ error: 'No se pudo enviar la consulta.' }),
         { status: 502, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
+    try {
+      await stripe.checkout.sessions.update(sessionId, {
+        metadata: {
+          consultaEnviada: 'true',
+          consultaEnviadaAt: new Date().toISOString(),
+        },
+      });
+    } catch (error: unknown) {
+      console.error('Stripe consultation metadata error:', error instanceof Error ? error.name : 'UnknownError');
+    }
+
+    try {
+      const confirmation = await resend.emails.send({
+        from: fromEmail,
+        to: email,
+        subject: 'He recibido tu consulta — pomelo.bby',
+        text: `Hola, ${nombre}.\n\nHe recibido tu consulta correctamente. Te responderé a este correo en un plazo de 24-48 horas laborables.\n\nSi para valorar tu caso hacen falta fotos o vídeos, te explicaré el siguiente paso cuando te responda. No los envíes todavía.\n\nSi la situación empeora o crees que puede ser urgente, busca atención sanitaria sin esperar mi respuesta.\n\nGracias por confiar en pomelo.bby.`,
+      }, {
+        idempotencyKey: `consulta-mensaje-confirmacion-${sessionId}`,
+      });
+
+      if (confirmation.error) {
+        console.error('Resend consultation confirmation error:', confirmation.error.name, confirmation.error.statusCode);
+      }
+    } catch (error: unknown) {
+      console.error('Resend consultation confirmation exception:', error instanceof Error ? error.name : 'UnknownError');
+    }
+
     return redirect('/consulta-mensaje/enviado', 303);
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : 'Error desconocido';
-    console.error('Resend error:', message);
+    console.error('Resend consultation exception:', err instanceof Error ? err.name : 'UnknownError');
     return new Response(
-      JSON.stringify({ error: message }),
+      JSON.stringify({ error: 'No se pudo enviar la consulta.' }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }

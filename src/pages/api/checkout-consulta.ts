@@ -1,9 +1,10 @@
 import type { APIRoute } from 'astro';
 import Stripe from 'stripe';
+import { getSiteUrl } from '../../lib/site-url';
 
 export const prerender = false;
 
-export const POST: APIRoute = async () => {
+export const POST: APIRoute = async ({ request }) => {
   const stripeKey = import.meta.env.STRIPE_SECRET_KEY;
   if (!stripeKey || stripeKey === 'sk_test_PLACEHOLDER') {
     return new Response(
@@ -21,7 +22,7 @@ export const POST: APIRoute = async () => {
   }
 
   const stripe = new Stripe(stripeKey);
-  const siteURL = import.meta.env.SITE_URL ?? 'https://pomelo-bby-web.vercel.app';
+  const siteURL = getSiteUrl(request);
 
   try {
     const session = await stripe.checkout.sessions.create({
