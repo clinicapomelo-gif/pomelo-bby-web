@@ -66,6 +66,15 @@
   const message = document.querySelector<HTMLParagraphElement>('[data-newsletter-message]');
   const button = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
 
+  window.addEventListener('pageshow', () => {
+    if (!form || !message || !button) return;
+
+    form.hidden = false;
+    message.hidden = true;
+    button.disabled = false;
+    button.textContent = 'Quiero recibir El Chisme';
+  });
+
   form?.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (!message || !button) return;
