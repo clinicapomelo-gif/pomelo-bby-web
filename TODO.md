@@ -16,13 +16,13 @@ Lista operativa resumida. Los procedimientos detallados están en:
 - El nombre es obligatorio en los formularios de la guía gratuita y El Chisme para personalizar los correos.
 - Resend gestionará correo transaccional y marketing. El doble opt-in usará un token cifrado sin Supabase; Supabase se reserva para necesidades persistentes reales.
 - Los PDF se alojarán en el Vercel Blob privado conectado al proyecto: la guía gratuita se servirá mediante una URL estable de la web y las guías de pago tras verificar la compra.
-- Las cinco guías de pago seguirán como “Próximamente” hasta que cada PDF, cobro y entrega estén probados.
+- La tienda solo mostrará la guía gratuita y las guías de pago que ya tengan PDF, Product ID y Price ID configurados. Las ideas futuras no aparecerán como “Próximamente”.
 - El enlace de una guía de pago caduca actualmente 30 días después de la compra. El PDF descargado no caduca.
 
 ## Estado comprobado
 
 - El catálogo, el lead magnet, las consultas y la infraestructura de entrega de guías están integrados en `main`.
-- El PDF del lead magnet ya está en el Vercel Blob privado; las cinco guías de pago todavía no tienen PDF definitivo configurado.
+- Los cinco PDF están en el almacén privado `pomelo-bby-recursos`. Las cuatro guías de pago tienen `blobKey`, Product ID y Price ID y están marcadas como disponibles en el catálogo; sigue pendiente probar el flujo completo.
 - El doble opt-in está probado en Preview de extremo a extremo: solicitud, email, página sin efectos, confirmación, alta en Resend y descarga. Falta probar baja, reutilización del enlace y nueva alta.
 - El flujo sandbox de Cuéntame por correo funciona de extremo a extremo por 19 €: Stripe vuelve al formulario pagado y Resend entrega el caso.
 - La prueba con `resend.dev` llegó a spam, algo esperable por usar un remitente compartido y un enlace de localhost. La entregabilidad real sigue pendiente del dominio verificado y enlaces HTTPS públicos.
@@ -178,16 +178,42 @@ Stripe puede seguir en sandbox durante el desarrollo. Antes de aceptar pagos rea
 
 ---
 
-# 5. Primera guía de pago — no bloquea la web inicial
+# 5. Activar las nuevas guías de pago — no bloquea la web inicial
 
-- [ ] **[Mar]** Elegir la primera guía y crear contenido, fuente editable, bibliografía, PDF, portada y descripción final.
+## Productos y precios acordados
+
+- [x] **[Dev]** Añadir al catálogo como disponibles:
+  - Recomendaciones generales para el recién nacido — **3,99 €**.
+  - Conservación de la leche materna — **3,99 €**.
+  - Pomada de aceite de uva — **3,99 €**.
+  - La guía definitiva para empezar a comer — **17,99 €**.
+- [x] **[Mar]** Subir los cuatro PDF de pago al Vercel Blob privado.
+- [x] **[Dev]** Comprobar que los cinco archivos de `pomelo-bby-recursos` son privados, coinciden en nombre y tamaño con los PDF locales y configurar los cuatro `blobKey`.
+- [ ] **[Mar + gestoría]** Confirmar que **3,99 €** y **17,99 €** son precios finales y cómo se tratan los impuestos y la facturación.
 - [ ] **[Mar]** Confirmar si se mantienen los 30 días actuales de acceso al enlace de descarga.
-- [ ] **[Mar + Dev]** Crear el producto y Price en Stripe test, subir el PDF a Vercel Blob privado y configurar sus referencias en `src/data/guias.ts`.
-- [ ] **[Dev]** Configurar webhook, Resend y Blob en Preview y Production.
-- [ ] **[Mar + Dev]** Probar pago, un único email, reintento del webhook, descarga, caducidad y soporte.
-- [ ] **[Dev]** Cambiar la guía a `available` solo después de una compra real controlada.
 
-Las otras cuatro guías repetirán este proceso cuando sus contenidos estén terminados.
+## Datos que Mar debe copiar de los paneles
+
+- [x] **[Dev]** Obtener y configurar el pathname o `blobKey` de cada PDF sin guardar URLs privadas ni credenciales.
+- [x] **[Mar]** Crear en Stripe los cuatro productos y pasar sus Product ID (`prod_...`) a desarrollo.
+- [ ] **[Mar]** Confirmar que están en **modo test** y que cada producto tiene un precio único en EUR con el importe indicado.
+- [x] **[Mar]** Copiar los cuatro Price ID (`price_...`). El código cobra mediante el **Price ID**; el importe visible en la web y el Product ID no controlan el cobro.
+- [x] **[Mar]** Pasar a desarrollo los cuatro Price ID, identificando a qué guía pertenece cada uno, sin compartir claves de Stripe.
+
+## Conexión y prueba técnica
+
+- [x] **[Dev]** Añadir los cuatro `stripeProductId` en `src/data/guias.ts`.
+- [x] **[Dev]** Añadir los cuatro `stripePriceId` recibidos en `src/data/guias.ts`.
+- [ ] **[Dev]** Verificar que Stripe, el webhook, Resend y Blob están configurados en Preview. No hace falta crear un webhook distinto para cada guía.
+- [ ] **[Mar + Dev]** Probar cada guía de extremo a extremo: pago test, un único email, reintento del webhook, descarga del PDF correcto, página de gracias y errores seguros.
+- [x] **[Dev]** Marcar como `available` las cuatro guías que ya tienen Blob, Product ID y Price ID, según la decisión de catálogo de Mar.
+
+## Paso a cobros reales
+
+- [ ] **[Mar]** Tras superar las pruebas y cerrar fiscalidad y condiciones, repetir los cuatro productos y precios en Stripe **modo live**.
+- [ ] **[Dev]** Sustituir los IDs de test por los IDs live, hacer una compra real controlada de cada guía y desplegar.
+
+Las futuras guías se añadirán al catálogo únicamente cuando tengan PDF, Product ID y Price ID.
 
 ---
 
