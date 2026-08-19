@@ -3,13 +3,15 @@
 ## Documentación operativa
 
 - [Compra y entrega de guías de pago](docs/guias-de-pago.md)
+- [Configuración de Resend](docs/configuracion-resend.md)
+- [Arquitectura de doble opt-in](docs/arquitectura-doble-opt-in.md)
 - [Estrategia de Blog, El Chisme de Mar y guía gratuita](docs/estrategia-blog-y-el-chisme.md)
 
 ## Lead magnet: “25 cosas normales en los bebés”
 
 ### Estado actual
 
-La página, el formulario y el envío desde el servidor están implementados, pero la integración externa está **pendiente de configurar**. Mientras no se complete, un envío válido mostrará “Ahora mismo no he podido guardar tu suscripción. Inténtalo de nuevo en unos minutos”. Es el comportamiento esperado: la web no debe confirmar una entrega que no ha podido realizar.
+La página, el formulario y el envío desde el servidor están implementados, pero la integración externa está **pendiente de configurar**. Resend gestionará tanto los correos transaccionales como El Chisme mediante Contactos globales, Segmentos, Topics, Broadcasts y Automations. Mientras no se complete, un envío válido mostrará “Ahora mismo no he podido guardar tu suscripción. Inténtalo de nuevo en unos minutos”. Es el comportamiento esperado: la web no debe confirmar una entrega que no ha podido realizar.
 
 ### Pendiente antes de publicar
 
@@ -18,10 +20,12 @@ La lista operativa y legal completa está en [`TODO.md`](./TODO.md). No debe pub
 ### Variables necesarias
 
 - `RESEND_API_KEY`: clave privada de Resend.
-- `RESEND_AUDIENCE_ID`: Audience donde se crea o actualiza el contacto.
+- `RESEND_NEWSLETTER_SEGMENT_ID`: segmento interno con todas las personas de El Chisme.
+- `RESEND_NEWSLETTER_TOPIC_ID`: Topic público que controla la preferencia de El Chisme.
+- `NEWSLETTER_CONFIRMATION_SECRET`: clave aleatoria de 32 bytes para cifrar enlaces de confirmación.
 - `RESEND_FROM_EMAIL`: remitente verificado, con el formato `pomelo.bby <correo@dominio-verificado>`.
 - `RESEND_TO_EMAIL`: buzón profesional que recibe contacto y consultas.
-- `LEAD_MAGNET_25_COSAS_URL`: URL real y estable del PDF.
+- `BLOB_STORE_ID` y `VERCEL_OIDC_TOKEN`: acceso al Blob privado; Vercel los proporciona al conectar el store en cada entorno.
 - `SITE_URL`: URL pública de la web usada para validar el origen de las solicitudes.
 
-No se deben guardar secretos en Git ni configurar una URL ficticia para el PDF. La guía y “El Chisme de Mar” tienen páginas diferentes, pero solicitar la guía también da de alta el contacto en la newsletter, tal como explican el texto y el CTA del formulario. La cadencia editorial acordada es quincenal.
+No se deben guardar secretos en Git ni exponer la URL privada del PDF. La guía y “El Chisme de Mar” tienen páginas diferentes, pero solicitar la guía también da de alta el contacto en la newsletter, tal como explican el texto y el CTA del formulario. La cadencia editorial acordada es quincenal.

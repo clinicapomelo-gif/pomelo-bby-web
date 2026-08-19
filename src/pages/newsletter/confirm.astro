@@ -1,0 +1,86 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { decryptNewsletterConfirmation } from '../../lib/newsletter-confirmation';
+
+export const prerender = false;
+
+const token = Astro.url.searchParams.get('token') || '';
+const error = Astro.url.searchParams.get('error');
+let source: 'newsletter' | 'lead_magnet_25_cosas' | undefined;
+
+if (!error && token && import.meta.env.NEWSLETTER_CONFIRMATION_SECRET) {
+  try {
+    source = decryptNewsletterConfirmation(token, import.meta.env.NEWSLETTER_CONFIRMATION_SECRET).source;
+  } catch {
+    source = undefined;
+  }
+}
+
+const temporary = error === 'temporary';
+---
+
+<Layout title="Confirma tu correo" description="Confirma tu correo para unirte a El Chisme de Mar." noindex={true}>
+  <section class="confirmation">
+    <div class="container">
+      <div class="confirmation__content">
+        {source ? (
+          <>
+            <p class="confirmation__icon" aria-hidden="true">💌</p>
+            <h1>Solo falta confirmar</h1>
+            <p>
+              {source === 'lead_magnet_25_cosas'
+                ? 'Pulsa el botón para confirmar tu correo y descargar la guía.'
+                : 'Pulsa el botón para confirmar tu correo y unirte a El Chisme de Mar.'}
+            </p>
+            <form method="POST" action="/api/newsletter/confirm">
+              <input type="hidden" name="token" value={token} />
+              <button type="submit" class="btn btn--primary">
+                {source === 'lead_magnet_25_cosas'
+                  ? 'Confirmar y descargar la guía'
+                  : 'Confirmar mi suscripción'}
+              </button>
+            </form>
+          </>
+        ) : (
+          <>
+            <h1>{temporary ? 'No he podido confirmar tu correo' : 'Este enlace ya no es válido'}</h1>
+            <p>
+              {temporary
+                ? 'Ha ocurrido un problema temporal. Puedes volver a intentarlo desde el email dentro de unos minutos.'
+                : 'Puede que el enlace haya caducado. Vuelve a solicitarlo para continuar.'}
+            </p>
+            <a href="/newsletter" class="btn btn--primary">Solicitar otro enlace</a>
+          </>
+        )}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .confirmation {
+    min-height: 60vh;
+    padding: var(--spacing-xl) 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .confirmation__content {
+    max-width: 550px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .confirmation__icon {
+    font-size: 3rem;
+  }
+
+  .confirmation h1,
+  .confirmation p {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .confirmation p {
+    color: var(--color-text-secondary);
+  }
+</style>

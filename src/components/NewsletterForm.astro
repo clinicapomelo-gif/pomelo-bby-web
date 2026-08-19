@@ -25,14 +25,20 @@
               data-error-invalid="Revisa el correo. Debe tener un formato como nombre@correo.com."
             />
           </div>
-          <input
-            type="text"
-            name="nombre"
-            placeholder="Tu nombre (opcional)"
-            class="newsletter__input"
-            id="newsletter-nombre"
-            aria-label="Nombre"
-          />
+          <div class="newsletter__field" data-validation-field>
+            <input
+              type="text"
+              name="nombre"
+              placeholder="Tu nombre"
+              class="newsletter__input"
+              id="newsletter-nombre"
+              aria-label="Nombre"
+              autocomplete="given-name"
+              maxlength="100"
+              required
+              data-error-required="Escribe tu nombre para que pueda personalizar tus correos."
+            />
+          </div>
           <button type="submit" class="btn btn--primary newsletter__btn">Suscribirme</button>
         </div>
 
@@ -70,7 +76,7 @@
       if (res.ok) {
         form.hidden = true;
         message.hidden = false;
-        message.textContent = 'Hecho. Ya formas parte de El Chisme de Mar.';
+        message.textContent = '¡Hecho! Revisa tu correo y confirma tu dirección para unirte a El Chisme.';
         message.className = 'newsletter__message newsletter__message--success';
       } else {
         const { error } = await res.json();

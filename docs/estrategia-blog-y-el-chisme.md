@@ -48,7 +48,7 @@ Decisiones de UX:
 - El recurso se denomina públicamente **guía gratuita**. “PDF” describe solo el formato y “ebook” puede crear una expectativa equivocada.
 - El CTA es **“Quiero la guía y unirme al Chisme”**.
 - La casilla obligatoria se dedica únicamente a la política de privacidad.
-- El nombre es opcional y se utiliza para personalizar el saludo de los correos.
+- El nombre es obligatorio y se utiliza para personalizar el saludo de los correos.
 - La persona puede darse de baja de forma sencilla cuando quiera.
 - Las páginas permanecen separadas:
   - `/recursos/25-cosas-normales-bebes`

@@ -47,8 +47,8 @@ const { heading = 'h2' } = Astro.props;
             />
           </div>
 
-          <div class="lead-magnet__field">
-            <label for="lead-magnet-nombre">Nombre <span>(opcional)</span></label>
+          <div class="lead-magnet__field" data-validation-field>
+            <label for="lead-magnet-nombre">Nombre</label>
             <input
               id="lead-magnet-nombre"
               type="text"
@@ -56,6 +56,8 @@ const { heading = 'h2' } = Astro.props;
               placeholder="Tu nombre"
               autocomplete="given-name"
               maxlength="100"
+              required
+              data-error-required="Escribe tu nombre para que pueda personalizar tus correos."
             />
           </div>
 
@@ -107,7 +109,7 @@ const { heading = 'h2' } = Astro.props;
       }
 
       form.hidden = true;
-      message.textContent = '¡Hecho! Te he enviado la guía. Revisa también las carpetas de spam o promociones.';
+      message.textContent = '¡Hecho! Revisa tu correo y confirma tu dirección para descargar la guía.';
       message.className = 'lead-magnet__message lead-magnet__message--success';
     } catch (error) {
       button.disabled = false;

@@ -1,10 +1,14 @@
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
+import { encryptNewsletterConfirmation } from '../../lib/newsletter-confirmation';
+import { getSiteUrl } from '../../lib/site-url';
 
 export const prerender = false;
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const LEAD_MAGNET_ID = '25-cosas-normales-bebes';
+const CONSENT_VERSION = 'newsletter_v1';
+const CONFIRMATION_TTL_MS = 48 * 60 * 60 * 1000;
 const JSON_HEADERS = { 'Content-Type': 'application/json' };
 
 const jsonResponse = (body: object, status = 200) =>
@@ -86,110 +90,99 @@ export const POST: APIRoute = async ({ request }) => {
 
   const cleanEmail = email?.trim().toLowerCase();
   if (!cleanEmail) {
-    const error = isLeadMagnet
-      ? 'Escribe tu correo para que pueda enviarte la guía.'
-      : 'Escribe tu correo para apuntarte a El Chisme de Mar.';
-    return jsonResponse({ error }, 400);
+    return jsonResponse({
+      error: isLeadMagnet
+        ? 'Escribe tu correo para que pueda enviarte la guía.'
+        : 'Escribe tu correo para apuntarte a El Chisme de Mar.',
+    }, 400);
   }
 
   if (cleanEmail.length > 254 || !EMAIL_REGEX.test(cleanEmail)) {
     return jsonResponse({ error: 'Revisa el correo. Debe tener un formato como nombre@correo.com.' }, 400);
   }
 
+  const cleanNombre = nombre?.trim();
+  if (!cleanNombre || cleanNombre.length > 100) {
+    return jsonResponse({ error: 'Escribe un nombre válido para personalizar tus correos.' }, 400);
+  }
+
   if (!privacy || !['on', 'true', '1'].includes(privacy)) {
-    const error = isLeadMagnet
-      ? 'Necesito que aceptes la política de privacidad para enviarte la guía.'
-      : 'Necesito que aceptes la política de privacidad para completar la suscripción.';
-    return jsonResponse({ error }, 400);
+    return jsonResponse({
+      error: isLeadMagnet
+        ? 'Necesito que aceptes la política de privacidad para enviarte la guía.'
+        : 'Necesito que aceptes la política de privacidad para completar la suscripción.',
+    }, 400);
   }
 
   const resendKey = import.meta.env.RESEND_API_KEY;
-  const audienceId = import.meta.env.RESEND_AUDIENCE_ID;
-  if (!resendKey || !audienceId) {
-    return jsonResponse({ error: 'Ahora mismo no he podido guardar tu suscripción. Inténtalo de nuevo en unos minutos.' }, 503);
+  const sender = import.meta.env.RESEND_FROM_EMAIL?.trim();
+  const confirmationSecret = import.meta.env.NEWSLETTER_CONFIRMATION_SECRET;
+  if (
+    !resendKey || !sender || !confirmationSecret ||
+    !import.meta.env.RESEND_NEWSLETTER_SEGMENT_ID ||
+    !import.meta.env.RESEND_NEWSLETTER_TOPIC_ID
+  ) {
+    return jsonResponse({ error: 'Ahora mismo no he podido iniciar la suscripción. Inténtalo de nuevo en unos minutos.' }, 503);
   }
 
-  let downloadUrl: URL | undefined;
-  let sender: string | undefined;
-
-  if (isLeadMagnet) {
-    sender = import.meta.env.RESEND_FROM_EMAIL?.trim();
-    const configuredDownloadUrl = import.meta.env.LEAD_MAGNET_25_COSAS_URL?.trim();
-
-    try {
-      downloadUrl = configuredDownloadUrl ? new URL(configuredDownloadUrl) : undefined;
-      if (!downloadUrl || !['http:', 'https:'].includes(downloadUrl.protocol)) throw new Error();
-    } catch {
-      return jsonResponse({ error: 'La guía todavía no está disponible. Inténtalo de nuevo más tarde.' }, 503);
-    }
-
-    if (!sender) {
-      return jsonResponse({ error: 'El envío de la guía no está disponible ahora mismo.' }, 503);
-    }
-  }
-
-  const resend = new Resend(resendKey);
-  const cleanNombre = nombre?.trim().slice(0, 100) || undefined;
+  const consentedAt = new Date().toISOString();
+  let confirmationUrl: URL;
 
   try {
-    let contactError = (await resend.contacts.update({
+    const token = encryptNewsletterConfirmation({
       email: cleanEmail,
-      firstName: cleanNombre,
-      unsubscribed: false,
-      audienceId,
-    })).error;
+      name: cleanNombre,
+      source: isLeadMagnet ? 'lead_magnet_25_cosas' : 'newsletter',
+      consentVersion: CONSENT_VERSION,
+      consentedAt,
+      expiresAt: Date.now() + CONFIRMATION_TTL_MS,
+    }, confirmationSecret);
 
-    if (contactError?.name === 'not_found') {
-      contactError = (await resend.contacts.create({
-        email: cleanEmail,
-        firstName: cleanNombre,
-        unsubscribed: false,
-        audienceId,
-      })).error;
-    }
+    confirmationUrl = new URL('/newsletter/confirm', getSiteUrl(request));
+    confirmationUrl.searchParams.set('token', token);
+  } catch (error) {
+    console.error('Newsletter confirmation token error:', error instanceof Error ? error.name : 'UnknownError');
+    return jsonResponse({ error: 'Ahora mismo no he podido iniciar la suscripción. Inténtalo de nuevo en unos minutos.' }, 503);
+  }
 
-    if (contactError) {
-      console.error('Resend contact operation failed', contactError.name, contactError.statusCode);
-      return jsonResponse({ error: 'No se pudo completar la suscripción. Inténtalo de nuevo.' }, 502);
-    }
+  const safeUrl = escapeHtml(confirmationUrl.href);
+  const greeting = `Hola, ${escapeHtml(cleanNombre)}.`;
+  const action = isLeadMagnet ? 'Confirmar y descargar la guía' : 'Confirmar mi suscripción';
+  const subject = isLeadMagnet
+    ? 'Confirma tu correo y descarga la guía'
+    : 'Confirma tu suscripción a El Chisme de Mar';
 
-    if (isLeadMagnet && downloadUrl && sender) {
-      const safeDownloadUrl = escapeHtml(downloadUrl.href);
-      const greeting = cleanNombre ? `Hola, ${escapeHtml(cleanNombre)}.` : 'Hola.';
-      const emailResult = await resend.emails.send({
-        from: sender,
-        to: cleanEmail,
-        subject: 'Aquí tienes tu guía: 25 cosas normales en los bebés',
-        text: `${cleanNombre ? `Hola, ${cleanNombre}.` : 'Hola.'}\n\nGracias por confiar en pomelo.bby. Aquí tienes «25 cosas normales en los bebés»:\n${downloadUrl.href}\n\nAl pedir la guía también te has unido a El Chisme de Mar. Cada dos semanas te escribiré con historias reales, respuestas tranquilas y acompañamiento sin ruido.\n\nEn cada email encontrarás la opción para darte de baja cuando quieras.\n\nEste recurso es informativo y no sustituye la valoración de un profesional sanitario.`,
-        html: `
-          <div style="font-family: Arial, sans-serif; color: #2d2d2d; line-height: 1.6; max-width: 600px; margin: 0 auto;">
-            <h1 style="font-size: 24px;">Aquí tienes tu guía</h1>
-            <p>${greeting}</p>
-            <p>Gracias por confiar en pomelo.bby.</p>
-            <p>He preparado <strong>25 cosas normales en los bebés</strong> para ayudarte a entender, con calma y en palabras sencillas, algunas situaciones habituales.</p>
-            <p style="margin: 28px 0;">
-              <a href="${safeDownloadUrl}" style="background: #ee9496; border-radius: 8px; color: #ffffff; display: inline-block; font-weight: bold; padding: 12px 20px; text-decoration: none;">Descargar la guía gratis</a>
-            </p>
-            <p>Si el botón no funciona, puedes abrir este enlace:</p>
-            <p><a href="${safeDownloadUrl}">${safeDownloadUrl}</a></p>
-            <p>Al pedir la guía también te has unido a <strong>El Chisme de Mar</strong>. Cada dos semanas te escribiré con historias reales, respuestas tranquilas y acompañamiento sin ruido.</p>
-            <p>En cada email encontrarás la opción para darte de baja cuando quieras.</p>
-            <p style="font-size: 13px; color: #5a5a5a; margin-top: 28px;">Este recurso es informativo y no sustituye la valoración de un profesional sanitario.</p>
-          </div>
-        `,
-      });
+  try {
+    const result = await new Resend(resendKey).emails.send({
+      from: sender,
+      to: cleanEmail,
+      subject,
+      text: `Hola, ${cleanNombre}.\n\nConfirma tu correo para ${isLeadMagnet ? 'descargar «25 cosas normales en los bebés» y unirte' : 'unirte'} a El Chisme de Mar:\n${confirmationUrl.href}\n\nEl enlace caduca en 48 horas. Si no has solicitado este email, puedes ignorarlo.`,
+      html: `
+        <div style="font-family: Arial, sans-serif; color: #2d2d2d; line-height: 1.6; max-width: 600px; margin: 0 auto;">
+          <h1 style="font-size: 24px;">Confirma tu correo</h1>
+          <p>${greeting}</p>
+          <p>${isLeadMagnet ? 'Confirma tu dirección para descargar <strong>25 cosas normales en los bebés</strong> y unirte a El Chisme de Mar.' : 'Solo falta confirmar tu dirección para unirte a El Chisme de Mar.'}</p>
+          <p style="margin: 28px 0;">
+            <a href="${safeUrl}" style="background: #ef6e71; border-radius: 8px; color: #2d2d2d; display: inline-block; font-weight: bold; padding: 12px 20px; text-decoration: none;">${action}</a>
+          </p>
+          <p>El enlace caduca en 48 horas. Si no has solicitado este email, puedes ignorarlo.</p>
+        </div>
+      `,
+    }, {
+      idempotencyKey: `newsletter-confirm-${confirmationUrl.searchParams.get('token')?.slice(-32)}`,
+    });
 
-      if (emailResult.error) {
-        console.error('Resend lead magnet email failed', emailResult.error.name, emailResult.error.statusCode);
-        return jsonResponse({ error: 'No se pudo enviar la guía. Inténtalo de nuevo.' }, 502);
-      }
+    if (result.error) {
+      console.error('Resend confirmation email failed', result.error.name, result.error.statusCode);
+      return jsonResponse({ error: 'No se pudo enviar el correo de confirmación. Inténtalo de nuevo.' }, 502);
     }
 
     return expectsJson
       ? jsonResponse({ success: true })
       : Response.redirect(new URL(successUrl, request.url), 303);
-  } catch {
-    console.error('Resend subscription request failed');
-    return jsonResponse({ error: 'No se pudo completar la solicitud. Inténtalo de nuevo.' }, 502);
+  } catch (error) {
+    console.error('Resend confirmation exception:', error instanceof Error ? error.name : 'UnknownError');
+    return jsonResponse({ error: 'No se pudo enviar el correo de confirmación. Inténtalo de nuevo.' }, 502);
   }
 };

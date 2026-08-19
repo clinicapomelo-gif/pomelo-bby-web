@@ -1,0 +1,44 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Suscripción confirmada" description="Te has suscrito a El Chisme de Mar." noindex={true}>
+  <section class="confirmation">
+    <div class="container">
+      <div class="confirmation__content">
+        <p class="confirmation__icon" aria-hidden="true">💌</p>
+        <h1>Ya formas parte de El Chisme</h1>
+        <p>Gracias por confirmar tu correo. Nos leemos cada dos semanas.</p>
+        <a href="/" class="btn btn--primary">Volver al inicio</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .confirmation {
+    min-height: 60vh;
+    padding: var(--spacing-xl) 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .confirmation__content {
+    max-width: 550px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .confirmation__icon {
+    font-size: 3rem;
+  }
+
+  .confirmation h1,
+  .confirmation p {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .confirmation p {
+    color: var(--color-text-secondary);
+  }
+</style>

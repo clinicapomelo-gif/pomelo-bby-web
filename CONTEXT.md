@@ -19,7 +19,7 @@ Sesión de videollamada individual entre Mar y un cliente. Se reserva y paga en 
 Recurso gratuito (una Guía) que se entrega a cambio del email del visitante. Es el mecanismo principal de captación de suscriptores para la lista de email marketing.
 
 ### Suscriptor
-Persona que ha dejado su email a través del lead magnet o de cualquier formulario de la web. Gestionado en Kit (ConvertKit).
+Persona que se ha dado de alta expresamente a través del lead magnet o del formulario de El Chisme de Mar. Se gestiona como Contacto de Resend; Contacto y Consultas no producen un alta de marketing.
 
 ### Draft
 Post escrito y guardado en el repo pero no publicado. Se controla con el campo `draft: true` en el frontmatter. Permite preparar contenido sin publicarlo hasta estar listo.
@@ -38,7 +38,7 @@ Mar Vall Requena. Enfermera infantil con especialidad en pediatría y neonatal. 
 Persona que llega a la web sin haber comprado ni dejado su email. Objetivo: convertirlo en Suscriptor o Cliente.
 
 ### Suscriptor
-Visitante que ha dejado su email. Recibe el lead magnet y entra en la secuencia de email marketing de Kit.
+Visitante que ha aceptado un alta de marketing. Recibe el lead magnet cuando corresponda y entra en las comunicaciones de El Chisme gestionadas con Resend.
 
 ### Cliente
 Persona que ha comprado una Guía o reservado una Consulta 1:1.
