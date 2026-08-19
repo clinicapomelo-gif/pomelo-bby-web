@@ -157,12 +157,16 @@ const currentPath = Astro.url.pathname;
           <a href="https://instagram.com/pomelo.bby" target="_blank" rel="noopener noreferrer">Instagram</a>
           <a href="mailto:hola@pomelobby.com">hola@pomelobby.com</a>
         </div>
-        <div class="footer__legal">
+        <p class="footer__health-note">Contenido elaborado por una profesional de enfermería infantil y basado en evidencia científica y recomendaciones sanitarias actualizadas. Los contenidos generales no sustituyen una valoración sanitaria individualizada.</p>
+        <nav class="footer__legal" aria-label="Enlaces legales">
           <a href="/aviso-legal">Aviso legal</a>
-          <a href="/proteccion-datos">Protección de datos</a>
-          <a href="/cookies">Política de cookies</a>
-          <a href="/condiciones-venta">Condiciones de venta</a>
-        </div>
+          <span aria-hidden="true">·</span>
+          <a href="/proteccion-datos">Privacidad</a>
+          <span aria-hidden="true">·</span>
+          <a href="/cookies">Cookies</a>
+          <span aria-hidden="true">·</span>
+          <a href="/condiciones-venta">Condiciones de compra</a>
+        </nav>
         <p class="footer__copy">&copy; {new Date().getFullYear()} pomelo.bby</p>
       </div>
     </footer>
@@ -287,16 +291,29 @@ const currentPath = Astro.url.pathname;
     font-weight: 500;
   }
 
+  .footer__health-note {
+    max-width: 780px;
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    line-height: 1.7;
+  }
+
   .footer__legal {
     display: flex;
-    gap: var(--spacing-md);
-    flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
   }
 
   .footer__legal a {
     color: var(--color-text-secondary);
     font-size: 0.8rem;
+  }
+
+  .footer__legal span {
+    color: var(--color-text-tertiary);
   }
 
   .footer__legal a:hover {
