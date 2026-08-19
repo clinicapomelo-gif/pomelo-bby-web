@@ -54,7 +54,7 @@
       </label>
     </div>
 
-    <button type="submit" class="btn newsletter-card__button">Quiero recibir El Chisme</button>
+    <button type="submit" class="btn btn--primary newsletter-card__button">Quiero recibir El Chisme</button>
   </form>
 
   <p class="newsletter-card__message" data-newsletter-message aria-live="polite" tabindex="-1" hidden></p>
@@ -105,8 +105,8 @@
   .newsletter-card {
     padding: clamp(var(--spacing-md), 4vw, var(--spacing-lg));
     background-color: var(--color-nude);
-    border: 1px solid var(--color-border);
-    border-top: 4px solid var(--color-coral-hover);
+    border: 1px solid var(--color-peach);
+    border-top: 4px solid var(--color-coral);
     border-radius: var(--radius-md);
   }
 
@@ -150,7 +150,7 @@
   }
 
   .newsletter-card__field input:focus {
-    border-color: var(--color-coral-hover);
+    border-color: var(--color-coral);
   }
 
   .newsletter-card__privacy {
@@ -168,11 +168,11 @@
     height: 1rem;
     flex: 0 0 auto;
     margin-top: 0.2rem;
-    accent-color: var(--color-coral-hover);
+    accent-color: var(--color-coral);
   }
 
   .newsletter-card__privacy a {
-    color: var(--color-coral-hover);
+    color: var(--color-coral);
     font-weight: 600;
     text-decoration: underline;
   }
@@ -180,13 +180,6 @@
   .newsletter-card__button {
     width: 100%;
     min-height: 48px;
-    background-color: var(--color-coral-hover);
-    color: var(--color-white);
-  }
-
-  .newsletter-card__button:hover {
-    background-color: var(--color-text);
-    color: var(--color-white);
   }
 
   .newsletter-card__button:disabled {
@@ -198,7 +191,7 @@
   .newsletter-card__button:focus-visible,
   .newsletter-card__privacy input:focus-visible,
   .newsletter-card__privacy a:focus-visible {
-    outline-color: var(--color-coral-hover);
+    outline-color: var(--color-coral);
   }
 
   .newsletter-card__message {
@@ -212,11 +205,13 @@
   }
 
   .newsletter-card__message--success {
-    color: #23623d;
+    border-left: 4px solid var(--color-green);
+    color: var(--color-text);
   }
 
   .newsletter-card__message--error {
-    color: var(--color-coral-hover);
+    border-left: 4px solid var(--color-coral);
+    color: var(--color-text);
   }
 
   .newsletter-card__note {

@@ -59,9 +59,9 @@ import NewsletterForm from '../../components/NewsletterForm.astro';
     padding: clamp(var(--spacing-lg), 5vw, var(--spacing-xl));
     overflow: hidden;
     background-color: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    box-shadow: 0 12px 36px rgba(45, 45, 45, 0.08);
+    border: 1px solid var(--color-peach);
+    border-radius: var(--radius-md) 4rem var(--radius-md) var(--radius-md);
+    box-shadow: 0 12px 36px rgba(45, 45, 45, 0.06);
   }
 
   .newsletter-landing__intro {
@@ -70,7 +70,7 @@ import NewsletterForm from '../../components/NewsletterForm.astro';
 
   .newsletter-landing__eyebrow {
     margin-bottom: var(--spacing-sm);
-    color: var(--color-coral-hover);
+    color: var(--color-coral);
     font-size: 0.78rem;
     font-weight: 700;
     letter-spacing: 0.1em;
@@ -84,7 +84,7 @@ import NewsletterForm from '../../components/NewsletterForm.astro';
 
   .newsletter-landing__hook {
     margin-bottom: var(--spacing-md);
-    color: var(--color-coral-hover);
+    color: var(--color-coral);
     font-size: clamp(1.05rem, 2vw, 1.2rem);
     font-weight: 700;
     line-height: 1.5;
@@ -132,8 +132,8 @@ import NewsletterForm from '../../components/NewsletterForm.astro';
     height: 1.15rem;
     place-items: center;
     border-radius: 50%;
-    background-color: var(--color-nude);
-    color: var(--color-coral-hover);
+    background-color: var(--color-peach);
+    color: var(--color-text);
     font-size: 0.72rem;
     font-weight: 700;
   }
