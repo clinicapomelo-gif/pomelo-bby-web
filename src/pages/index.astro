@@ -40,43 +40,74 @@ const categoryColors: Record<string, { bg: string; accent: string }> = {
         <p class="hero__promise">Salud infantil y crianza, sin dramas, sin culpa y sin perderte entre 200 consejos de Instagram.</p>
         <p class="hero__tagline">Soy enfermera. Te ayudo a separar el ruido de lo importante, entender qué está pasando y saber cuál puede ser el siguiente paso, con calma y en palabras normales.</p>
         <div class="hero__cta">
-          <a href="/consultas" class="btn btn--primary">Quiero hablar con Mar</a>
-          <a href="#guia-gratuita" class="btn btn--secondary">Quiero la guía gratuita</a>
+          <a href="#consultas" class="btn btn--primary">Ver las consultas</a>
+          <a href="#guia-gratuita" class="btn btn--secondary">Descargar la guía gratuita</a>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Consultas -->
-  <section class="home-consultations" aria-labelledby="home-consultations-title">
+  <section id="consultas" class="home-consultations" aria-labelledby="home-consultations-title">
     <div class="container">
-      <div class="home-consultations__intro">
-        <p class="home-consultations__eyebrow">Orientación para vuestra familia</p>
-        <h2 id="home-consultations-title">¿Necesitas ayuda con una situación concreta?</h2>
-        <p>No siempre necesitas leer otro artículo. A veces necesitas contarme qué está pasando, ordenar toda la información y saber qué observar y cuál puede ser el siguiente paso.</p>
-        <p>Puedes consultarme dudas sobre cuidados, alimentación, sueño, desarrollo y crianza. Recibirás una orientación de enfermería clara, práctica y adaptada a vuestra familia.</p>
+      <div class="home-consultations__header">
+        <div>
+          <p class="home-consultations__eyebrow">Consultas con Mar</p>
+          <h2 id="home-consultations-title">No todas las dudas necesitan lo mismo</h2>
+        </div>
+        <p class="home-consultations__lead">A veces basta con una respuesta por escrito. Otras ayuda poder hablarlo con calma. Y algunas situaciones necesitan ordenar varias piezas y hacer seguimiento. Elige el formato que mejor encaje con vuestra familia.</p>
       </div>
+
       <ul class="home-consultations__options" aria-label="Modalidades de consulta">
         <li>
-          <h3>Cuéntame por correo</h3>
-          <p>Una duda por escrito</p>
-          <strong>19 €</strong>
+          <a href="/consultas" class="home-consultations__card home-consultations__card--email" aria-label="Ver los detalles de Cuéntame por correo">
+            <div class="home-consultations__card-top">
+              <span class="home-consultations__format">Por correo</span>
+              <span class="home-consultations__number" aria-hidden="true">01</span>
+            </div>
+            <h3>Tengo una duda puntual</h3>
+            <p class="home-consultations__service">Cuéntame por correo</p>
+            <p class="home-consultations__description">Me cuentas qué está pasando y te respondo por escrito para ayudarte a entenderlo y saber cuál puede ser el siguiente paso.</p>
+            <p class="home-consultations__detail">Respuesta en 24-48 horas laborables</p>
+            <div class="home-consultations__card-footer">
+              <strong>19 €</strong>
+              <span>Ver detalles <span aria-hidden="true">→</span></span>
+            </div>
+          </a>
         </li>
         <li>
-          <h3>Duda concreta</h3>
-          <p>Videollamada de unos 20 minutos</p>
-          <strong>49 €</strong>
+          <a href="/consultas" class="home-consultations__card home-consultations__card--video" aria-label="Ver los detalles de Duda concreta">
+            <div class="home-consultations__card-top">
+              <span class="home-consultations__format">Videollamada · 20 min</span>
+              <span class="home-consultations__number" aria-hidden="true">02</span>
+            </div>
+            <h3>Necesito hablarlo con calma</h3>
+            <p class="home-consultations__service">Duda concreta</p>
+            <p class="home-consultations__description">Reservas una videollamada, nos centramos en una situación y terminamos con las preguntas resueltas y las ideas más claras.</p>
+            <p class="home-consultations__detail">Eliges el día y la hora</p>
+            <div class="home-consultations__card-footer">
+              <strong>49 €</strong>
+              <span>Ver detalles <span aria-hidden="true">→</span></span>
+            </div>
+          </a>
         </li>
         <li>
-          <h3>Hablemos tranquilamente</h3>
-          <p>Plan personalizado y seguimiento</p>
-          <strong>89 €</strong>
+          <a href="/consultas" class="home-consultations__card home-consultations__card--plan" aria-label="Ver los detalles de Hablemos tranquilamente">
+            <div class="home-consultations__card-top">
+              <span class="home-consultations__format">Videollamada + seguimiento</span>
+              <span class="home-consultations__number" aria-hidden="true">03</span>
+            </div>
+            <h3>Necesitamos un plan</h3>
+            <p class="home-consultations__service">Hablemos tranquilamente</p>
+            <p class="home-consultations__description">Para situaciones con varias piezas: una consulta más amplia, un plan personalizado y seguimiento durante 14 días.</p>
+            <p class="home-consultations__detail">Plan y recursos incluidos</p>
+            <div class="home-consultations__card-footer">
+              <strong>89 €</strong>
+              <span>Ver detalles <span aria-hidden="true">→</span></span>
+            </div>
+          </a>
         </li>
       </ul>
-      <div class="home-consultations__action">
-        <a href="/consultas" class="btn btn--primary">Quiero hablar con Mar</a>
-        <p>Consultas de enfermería. No incluyen diagnóstico médico, prescripción ni atención de urgencias. <a href="/aviso-legal">Consulta el alcance profesional</a>.</p>
-      </div>
     </div>
   </section>
 
@@ -193,85 +224,153 @@ const categoryColors: Record<string, { bg: string; accent: string }> = {
 
   /* Consultas */
   .home-consultations {
-    padding: var(--spacing-xl) 0;
-    background-color: var(--color-white);
+    scroll-margin-top: 5rem;
+    padding: clamp(4rem, 8vw, 6rem) 0;
+    background-color: var(--color-nude);
   }
 
-  .home-consultations__intro {
-    max-width: 720px;
-    margin: 0 auto var(--spacing-lg);
-    text-align: center;
+  .home-consultations__header {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(300px, 0.75fr);
+    align-items: end;
+    gap: clamp(var(--spacing-lg), 6vw, 5rem);
+    max-width: 1040px;
+    margin: 0 auto var(--spacing-xl);
   }
 
   .home-consultations__eyebrow {
+    margin-bottom: var(--spacing-sm);
     color: var(--color-coral-text);
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
   }
 
   .home-consultations h2 {
-    margin-bottom: var(--spacing-md);
-    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    max-width: 600px;
+    margin: 0;
+    font-size: clamp(1.85rem, 4vw, 2.6rem);
   }
 
-  .home-consultations__intro > p:not(.home-consultations__eyebrow) {
+  .home-consultations__lead {
+    margin: 0;
     color: var(--color-text-secondary);
-    line-height: 1.7;
+    line-height: 1.75;
   }
 
   .home-consultations__options {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--spacing-md);
-    max-width: 900px;
-    margin: 0 auto var(--spacing-lg);
-    padding: 0;
-    list-style: none;
+    max-width: 1040px;
+    margin: 0 auto;
   }
 
   .home-consultations__options li {
+    min-width: 0;
+  }
+
+  .home-consultations__card {
     display: flex;
     flex-direction: column;
-    padding: var(--spacing-lg);
+    height: 100%;
+    min-height: 410px;
+    padding: clamp(1.35rem, 2.5vw, 2rem);
     border: 1px solid var(--color-border);
+    border-top: 4px solid var(--color-peach);
     border-radius: var(--radius-md);
-    background-color: var(--color-cream);
+    background-color: var(--color-white);
+    color: var(--color-text);
+    box-shadow: 0 5px 18px rgba(45, 45, 45, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .home-consultations__options h3 {
+  .home-consultations__card--video {
+    border-top-color: var(--color-coral);
+  }
+
+  .home-consultations__card--plan {
+    border-top-color: var(--color-green);
+  }
+
+  .home-consultations__card:hover {
+    transform: translateY(-4px);
+    color: var(--color-text);
+    box-shadow: 0 12px 30px rgba(45, 45, 45, 0.1);
+  }
+
+  .home-consultations__card:focus-visible {
+    outline-offset: 4px;
+  }
+
+  .home-consultations__card-top,
+  .home-consultations__card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+  }
+
+  .home-consultations__card-top {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .home-consultations__format {
+    color: var(--color-text-tertiary);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .home-consultations__number {
+    color: var(--color-peach);
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .home-consultations__card h3 {
     margin-bottom: var(--spacing-xs);
-    font-size: 1.05rem;
+    font-size: clamp(1.15rem, 2vw, 1.35rem);
   }
 
-  .home-consultations__options p {
-    flex-grow: 1;
+  .home-consultations__service {
+    margin-bottom: var(--spacing-md);
+    color: var(--color-coral-text);
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+
+  .home-consultations__description {
+    margin-bottom: var(--spacing-lg);
     color: var(--color-text-secondary);
     font-size: 0.9rem;
-    line-height: 1.5;
+    line-height: 1.7;
   }
 
-  .home-consultations__options strong {
-    color: var(--color-coral-text);
-    font-size: 1.2rem;
-  }
-
-  .home-consultations__action {
-    text-align: center;
-  }
-
-  .home-consultations__action p {
-    max-width: 680px;
-    margin: var(--spacing-md) auto 0;
+  .home-consultations__detail {
+    margin: auto 0 0;
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--color-border);
     color: var(--color-text-tertiary);
     font-size: 0.78rem;
-    line-height: 1.6;
   }
 
-  .home-consultations__action p a {
-    text-decoration: underline;
-    text-underline-offset: 0.15em;
+  .home-consultations__card-footer {
+    margin-top: var(--spacing-md);
+  }
+
+  .home-consultations__card-footer strong {
+    color: var(--color-text);
+    font-size: 1.3rem;
+  }
+
+  .home-consultations__card-footer > span {
+    color: var(--color-coral-text);
+    font-size: 0.82rem;
+    font-weight: 700;
   }
 
   /* Blog */
@@ -424,13 +523,20 @@ const categoryColors: Record<string, { bg: string; accent: string }> = {
       justify-content: center;
     }
 
-    .home-consultations__options {
+    .home-consultations__header {
       grid-template-columns: 1fr;
-      max-width: 420px;
+      align-items: start;
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-lg);
     }
 
-    .home-consultations__options li {
-      padding: var(--spacing-md);
+    .home-consultations__options {
+      grid-template-columns: 1fr;
+      max-width: 440px;
+    }
+
+    .home-consultations__card {
+      min-height: 0;
     }
 
     .blog__grid {
