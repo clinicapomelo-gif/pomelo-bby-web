@@ -8,6 +8,8 @@ interface Props {
   image?: string;
   type?: 'website' | 'article';
   pubDate?: Date;
+  canonicalURL?: string;
+  noindex?: boolean;
 }
 
 const {
@@ -16,6 +18,8 @@ const {
   image,
   type = 'website',
   pubDate,
+  canonicalURL,
+  noindex = false,
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
@@ -33,6 +37,8 @@ const currentPath = Astro.url.pathname;
       image={image}
       type={type}
       pubDate={pubDate}
+      canonicalURL={canonicalURL}
+      noindex={noindex}
     />
   </head>
   <body>

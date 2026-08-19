@@ -1,10 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-// TODO: Cambiar por el username y slugs reales de Cal.com
-const CAL_USERNAME = 'pomelo-bby'; // tu username de Cal.com
-const CAL_EXPRESS_SLUG = 'consulta-express'; // slug del event type express
-const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type personalizada
+const CAL_BASE_URL = 'https://cal.com/pomelo-bby';
+const CAL_EXPRESS_URL = `${CAL_BASE_URL}/consulta-express`;
+const CAL_PERSONALIZADA_URL = `${CAL_BASE_URL}/consulta-personalizada`;
 ---
 
 <Layout title="Consultas" description="Consultas de enfermería infantil con Mar. Resuelve tus dudas de crianza y alimentación con acompañamiento profesional.">
@@ -110,7 +109,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
               <li class="checklist--yes">Orientación práctica, realista y adaptada a vuestra familia.</li>
             </ul>
             <div class="consulta-card__footer">
-              <button data-cal-link={`${CAL_USERNAME}/${CAL_EXPRESS_SLUG}`} data-cal-config='{"layout":"month_view"}' class="btn btn--primary">Reservar duda concreta</button>
+              <a href={CAL_EXPRESS_URL} class="btn btn--primary">Reservar duda concreta</a>
             </div>
           </div>
         </details>
@@ -162,7 +161,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
               <li class="checklist--yes">Ajustes del plan según la evolución.</li>
             </ul>
             <div class="consulta-card__footer">
-              <button data-cal-link={`${CAL_USERNAME}/${CAL_PERSONALIZADA_SLUG}`} data-cal-config='{"layout":"month_view"}' class="btn btn--primary">Reservar consulta</button>
+              <a href={CAL_PERSONALIZADA_URL} class="btn btn--primary">Reservar consulta</a>
             </div>
           </div>
         </details>
@@ -170,19 +169,13 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada'; // slug del event type 
       </div>
 
       <div class="consultas__info">
-        <p>Nos vemos por videollamada. Tú eliges el día y la hora, y yo me preparo para que aprovechemos el tiempo al máximo.</p>
+        <p>En las consultas por videollamada, tú eliges el día y la hora, y yo me preparo para que aprovechemos el tiempo al máximo.</p>
         <p class="consultas__note">Al reservar te pediré que me cuentes cuál es tu preocupación principal y la edad de tu peque. Así llego preparada y vamos directos a lo importante.</p>
       </div>
     </div>
   </section>
 </Layout>
 
-<!-- Cal.com embed script -->
-<script is:inline>
-  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-  Cal("init", {origin:"https://cal.com"});
-  Cal("ui", {"styles":{"branding":{"brandColor":"#EE9496"}},"hideEventTypeDetails":false,"layout":"month_view","locale":"es"});
-</script>
 
 <!-- Consulta por mensaje: checkout flow -->
 <script is:inline>

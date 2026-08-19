@@ -7,8 +7,10 @@ interface Props {
   type?: 'website' | 'article';
   pubDate?: Date;
   canonicalURL?: string;
+  noindex?: boolean;
 }
 
+const siteURL = Astro.site ?? new URL('https://pomelo-bby.vercel.app');
 const {
   title,
   description,
@@ -16,10 +18,9 @@ const {
   imageAlt = 'pomelo.bby — Enfermería infantil',
   type = 'website',
   pubDate,
-  canonicalURL = Astro.url.href,
+  canonicalURL = new URL(Astro.url.pathname, siteURL).toString(),
+  noindex = false,
 } = Astro.props;
-
-const siteURL = Astro.site ?? 'https://pomelo-bby.vercel.app';
 const fullTitle = `${title} | pomelo.bby`;
 const imageURL = new URL(image, siteURL).toString();
 ---
@@ -27,6 +28,7 @@ const imageURL = new URL(image, siteURL).toString();
 <!-- SEO básico -->
 <title>{fullTitle}</title>
 <meta name="description" content={description} />
+{noindex && <meta name="robots" content="noindex, nofollow, noarchive" />}
 <link rel="canonical" href={canonicalURL} />
 
 <!-- Open Graph -->
@@ -60,7 +62,7 @@ const imageURL = new URL(image, siteURL).toString();
     "author": {
       "@type": "Person",
       "name": "Mar Vall",
-      "jobTitle": "Enfermera pediátrica"
+      "jobTitle": "Enfermera"
     }
   })} />
 )}
@@ -76,11 +78,12 @@ const imageURL = new URL(image, siteURL).toString();
     "author": {
       "@type": "Person",
       "name": "Mar Vall",
-      "jobTitle": "Enfermera pediátrica"
+      "jobTitle": "Enfermera"
     },
     "publisher": {
       "@type": "Organization",
-      "name": "pomelo.bby",
+      "name": "Pomelo Baby",
+      "legalName": "Piel de Pomelo SLP",
       "url": siteURL
     }
   })} />
