@@ -67,6 +67,8 @@ import Layout from '../layouts/Layout.astro';
               <textarea id="mensaje" name="mensaje" rows="5" placeholder="¿En qué puedo ayudarte?" required data-error-required="Cuéntame en qué puedo ayudarte."></textarea>
             </div>
 
+            <p class="form__privacy"><strong>Privacidad:</strong> Piel de Pomelo SLP usará tus datos para responder a tu solicitud. Puedes ejercer tus derechos y consultar destinatarios, conservación y demás información en la <a href="/proteccion-datos" target="_blank" rel="noopener">política de privacidad</a>.</p>
+
             <button type="submit" class="btn btn--primary btn--full">
               Enviar mensaje
             </button>
@@ -166,6 +168,16 @@ import Layout from '../layouts/Layout.astro';
     font-weight: 500;
     font-size: 0.9rem;
     color: var(--color-text);
+  }
+
+  .form__privacy {
+    color: var(--color-text-tertiary);
+    font-size: 0.78rem;
+    line-height: 1.5;
+  }
+
+  .form__privacy a {
+    text-decoration: underline;
   }
 
   .form__group input,

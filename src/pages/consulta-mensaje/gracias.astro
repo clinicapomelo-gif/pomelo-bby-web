@@ -83,6 +83,8 @@ if (!isValid) {
             <p class="form__help">Si para valorar tu caso hacen falta fotos o vídeos, te explicaré el siguiente paso cuando te responda. No los envíes todavía ni por Instagram.</p>
           </div>
 
+          <p class="form__privacy"><strong>Privacidad:</strong> Piel de Pomelo SLP tratará tus datos y los del niño o niña para prestar la consulta de enfermería. Al enviarlos confirmas que eres su representante legal o que tienes autorización. Puedes consultar destinatarios, conservación y derechos en la <a href="/proteccion-datos" target="_blank" rel="noopener">política de privacidad</a>.</p>
+
           <button type="submit" class="btn btn--primary btn--full">
             Enviar mi caso
           </button>
@@ -170,9 +172,18 @@ if (!isValid) {
     cursor: pointer;
   }
 
-  .form__help {
+  .form__help,
+  .form__privacy {
     font-size: 0.8rem;
     color: var(--color-text-tertiary);
     margin-top: 0.25rem;
+  }
+
+  .form__privacy {
+    line-height: 1.5;
+  }
+
+  .form__privacy a {
+    text-decoration: underline;
   }
 </style>
