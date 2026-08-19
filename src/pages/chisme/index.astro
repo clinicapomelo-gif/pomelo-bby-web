@@ -11,8 +11,13 @@ import NewsletterForm from '../../components/NewsletterForm.astro';
           <p class="newsletter-landing__eyebrow">Cada quince días en tu correo</p>
           <h1 id="newsletter-title">El Chisme de Mar</h1>
           <p class="newsletter-landing__hook">Historias reales, información clara y crianza sin ruido.</p>
-          <p class="newsletter-landing__desc">Te cuento una historia personal o profesional y qué podemos aprender de ella desde la mirada de una enfermera infantil. Sin fórmulas mágicas ni tragedias de Google.</p>
         </header>
+
+        <div class="newsletter-landing__form">
+          <NewsletterForm />
+        </div>
+
+        <p class="newsletter-landing__desc">Te cuento una historia personal o profesional y qué podemos aprender de ella desde la mirada de una enfermera infantil. Sin fórmulas mágicas ni tragedias de Google.</p>
 
         <div class="newsletter-landing__benefits">
           <p>Dentro encontrarás</p>
@@ -21,10 +26,6 @@ import NewsletterForm from '../../components/NewsletterForm.astro';
             <li>Contexto claro y una idea práctica que puedas llevarte.</li>
             <li>Recomendaciones y novedades, solo cuando tengan sentido.</li>
           </ul>
-        </div>
-
-        <div class="newsletter-landing__form">
-          <NewsletterForm />
         </div>
 
         <div class="newsletter-landing__trust">
@@ -49,11 +50,12 @@ import NewsletterForm from '../../components/NewsletterForm.astro';
     display: grid;
     grid-template-areas:
       'intro form'
+      'description form'
       'benefits form'
       'trust form';
     grid-template-columns: minmax(0, 1fr) minmax(340px, 0.82fr);
     column-gap: clamp(var(--spacing-xl), 7vw, 5rem);
-    row-gap: var(--spacing-lg);
+    row-gap: var(--spacing-md);
     max-width: 1040px;
     margin: 0 auto;
     padding: clamp(var(--spacing-lg), 5vw, var(--spacing-xl));
@@ -91,6 +93,7 @@ import NewsletterForm from '../../components/NewsletterForm.astro';
   }
 
   .newsletter-landing__desc {
+    grid-area: description;
     margin: 0;
     color: var(--color-text-secondary);
     line-height: 1.75;
@@ -98,6 +101,7 @@ import NewsletterForm from '../../components/NewsletterForm.astro';
 
   .newsletter-landing__benefits {
     grid-area: benefits;
+    margin-top: var(--spacing-md);
   }
 
   .newsletter-landing__benefits > p {
@@ -146,6 +150,7 @@ import NewsletterForm from '../../components/NewsletterForm.astro';
 
   .newsletter-landing__trust {
     grid-area: trust;
+    margin-top: var(--spacing-md);
     padding-top: var(--spacing-md);
     border-top: 1px solid var(--color-border);
   }
@@ -193,10 +198,16 @@ import NewsletterForm from '../../components/NewsletterForm.astro';
       grid-template-areas:
         'intro'
         'form'
+        'description'
         'benefits'
         'trust';
       grid-template-columns: minmax(0, 1fr);
       max-width: 620px;
+    }
+
+    .newsletter-landing__benefits,
+    .newsletter-landing__trust {
+      margin-top: 0;
     }
   }
 
