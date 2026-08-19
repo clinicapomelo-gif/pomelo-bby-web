@@ -26,10 +26,10 @@ Lista operativa resumida. Los procedimientos detallados están en:
 - El doble opt-in está probado en Preview de extremo a extremo: solicitud, email, página sin efectos, confirmación, alta en Resend y descarga. Falta probar baja, reutilización del enlace y nueva alta.
 - El flujo sandbox de Cuéntame por correo funciona de extremo a extremo por 19 €: Stripe vuelve al formulario pagado y Resend entrega el caso.
 - La prueba con `resend.dev` llegó a spam, algo esperable por usar un remitente compartido y un enlace de localhost. La entregabilidad real sigue pendiente del dominio verificado y enlaces HTTPS públicos.
-- `pomelobaby.es` está añadido a Vercel y Production muestra una página de mantenimiento; la web completa sigue disponible en una Preview protegida.
-- El dominio todavía no resuelve desde la comprobación externa; falta validar propagación DNS, HTTPS y la variante `www`.
-- `MAINTENANCE_MODE` oculta toda la interfaz en Production, bloquea `/api/*` con HTTP 503 y publica `robots.txt` con `Disallow: /`.
-- Los formularios están visibles en Preview, pero sin la configuración externa completa deben considerarse en preparación.
+- Production está pública en `https://pomelo-bby-web.vercel.app`; las Preview continúan protegidas por Vercel Authentication.
+- `pomelobaby.es` está añadido a Vercel, pero todavía no resuelve desde la comprobación externa; falta configurar o validar su DNS, HTTPS y la variante `www`.
+- `MAINTENANCE_MODE=false` en Production desde el último despliegue. Al activarlo, oculta la interfaz, bloquea las API no transaccionales con HTTP 503 y publica `robots.txt` con `Disallow: /`.
+- Los formularios están públicos, pero sin la configuración externa y legal completa deben considerarse en preparación.
 - El build termina correctamente. En local se usa Node 26 y Vercel avisa de que ejecutará las funciones con Node 24.
 - Los worktrees `task-03`, `task-04`, `task-05`, `task-07` y `task-08` están limpios y sus commits están integrados. La tarea 06 se integró en los commits `c1fd7f6` y `71f7353`. La rama de la tarea 01 no es ancestro de `main`, pero Git confirma que su parche ya está aplicado.
 

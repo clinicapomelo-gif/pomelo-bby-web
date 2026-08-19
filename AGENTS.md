@@ -40,6 +40,31 @@ No edites artefactos generados en `.astro/`, `dist/` o `.vercel/`. Mantén los c
 - Valida los datos del cliente en servidor. No confíes en precios, productos, estados de pago ni identificadores enviados por el navegador.
 - Conserva la verificación de firma de los webhooks de Stripe y la verificación de sesión antes de mostrar o procesar una consulta pagada.
 
+## Servicios y operación
+
+- **Vercel:** proyecto `pomelo-bby/pomelo-bby-web`. `main` despliega Production. La URL estable de Vercel es `https://pomelo-bby-web.vercel.app` y el dominio definitivo es `https://pomelobaby.es` cuando su DNS esté operativo.
+- **Dominio y correo:** `pomelobaby.es` se compró en **DonDominio**, que actúa como registrador y proveedor DNS. La web sigue alojada en Vercel; la recepción y el SMTP del correo profesional se configurarán en DonDominio según `docs/configuracion-correo-profesional.md`. Consulta ese documento antes de cambiar registros DNS, MX o SMTP.
+- **Resend:** gestiona correo transaccional y El Chisme. La configuración de dominios, Segmento, Topic, propiedades, Broadcasts y bajas está en `docs/configuracion-resend.md`; el diseño del doble opt-in está en `docs/arquitectura-doble-opt-in.md`.
+- **Stripe y Blob:** el flujo de las guías de pago está documentado en `docs/guias-de-pago.md`. No cambies precios, webhooks ni rutas privadas sin revisar ese documento.
+
+Comandos operativos seguros de Vercel:
+
+```bash
+npx --yes vercel@latest whoami
+npx --yes vercel@latest env ls production
+npx --yes vercel@latest redeploy pomelo-bby-web.vercel.app --target production
+```
+
+Para activar o desactivar el mantenimiento en Production, solo con petición expresa:
+
+```bash
+npx --yes vercel@latest env add MAINTENANCE_MODE production --value true --force --no-sensitive --yes
+npx --yes vercel@latest env add MAINTENANCE_MODE production --value false --force --no-sensitive --yes
+npx --yes vercel@latest redeploy pomelo-bby-web.vercel.app --target production
+```
+
+Prefiere el despliegue automático al hacer `push` de `main`. No ejecutes `vercel --prod` desde un árbol con cambios locales. Resend y DonDominio se administran desde sus paneles; no guardes credenciales ni valores DNS generados en `AGENTS.md`.
+
 ## Git y commits
 
 Todos los commits de este repositorio deben usar esta identidad como **autor y committer**:
