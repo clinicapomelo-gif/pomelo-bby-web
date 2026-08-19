@@ -1,9 +1,22 @@
 import { defineMiddleware } from 'astro:middleware';
 
-export const onRequest = defineMiddleware(async ({ url }, next) => {
-  if (import.meta.env.MAINTENANCE_MODE !== 'true') return next();
+const MAINTENANCE_BYPASS_PATHS = new Set([
+  '/api/consulta-mensaje',
+  '/api/guias/download',
+  '/api/webhook',
+  '/consulta-mensaje/enviado',
+  '/consulta-mensaje/gracias',
+  '/tienda/gracias',
+]);
 
-  if (url.pathname === '/api' || url.pathname.startsWith('/api/')) {
+export const onRequest = defineMiddleware(async ({ url }, next) => {
+  const pathname = url.pathname.replace(/\/$/, '') || '/';
+  if (
+    import.meta.env.MAINTENANCE_MODE !== 'true' ||
+    MAINTENANCE_BYPASS_PATHS.has(pathname)
+  ) return next();
+
+  if (pathname === '/api' || pathname.startsWith('/api/')) {
     return Response.json(
       { error: 'Servicio temporalmente no disponible.' },
       {

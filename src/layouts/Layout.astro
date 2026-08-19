@@ -24,7 +24,13 @@ const {
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
-const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true';
+const maintenanceBypassPaths = new Set([
+  '/consulta-mensaje/enviado',
+  '/consulta-mensaje/gracias',
+  '/tienda/gracias',
+]);
+const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
+  !maintenanceBypassPaths.has(currentPath.replace(/\/$/, '') || '/');
 ---
 
 <!DOCTYPE html>
