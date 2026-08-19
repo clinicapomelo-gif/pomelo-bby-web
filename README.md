@@ -4,6 +4,7 @@
 
 - [Compra y entrega de guías de pago](docs/guias-de-pago.md)
 - [Configuración de Resend](docs/configuracion-resend.md)
+- [Configuración del correo profesional](docs/configuracion-correo-profesional.md)
 - [Arquitectura de doble opt-in](docs/arquitectura-doble-opt-in.md)
 - [Estrategia de Blog, El Chisme de Mar y guía gratuita](docs/estrategia-blog-y-el-chisme.md)
 

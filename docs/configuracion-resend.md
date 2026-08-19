@@ -74,7 +74,7 @@ La API key no debe compartirse por chat ni registrarse en logs. Puede configurar
 
 Para enviar a cualquier familia hace falta comprar un dominio y verificarlo en Resend mediante los registros DNS indicados por su Dashboard.
 
-Resend permite enviar desde cualquier dirección del dominio verificado, pero no crea un buzón tradicional. Para recibir y responder correos hay que contratar o configurar un buzón con otro proveedor, o implementar recepción mediante webhooks.
+Resend permite enviar desde cualquier dirección del dominio verificado, pero no crea un buzón tradicional. Para recibir y responder correos usaremos DonDominio con redirección a un Gmail dedicado, según [`configuracion-correo-profesional.md`](configuracion-correo-profesional.md).
 
 Configuración inicial sugerida:
 

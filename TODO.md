@@ -4,6 +4,7 @@ Lista operativa resumida. Los procedimientos detallados están en:
 
 - [`docs/configuracion-cal-com.md`](docs/configuracion-cal-com.md)
 - [`docs/configuracion-resend.md`](docs/configuracion-resend.md)
+- [`docs/configuracion-correo-profesional.md`](docs/configuracion-correo-profesional.md)
 - [`docs/arquitectura-doble-opt-in.md`](docs/arquitectura-doble-opt-in.md)
 - [`docs/estrategia-blog-y-el-chisme.md`](docs/estrategia-blog-y-el-chisme.md)
 - [`docs/guias-de-pago.md`](docs/guias-de-pago.md)
