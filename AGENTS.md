@@ -1,4 +1,75 @@
-# pomelo.bby — Voz y tono de Mar
+# AGENTS.md — pomelo.bby
+
+## Proyecto
+
+Web de enfermería pediátrica de Mar Vall Requena, dirigida a familias. Está construida con Astro 6, TypeScript estricto, el adaptador de Vercel y contenido en español.
+
+Antes de cambiar comportamiento de negocio, consulta `CONTEXT.md` y los ADR de `docs/adr/`.
+
+## Comandos
+
+Requiere Node.js 22.12 o superior. Prefiere Node.js 24 para reproducir el runtime de Vercel; Node.js 26 genera una advertencia del adaptador.
+
+```bash
+npm install
+npm run dev
+npm run build
+npm run preview
+```
+
+No hay una suite de tests ni un script de lint. Después de cambios de código, ejecuta como mínimo `npm run build`.
+
+## Estructura y convenciones
+
+- `src/pages/`: páginas y rutas API. Las API dinámicas deben declarar `export const prerender = false`.
+- `src/layouts/Layout.astro`: layout común, navegación, footer y Analytics.
+- `src/components/`: componentes reutilizables, incluido SEO y formularios.
+- `src/content/blog/`: posts Markdown gestionados con Astro Content Collections.
+- `src/content.config.ts`: esquema y categorías válidas del blog. Si cambian las categorías, sincroniza `src/pages/blog/index.astro`.
+- `src/data/guias.ts`: catálogo y referencias de Stripe de las guías.
+- `src/styles/global.css`: tokens visuales, reset y utilidades globales. Reutiliza las variables CSS existentes.
+- `public/`: recursos estáticos.
+
+No edites artefactos generados en `.astro/`, `dist/` o `.vercel/`. Mantén los componentes accesibles, responsive y coherentes con los patrones Astro/CSS existentes. Evita dependencias y abstracciones nuevas si la plataforma o el código actual ya resuelven el caso.
+
+## Backend, pagos y datos
+
+- Stripe se usa directamente desde endpoints server-side; Resend gestiona correo transaccional, contactos y El Chisme mediante Segmentos, Topics, Broadcasts y Automations.
+- Nunca expongas, registres ni confirmes secretos o datos personales. No leas ni versiones `.env`.
+- Variables usadas: `SITE_URL`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_CONSULTA_MENSAJE_PRICE_ID`, `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `RESEND_TO_EMAIL`, `RESEND_NEWSLETTER_SEGMENT_ID`, `RESEND_NEWSLETTER_TOPIC_ID`, `NEWSLETTER_CONFIRMATION_SECRET`, `BLOB_STORE_ID`, `VERCEL_OIDC_TOKEN` y `BLOB_READ_WRITE_TOKEN`.
+- Valida los datos del cliente en servidor. No confíes en precios, productos, estados de pago ni identificadores enviados por el navegador.
+- Conserva la verificación de firma de los webhooks de Stripe y la verificación de sesión antes de mostrar o procesar una consulta pagada.
+
+## Git y commits
+
+Todos los commits de este repositorio deben usar esta identidad como **autor y committer**:
+
+```text
+Rafael Llorens Blanes <rafalb190@gmail.com>
+```
+
+El entorno de Pi puede inyectar variables `GIT_AUTHOR_*` y `GIT_COMMITTER_*` corporativas que tienen prioridad sobre `.git/config`. Por eso no basta con configurar Git: cada commit debe forzar explícitamente los cuatro valores.
+
+```bash
+git config --local user.name "Rafael Llorens Blanes"
+git config --local user.email "rafalb190@gmail.com"
+
+GIT_AUTHOR_NAME="Rafael Llorens Blanes" \
+GIT_AUTHOR_EMAIL="rafalb190@gmail.com" \
+GIT_COMMITTER_NAME="Rafael Llorens Blanes" \
+GIT_COMMITTER_EMAIL="rafalb190@gmail.com" \
+git commit ...
+```
+
+Después del commit, comprueba ambas identidades con:
+
+```bash
+git show -s --format='autor: %an <%ae>%ncommitter: %cn <%ce>' HEAD
+```
+
+No incluyas cambios preexistentes o ajenos a la tarea y no reescribas commits sin petición expresa.
+
+# Voz y tono de Mar
 
 ## Quién es Mar
 
