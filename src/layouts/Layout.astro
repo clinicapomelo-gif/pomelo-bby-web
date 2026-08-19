@@ -1,5 +1,6 @@
 ---
 import SEO from '../components/SEO.astro';
+import MaintenancePage from '../components/MaintenancePage.astro';
 import Analytics from '@vercel/analytics/astro';
 
 interface Props {
@@ -23,6 +24,7 @@ const {
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
+const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true';
 ---
 
 <!DOCTYPE html>
@@ -32,16 +34,20 @@ const currentPath = Astro.url.pathname;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/jpeg" href="/logo-pomelo.jpeg" />
     <SEO
-      title={title}
-      description={description}
+      title={maintenanceMode ? 'Estamos preparando la web' : title}
+      description={maintenanceMode ? 'Estamos preparando pomelo.bby. Muy pronto encontrarás información clara sobre salud infantil y crianza.' : description}
       image={image}
-      type={type}
-      pubDate={pubDate}
+      type={maintenanceMode ? 'website' : type}
+      pubDate={maintenanceMode ? undefined : pubDate}
       canonicalURL={canonicalURL}
-      noindex={noindex}
+      noindex={maintenanceMode || noindex}
     />
   </head>
   <body>
+    {maintenanceMode ? (
+      <MaintenancePage />
+    ) : (
+      <>
     <header class="header">
       <nav class="container nav">
         <a href="/" class="nav__logo" aria-label="Inicio — pomelo.bby">
@@ -176,6 +182,8 @@ const currentPath = Astro.url.pathname;
         <p class="footer__copy">&copy; {new Date().getFullYear()} Piel de Pomelo SLP · pomelo.bby</p>
       </div>
     </footer>
+      </>
+    )}
   </body>
 </html>
 
