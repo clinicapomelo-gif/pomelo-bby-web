@@ -41,12 +41,35 @@ const categoryColors: Record<string, { bg: string; accent: string }> = {
       </div>
       <div class="hero__text">
         <h1>Hola, soy Mar</h1>
-        <p class="hero__credentials">La amiga enfermera a la que le mandarías un WhatsApp de: «Mar, igual estoy exagerando, pero ¿esto es normal?»</p>
-        <p class="hero__tagline">Apasionada de la pediatría y con formación especializada en urgencias e intensivos pediátricos. La que te habla en palabras normales, te ayuda a entender qué está pasando y te devuelve la calma sin hacerte sentir culpable.</p>
-        <p class="hero__tagline">Te acompaño en la salud y la crianza de tu peque con información actualizada y basada en evidencia, explicada de forma sencilla, sin juicios y sin necesidad de hacerlo perfecto.</p>
+        <p class="hero__promise">Salud infantil y crianza, sin dramas, sin culpa y sin perderte entre 200 consejos de Instagram.</p>
+        <p class="hero__tagline">Soy enfermera infantil con formación especializada en urgencias e intensivos pediátricos. Te hablo con palabras normales para ayudarte a entender qué está pasando y devolverte la calma.</p>
+        <p class="hero__tagline">Te acompaño con información actualizada y basada en evidencia, explicada de forma sencilla, sin juicios y sin necesidad de hacerlo perfecto.</p>
         <div class="hero__cta">
-          <a href="/consultas" class="btn btn--primary">Reservar consulta</a>
+          <a href="/consultas" class="btn btn--primary">Quiero hablar con Mar</a>
           <a href="/tienda" class="btn btn--secondary">Ver guías</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Consultas 1:1 -->
+  <section class="home-consultas" aria-labelledby="home-consultas-title">
+    <div class="container">
+      <div class="home-consultas__card">
+        <div class="home-consultas__copy">
+          <p class="home-consultas__eyebrow">Consultas de enfermería infantil 1:1</p>
+          <h2 id="home-consultas-title">¿Necesitas que alguien mire <em>tu caso</em>?</h2>
+          <p class="home-consultas__intro">Entre tanta sobreinformación de redes y tanta IA, a veces no necesitas otro consejo genérico. Necesitas que alguien escuche qué está pasando con tu hijo o hija y te ayude a separar el ruido de lo importante.</p>
+        </div>
+        <div class="home-consultas__details">
+          <ul>
+            <li>Puedes consultarme sobre salud y cuidados cotidianos, sueño, alimentación, desarrollo o crianza.</li>
+            <li>Elige respuesta por correo o videollamada, según lo que necesites.</li>
+            <li>Recibe orientación personalizada, pautas claras y señales que conviene vigilar.</li>
+          </ul>
+          <p class="home-consultas__price">Consultas desde <strong>19 €</strong></p>
+          <a href="/consultas" class="btn btn--primary">Quiero hablar con Mar</a>
+          <p class="home-consultas__scope">Orientación de enfermería infantil. No incluye diagnóstico médico ni prescripción, no sustituye una valoración presencial y no es un servicio de urgencias.</p>
         </div>
       </div>
     </div>
@@ -130,16 +153,6 @@ const categoryColors: Record<string, { bg: string; accent: string }> = {
     </div>
   </section>
 
-  <!-- CTA Consultas -->
-  <section class="cta-consultas">
-    <div class="container">
-      <div class="cta-consultas__card">
-        <h2>¿Tienes dudas que no encuentras en ningún sitio?</h2>
-        <p>Entre tanta sobreinformación de redes y tanta IA, a veces solo necesitas que un ser humano escuche tus preocupaciones y te explique las cosas con calma.</p>
-        <a href="/consultas" class="btn btn--primary">Reservar consulta</a>
-      </div>
-    </div>
-  </section>
 </Layout>
 
 <style>
@@ -191,11 +204,12 @@ const categoryColors: Record<string, { bg: string; accent: string }> = {
     margin-bottom: var(--spacing-xs);
   }
 
-  .hero__credentials {
-    font-size: 0.9rem;
+  .hero__promise {
+    max-width: 650px;
     color: var(--color-coral-text);
+    font-size: clamp(1.2rem, 2.2vw, 1.5rem);
     font-weight: 600;
-    font-style: italic;
+    line-height: 1.4;
     margin-bottom: var(--spacing-md);
   }
 
@@ -409,28 +423,86 @@ const categoryColors: Record<string, { bg: string; accent: string }> = {
     line-height: 1.5;
   }
 
-  /* CTA Consultas */
-  .cta-consultas {
+  /* Consultas destacadas */
+  .home-consultas {
     padding: var(--spacing-xl) 0;
     background-color: var(--color-white);
   }
 
-  .cta-consultas__card {
-    padding: var(--spacing-lg);
-    text-align: center;
-    max-width: 600px;
+  .home-consultas__card {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+    gap: clamp(var(--spacing-lg), 5vw, var(--spacing-xl));
+    align-items: center;
+    max-width: 960px;
     margin: 0 auto;
+    padding: clamp(var(--spacing-lg), 5vw, var(--spacing-xl));
+    background-color: var(--color-cream);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
   }
 
-  .cta-consultas h2 {
-    font-size: 1.5rem;
+  .home-consultas__eyebrow {
+    color: var(--color-coral-text);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     margin-bottom: var(--spacing-sm);
   }
 
-  .cta-consultas p {
+  .home-consultas h2 {
+    font-size: clamp(1.7rem, 3.5vw, 2.25rem);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .home-consultas h2 em {
+    color: var(--color-coral-text);
+    font-style: normal;
+  }
+
+  .home-consultas__intro {
     color: var(--color-text-secondary);
-    margin: 0 auto var(--spacing-md);
+    line-height: 1.7;
+    margin-bottom: 0;
+  }
+
+  .home-consultas__details ul {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .home-consultas__details li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text-secondary);
+    font-size: 0.92rem;
     line-height: 1.6;
+  }
+
+  .home-consultas__details li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-coral-text);
+    font-weight: 700;
+  }
+
+  .home-consultas__price {
+    color: var(--color-text);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .home-consultas__price strong {
+    color: var(--color-coral-text);
+    font-size: 1.2rem;
+  }
+
+  .home-consultas__scope {
+    color: var(--color-text-tertiary);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    margin: var(--spacing-md) 0 0;
   }
 
   /* Responsive */
@@ -473,6 +545,10 @@ const categoryColors: Record<string, { bg: string; accent: string }> = {
       justify-content: center;
     }
 
+    .home-consultas__card {
+      grid-template-columns: 1fr;
+    }
+
     .guides__grid,
     .blog__grid {
       grid-template-columns: 1fr;
@@ -480,8 +556,7 @@ const categoryColors: Record<string, { bg: string; accent: string }> = {
     }
 
     .guides h2,
-    .blog h2,
-    .cta-consultas h2 {
+    .blog h2 {
       font-size: 1.3rem;
     }
   }
