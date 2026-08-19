@@ -1,213 +1,246 @@
 ---
 ---
 
-<section class="newsletter">
-  <div class="container">
-    <div class="newsletter__content">
-      <h2>Únete a El Chisme de Mar</h2>
-      <p class="newsletter__desc">Un email cada dos semanas con historias reales de crianza y salud infantil. Porque a veces el mejor aprendizaje es la experiencia de otra familia.</p>
-      <form method="POST" action="/api/subscribe" class="newsletter__form" data-friendly-validation novalidate>
-        <div class="form__honeypot" aria-hidden="true">
-          <input type="text" name="website" tabindex="-1" autocomplete="off" />
-        </div>
+<div class="newsletter-card" aria-labelledby="newsletter-form-title">
+  <h2 id="newsletter-form-title">¿Te apuntas?</h2>
+  <p class="newsletter-card__intro">Déjame tu nombre y tu correo. Después te pediré que lo confirmes.</p>
 
-        <div class="newsletter__fields">
-          <div class="newsletter__field" data-validation-field>
-            <input
-              type="email"
-              name="email"
-              placeholder="tu@email.com"
-              required
-              class="newsletter__input"
-              id="newsletter-email"
-              aria-label="Email"
-              data-error-required="Escribe tu correo para apuntarte a El Chisme de Mar."
-              data-error-invalid="Revisa el correo. Debe tener un formato como nombre@correo.com."
-            />
-          </div>
-          <div class="newsletter__field" data-validation-field>
-            <input
-              type="text"
-              name="nombre"
-              placeholder="Tu nombre"
-              class="newsletter__input"
-              id="newsletter-nombre"
-              aria-label="Nombre"
-              autocomplete="given-name"
-              maxlength="100"
-              required
-              data-error-required="Escribe tu nombre para que pueda personalizar tus correos."
-            />
-          </div>
-          <button type="submit" class="btn btn--primary newsletter__btn">Suscribirme</button>
-        </div>
-
-        <div class="newsletter__privacy-field" data-validation-field>
-          <label class="newsletter__privacy">
-            <input
-              id="newsletter-privacy"
-              type="checkbox"
-              name="privacy"
-              required
-              data-error-required="Necesito que aceptes la política de privacidad para completar la suscripción."
-            />
-            <span>Acepto que Piel de Pomelo SLP use mi nombre y email para enviarme El Chisme. Puedo darme de baja cuando quiera. <a href="/proteccion-datos" target="_blank" rel="noopener">Más información y derechos</a>.</span>
-          </label>
-        </div>
-      </form>
-      <p class="newsletter__message" aria-live="polite" hidden></p>
+  <form method="POST" action="/api/subscribe" class="newsletter-card__form" data-newsletter-form data-friendly-validation novalidate>
+    <div class="newsletter-card__honeypot" aria-hidden="true">
+      <label for="newsletter-website">No rellenes este campo</label>
+      <input id="newsletter-website" type="text" name="website" tabindex="-1" autocomplete="off" />
     </div>
-  </div>
-</section>
+
+    <div class="newsletter-card__field" data-validation-field>
+      <label for="newsletter-nombre">Nombre</label>
+      <input
+        type="text"
+        name="nombre"
+        placeholder="Tu nombre"
+        id="newsletter-nombre"
+        autocomplete="given-name"
+        maxlength="100"
+        required
+        data-error-required="Escribe tu nombre para que pueda personalizar tus correos."
+      />
+    </div>
+
+    <div class="newsletter-card__field" data-validation-field>
+      <label for="newsletter-email">Correo electrónico</label>
+      <input
+        type="email"
+        name="email"
+        placeholder="tu@email.com"
+        id="newsletter-email"
+        autocomplete="email"
+        inputmode="email"
+        maxlength="254"
+        required
+        data-error-required="Escribe tu correo para apuntarte a El Chisme de Mar."
+        data-error-invalid="Revisa el correo. Debe tener un formato como nombre@correo.com."
+      />
+    </div>
+
+    <div class="newsletter-card__privacy-field" data-validation-field>
+      <label class="newsletter-card__privacy">
+        <input
+          id="newsletter-privacy"
+          type="checkbox"
+          name="privacy"
+          required
+          data-error-required="Necesito que aceptes la política de privacidad para completar la suscripción."
+        />
+        <span>Acepto que Piel de Pomelo SLP use mi nombre y email para enviarme El Chisme. Puedo darme de baja cuando quiera. <a href="/proteccion-datos" target="_blank" rel="noopener">Más información y derechos</a>.</span>
+      </label>
+    </div>
+
+    <button type="submit" class="btn newsletter-card__button">Quiero recibir El Chisme</button>
+  </form>
+
+  <p class="newsletter-card__message" data-newsletter-message aria-live="polite" tabindex="-1" hidden></p>
+  <p class="newsletter-card__note">Cada quince días · Sin spam · Baja fácil</p>
+</div>
 
 <script>
-  const form = document.querySelector('.newsletter__form') as HTMLFormElement;
-  const message = document.querySelector('.newsletter__message') as HTMLParagraphElement;
+  const form = document.querySelector<HTMLFormElement>('[data-newsletter-form]');
+  const message = document.querySelector<HTMLParagraphElement>('[data-newsletter-message]');
+  const button = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
 
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(form));
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!message || !button) return;
+
+    button.disabled = true;
+    button.textContent = 'Enviando…';
+    message.hidden = true;
+
     try {
-      const res = await fetch('/api/subscribe', {
+      const response = await fetch(form.action, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify(Object.fromEntries(new FormData(form))),
       });
-      if (res.ok) {
-        form.hidden = true;
-        message.hidden = false;
-        message.textContent = '¡Hecho! Revisa tu correo y confirma tu dirección para unirte a El Chisme.';
-        message.className = 'newsletter__message newsletter__message--success';
-      } else {
-        const { error } = await res.json();
-        message.hidden = false;
-        message.textContent = error || 'Algo ha fallado. Inténtalo de nuevo.';
-        message.className = 'newsletter__message newsletter__message--error';
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Algo ha fallado. Inténtalo de nuevo.');
       }
-    } catch {
-      message.hidden = false;
-      message.textContent = 'Error de conexión. Inténtalo de nuevo.';
-      message.className = 'newsletter__message newsletter__message--error';
+
+      form.hidden = true;
+      message.textContent = '¡Hecho! Revisa tu correo y confirma tu dirección para unirte a El Chisme.';
+      message.className = 'newsletter-card__message newsletter-card__message--success';
+    } catch (error) {
+      button.disabled = false;
+      button.textContent = 'Quiero recibir El Chisme';
+      message.textContent = error instanceof Error ? error.message : 'Error de conexión. Inténtalo de nuevo.';
+      message.className = 'newsletter-card__message newsletter-card__message--error';
     }
+
+    message.hidden = false;
+    message.focus();
   });
 </script>
 
 <style>
-  .newsletter {
-    padding: var(--spacing-xl) 0;
-    background-color: var(--color-cream);
+  .newsletter-card {
+    padding: clamp(var(--spacing-md), 4vw, var(--spacing-lg));
+    background-color: var(--color-nude);
+    border: 1px solid var(--color-border);
+    border-top: 4px solid var(--color-coral-hover);
+    border-radius: var(--radius-md);
   }
 
-  .newsletter__content {
-    max-width: 550px;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .newsletter h2 {
-    font-size: 1.5rem;
+  .newsletter-card h2 {
     margin-bottom: var(--spacing-xs);
+    font-size: 1.5rem;
   }
 
-  .newsletter__desc {
+  .newsletter-card__intro {
+    margin-bottom: var(--spacing-md);
     color: var(--color-text-secondary);
-    font-size: 0.95rem;
-    margin-bottom: var(--spacing-lg);
+    font-size: 0.9rem;
     line-height: 1.6;
   }
 
-  .newsletter__fields {
+  .newsletter-card__form {
     display: flex;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: var(--spacing-sm);
-    margin-bottom: var(--spacing-sm);
+    flex-direction: column;
+    gap: var(--spacing-md);
   }
 
-  .newsletter__field {
-    flex: 1;
-    min-width: 180px;
+  .newsletter-card__field label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    color: var(--color-text);
+    font-size: 0.85rem;
+    font-weight: 600;
   }
 
-  .newsletter__field .newsletter__input {
+  .newsletter-card__field input {
     width: 100%;
-    min-width: 0;
-  }
-
-  .newsletter__input {
-    flex: 1;
-    min-width: 180px;
+    min-height: 48px;
     padding: 0.75rem 1rem;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
-    font-size: 0.95rem;
-    font-family: inherit;
+    background-color: var(--color-white);
+    color: var(--color-text);
+    font: inherit;
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .newsletter__input:focus {
-    border-color: var(--color-coral);
+  .newsletter-card__field input:focus {
+    border-color: var(--color-coral-hover);
   }
 
-  .newsletter__btn {
-    white-space: nowrap;
-  }
-
-  .newsletter__privacy-field {
-    margin-top: var(--spacing-sm);
-  }
-
-  .newsletter__privacy {
+  .newsletter-card__privacy {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.4rem;
-    font-size: 0.82rem;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
     color: var(--color-text-secondary);
+    font-size: 0.82rem;
+    line-height: 1.5;
     cursor: pointer;
   }
 
-  .newsletter__privacy a {
-    color: var(--color-coral);
+  .newsletter-card__privacy input {
+    width: 1rem;
+    height: 1rem;
+    flex: 0 0 auto;
+    margin-top: 0.2rem;
+    accent-color: var(--color-coral-hover);
+  }
+
+  .newsletter-card__privacy a {
+    color: var(--color-coral-hover);
+    font-weight: 600;
     text-decoration: underline;
   }
 
-  .newsletter__message {
-    margin-top: var(--spacing-md);
-    font-size: 0.95rem;
+  .newsletter-card__button {
+    width: 100%;
+    min-height: 48px;
+    background-color: var(--color-coral-hover);
+    color: var(--color-white);
   }
 
-  .newsletter__message--success {
-    color: var(--color-green, #2e7d32);
+  .newsletter-card__button:hover {
+    background-color: var(--color-text);
+    color: var(--color-white);
   }
 
-  .newsletter__message--error {
-    color: var(--color-coral);
+  .newsletter-card__button:disabled {
+    cursor: wait;
+    opacity: 0.7;
   }
 
-  .form__honeypot {
+  .newsletter-card__field input:focus-visible,
+  .newsletter-card__button:focus-visible,
+  .newsletter-card__privacy input:focus-visible,
+  .newsletter-card__privacy a:focus-visible {
+    outline-color: var(--color-coral-hover);
+  }
+
+  .newsletter-card__message {
+    margin: var(--spacing-md) 0 0;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-white);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    text-align: center;
+  }
+
+  .newsletter-card__message--success {
+    color: #23623d;
+  }
+
+  .newsletter-card__message--error {
+    color: var(--color-coral-hover);
+  }
+
+  .newsletter-card__note {
+    margin: var(--spacing-md) 0 0;
+    color: var(--color-text-secondary);
+    font-size: 0.76rem;
+    text-align: center;
+  }
+
+  .newsletter-card__honeypot {
     position: absolute;
     left: -9999px;
-    opacity: 0;
-    height: 0;
+    width: 1px;
+    height: 1px;
     overflow: hidden;
   }
 
-  @media (max-width: 768px) {
-    .newsletter h2 {
-      font-size: 1.3rem;
+  @media (max-width: 480px) {
+    .newsletter-card {
+      padding: var(--spacing-md);
     }
 
-    .newsletter__fields {
-      flex-direction: column;
-    }
-
-    .newsletter__input,
-    .newsletter__field {
-      min-width: 100%;
-    }
-
-    .newsletter__field .newsletter__input {
-      min-width: 0;
+    .newsletter-card__privacy {
+      font-size: 0.8rem;
     }
   }
 </style>

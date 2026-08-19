@@ -3,84 +3,219 @@ import Layout from '../../layouts/Layout.astro';
 import NewsletterForm from '../../components/NewsletterForm.astro';
 ---
 
-<Layout title="El Chisme de Mar" description="Historias reales de crianza y salud infantil, cada dos semanas y sin ruido.">
-  <section class="newsletter-landing">
+<Layout title="El Chisme de Mar" description="Historias reales, información clara y crianza sin ruido. El email quincenal de Mar, enfermera infantil.">
+  <section class="newsletter-landing" aria-labelledby="newsletter-title">
     <div class="container">
-      <div class="newsletter-landing__content">
-        <h1>El Chisme de Mar</h1>
-        <p class="newsletter-landing__hook">Un email cada dos semanas con historias reales de crianza y salud infantil.</p>
-        <p class="newsletter-landing__desc">Situaciones que han pasado, errores que nos pueden enseñar algo, sustos que luego se quedaron en anécdota y esas cosas que pensamos que solo nos pasan a nosotros. Porque a veces el mejor aprendizaje es la experiencia de otra familia.</p>
-        <p class="newsletter-landing__desc">Sin spam, fórmulas mágicas ni convertir cada duda en una tragedia de Google. Solo información clara y acompañamiento sin ruido.</p>
-        <ul class="newsletter-landing__bullets">
-          <li>200-300 palabras que puedes leer mientras el peque duerme</li>
-          <li>Un email cada dos semanas, siempre el mismo día</li>
-          <li>Te puedes dar de baja cuando quieras</li>
-        </ul>
+      <div class="newsletter-landing__panel">
+        <header class="newsletter-landing__intro">
+          <p class="newsletter-landing__eyebrow">Cada quince días en tu correo</p>
+          <h1 id="newsletter-title">El Chisme de Mar</h1>
+          <p class="newsletter-landing__hook">Historias reales, información clara y crianza sin ruido.</p>
+          <p class="newsletter-landing__desc">Te cuento una historia personal o profesional y qué podemos aprender de ella desde la mirada de una enfermera infantil. Sin fórmulas mágicas ni tragedias de Google.</p>
+        </header>
+
+        <div class="newsletter-landing__benefits">
+          <p>Dentro encontrarás</p>
+          <ul>
+            <li>Historias y reflexiones que no caben en un post de Instagram.</li>
+            <li>Contexto claro y una idea práctica que puedas llevarte.</li>
+            <li>Recomendaciones y novedades, solo cuando tengan sentido.</li>
+          </ul>
+        </div>
+
+        <div class="newsletter-landing__form">
+          <NewsletterForm />
+        </div>
+
+        <div class="newsletter-landing__trust">
+          <div class="newsletter-landing__author">
+            <img src="/mar-inicio.webp" alt="" width="1200" height="1601" loading="lazy" decoding="async" />
+            <p><strong>Escrito por Mar</strong><span>Enfermera infantil y neonatal · Colegiada n.º 16700</span></p>
+          </div>
+          <p class="newsletter-landing__privacy">Las historias profesionales se cuentan de forma anonimizada y sin datos que permitan identificar a ninguna familia.</p>
+        </div>
       </div>
     </div>
   </section>
-  <NewsletterForm />
 </Layout>
 
 <style>
   .newsletter-landing {
-    padding: var(--spacing-xl) 0 var(--spacing-md);
-    padding-top: calc(var(--spacing-xl) + 2rem);
-    background-color: var(--color-white);
+    padding: clamp(2.5rem, 7vw, 5rem) 0;
+    background-color: var(--color-cream);
   }
 
-  .newsletter-landing__content {
-    max-width: 550px;
+  .newsletter-landing__panel {
+    display: grid;
+    grid-template-areas:
+      'intro form'
+      'benefits form'
+      'trust form';
+    grid-template-columns: minmax(0, 1fr) minmax(340px, 0.82fr);
+    column-gap: clamp(var(--spacing-xl), 7vw, 5rem);
+    row-gap: var(--spacing-lg);
+    max-width: 1040px;
     margin: 0 auto;
-    text-align: center;
+    padding: clamp(var(--spacing-lg), 5vw, var(--spacing-xl));
+    overflow: hidden;
+    background-color: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: 0 12px 36px rgba(45, 45, 45, 0.08);
+  }
+
+  .newsletter-landing__intro {
+    grid-area: intro;
+  }
+
+  .newsletter-landing__eyebrow {
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-coral-hover);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
 
   .newsletter-landing h1 {
-    font-size: 2rem;
     margin-bottom: var(--spacing-sm);
+    font-size: clamp(2.15rem, 4vw, 2.8rem);
   }
 
   .newsletter-landing__hook {
-    font-size: 1.1rem;
-    color: var(--color-coral);
-    font-weight: 500;
     margin-bottom: var(--spacing-md);
-  }
-
-  .newsletter-landing__desc {
-    color: var(--color-text-secondary);
-    line-height: 1.7;
-    margin-bottom: var(--spacing-md);
-  }
-
-  .newsletter-landing__bullets {
-    list-style: none;
-    padding: 0;
-    text-align: left;
-    max-width: 400px;
-    margin: 0 auto;
-  }
-
-  .newsletter-landing__bullets li {
-    position: relative;
-    padding-left: 1.5rem;
-    margin-bottom: 0.5rem;
-    color: var(--color-text-secondary);
-    font-size: 0.95rem;
+    color: var(--color-coral-hover);
+    font-size: clamp(1.05rem, 2vw, 1.2rem);
+    font-weight: 700;
     line-height: 1.5;
   }
 
-  .newsletter-landing__bullets li::before {
-    content: '✓';
-    position: absolute;
-    left: 0;
-    color: var(--color-coral);
-    font-weight: 600;
+  .newsletter-landing__desc {
+    margin: 0;
+    color: var(--color-text-secondary);
+    line-height: 1.75;
   }
 
-  @media (max-width: 768px) {
+  .newsletter-landing__benefits {
+    grid-area: benefits;
+  }
+
+  .newsletter-landing__benefits > p {
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .newsletter-landing__benefits ul {
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .newsletter-landing__benefits li {
+    position: relative;
+    padding-left: 1.75rem;
+    color: var(--color-text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+
+  .newsletter-landing__benefits li::before {
+    content: '✓';
+    position: absolute;
+    top: 0.05rem;
+    left: 0;
+    display: grid;
+    width: 1.15rem;
+    height: 1.15rem;
+    place-items: center;
+    border-radius: 50%;
+    background-color: var(--color-nude);
+    color: var(--color-coral-hover);
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .newsletter-landing__form {
+    grid-area: form;
+    align-self: center;
+    min-width: 0;
+  }
+
+  .newsletter-landing__trust {
+    grid-area: trust;
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .newsletter-landing__author {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+  }
+
+  .newsletter-landing__author img {
+    width: 3.75rem;
+    height: 3.75rem;
+    flex: 0 0 auto;
+    border: 2px solid var(--color-peach);
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center 24%;
+  }
+
+  .newsletter-landing__author p {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  .newsletter-landing__author strong {
+    font-size: 0.9rem;
+  }
+
+  .newsletter-landing__author span,
+  .newsletter-landing__privacy {
+    color: var(--color-text-secondary);
+    font-size: 0.78rem;
+  }
+
+  .newsletter-landing__privacy {
+    margin: var(--spacing-md) 0 0;
+    line-height: 1.55;
+  }
+
+  @media (max-width: 820px) {
+    .newsletter-landing__panel {
+      grid-template-areas:
+        'intro'
+        'form'
+        'benefits'
+        'trust';
+      grid-template-columns: minmax(0, 1fr);
+      max-width: 620px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .newsletter-landing {
+      padding: var(--spacing-lg) 0;
+    }
+
+    .newsletter-landing .container {
+      padding: 0 var(--spacing-md);
+    }
+
+    .newsletter-landing__panel {
+      padding: 1.35rem;
+      row-gap: 1.5rem;
+    }
+
     .newsletter-landing h1 {
-      font-size: 1.6rem;
+      font-size: 2rem;
     }
   }
 </style>
