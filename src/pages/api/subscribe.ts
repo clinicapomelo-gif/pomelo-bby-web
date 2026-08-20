@@ -164,6 +164,7 @@ export const POST: APIRoute = async ({ request }) => {
       from: sender,
       to: cleanEmail,
       subject,
+      headers: { 'X-Entity-Ref-ID': idempotencyKey },
       text: `Hola, ${cleanNombre}.\n\nConfirma tu correo para ${isLeadMagnet ? 'descargar «25 cosas normales en los bebés» y unirte' : 'unirte'} a El Chisme de Mar:\n${confirmationUrl.href}\n\nEl enlace caduca en 48 horas. Si no has solicitado este email, puedes ignorarlo.`,
       html: `
         <div style="font-family: Arial, sans-serif; color: #2d2d2d; line-height: 1.6; max-width: 600px; margin: 0 auto;">
