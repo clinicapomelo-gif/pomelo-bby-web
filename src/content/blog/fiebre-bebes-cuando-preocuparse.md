@@ -21,7 +21,7 @@ La fiebre es una respuesta del organismo frente a muchas infecciones y, por sí 
 
 > **Mucha fiebre no siempre significa mucha enfermedad.**
 >
-> Lo importante es valorar también cómo se encuentra el niño o la niña. *(enfamilia.aeped.es)*
+> Lo importante es valorar también cómo se encuentra el niño o la niña.
 
 ## ¿Qué es exactamente la fiebre?
 
@@ -89,7 +89,7 @@ No necesitas esperar a que esté gravemente enfermo/a para consultar.
 
 <p class="editorial-highlight">Si algo no te cuadra, pregunta.</p>
 
-La edad y el estado general son especialmente importantes a la hora de valorar la fiebre. *(enfamilia.aeped.es)*
+La edad y el estado general son especialmente importantes a la hora de valorar la fiebre.
 
 ## ¿Y si tiene 39 o 40 ºC?
 
@@ -143,6 +143,10 @@ La fiebre y la hipertermia son situaciones diferentes.
   <p>Si aparece dificultad respiratoria, decaimiento importante, deshidratación, convulsiones, manchas que no desaparecen al presionarlas o cualquier empeoramiento que te preocupe, consulta.</p>
   <p><strong>No necesitas saber diagnosticarlo. Solo necesitas saber cuándo pedir ayuda.</strong></p>
 </section>
+
+## Fuentes consultadas
+
+1. [Asociación Española de Pediatría — EnFamilia](https://www.aeped.es/enfamilia)
 
 ---
 

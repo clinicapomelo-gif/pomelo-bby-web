@@ -50,6 +50,20 @@ Actualiza esta lista si cambia el esquema de `src/content.config.ts`:
 - Verificar afirmaciones sanitarias y recomendaciones antes de publicar.
 - El artículo debe sentirse profesional y amable, no como un documento médico.
 
+## Fuentes y enlaces
+
+- Añade al final, antes del disclaimer, una sección `## Fuentes consultadas` con una lista numerada de 2-4 referencias relevantes.
+- Usa enlaces descriptivos con el nombre de la entidad y el título del recurso. No uses dominios sueltos como `(enfamilia.aeped.es)` ni textos como “haz clic aquí”.
+- Enlaza la página oficial concreta que respalda la información; usa una portada solo cuando la referencia sea general.
+- Incluye únicamente fuentes realmente consultadas y prioriza organismos sanitarios, sociedades científicas y guías clínicas.
+- Si una afirmación necesita atribución dentro del texto, enlaza allí el nombre de la fuente de forma natural y evita citas repetidas.
+
+```md
+## Fuentes consultadas
+
+1. [Asociación Española de Pediatría — EnFamilia](https://www.aeped.es/enfamilia)
+```
+
 ## Bloques visuales disponibles
 
 Estos nombres de clase forman parte del diseño compartido y no deben renombrarse sin actualizar `src/pages/blog/[slug].astro`.
