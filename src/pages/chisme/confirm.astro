@@ -66,7 +66,11 @@ const temporary = error === 'temporary';
   confirmationForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
     const button = confirmationForm.querySelector<HTMLButtonElement>('button[type="submit"]');
-    if (button) button.disabled = true;
+    if (button) {
+      button.disabled = true;
+      button.textContent = 'Confirmando…';
+      button.setAttribute('aria-busy', 'true');
+    }
 
     try {
       const token = confirmationForm.querySelector<HTMLInputElement>('input[name="token"]')?.value ?? '';

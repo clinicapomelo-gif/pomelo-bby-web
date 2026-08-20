@@ -87,19 +87,30 @@ export const POST: APIRoute = async ({ request }) => {
       return success(request, confirmation.source);
     }
 
-    const updated = await resend.contacts.update({
-      email: confirmation.email,
-      firstName: confirmation.name,
-      unsubscribed: false,
-    });
+    const [updated, segments, topic] = await Promise.all([
+      resend.contacts.update({
+        email: confirmation.email,
+        firstName: confirmation.name,
+        unsubscribed: false,
+        properties,
+      }),
+      resend.contacts.segments.list({ email: confirmation.email }),
+      resend.contacts.topics.update({
+        email: confirmation.email,
+        topics: [{ id: topicId, subscription: 'opt_in' }],
+      }),
+    ]);
+
     if (updated.error) {
       console.error('Resend confirmed contact update failed', updated.error.name, updated.error.statusCode);
       return failure(request, 'temporary');
     }
-
-    const segments = await resend.contacts.segments.list({ email: confirmation.email });
     if (segments.error) {
       console.error('Resend confirmed segment lookup failed', segments.error.name, segments.error.statusCode);
+      return failure(request, 'temporary');
+    }
+    if (topic.error) {
+      console.error('Resend confirmed topic update failed', topic.error.name, topic.error.statusCode);
       return failure(request, 'temporary');
     }
 
@@ -112,24 +123,6 @@ export const POST: APIRoute = async ({ request }) => {
         console.error('Resend confirmed segment update failed', segment.error.name, segment.error.statusCode);
         return failure(request, 'temporary');
       }
-    }
-
-    const topic = await resend.contacts.topics.update({
-      email: confirmation.email,
-      topics: [{ id: topicId, subscription: 'opt_in' }],
-    });
-    if (topic.error) {
-      console.error('Resend confirmed topic update failed', topic.error.name, topic.error.statusCode);
-      return failure(request, 'temporary');
-    }
-
-    const consent = await resend.contacts.update({
-      email: confirmation.email,
-      properties,
-    });
-    if (consent.error) {
-      console.error('Resend confirmed consent update failed', consent.error.name, consent.error.statusCode);
-      return failure(request, 'temporary');
     }
 
     return success(request, confirmation.source);
