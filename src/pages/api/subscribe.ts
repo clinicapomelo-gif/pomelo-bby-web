@@ -126,6 +126,37 @@ export const POST: APIRoute = async ({ request }) => {
     return jsonResponse({ error: 'Ahora mismo no he podido iniciar la suscripción. Inténtalo de nuevo en unos minutos.' }, 503);
   }
 
+  const resend = new Resend(resendKey);
+
+  if (!isLeadMagnet) {
+    try {
+      const existing = await resend.contacts.get({ email: cleanEmail });
+      if (existing.error && existing.error.name !== 'not_found') {
+        console.error('Resend subscription lookup failed', existing.error.name, existing.error.statusCode);
+        return jsonResponse({ error: 'Ahora mismo no he podido comprobar la suscripción. Inténtalo de nuevo en unos minutos.' }, 503);
+      }
+
+      if (existing.data && !existing.data.unsubscribed) {
+        const topics = await resend.contacts.topics.list({ email: cleanEmail });
+        if (topics.error) {
+          console.error('Resend subscription topic lookup failed', topics.error.name, topics.error.statusCode);
+          return jsonResponse({ error: 'Ahora mismo no he podido comprobar la suscripción. Inténtalo de nuevo en unos minutos.' }, 503);
+        }
+
+        if (topics.data?.data.some((topic) =>
+          topic.id === import.meta.env.RESEND_NEWSLETTER_TOPIC_ID && topic.subscription === 'opt_in'
+        )) {
+          return expectsJson
+            ? jsonResponse({ success: true })
+            : Response.redirect(new URL(successUrl, request.url), 303);
+        }
+      }
+    } catch (error) {
+      console.error('Resend subscription lookup exception:', error instanceof Error ? error.name : 'UnknownError');
+      return jsonResponse({ error: 'Ahora mismo no he podido comprobar la suscripción. Inténtalo de nuevo en unos minutos.' }, 503);
+    }
+  }
+
   const consentedAt = new Date().toISOString();
   let confirmationUrl: URL;
   let token: string;
@@ -160,7 +191,7 @@ export const POST: APIRoute = async ({ request }) => {
     .digest('hex');
 
   try {
-    const result = await new Resend(resendKey).emails.send({
+    const result = await resend.emails.send({
       from: sender,
       to: cleanEmail,
       subject,
