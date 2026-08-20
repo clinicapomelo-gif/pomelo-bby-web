@@ -4,6 +4,9 @@ import Stripe from 'stripe';
 
 export const prerender = false;
 
+Astro.response.headers.set('Cache-Control', 'private, no-store');
+Astro.response.headers.set('Referrer-Policy', 'no-referrer');
+
 // Verificar que el session_id es válido y está pagado
 const url = new URL(Astro.request.url);
 const sessionId = url.searchParams.get('session_id');

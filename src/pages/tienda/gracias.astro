@@ -5,6 +5,9 @@ import { guias } from '../../data/guias';
 
 export const prerender = false;
 
+Astro.response.headers.set('Cache-Control', 'private, no-store');
+Astro.response.headers.set('Referrer-Policy', 'no-referrer');
+
 type PurchaseState = 'paid' | 'pending' | 'invalid' | 'error';
 
 const sessionId = Astro.url.searchParams.get('session_id');

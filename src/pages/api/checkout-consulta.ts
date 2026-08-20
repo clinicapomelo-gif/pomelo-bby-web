@@ -46,7 +46,7 @@ export const POST: APIRoute = async ({ request }) => {
       { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
   } catch (err: unknown) {
-    console.error('Stripe checkout error:', err instanceof Error ? err.message : 'Error desconocido');
+    console.error('Stripe checkout error:', err instanceof Error ? err.name : 'UnknownError');
     return new Response(
       JSON.stringify({ error: 'No se pudo iniciar el pago. Inténtalo de nuevo.' }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }

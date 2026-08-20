@@ -39,7 +39,7 @@ export const GET: APIRoute = async () => {
       },
     });
   } catch (error) {
-    console.error('Lead magnet Blob download error:', error instanceof Error ? error.message : 'Unknown error');
+    console.error('Lead magnet Blob download error:', error instanceof Error ? error.name : 'UnknownError');
     return unavailable();
   }
 };

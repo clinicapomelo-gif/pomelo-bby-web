@@ -4,6 +4,9 @@ import { decryptNewsletterConfirmation } from '../../lib/newsletter-confirmation
 
 export const prerender = false;
 
+Astro.response.headers.set('Cache-Control', 'private, no-store');
+Astro.response.headers.set('Referrer-Policy', 'no-referrer');
+
 const token = Astro.url.searchParams.get('token') || '';
 const error = Astro.url.searchParams.get('error');
 let source: 'newsletter' | 'lead_magnet_25_cosas' | undefined;

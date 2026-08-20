@@ -48,8 +48,11 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     const previousConsent = existing.data?.properties.consented_at;
-    const alreadyConfirmed = previousConsent?.type === 'string' &&
-      previousConsent.value === confirmation.consentedAt;
+    const previousConsentAt = previousConsent?.type === 'string'
+      ? Date.parse(previousConsent.value)
+      : Number.NaN;
+    const alreadyConfirmed = Number.isFinite(previousConsentAt) &&
+      previousConsentAt >= Date.parse(confirmation.consentedAt);
 
     if (alreadyConfirmed) return success(request, confirmation.source);
 

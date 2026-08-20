@@ -80,8 +80,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     return Response.redirect(new URL('/gracias', request.url), 303);
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : 'Error desconocido';
-    console.error('Resend error:', message);
+    console.error('Resend contact exception:', err instanceof Error ? err.name : 'UnknownError');
     return new Response(
       JSON.stringify({ error: 'No se pudo enviar el mensaje.' }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }

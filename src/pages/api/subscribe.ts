@@ -1,3 +1,4 @@
+import { createHmac } from 'node:crypto';
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
 import { encryptNewsletterConfirmation } from '../../lib/newsletter-confirmation';
@@ -152,6 +153,11 @@ export const POST: APIRoute = async ({ request }) => {
     ? 'Confirma tu correo y descarga la guía'
     : 'Confirma tu suscripción a El Chisme de Mar';
 
+  const confirmationWindow = Math.floor(Date.now() / (60 * 60 * 1000));
+  const idempotencyKey = createHmac('sha256', confirmationSecret)
+    .update(`${cleanEmail}:${isLeadMagnet ? LEAD_MAGNET_ID : 'newsletter'}:${confirmationWindow}`)
+    .digest('hex');
+
   try {
     const result = await new Resend(resendKey).emails.send({
       from: sender,
@@ -170,7 +176,7 @@ export const POST: APIRoute = async ({ request }) => {
         </div>
       `,
     }, {
-      idempotencyKey: `newsletter-confirm-${confirmationUrl.searchParams.get('token')?.slice(-32)}`,
+      idempotencyKey: `newsletter-confirm-${idempotencyKey}`,
     });
 
     if (result.error) {

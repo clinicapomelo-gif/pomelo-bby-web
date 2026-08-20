@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import Stripe from 'stripe';
 import { guias, isGuiaPurchasable } from '../../data/guias';
-import { isPrivateGuidePdfAvailable } from '../../lib/guide-delivery';
+import { getGuideBlobAuth, isPrivateGuidePdfAvailable } from '../../lib/guide-delivery';
 
 export const prerender = false;
 
@@ -46,10 +46,16 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const stripeKey = import.meta.env.STRIPE_SECRET_KEY;
-  const blobToken = import.meta.env.BLOB_READ_WRITE_TOKEN;
+  const webhookSecret = import.meta.env.STRIPE_WEBHOOK_SECRET;
+  const resendKey = import.meta.env.RESEND_API_KEY;
+  const sender = import.meta.env.RESEND_FROM_EMAIL;
+  const blobAuth = getGuideBlobAuth();
   const siteURL = import.meta.env.SITE_URL;
 
-  if (!stripeKey || stripeKey === 'sk_test_PLACEHOLDER' || !blobToken || !siteURL) {
+  if (
+    !stripeKey || stripeKey === 'sk_test_PLACEHOLDER' ||
+    !webhookSecret?.startsWith('whsec_') || !resendKey || !sender || !blobAuth || !siteURL
+  ) {
     return Response.json({ error: 'La compra no está configurada todavía.' }, { status: 503 });
   }
 
@@ -60,7 +66,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   try {
-    if (!await isPrivateGuidePdfAvailable(guia.blobKey, blobToken)) {
+    if (!await isPrivateGuidePdfAvailable(guia.blobKey, blobAuth)) {
       return Response.json({ error: 'El PDF de esta guía no está disponible.' }, { status: 503 });
     }
   } catch (error: unknown) {

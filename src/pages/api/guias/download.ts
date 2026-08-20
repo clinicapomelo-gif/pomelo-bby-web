@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro';
 import { get } from '@vercel/blob';
 import Stripe from 'stripe';
 import { guias, isGuiaPurchasable } from '../../../data/guias';
-import { getGuideDownloadExpiresAt } from '../../../lib/guide-delivery';
+import { getGuideBlobAuth, getGuideDownloadExpiresAt } from '../../../lib/guide-delivery';
 
 export const prerender = false;
 
@@ -39,8 +39,8 @@ export const GET: APIRoute = async ({ url }) => {
   }
 
   const stripeKey = import.meta.env.STRIPE_SECRET_KEY;
-  const blobToken = import.meta.env.BLOB_READ_WRITE_TOKEN;
-  if (!stripeKey || !blobToken) {
+  const blobAuth = getGuideBlobAuth();
+  if (!stripeKey || !blobAuth) {
     return temporarilyUnavailable();
   }
 
@@ -81,8 +81,8 @@ export const GET: APIRoute = async ({ url }) => {
 
   try {
     const result = await get(guia.blobKey, {
+      ...blobAuth,
       access: 'private',
-      token: blobToken,
     });
 
     if (!result || result.statusCode !== 200 || result.blob.contentType !== 'application/pdf') {

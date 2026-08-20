@@ -9,7 +9,7 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const POST: APIRoute = async ({ request, redirect }) => {
   const resendKey = import.meta.env.RESEND_API_KEY;
   const fromEmail = import.meta.env.RESEND_FROM_EMAIL;
-  const toEmail = import.meta.env.RESEND_TO_EMAIL;
+  const toEmail = import.meta.env.RESEND_CONSULTA_TO_EMAIL;
   if (!resendKey || !fromEmail || !toEmail) {
     return new Response(
       JSON.stringify({ error: 'El envío no está disponible ahora mismo. Inténtalo de nuevo más tarde.' }),
@@ -18,6 +18,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   }
 
   const stripeKey = import.meta.env.STRIPE_SECRET_KEY;
+  const priceId = import.meta.env.STRIPE_CONSULTA_MENSAJE_PRICE_ID;
   const resend = new Resend(resendKey);
 
   let formData: FormData;
@@ -38,7 +39,10 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   const contexto = formData.get('contexto')?.toString().trim() || '';
 
   // Verificar pago válido
-  if (!sessionId || !stripeKey) {
+  if (
+    !sessionId.startsWith('cs_') || sessionId.length > 255 ||
+    !stripeKey || !priceId?.startsWith('price_')
+  ) {
     return new Response(
       JSON.stringify({ error: 'Sesión de pago no válida.' }),
       { status: 403, headers: { 'Content-Type': 'application/json' } }
@@ -47,10 +51,19 @@ export const POST: APIRoute = async ({ request, redirect }) => {
 
   const stripe = new Stripe(stripeKey);
   let session: Stripe.Checkout.Session;
+  let customerEmail: string;
 
   try {
     session = await stripe.checkout.sessions.retrieve(sessionId);
-    if (session.payment_status !== 'paid' || session.metadata?.type !== 'consulta-mensaje') {
+    const lineItems = await stripe.checkout.sessions.listLineItems(sessionId, { limit: 2 });
+    customerEmail = session.customer_details?.email?.trim().toLowerCase() ?? '';
+    if (
+      session.payment_status !== 'paid' ||
+      session.metadata?.type !== 'consulta-mensaje' ||
+      lineItems.data.length !== 1 ||
+      lineItems.data[0]?.price?.id !== priceId ||
+      !customerEmail
+    ) {
       return new Response(
         JSON.stringify({ error: 'Pago no verificado.' }),
         { status: 403, headers: { 'Content-Type': 'application/json' } }
@@ -72,7 +85,8 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     !email || email.length > 254 || !EMAIL_REGEX.test(email) ||
     !edad || edad.length > 100 ||
     !motivo || motivo.length > 10000 ||
-    contexto.length > 5000
+    contexto.length > 5000 ||
+    email !== customerEmail
   ) {
     return new Response(
       JSON.stringify({ error: 'Revisa los campos del formulario.' }),
@@ -85,7 +99,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
       from: fromEmail,
       to: toEmail,
       replyTo: email,
-      subject: `Consulta por mensaje de ${nombre} — pomelo.bby`,
+      subject: 'Nueva consulta por mensaje — pomelo.bby',
       text: `Nueva consulta por mensaje\n\nNombre: ${nombre}\nEmail: ${email}\nEdad del bebé: ${edad}\n\n¿Qué le preocupa?\n${motivo}${contexto ? `\n\nContexto adicional\n${contexto}` : ''}`,
     }, {
       idempotencyKey: `consulta-mensaje-${sessionId}`,

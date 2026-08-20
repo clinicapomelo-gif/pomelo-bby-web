@@ -13,9 +13,11 @@ Configurar estos valores en local y en los entornos de Vercel que correspondan. 
 | `STRIPE_WEBHOOK_SECRET` | Firma del endpoint `/api/webhook` del entorno actual. |
 | `RESEND_API_KEY` | Envío del correo de entrega. |
 | `RESEND_FROM_EMAIL` | Remitente perteneciente a un dominio verificado. |
-| `BLOB_READ_WRITE_TOKEN` | Lectura autenticada del almacén privado de Vercel Blob. |
+| `BLOB_STORE_ID` | Identificador del almacén privado conectado al proyecto. |
+| `VERCEL_OIDC_TOKEN` | Credencial temporal inyectada automáticamente por Vercel para acceder a Blob. |
+| `BLOB_READ_WRITE_TOKEN` | Alternativa solo para desarrollo local cuando no hay OIDC. |
 
-Los Product ID, Price ID y `blobKey` no son secretos, pero deben corresponder al mismo producto y entorno.
+En Vercel se prioriza OIDC para no mantener una credencial Blob de larga duración. Los Product ID, Price ID y `blobKey` no son secretos, pero deben corresponder al mismo producto y entorno.
 
 ## Preparación externa
 
@@ -44,7 +46,7 @@ Actualizar su entrada en `src/data/guias.ts` con los valores reales y ejecutar u
 ## Flujo y seguridad
 
 - El navegador solo envía `guiaId`; precio, Price ID y PDF se resuelven en servidor.
-- El checkout comprueba que el PDF privado existe antes de cobrar.
+- El checkout comprueba que el webhook, el correo y el PDF privado están disponibles antes de cobrar.
 - El webhook verifica la firma sobre el cuerpo original y vuelve a comprobar el pago en Stripe.
 - Resend usa la sesión como clave de idempotencia y Stripe conserva `deliveryEmailId`, `deliveredAt` y `downloadExpiresAt` en metadata.
 - El correo enlaza a `/api/guias/download`; nunca expone `blobKey`.
