@@ -44,7 +44,9 @@ const visibleGuias = guias.filter((guia) => isGuiaVisible(guia, stripeMode));
                 )}
               </div>
               {guia.status === 'free' ? (
-                <a href={guia.leadMagnetUrl} class="btn btn--primary">Recibir la guía gratis</a>
+                <a href={guia.leadMagnetUrl} class="btn btn--primary">
+                  {guia.leadMagnetUrl?.startsWith('/api/guias/gratis') ? 'Descargar gratis' : 'Recibir la guía gratis'}
+                </a>
               ) : (
                 <a href={`/tienda/${guia.id}`} class="btn btn--secondary">Ver guía</a>
               )}

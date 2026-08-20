@@ -54,7 +54,9 @@ const canCheckout = isGuiaPurchasable(guia, stripeMode);
             {guia.status === 'free' && (
               <div class="producto__action">
                 <p class="producto__entrega">Un recurso gratuito para acompañarte con información clara.</p>
-                <a href={guia.leadMagnetUrl} class="btn btn--primary btn--full">Recibir la guía gratis</a>
+                <a href={guia.leadMagnetUrl} class="btn btn--primary btn--full">
+                  {guia.leadMagnetUrl?.startsWith('/api/guias/gratis') ? 'Descargar la guía gratis' : 'Recibir la guía gratis'}
+                </a>
               </div>
             )}
 

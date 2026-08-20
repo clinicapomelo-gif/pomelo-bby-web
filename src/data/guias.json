@@ -47,9 +47,10 @@
       "Tiempos y pautas para nevera y congelador",
       "Cómo descongelar y transportar la leche"
     ],
-    "amountCents": 399,
-    "status": "available",
+    "amountCents": 0,
+    "status": "free",
     "category": "alimentacion",
+    "leadMagnetUrl": "/api/guias/gratis?id=conservacion-leche-materna",
     "stripe": {
       "test": {
         "productId": "prod_V6P1covAOkIO5l",
