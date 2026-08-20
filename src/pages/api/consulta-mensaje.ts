@@ -5,6 +5,7 @@ import Stripe from 'stripe';
 export const prerender = false;
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const getString = (value: unknown) => typeof value === 'string' ? value : '';
 
 export const POST: APIRoute = async ({ request, redirect }) => {
   const resendKey = import.meta.env.RESEND_API_KEY;
@@ -21,9 +22,15 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   const priceId = import.meta.env.STRIPE_CONSULTA_MENSAJE_PRICE_ID;
   const resend = new Resend(resendKey);
 
-  let formData: FormData;
+  let values: Record<string, unknown>;
   try {
-    formData = await request.formData();
+    if (request.headers.get('content-type')?.includes('application/json')) {
+      const body: unknown = await request.json();
+      if (!body || typeof body !== 'object' || Array.isArray(body)) throw new Error();
+      values = body as Record<string, unknown>;
+    } else {
+      values = Object.fromEntries(await request.formData());
+    }
   } catch {
     return new Response(
       JSON.stringify({ error: 'Datos mal formados.' }),
@@ -31,12 +38,12 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     );
   }
 
-  const sessionId = formData.get('session_id')?.toString().trim() || '';
-  const nombre = formData.get('nombre')?.toString().trim() || '';
-  const email = formData.get('email')?.toString().trim().toLowerCase() || '';
-  const edad = formData.get('edad')?.toString().trim() || '';
-  const motivo = formData.get('motivo')?.toString().trim() || '';
-  const contexto = formData.get('contexto')?.toString().trim() || '';
+  const sessionId = getString(values.session_id).trim();
+  const nombre = getString(values.nombre).trim();
+  const email = getString(values.email).trim().toLowerCase();
+  const edad = getString(values.edad).trim();
+  const motivo = getString(values.motivo).trim();
+  const contexto = getString(values.contexto).trim();
 
   // Verificar pago válido
   if (
