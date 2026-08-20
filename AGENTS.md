@@ -32,6 +32,27 @@ No hay una suite de tests ni un script de lint. Después de cambios de código, 
 
 No edites artefactos generados en `.astro/`, `dist/` o `.vercel/`. Mantén los componentes accesibles, responsive y coherentes con los patrones Astro/CSS existentes. Evita dependencias y abstracciones nuevas si la plataforma o el código actual ya resuelven el caso.
 
+## Paleta visual de Pomelo
+
+- `#EF6E71` — **Coral Pomelo:** color principal; CTA, elementos activos y acentos. No sustituirlo globalmente.
+- `#92363A` — **Granate:** hover, foco y texto cuando el coral no tenga contraste suficiente.
+- `#EAC4C6` — **Rosa melocotón:** fondos suaves, etiquetas y bordes.
+- `#F5ECEC` — **Rosa nude:** secciones y tarjetas destacadas.
+- `#F6EFE7` — **Crema:** fondo general.
+- `#FFFFFF` — **Blanco:** tarjetas, formularios, header y footer.
+- `#2D2D2D` — **Gris oscuro:** títulos y texto principal.
+- `#5A5A5A` — **Gris medio:** texto secundario.
+- `#7A7A7A` — **Gris claro:** metadatos, solo con contraste suficiente.
+- `#7CB69D` — **Verde suave:** evitarlo; preferir granate o neutros, salvo estados de éxito imprescindibles.
+
+Coral primero; granate solo como apoyo. No introducir colores ni cambiar esta jerarquía sin aprobación expresa.
+
+## Reglas de diseño
+
+- No cambies globalmente la paleta, tipografía o layout para resolver un problema local sin aprobación expresa.
+- Mantén tres familias: landings con personalidad (Inicio, Sobre mí y Chisme), índices consistentes (Blog, Tienda, Consultas y Contacto) y páginas de lectura o detalle.
+- Usa un solo CTA principal por bloque. Aplica hover o elevación a una tarjeta solo si toda ella es interactiva.
+
 ## Backend, pagos y datos
 
 - Stripe se usa directamente desde endpoints server-side; Resend gestiona correo transaccional, contactos y El Chisme mediante Segmentos, Topics, Broadcasts y Automations.

@@ -24,13 +24,14 @@ const {
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
+const normalizedPath = currentPath.replace(/\/$/, '') || '/';
 const maintenanceBypassPaths = new Set([
   '/consulta-mensaje/enviado',
   '/consulta-mensaje/gracias',
   '/tienda/gracias',
 ]);
 const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
-  !maintenanceBypassPaths.has(currentPath.replace(/\/$/, '') || '/');
+  !maintenanceBypassPaths.has(normalizedPath);
 ---
 
 <!DOCTYPE html>
@@ -38,7 +39,10 @@ const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/jpeg" href="/logo-pomelo.jpeg" />
+    <link rel="icon" type="image/webp" href="/logo-pomelo.webp" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" />
     <SEO
       title={maintenanceMode ? 'Estamos preparando la web' : title}
       description={maintenanceMode ? 'Estamos preparando pomelo.bby. Muy pronto encontrarás información clara sobre salud infantil y crianza.' : description}
@@ -54,10 +58,11 @@ const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
       <MaintenancePage />
     ) : (
       <>
+    <a class="skip-link" href="#main-content">Saltar al contenido</a>
     <header class="header">
       <nav class="container nav">
         <a href="/" class="nav__logo" aria-label="Inicio — pomelo.bby">
-          <img src="/logo-pomelo.jpeg" alt="" width="1600" height="1600" />
+          <img src="/logo-pomelo.webp" alt="" width="192" height="192" />
           <span>pomelo.bby</span>
         </a>
         <button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-links">
@@ -66,12 +71,12 @@ const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
           <span class="nav__toggle-bar"></span>
         </button>
         <ul class="nav__links" id="nav-links">
-          <li><a href="/blog" class={currentPath.startsWith('/blog') ? 'nav__link--active' : ''}>Blog</a></li>
-          <li><a href="/tienda" class={currentPath.startsWith('/tienda') ? 'nav__link--active' : ''}>Tienda</a></li>
-          <li><a href="/consultas" class={currentPath.startsWith('/consultas') ? 'nav__link--active' : ''}>Consultas</a></li>
-          <li><a href="/chisme" class={currentPath.startsWith('/chisme') ? 'nav__link--active' : ''}>Chisme</a></li>
-          <li><a href="/sobre-mi" class={currentPath.startsWith('/sobre-mi') ? 'nav__link--active' : ''}>Sobre mí</a></li>
-          <li><a href="/contacto" class={currentPath.startsWith('/contacto') ? 'nav__link--active' : ''}>Contacto</a></li>
+          <li><a href="/blog" class={currentPath.startsWith('/blog') ? 'nav__link--active' : ''} aria-current={normalizedPath === '/blog' ? 'page' : undefined}>Blog</a></li>
+          <li><a href="/tienda" class={currentPath.startsWith('/tienda') ? 'nav__link--active' : ''} aria-current={normalizedPath === '/tienda' ? 'page' : undefined}>Tienda</a></li>
+          <li><a href="/consultas" class={currentPath.startsWith('/consultas') ? 'nav__link--active' : ''} aria-current={normalizedPath === '/consultas' ? 'page' : undefined}>Consultas</a></li>
+          <li><a href="/chisme" class={currentPath.startsWith('/chisme') ? 'nav__link--active' : ''} aria-current={normalizedPath === '/chisme' ? 'page' : undefined}>Chisme</a></li>
+          <li><a href="/sobre-mi" class={currentPath.startsWith('/sobre-mi') ? 'nav__link--active' : ''} aria-current={normalizedPath === '/sobre-mi' ? 'page' : undefined}>Sobre mí</a></li>
+          <li><a href="/contacto" class={currentPath.startsWith('/contacto') ? 'nav__link--active' : ''} aria-current={normalizedPath === '/contacto' ? 'page' : undefined}>Contacto</a></li>
         </ul>
       </nav>
     </header>
@@ -152,7 +157,7 @@ const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
       document.addEventListener('change', clearChangedField);
     </script>
 
-    <main>
+    <main id="main-content" tabindex="-1">
       <slot />
     </main>
 
@@ -163,10 +168,10 @@ const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
         <div class="footer__brand">
           <img
             class="footer__logo"
-            src="/logo-pomelo-bby.jpeg"
+            src="/logo-pomelo-bby.webp"
             alt="pomelo.bby — Criar sin culpa"
-            width="1600"
-            height="1600"
+            width="640"
+            height="640"
             loading="lazy"
           />
           <p class="footer__tagline">Te guio en la salud y crianza de tus hijos.</p>
@@ -198,6 +203,23 @@ const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
 </style>
 
 <style>
+  .skip-link {
+    position: fixed;
+    top: var(--spacing-sm);
+    left: var(--spacing-sm);
+    z-index: 200;
+    padding: 0.65rem 1rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-white);
+    color: var(--color-coral-text);
+    font-weight: 700;
+    transform: translateY(-200%);
+  }
+
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+
   .header {
     position: sticky;
     top: 0;
@@ -225,7 +247,7 @@ const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
   }
 
   .nav__logo:hover {
-    color: var(--color-coral);
+    color: var(--color-coral-hover);
   }
 
   .nav__logo img {
@@ -247,11 +269,16 @@ const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
   }
 
   .nav__links a:hover {
-    color: var(--color-coral);
+    color: var(--color-coral-hover);
   }
 
   .nav__link--active {
-    color: var(--color-coral) !important;
+    color: var(--color-coral-text) !important;
+    font-weight: 700 !important;
+    text-decoration: underline;
+    text-decoration-color: var(--color-coral);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.35em;
   }
 
   .nav__toggle {
@@ -279,7 +306,6 @@ const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
     background-color: var(--color-white);
     border-top: 1px solid var(--color-border);
     padding: var(--spacing-xl) 0 var(--spacing-lg);
-    margin-top: var(--spacing-xl);
   }
 
   .footer__content {
@@ -307,7 +333,7 @@ const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
   }
 
   .footer__social a {
-    color: var(--color-coral);
+    color: var(--color-coral-text);
     font-weight: 500;
   }
 
@@ -337,7 +363,7 @@ const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
   }
 
   .footer__legal a:hover {
-    color: var(--color-coral);
+    color: var(--color-coral-hover);
   }
 
   .footer__copy {

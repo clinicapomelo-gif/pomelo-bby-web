@@ -2,9 +2,6 @@
    pomelo.bby — Global Styles
    =========================================== */
 
-/* Google Fonts — Montserrat */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
-
 /* ---- CSS Variables (paleta) ---- */
 :root {
   /* Fondos */
@@ -12,7 +9,7 @@
   --color-cream: #F6EFE7;
   --color-nude: #F5ECEC;
 
-  /* Acento rosa — color de marca de Mar */
+  /* Marca */
   --color-coral: #EF6E71;
   --color-coral-hover: #92363A;
   --color-coral-text: #EF6E71;
@@ -24,7 +21,6 @@
   --color-text-tertiary: #7A7A7A;
 
   /* Complementarios */
-  --color-green: #7CB69D;
   --color-border: #E8D8D9;
 
   /* Tipografía */
@@ -49,8 +45,8 @@
   --color-cat-alimentacion-accent: #EE9496;
   --color-cat-sueno-bg: #F0F4F8;
   --color-cat-sueno-accent: #8BA4B8;
-  --color-cat-salud-bg: #F2F8F5;
-  --color-cat-salud-accent: #7CB69D;
+  --color-cat-salud-bg: var(--color-nude);
+  --color-cat-salud-accent: #EF6E71;
   --color-cat-desarrollo-bg: #FBF8F0;
   --color-cat-desarrollo-accent: #C4A574;
   --color-cat-crianza-bg: #FDF6F6;
@@ -106,7 +102,7 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-text);
 }
 
-h1 { font-size: 2.5rem; }
+h1 { font-size: clamp(2rem, 5vw, 2.5rem); }
 h2 { font-size: 2rem; }
 h3 { font-size: 1.5rem; }
 h4 { font-size: 1.25rem; }
@@ -134,9 +130,35 @@ button {
   padding: 0 var(--spacing-lg);
 }
 
+/* ---- Cabeceras de páginas de índice ---- */
+.page-header {
+  max-width: 720px;
+  margin: 0 auto var(--spacing-xl);
+  text-align: center;
+}
+
+.page-header h1 {
+  margin-bottom: var(--spacing-sm);
+}
+
+.page-header__subtitle,
+.page-header__description {
+  color: var(--color-text-secondary);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.page-header__subtitle {
+  margin: 0;
+}
+
+.page-header__description {
+  margin: var(--spacing-sm) 0 0;
+}
+
 /* ---- Focus visible ---- */
 :focus-visible {
-  outline: 2px solid var(--color-coral);
+  outline: 2px solid var(--color-coral-hover);
   outline-offset: 2px;
 }
 
@@ -155,7 +177,7 @@ button {
 
 .btn--primary {
   background-color: var(--color-coral);
-  color: var(--color-white);
+  color: var(--color-text);
 }
 
 .btn--primary:hover {
@@ -171,7 +193,7 @@ button {
 
 .btn--secondary:hover {
   background-color: var(--color-coral);
-  color: var(--color-white);
+  color: var(--color-text);
 }
 
 .btn--full {
@@ -183,7 +205,7 @@ button {
   margin: 0.4rem 0 0;
   padding-left: 0.6rem;
   border-left: 2px solid var(--color-coral);
-  color: var(--color-coral-text);
+  color: var(--color-coral-hover);
   font-size: 0.78rem;
   line-height: 1.45;
   text-align: left;
@@ -192,10 +214,35 @@ button {
 [data-validation-field].is-invalid input:not([type='checkbox']),
 [data-validation-field].is-invalid textarea,
 [data-validation-field].is-invalid select {
-  border-color: var(--color-coral-text);
+  border-color: var(--color-coral-hover);
   background-color: #fffafa;
 }
 
 [data-validation-field].is-invalid input[type='checkbox'] {
-  accent-color: var(--color-coral-text);
+  accent-color: var(--color-coral-hover);
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding-right: var(--spacing-md);
+    padding-left: var(--spacing-md);
+  }
+
+  .page-header {
+    margin-bottom: var(--spacing-lg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

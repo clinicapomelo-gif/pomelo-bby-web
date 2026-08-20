@@ -5,10 +5,10 @@ import Layout from '../layouts/Layout.astro';
 <Layout title="Contacto" description="Contacta con Mar, enfermera infantil. Estoy aquí para ayudarte con lo que necesites.">
   <section class="contacto">
     <div class="container">
-      <div class="contacto__header">
+      <header class="page-header">
         <h1>Contacto</h1>
-        <p class="contacto__subtitle">Estoy aquí. Escríbeme lo que necesites.</p>
-      </div>
+        <p class="page-header__subtitle">Estoy aquí. Escríbeme lo que necesites.</p>
+      </header>
 
       <div class="contacto__orientacion">
         <div class="contacto__orientacion-item">
@@ -82,20 +82,6 @@ import Layout from '../layouts/Layout.astro';
 <style>
   .contacto {
     padding: var(--spacing-xl) 0;
-  }
-
-  .contacto__header {
-    text-align: center;
-    margin-bottom: var(--spacing-xl);
-  }
-
-  .contacto__header h1 {
-    margin-bottom: var(--spacing-sm);
-  }
-
-  .contacto__subtitle {
-    color: var(--color-text-secondary);
-    font-size: 1.05rem;
   }
 
   .contacto__orientacion {
@@ -195,7 +181,7 @@ import Layout from '../layouts/Layout.astro';
 
   .form__group input:focus,
   .form__group textarea:focus {
-    border-color: var(--color-coral);
+    border-color: var(--color-coral-hover);
   }
 
   .form__group input::placeholder,

@@ -17,6 +17,14 @@ const categoryColors: Record<string, { bg: string; accent: string }> = {
   desarrollo: { bg: 'var(--color-cat-desarrollo-bg)', accent: 'var(--color-cat-desarrollo-accent)' },
   crianza: { bg: 'var(--color-cat-crianza-bg)', accent: 'var(--color-cat-crianza-accent)' },
 };
+
+const categoryLabels: Record<string, string> = {
+  alimentacion: 'Alimentación',
+  sueño: 'Sueño',
+  salud: 'Salud',
+  desarrollo: 'Desarrollo',
+  crianza: 'Crianza',
+};
 ---
 
 <Layout title="Inicio">
@@ -61,7 +69,7 @@ const categoryColors: Record<string, { bg: string; accent: string }> = {
 
       <ul class="home-consultations__options" aria-label="Modalidades de consulta">
         <li>
-          <a href="/consultas#consulta-correo" class="home-consultations__card home-consultations__card--email" aria-label="Ver los detalles de Cuéntame por correo">
+          <a href="/consultas#consulta-correo" class="home-consultations__card home-consultations__card--email">
             <div class="home-consultations__card-top">
               <span class="home-consultations__format">Por correo</span>
               <span class="home-consultations__number" aria-hidden="true">01</span>
@@ -77,7 +85,7 @@ const categoryColors: Record<string, { bg: string; accent: string }> = {
           </a>
         </li>
         <li>
-          <a href="/consultas#duda-concreta" class="home-consultations__card home-consultations__card--video" aria-label="Ver los detalles de Duda concreta">
+          <a href="/consultas#duda-concreta" class="home-consultations__card home-consultations__card--video">
             <div class="home-consultations__card-top">
               <span class="home-consultations__format">Videollamada · 20 min</span>
               <span class="home-consultations__number" aria-hidden="true">02</span>
@@ -93,7 +101,7 @@ const categoryColors: Record<string, { bg: string; accent: string }> = {
           </a>
         </li>
         <li>
-          <a href="/consultas#hablemos-tranquilamente" class="home-consultations__card home-consultations__card--plan" aria-label="Ver los detalles de Hablemos tranquilamente">
+          <a href="/consultas#hablemos-tranquilamente" class="home-consultations__card home-consultations__card--plan">
             <div class="home-consultations__card-top">
               <span class="home-consultations__format">Videollamada + seguimiento</span>
               <span class="home-consultations__number" aria-hidden="true">03</span>
@@ -137,7 +145,7 @@ const categoryColors: Record<string, { bg: string; accent: string }> = {
                 )}
               </div>
               <div class="post-card__content">
-                <span class="post-card__category">{post.data.category}</span>
+                <span class="post-card__category">{categoryLabels[post.data.category]}</span>
                 <h3 class="post-card__title">{post.data.title}</h3>
                 <p class="post-card__desc">{post.data.description}</p>
               </div>
@@ -211,7 +219,7 @@ const categoryColors: Record<string, { bg: string; accent: string }> = {
   }
 
   .hero__slogan {
-    color: var(--color-coral-text);
+    color: var(--color-coral);
     font-size: 1.1rem;
     font-weight: 700;
     line-height: 1.5;
@@ -304,7 +312,7 @@ const categoryColors: Record<string, { bg: string; accent: string }> = {
   }
 
   .home-consultations__card--plan {
-    border-top-color: var(--color-green);
+    border-top-color: var(--color-coral);
   }
 
   .home-consultations__card:hover {
@@ -411,7 +419,7 @@ const categoryColors: Record<string, { bg: string; accent: string }> = {
   }
 
   .section-link a {
-    color: var(--color-coral);
+    color: var(--color-coral-text);
     font-weight: 500;
     font-size: 0.95rem;
   }
@@ -431,16 +439,23 @@ const categoryColors: Record<string, { bg: string; accent: string }> = {
 
   .post-card {
     display: block;
-    background-color: var(--color-white);
-    border-radius: var(--radius-md);
     overflow: hidden;
-    transition: all 0.2s ease;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-white);
+    color: var(--color-text);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
   .post-card:hover {
+    color: var(--color-text);
     transform: translateY(-2px);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  .post-card:focus-visible {
+    outline-offset: 4px;
   }
 
   .post-card__image {
@@ -476,10 +491,13 @@ const categoryColors: Record<string, { bg: string; accent: string }> = {
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: var(--color-coral);
+    display: inline-block;
+    margin-bottom: var(--spacing-sm);
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background-color: var(--color-peach);
+    color: var(--color-coral-text);
     font-weight: 600;
-    margin-bottom: var(--spacing-xs);
-    display: block;
   }
 
   .post-card__title {

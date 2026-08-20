@@ -17,26 +17,24 @@ const categoryLabels: Record<string, string> = {
 <Layout title="Blog" description="Artículos de enfermería infantil. Consejos reales para familias reales.">
   <section class="blog">
     <div class="container">
-      <div class="blog__header">
+      <header class="page-header">
         <h1>Blog</h1>
-        <p class="blog__subtitle">Tips reales para familias reales</p>
-      </div>
+        <p class="page-header__subtitle">Tips reales para familias reales</p>
+      </header>
 
       <div class="blog__grid">
         {sortedPosts.map((post) => (
-          <article class="post-card">
+          <a href={`/blog/${post.id}`} class="post-card">
             <div class="post-card__meta">
               <span class="post-card__category">{categoryLabels[post.data.category]}</span>
               <time class="post-card__date" datetime={post.data.pubDate.toISOString()}>
                 {post.data.pubDate.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}
               </time>
             </div>
-            <h2 class="post-card__title">
-              <a href={`/blog/${post.id}`}>{post.data.title}</a>
-            </h2>
+            <h2 class="post-card__title">{post.data.title}</h2>
             <p class="post-card__description">{post.data.description}</p>
-            <a href={`/blog/${post.id}`} class="post-card__link">Leer artículo →</a>
-          </article>
+            <span class="post-card__link">Leer artículo →</span>
+          </a>
         ))}
       </div>
     </div>
@@ -48,20 +46,6 @@ const categoryLabels: Record<string, string> = {
     padding: var(--spacing-xl) 0;
   }
 
-  .blog__header {
-    text-align: center;
-    margin-bottom: var(--spacing-lg);
-  }
-
-  .blog__header h1 {
-    margin-bottom: var(--spacing-sm);
-  }
-
-  .blog__subtitle {
-    color: var(--color-text-secondary);
-    font-size: 1.05rem;
-  }
-
   .blog__grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -69,18 +53,26 @@ const categoryLabels: Record<string, string> = {
   }
 
   .post-card {
-    padding: var(--spacing-lg);
-    background-color: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
     display: flex;
     flex-direction: column;
     gap: var(--spacing-sm);
-    transition: box-shadow 0.2s ease;
+    padding: var(--spacing-lg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-white);
+    color: var(--color-text);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
   .post-card:hover {
+    color: var(--color-text);
+    transform: translateY(-2px);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  .post-card:focus-visible {
+    outline-offset: 4px;
   }
 
   .post-card__meta {
@@ -94,7 +86,7 @@ const categoryLabels: Record<string, string> = {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-coral);
+    color: var(--color-coral-text);
     background-color: var(--color-peach);
     padding: 0.2rem 0.6rem;
     border-radius: 999px;
@@ -106,16 +98,9 @@ const categoryLabels: Record<string, string> = {
   }
 
   .post-card__title {
+    color: var(--color-text);
     font-size: 1.15rem;
     line-height: 1.4;
-  }
-
-  .post-card__title a {
-    color: var(--color-text);
-  }
-
-  .post-card__title a:hover {
-    color: var(--color-coral);
   }
 
   .post-card__description {
@@ -128,12 +113,8 @@ const categoryLabels: Record<string, string> = {
   .post-card__link {
     font-size: 0.9rem;
     font-weight: 600;
-    color: var(--color-coral);
+    color: var(--color-coral-text);
     margin-top: var(--spacing-sm);
-  }
-
-  .post-card__link:hover {
-    color: var(--color-coral-hover);
   }
 
   @media (max-width: 768px) {

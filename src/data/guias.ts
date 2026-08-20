@@ -18,6 +18,9 @@ export interface Guia {
 export const formatGuiaPrice = (price: number) =>
   price === 0 ? 'Gratis' : `${price.toFixed(2).replace('.', ',')} €`;
 
+export const formatGuiaCategory = (category: string) =>
+  category === 'alimentacion' ? 'Alimentación' : `${category.charAt(0).toUpperCase()}${category.slice(1)}`;
+
 export const isGuiaPurchasable = (guia: Guia): guia is Guia & { stripePriceId: string; blobKey: string } =>
   guia.status === 'available' &&
   Boolean(guia.blobKey) &&

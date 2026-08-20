@@ -120,7 +120,7 @@ import Layout from '../layouts/Layout.astro';
   .link-card--featured {
     background-color: var(--color-coral);
     border-color: var(--color-coral);
-    color: var(--color-white);
+    color: var(--color-text);
   }
 
   .link-card--featured:hover {
@@ -130,7 +130,11 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .link-card--featured small {
-    color: rgba(255, 255, 255, 0.85);
+    color: var(--color-text);
+  }
+
+  .link-card--featured:hover small {
+    color: var(--color-white);
   }
 
   .link-card__emoji {

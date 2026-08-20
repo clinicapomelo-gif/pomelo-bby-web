@@ -9,11 +9,11 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
 <Layout title="Consultas" description="Consultas de enfermería infantil con Mar. Resuelve tus dudas de crianza y alimentación con acompañamiento profesional.">
   <section class="consultas">
     <div class="container">
-      <div class="consultas__intro">
+      <header class="page-header">
         <h1>Consultas</h1>
-        <p class="consultas__subtitle">Un espacio para ti, sin prisas. Hablamos de lo que te preocupa y salimos con un plan.</p>
-        <p class="consultas__desc">Porque a veces simplemente necesitas alguien que te escuche, te comprenda y te diga que lo estás haciendo mejor de lo que crees.</p>
-      </div>
+        <p class="page-header__subtitle">Un espacio para ti, sin prisas. Hablamos de lo que te preocupa y salimos con un plan.</p>
+        <p class="page-header__description">Porque a veces simplemente necesitas alguien que te escuche, te comprenda y te diga que lo estás haciendo mejor de lo que crees.</p>
+      </header>
 
       <div class="consultas__grid">
 
@@ -184,7 +184,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
   <script is:inline>
     (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
     Cal("init", {origin:"https://cal.com"});
-    Cal("ui", {"styles":{"branding":{"brandColor":"#EE9496"}},"hideEventTypeDetails":false,"layout":"month_view","locale":"es"});
+    Cal("ui", {"styles":{"branding":{"brandColor":"#EF6E71"}},"hideEventTypeDetails":false,"layout":"month_view","locale":"es"});
   </script>
 
   <!-- Consulta por mensaje: checkout flow -->
@@ -213,28 +213,6 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
 <style>
   .consultas {
     padding: var(--spacing-xl) 0;
-  }
-
-  .consultas__intro {
-    text-align: center;
-    margin-bottom: var(--spacing-lg);
-  }
-
-  .consultas__intro h1 {
-    font-size: 2.5rem;
-    margin-bottom: var(--spacing-sm);
-  }
-
-  .consultas__subtitle {
-    color: var(--color-coral);
-    font-weight: 500;
-    font-size: 1.1rem;
-    margin-bottom: var(--spacing-xs);
-  }
-
-  .consultas__desc {
-    color: var(--color-text-secondary);
-    font-size: 1.05rem;
   }
 
   .consultas__grid {
@@ -295,7 +273,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
   .consulta-card__badge {
     display: inline-block;
     background-color: var(--color-cream);
-    color: var(--color-coral);
+    color: var(--color-coral-text);
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -307,7 +285,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
 
   .consulta-card__badge--featured {
     background-color: var(--color-coral);
-    color: var(--color-white);
+    color: var(--color-text);
   }
 
   .consulta-card__summary h2 {
@@ -330,7 +308,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
   }
 
   .consulta-card__chevron {
-    color: var(--color-coral);
+    color: var(--color-coral-text);
     font-size: 1rem;
     transition: transform 0.3s ease;
     line-height: 1;
@@ -367,7 +345,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
   }
 
   .consulta-card__quote {
-    color: var(--color-coral);
+    color: var(--color-coral-text);
     font-size: 0.92rem;
     font-weight: 500;
     margin: var(--spacing-xs) 0 var(--spacing-xs);
@@ -392,7 +370,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-coral);
+    color: var(--color-coral-text);
     margin-bottom: 0.4rem;
   }
 
@@ -415,7 +393,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
     content: '—';
     position: absolute;
     left: 0;
-    color: var(--color-coral);
+    color: var(--color-coral-text);
     font-style: normal;
     font-weight: 700;
   }
@@ -450,7 +428,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
 
   .consulta-card__checklist li.checklist--yes::before {
     content: '✓';
-    color: var(--color-coral);
+    color: var(--color-coral-text);
   }
 
   .consulta-card__checklist li.checklist--no::before {
@@ -492,10 +470,6 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
   }
 
   @media (max-width: 768px) {
-    .consultas__intro h1 {
-      font-size: 2rem;
-    }
-
     .consulta-card__summary {
       flex-wrap: wrap;
     }
