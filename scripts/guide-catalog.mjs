@@ -39,9 +39,10 @@ function parseArgs(argv) {
   for (let index = 0; index < argv.length; index += 1) {
     const argument = argv[index];
     if (argument === '--apply') options.apply = true;
+    else if (argument === '--yes') options.yes = true;
     else if (argument.startsWith('--')) {
       const name = argument.slice(2);
-      if (!['title', 'slug', 'category', 'description', 'price'].includes(name)) fail(`Opción desconocida: --${name}`);
+      if (!['pdf', 'title', 'slug', 'category', 'description', 'price', 'benefit1', 'benefit2', 'benefit3'].includes(name)) fail(`Opción desconocida: --${name}`);
       const value = argv[index += 1];
       if (!value || value.startsWith('--')) fail(`Falta el valor de --${name}.`);
       options[name] = value;
@@ -184,8 +185,9 @@ async function saveCatalog(originalSource, catalog) {
   }
 }
 
-async function confirmApply(rl, apply) {
+async function confirmApply(rl, apply, yes = false) {
   if (!apply) return false;
+  if (yes) return true;
   const answer = await rl.question('Escribe APLICAR para confirmar los cambios en Stripe test, Blob y catálogo: ');
   if (answer.trim() !== 'APLICAR') fail('Operación cancelada sin cambios.');
   return true;
@@ -193,8 +195,8 @@ async function confirmApply(rl, apply) {
 
 async function provision(args, rl) {
   const { options, positional } = parseArgs(args);
-  if (positional.length !== 0) fail('La ruta del PDF se introduce en el prompt, no como argumento del comando.');
-  const pdfInput = await ask(rl, 'Ruta local del PDF');
+  if (positional.length !== 0) fail('Usa --pdf para indicar el archivo, no un argumento posicional.');
+  const pdfInput = options.pdf ?? await ask(rl, 'Ruta local del PDF');
   if (!pdfInput) fail('Falta la ruta local del PDF.');
   const pdfPath = resolve(pdfInput);
   let pdfStat;
@@ -226,7 +228,8 @@ async function provision(args, rl) {
   const description = (options.description ?? await ask(rl, 'Descripción aprobada (no se extrae del PDF)', existing?.description ?? '')).trim();
   const benefits = [];
   for (let index = 0; index < GUIDE_BENEFITS_COUNT; index += 1) {
-    benefits.push(await ask(rl, `Beneficio ${index + 1} aprobado`, existing?.benefits?.[index] ?? ''));
+    const option = options[`benefit${index + 1}`];
+    benefits.push(option ?? existing?.benefits?.[index] ?? await ask(rl, `Beneficio ${index + 1} aprobado`));
   }
   const existingTestAmount = existing?.stripe?.test?.amountCents ?? existing?.amountCents;
   const priceText = options.price ?? await ask(
@@ -273,7 +276,7 @@ async function provision(args, rl) {
   console.log(exactRerun
     ? 'Plan: verificar una repetición exacta sin cambiar PDF, Product, Price ni catálogo.'
     : `Plan: ${blobExists ? 'reutilizar' : 'subir'} PDF privado; ${reconciliation.product ? 'reutilizar' : 'crear'} Product test; ${exactPrice ? 'reutilizar' : 'crear'} Price test; actualizar catálogo.`);
-  if (!await confirmApply(rl, options.apply)) {
+  if (!await confirmApply(rl, options.apply, options.yes)) {
     console.log('Dry-run terminado. No se ha modificado nada. Usa --apply para aplicar el plan.');
     return;
   }
@@ -359,7 +362,7 @@ async function updatePrice(args, rl) {
 
   console.log(`Resumen: slug ${guiaId}; categoría ${guide.category}; precio ${(amountCents / 100).toFixed(2)} EUR.`);
   console.log(`Plan: ${exactPrice ? 'reutilizar' : 'crear'} Price test, establecerlo como predeterminado y actualizar el catálogo. Los Prices anteriores seguirán activos.`);
-  if (!await confirmApply(rl, options.apply)) {
+  if (!await confirmApply(rl, options.apply, options.yes)) {
     console.log('Dry-run terminado. No se ha modificado nada. Usa --apply para aplicar el plan.');
     return;
   }
