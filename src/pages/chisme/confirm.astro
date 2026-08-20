@@ -35,7 +35,7 @@ const temporary = error === 'temporary';
                 ? 'Pulsa el botón para confirmar tu correo y descargar la guía.'
                 : 'Pulsa el botón para confirmar tu correo y unirte a El Chisme de Mar.'}
             </p>
-            <form method="POST" action="/api/chisme/confirm">
+            <form method="POST" action="/api/chisme/confirm" data-confirmation-form>
               <input type="hidden" name="token" value={token} />
               <button type="submit" class="btn btn--primary">
                 {source === 'lead_magnet_25_cosas'
@@ -59,6 +59,29 @@ const temporary = error === 'temporary';
     </div>
   </section>
 </Layout>
+
+<script>
+  const confirmationForm = document.querySelector<HTMLFormElement>('[data-confirmation-form]');
+
+  confirmationForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const button = confirmationForm.querySelector<HTMLButtonElement>('button[type="submit"]');
+    if (button) button.disabled = true;
+
+    try {
+      const token = confirmationForm.querySelector<HTMLInputElement>('input[name="token"]')?.value ?? '';
+      const response = await fetch(confirmationForm.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ token }),
+      });
+      window.location.assign(response.url || '/chisme/confirm?error=temporary');
+    } catch {
+      window.location.assign('/chisme/confirm?error=temporary');
+    }
+  });
+</script>
 
 <style>
   .confirmation {

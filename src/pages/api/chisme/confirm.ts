@@ -19,8 +19,15 @@ export const POST: APIRoute = async ({ request }) => {
   let token: string;
 
   try {
-    const value = (await request.formData()).get('token');
-    token = typeof value === 'string' ? value : '';
+    if (request.headers.get('content-type')?.includes('application/json')) {
+      const body: unknown = await request.json();
+      token = typeof body === 'object' && body !== null && 'token' in body && typeof body.token === 'string'
+        ? body.token
+        : '';
+    } else {
+      const value = (await request.formData()).get('token');
+      token = typeof value === 'string' ? value : '';
+    }
   } catch {
     return failure(request);
   }
