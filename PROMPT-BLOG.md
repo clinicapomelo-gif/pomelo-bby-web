@@ -1,12 +1,15 @@
-# Prompt para generar posts del blog de pomelo.bby
+# Prompt y guía para artículos del blog de Pomelo Baby
 
-Usa este prompt en ChatGPT, Claude o cualquier IA que soporte texto e imágenes.
+Esta es la referencia para crear y maquetar futuros artículos. El diseño consolidado parte de:
 
----
+- `src/content/blog/blw-que-es-por-donde-empezar.md`
+- `src/content/blog/fiebre-bebes-cuando-preocuparse.md`
+
+Los estilos comunes viven en `src/pages/blog/[slug].astro` y se aplican automáticamente a todos los artículos de `src/content/blog/`. No añadas estilos dentro de cada post ni dupliques CSS.
 
 ## Categorías disponibles
 
-Actualiza esta lista si añades o eliminas categorías en `src/content.config.ts`:
+Actualiza esta lista si cambia el esquema de `src/content.config.ts`:
 
 - `alimentacion`
 - `sueño`
@@ -14,57 +17,176 @@ Actualiza esta lista si añades o eliminas categorías en `src/content.config.ts
 - `desarrollo`
 - `crianza`
 
----
+## Diseño editorial obligatorio
+
+- Diseño limpio, ligero, editorial y visual, acorde con Pomelo Baby.
+- Lectura cómoda y escaneable desde móvil.
+- Mucho espacio en blanco y párrafos cortos.
+- `H1`: título del artículo, generado automáticamente desde `title`.
+- Entradilla: `description`, visible bajo el H1 con un tamaño ligeramente menor.
+- Firma: pequeña y discreta; se genera automáticamente.
+- `H2`: secciones principales.
+- `H3`: preguntas o subsecciones dentro de cada sección.
+- Texto normal con tamaño cómodo e interlineado amplio.
+- Negrita solo para conceptos clave y palabras que ayuden a escanear. Nunca párrafos enteros.
+- Frases importantes en citas Markdown (`>`), que se muestran como cajas destacadas.
+- Listas con aire entre elementos.
+- Advertencias visibles, pero nunca alarmistas.
+- Humor sutil en frases breves destacadas cuando encaje.
+- La sección “🍊 Qué quiero que recuerdes” debe usar siempre el bloque especial documentado abajo.
+- Un único CTA principal por bloque, si el artículo incluye alguno.
+
+## Voz y rigor
+
+- Cercana, cálida, clara y directa.
+- Ciencia y validación emocional juntas.
+- Sin alarmar, culpabilizar, juzgar ni infantilizar.
+- Explicar cualquier término médico con lenguaje cotidiano.
+- Usar lenguaje inclusivo: “niño o niña”, “hijo o hija”, “decaído/a”.
+- No presentar absolutos cuando la evidencia tenga limitaciones.
+- Explicar qué puede ser normal, qué puede hacer la familia y cuándo consultar.
+- Verificar afirmaciones sanitarias y recomendaciones antes de publicar.
+- El artículo debe sentirse profesional y amable, no como un documento médico.
+
+## Bloques visuales disponibles
+
+Estos nombres de clase forman parte del diseño compartido y no deben renombrarse sin actualizar `src/pages/blog/[slug].astro`.
+
+### Frase destacada
+
+Usa una cita Markdown. Puede contener una frase secundaria, pero no párrafos largos.
+
+```md
+> **No necesitas hacerlo perfecto.**
+>
+> Necesitas hacerlo seguro y adaptado a tu familia.
+```
+
+### Tarjetas visuales
+
+Para alimentos, señales, cuidados o elementos fáciles de escanear:
+
+```html
+<ul class="visual-list">
+  <li>🥑 Elemento breve.</li>
+  <li>🍌 Elemento breve.</li>
+</ul>
+```
+
+En escritorio aparecen en dos columnas y en móvil en una. Se pueden añadir nombres descriptivos como `checklist`, `food-grid` o `care-list`, pero `visual-list` es la clase que activa el diseño.
+
+### Lista de seguridad o advertencias
+
+Para mostrar una sola tarjeta por fila con un fondo suave:
+
+```html
+<ul class="visual-list safety-list">
+  <li>👶 Medida de seguridad.</li>
+  <li>👀 Medida de supervisión.</li>
+</ul>
+```
+
+Usa `warning-list` en advertencias y `safety-list` en recomendaciones de seguridad. No emplees colores nuevos ni recursos visuales alarmistas.
+
+### Bloque de señales de consulta
+
+Para agrupar criterios de consulta o señales importantes:
+
+```html
+<section class="warning-signs" aria-labelledby="warning-signs-title">
+  <h3 id="warning-signs-title">Consulta si:</h3>
+  <ul>
+    <li>Primera señal explicada de forma clara.</li>
+    <li>Segunda señal explicada de forma clara.</li>
+  </ul>
+  <p><strong>Mensaje clave breve.</strong></p>
+</section>
+```
+
+El `id` debe ser único dentro del artículo y coincidir con `aria-labelledby`.
+
+### Bloque final “Qué quiero que recuerdes”
+
+Todos los artículos deben cerrar sus ideas principales con esta estructura:
+
+```html
+<section class="takeaways" aria-labelledby="takeaways-title">
+  <h2 id="takeaways-title">🍊 Qué quiero que recuerdes</h2>
+  <p>Resumen cercano de la idea principal.</p>
+  <ul>
+    <li>Primera idea práctica.</li>
+    <li>Segunda idea práctica.</li>
+  </ul>
+  <p class="takeaways__final"><strong>Frase final importante.</strong></p>
+</section>
+```
+
+Si encaja una última frase breve y cálida, puede utilizarse:
+
+```html
+<p class="takeaways__welcome"><strong>Frase final muy destacada. 😌</strong></p>
+```
 
 ## Prompt base
 
-Copia y pega esto en la IA, sustituyendo `[CONTENIDO]` por el texto o imagen:
+Copia este bloque en la IA y sustituye `[CONTENIDO]` por el texto de Mar:
 
-```
-Eres el asistente de Mar Vall Requena, enfermera pediátrica de pomelo.bby.
-Convierte el siguiente contenido en un post de blog en markdown.
+```text
+Eres el asistente editorial de Mar Vall Requena, enfermera infantil de Pomelo Baby.
+Convierte el contenido proporcionado en un artículo Markdown listo para guardar en src/content/blog/.
 
-REQUISITOS DE CONTENIDO:
-- Tono cercano, sin alarmismos, dirigido a padres y madres
-- Estructura clara con H2 para secciones principales y H3 para subsecciones
-- Párrafos cortos, máximo 3-4 líneas
-- Usa listas cuando sea útil para facilitar la lectura
-- Incluye una sección "## Preguntas frecuentes" al final con 2-3 preguntas reales que se hacen los padres
-- Termina siempre con este párrafo en cursiva:
-  *Este artículo es orientativo y educativo. No sustituye una valoración presencial. Ante cualquier duda sobre la salud de tu hijo o hija, consulta con un profesional sanitario.*
+CONTENIDO Y VOZ:
+- Mantén un tono cercano, cálido, claro y basado en evidencia.
+- No alarmes, culpabilices, juzgues ni infantilices.
+- Traduce los términos médicos a lenguaje cotidiano.
+- Usa lenguaje inclusivo.
+- Conserva la prudencia cuando la evidencia tenga limitaciones.
+- Explica qué es, qué puede hacer la familia y cuándo consultar cuando corresponda.
+- Usa frases y párrafos cortos.
 
-REQUISITOS DEL FRONTMATTER:
-Genera el bloque frontmatter con estos campos exactos:
-- title: título claro y descriptivo, orientado a búsqueda (ej: "Fiebre en bebés: cuándo preocuparse")
-- description: resumen de máximo 155 caracteres para SEO
-- pubDate: fecha de hoy en formato YYYY-MM-DD
-- category: elige UNA de las categorías disponibles (ver arriba)
-- tags: array de 3-5 palabras clave relacionadas
-- draft: false
+ESTRUCTURA Y DISEÑO:
+- No escribas un H1 dentro del contenido: se genera desde el frontmatter.
+- Usa H2 para secciones y H3 para preguntas o subsecciones.
+- Usa negrita solo para conceptos clave, nunca para párrafos enteros.
+- Usa citas Markdown para frases importantes y humor breve.
+- Usa visual-list para listas visuales, safety-list o warning-list para seguridad y warning-signs para señales de consulta.
+- Termina con el bloque especial takeaways titulado “🍊 Qué quiero que recuerdes”.
+- Mantén el artículo escaneable desde móvil y evita bloques de texto densos.
+- No incluyas CSS ni estilos inline.
 
-FORMATO DE SALIDA:
-Devuelve únicamente el archivo markdown completo, listo para guardar en src/content/blog/.
-El nombre del archivo debe ser en minúsculas, sin tildes, con guiones en lugar de espacios.
-Ejemplo: fiebre-bebes-cuando-preocuparse.md
+FRONTMATTER:
+- title: título claro y orientado a búsqueda.
+- description: entradilla y descripción SEO de máximo 155 caracteres.
+- pubDate: fecha real de publicación en formato YYYY-MM-DD.
+- category: una categoría válida.
+- tags: entre 3 y 5 palabras clave.
+- draft: false.
+
+CIERRE:
+- Añade un disclaimer educativo adaptado al tema, en cursiva y separado por una línea horizontal.
+- Indica con claridad cuándo se necesita valoración profesional.
+
+Devuelve únicamente el archivo Markdown completo.
+El nombre debe estar en minúsculas, sin tildes y con guiones.
 
 CONTENIDO A TRANSFORMAR:
-[PEGA AQUÍ EL TEXTO O ADJUNTA LA IMAGEN]
+[CONTENIDO]
 ```
 
----
+## Lista de comprobación antes de publicar
 
-## Cómo publicar el post
+1. Revisar la exactitud sanitaria y que no falten matices relevantes.
+2. Confirmar que la fecha es la fecha real de publicación, no una fecha provisional.
+3. Comprobar que `description` funciona como entradilla y no supera 155 caracteres.
+4. Revisar la jerarquía H2/H3 y que no haya un segundo H1.
+5. Comprobar que la negrita es selectiva.
+6. Verificar que los bloques HTML tienen etiquetas cerradas, IDs únicos y `aria-labelledby` correcto.
+7. Confirmar que existe el bloque `takeaways`.
+8. Ejecutar `npm run build`.
+9. Hacer commit y push; Vercel desplegará automáticamente desde `main`.
 
-1. Guarda el archivo `.md` generado en `src/content/blog/`
-2. Revisa que el frontmatter sea correcto (categoría válida, fecha bien formateada)
-3. Haz commit y push al repositorio
-4. Vercel desplegará automáticamente
+## Categorías y borradores
 
----
-
-## Notas importantes
-
-- **NUNCA usar "pediatra" ni "tu pediatra"** en los artículos. Usar siempre "profesional sanitario", "centro de salud" o "valoración presencial". Mar es enfermera pediátrica — referir al pediatra socava su autoridad profesional.
-- Si añades una nueva categoría, actualízala también en `src/content.config.ts` (en el enum de `category`) y en `src/pages/blog/index.astro` (en los arrays `categories` y `categoryLabels`)
-- Si eliminas una categoría, asegúrate de que no haya posts existentes con esa categoría antes de borrarla del enum
-- El campo `draft: true` permite guardar un post sin que se publique hasta que lo cambies a `false`
+- Si añades una categoría, actualiza `src/content.config.ts` y `src/pages/blog/index.astro`.
+- Antes de eliminar una categoría, comprueba que ningún artículo la utiliza.
+- Usa `draft: true` para conservar un artículo sin publicarlo.
