@@ -31,13 +31,13 @@ No es una enfermedad. Es un síntoma.
 
 En general, hablamos de fiebre a partir de **38 ºC**, aunque el valor depende del lugar donde se mida.
 
-En bebés pequeños, la temperatura rectal es una de las mediciones más fiables.
+En bebés pequeños, la temperatura rectal es una de las mediciones más fiables o, como mínimo, la temperatura axilar.
 
-<p class="editorial-highlight">La fiebre se mide con un termómetro, no con la mano.</p>
+<p class="editorial-highlight">La fiebre se mide con un termómetro, no con la mano. 😂</p>
 
 La frente puede parecer ardiendo y, aun así, no sabemos qué temperatura tiene exactamente.
 
-Tu mano no viene con termómetro incorporado. 😌
+Tu mano no viene con termómetro incorporado. Ja, ja, ja.
 
 ## ¿Hay que bajar siempre la fiebre?
 
