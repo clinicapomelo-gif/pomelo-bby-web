@@ -1,7 +1,13 @@
 import type { APIRoute } from 'astro';
 import Stripe from 'stripe';
-import { guias, isGuiaPurchasable } from '../../data/guias';
+import {
+  getGuiaStripeMapping,
+  getStripeMode,
+  guias,
+  isGuiaPurchasable,
+} from '../../data/guias';
 import { isPrivateGuidePdfAvailable } from '../../lib/guide-delivery';
+import { getSiteUrl } from '../../lib/site-url';
 
 export const prerender = false;
 
@@ -34,30 +40,42 @@ export const POST: APIRoute = async ({ request }) => {
     return Response.json({ error: 'Los recursos gratuitos no pasan por el checkout.' }, { status: 400 });
   }
 
-  if (guia.status === 'coming-soon') {
-    return Response.json({ error: 'Esta guía estará disponible próximamente.' }, { status: 409 });
-  }
-
-  if (!isGuiaPurchasable(guia)) {
-    return Response.json(
-      { error: 'La guía no tiene un precio de Stripe y un PDF válidos.' },
-      { status: 503 },
-    );
+  if (guia.status === 'coming-soon' || guia.status === 'archived') {
+    return Response.json({ error: 'Esta guía no está disponible para nuevas compras.' }, { status: 409 });
   }
 
   const stripeKey = import.meta.env.STRIPE_SECRET_KEY;
+  const stripeMode = getStripeMode(stripeKey);
   const webhookSecret = import.meta.env.STRIPE_WEBHOOK_SECRET;
   const resendKey = import.meta.env.RESEND_API_KEY;
   const sender = import.meta.env.RESEND_FROM_EMAIL;
-  const siteURL = import.meta.env.SITE_URL;
+  const configuredSiteURL = import.meta.env.SITE_URL;
 
   if (
-    !stripeKey || stripeKey === 'sk_test_PLACEHOLDER' ||
-    !webhookSecret?.startsWith('whsec_') || !resendKey || !sender || !siteURL
+    !stripeKey || !stripeMode ||
+    !webhookSecret?.startsWith('whsec_') || !resendKey || !sender ||
+    (process.env.VERCEL_ENV === 'production' && !configuredSiteURL)
   ) {
     return Response.json({ error: 'La compra no está configurada todavía.' }, { status: 503 });
   }
 
+  if (guia.status === 'testing' && stripeMode === 'live') {
+    return Response.json({ error: 'Esta guía solo está disponible en pruebas.' }, { status: 409 });
+  }
+
+  if (!isGuiaPurchasable(guia, stripeMode)) {
+    return Response.json(
+      { error: 'La guía no tiene un precio de Stripe y un PDF válidos para este entorno.' },
+      { status: 503 },
+    );
+  }
+
+  const stripeMapping = getGuiaStripeMapping(guia, stripeMode);
+  if (!stripeMapping) {
+    return Response.json({ error: 'La compra no está configurada todavía.' }, { status: 503 });
+  }
+
+  const siteURL = getSiteUrl(request);
   try {
     new URL(siteURL);
   } catch {
@@ -75,16 +93,23 @@ export const POST: APIRoute = async ({ request }) => {
 
   const stripe = new Stripe(stripeKey);
   const baseURL = siteURL.replace(/\/$/, '');
+  const purchaseMetadata = {
+    type: 'guia',
+    guiaId: guia.id,
+    priceId: stripeMapping.priceId,
+    blobKey: guia.blobKey,
+  };
 
   try {
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
-      line_items: [{ price: guia.stripePriceId, quantity: 1 }],
+      line_items: [{ price: stripeMapping.priceId, quantity: 1 }],
       success_url: `${baseURL}/tienda/gracias?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${baseURL}/tienda/${guiaId}`,
-      metadata: { type: 'guia', guiaId },
-      payment_intent_data: { metadata: { type: 'guia', guiaId } },
+      metadata: purchaseMetadata,
+      payment_intent_data: { metadata: purchaseMetadata },
       automatic_tax: { enabled: false },
+      adaptive_pricing: { enabled: false },
       locale: 'es',
     });
 

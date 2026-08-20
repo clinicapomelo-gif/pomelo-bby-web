@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
 import Stripe from 'stripe';
-import { guias, isGuiaPurchasable } from '../../data/guias';
+import { authorizeGuidePurchase, getStripeMode, guias } from '../../data/guias';
 import {
   getGuideDownloadExpiresAt,
   isPrivateGuidePdfAvailable,
@@ -13,9 +13,10 @@ const eventReference = (event: Stripe.Event) => event.id.slice(-8);
 
 export const POST: APIRoute = async ({ request }) => {
   const stripeKey = import.meta.env.STRIPE_SECRET_KEY;
+  const stripeMode = getStripeMode(stripeKey);
   const webhookSecret = import.meta.env.STRIPE_WEBHOOK_SECRET;
 
-  if (!stripeKey || !webhookSecret) {
+  if (!stripeKey || !stripeMode || !webhookSecret) {
     return new Response('Servicio no configurado', { status: 503 });
   }
 
@@ -54,35 +55,49 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response('No se pudo comprobar la compra', { status: 500 });
   }
 
+  if (session.livemode !== (stripeMode === 'live')) {
+    return new Response('La compra no corresponde a este entorno', { status: 500 });
+  }
+
   if (session.payment_status !== 'paid') {
     return new Response('OK', { status: 200 });
   }
 
-  if (session.metadata?.deliveryEmailId) {
-    return new Response('OK', { status: 200 });
-  }
-
-  const guiaId = session.metadata?.guiaId;
-  const guia = guias.find((item) => item.id === guiaId);
+  const guia = guias.find((item) => item.id === session.metadata?.guiaId);
   const customerEmail = session.customer_details?.email;
 
-  if (!guia || !isGuiaPurchasable(guia) || !customerEmail) {
+  if (!guia || !customerEmail) {
     console.error('Guide delivery data error:', eventReference(event));
     return new Response('La compra no se puede entregar', { status: 500 });
   }
 
+  let purchasedPriceId: string;
+  let purchasedBlobKey: string;
   try {
     const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 2 });
-    if (
-      lineItems.data.length !== 1 ||
-      lineItems.data[0]?.price?.id !== guia.stripePriceId
-    ) {
+    const linePriceId = lineItems.data[0]?.price?.id;
+    const authorizedBlobKey = linePriceId && authorizeGuidePurchase(
+      guia,
+      stripeMode,
+      linePriceId,
+      session.metadata?.priceId,
+      session.metadata?.blobKey,
+    );
+
+    if (lineItems.data.length !== 1 || !linePriceId || !authorizedBlobKey) {
       console.error('Guide purchase mismatch:', eventReference(event));
       return new Response('La compra no coincide con la guía', { status: 500 });
     }
+
+    purchasedPriceId = linePriceId;
+    purchasedBlobKey = authorizedBlobKey;
   } catch (error: unknown) {
     console.error('Guide purchase verification error:', eventReference(event), error instanceof Error ? error.name : 'UnknownError');
     return new Response('No se pudo verificar el producto', { status: 500 });
+  }
+
+  if (session.metadata?.deliveryEmailId) {
+    return new Response('OK', { status: 200 });
   }
 
   const resendKey = import.meta.env.RESEND_API_KEY;
@@ -102,7 +117,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   try {
-    if (!await isPrivateGuidePdfAvailable(guia.blobKey)) {
+    if (!await isPrivateGuidePdfAvailable(purchasedBlobKey)) {
       console.error('Guide PDF configuration error:', eventReference(event));
       return new Response('La guía no está disponible', { status: 500 });
     }
@@ -138,6 +153,10 @@ export const POST: APIRoute = async ({ request }) => {
 
     await stripe.checkout.sessions.update(session.id, {
       metadata: {
+        type: 'guia',
+        guiaId: guia.id,
+        priceId: purchasedPriceId,
+        blobKey: purchasedBlobKey,
         deliveryEmailId: data.id,
         deliveredAt: new Date().toISOString(),
         downloadExpiresAt: String(expiresAt),

@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { get } from '@vercel/blob';
 import Stripe from 'stripe';
-import { guias, isGuiaPurchasable } from '../../../data/guias';
+import { authorizeGuidePurchase, getStripeMode, guias } from '../../../data/guias';
 import { getGuideDownloadExpiresAt } from '../../../lib/guide-delivery';
 
 export const prerender = false;
@@ -39,7 +39,8 @@ export const GET: APIRoute = async ({ url }) => {
   }
 
   const stripeKey = import.meta.env.STRIPE_SECRET_KEY;
-  if (!stripeKey) {
+  const stripeMode = getStripeMode(stripeKey);
+  if (!stripeKey || !stripeMode) {
     return temporarilyUnavailable();
   }
 
@@ -54,16 +55,34 @@ export const GET: APIRoute = async ({ url }) => {
     return type === 'StripeInvalidRequestError' ? unavailable() : temporarilyUnavailable();
   }
 
-  const guiaId = session.metadata?.guiaId;
-  const guia = guias.find((item) => item.id === guiaId);
+  const guia = guias.find((item) => item.id === session.metadata?.guiaId);
 
   if (
     session.payment_status !== 'paid' ||
+    session.livemode !== (stripeMode === 'live') ||
     session.metadata?.type !== 'guia' ||
-    !guia ||
-    !isGuiaPurchasable(guia)
+    !guia
   ) {
     return unavailable();
+  }
+
+  let purchasedBlobKey: string;
+  try {
+    const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 2 });
+    const linePriceId = lineItems.data[0]?.price?.id;
+    const authorizedBlobKey = linePriceId && authorizeGuidePurchase(
+      guia,
+      stripeMode,
+      linePriceId,
+      session.metadata?.priceId,
+      session.metadata?.blobKey,
+    );
+
+    if (lineItems.data.length !== 1 || !authorizedBlobKey) return unavailable();
+    purchasedBlobKey = authorizedBlobKey;
+  } catch (error: unknown) {
+    console.error('Guide download line verification error:', errorType(error));
+    return temporarilyUnavailable();
   }
 
   const expiresAt = getGuideDownloadExpiresAt(
@@ -80,7 +99,7 @@ export const GET: APIRoute = async ({ url }) => {
 
   try {
     // La SDK resuelve OIDC o BLOB_READ_WRITE_TOKEN en runtime.
-    const result = await get(guia.blobKey, { access: 'private' });
+    const result = await get(purchasedBlobKey, { access: 'private' });
 
     if (!result || result.statusCode !== 200 || result.blob.contentType !== 'application/pdf') {
       return temporarilyUnavailable();

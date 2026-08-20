@@ -1,0 +1,104 @@
+[
+  {
+    "id": "25-cosas-normales-bebes",
+    "title": "25 cosas normales en los bebés",
+    "description": "Una guía para entender qué cambios y comportamientos son habituales durante los primeros meses, y cuándo conviene consultar.",
+    "benefits": [
+      "25 situaciones habituales explicadas con calma",
+      "Señales que suelen preocupar, pero son normales",
+      "Orientación sencilla sobre cuándo consultar"
+    ],
+    "amountCents": 0,
+    "status": "free",
+    "category": "salud",
+    "leadMagnetUrl": "/recursos/25-cosas-normales-bebes",
+    "stripe": {}
+  },
+  {
+    "id": "recomendaciones-generales-recien-nacido",
+    "title": "Primeros cuidados del bebé",
+    "description": "Respuestas claras para cuidar del cordón, el baño, la ropa, las regurgitaciones y otros momentos cotidianos del recién nacido.",
+    "benefits": [
+      "Cuidados del cordón umbilical y del baño",
+      "Ropa, sueño y temperatura sin complicaciones",
+      "Regurgitaciones y otras dudas de los primeros días"
+    ],
+    "amountCents": 499,
+    "status": "available",
+    "category": "salud",
+    "stripe": {
+      "test": {
+        "productId": "prod_V6P1cCQK6NKXQU",
+        "priceId": "price_1U6YvH2WVIl1hdpgpESSEwbF",
+        "amountCents": 499,
+        "previousPriceIds": [
+          "price_1U6CDg2WVIl1hdpgTQkJSjt3"
+        ]
+      }
+    },
+    "blobKey": "CONSEJOS GENERALES RN.pdf"
+  },
+  {
+    "id": "conservacion-leche-materna",
+    "title": "Conservación de la leche materna",
+    "description": "Una guía práctica para conservar, congelar, descongelar y transportar la leche materna con seguridad.",
+    "benefits": [
+      "Cómo conservar la leche recién extraída",
+      "Tiempos y pautas para nevera y congelador",
+      "Cómo descongelar y transportar la leche"
+    ],
+    "amountCents": 399,
+    "status": "available",
+    "category": "alimentacion",
+    "stripe": {
+      "test": {
+        "productId": "prod_V6P1covAOkIO5l",
+        "priceId": "price_1U6CDu2WVIl1hdpgzG5ztfvI",
+        "amountCents": 399
+      }
+    },
+    "blobKey": "CONSERVACIÓN LECHE MATERNA.pdf"
+  },
+  {
+    "id": "pomada-aceite-uva",
+    "title": "La fórmula para las grietas del pezón",
+    "description": "Una fórmula magistral para el cuidado de las grietas del pezón, con su composición, preparación y conservación.",
+    "benefits": [
+      "Composición de la fórmula magistral",
+      "Cómo prepararla y conservarla",
+      "Indicaciones y recomendaciones de uso"
+    ],
+    "amountCents": 399,
+    "status": "available",
+    "category": "salud",
+    "stripe": {
+      "test": {
+        "productId": "prod_V6P2VzHsGoq52V",
+        "priceId": "price_1U6CEI2WVIl1hdpgZsacUjqL",
+        "amountCents": 399
+      }
+    },
+    "blobKey": "FÓRMULA MAGISTRAL Pomada para grietas del pezón.pdf"
+  },
+  {
+    "id": "guia-definitiva-empezar-comer",
+    "title": "Guía completa de alimentación",
+    "description": "Una guía práctica para acompañar el inicio de la alimentación con calma, sin normas imposibles y con evidencia científica.",
+    "benefits": [
+      "Cómo empezar y avanzar en la alimentación complementaria",
+      "Texturas, alimentos y cantidades explicados de forma sencilla",
+      "Seguridad, alérgenos y dudas habituales de las familias"
+    ],
+    "amountCents": 1799,
+    "status": "available",
+    "category": "alimentacion",
+    "stripe": {
+      "test": {
+        "productId": "prod_V6P2QCuXdRSTgf",
+        "priceId": "price_1U6CEX2WVIl1hdpg3LaIxQr4",
+        "amountCents": 1799
+      }
+    },
+    "blobKey": "LA GUIA DEFINITIVA PARA EMPEZAR AC.pdf"
+  }
+]

@@ -1,6 +1,17 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { formatGuiaCategory, formatGuiaPrice, guias, isGuiaPurchasable } from '../../data/guias';
+import {
+  formatGuiaCategory,
+  formatGuiaPrice,
+  getGuiaPrice,
+  getStripeMode,
+  guias,
+  isGuiaPurchasable,
+  isGuiaVisible,
+} from '../../data/guias';
+
+const stripeMode = getStripeMode(import.meta.env.STRIPE_SECRET_KEY);
+const visibleGuias = guias.filter((guia) => isGuiaVisible(guia, stripeMode));
 ---
 
 <Layout title="Las guías de Mar" description="Guías con información fiable, clara y basada en la evidencia para consultar cuando más la necesites.">
@@ -12,7 +23,7 @@ import { formatGuiaCategory, formatGuiaPrice, guias, isGuiaPurchasable } from '.
       </header>
 
       <div class="tienda__grid">
-        {guias.map((guia) => (
+        {visibleGuias.map((guia) => (
           <article class="guia-card">
             <div class="guia-card__body">
               <span class="guia-card__category">{formatGuiaCategory(guia.category)}</span>
@@ -21,9 +32,15 @@ import { formatGuiaCategory, formatGuiaPrice, guias, isGuiaPurchasable } from '.
             </div>
             <div class="guia-card__footer">
               <div class="guia-card__availability">
-                <span class="guia-card__price">{formatGuiaPrice(guia.price)}</span>
-                {guia.status !== 'free' && !isGuiaPurchasable(guia) && (
-                  <span class="guia-card__status">Próximamente</span>
+                {guia.status === 'free' ? (
+                  <span class="guia-card__price">Gratis</span>
+                ) : (
+                  <>
+                    <span class="guia-card__price">{formatGuiaPrice(getGuiaPrice(guia, stripeMode))}</span>
+                    <span class="guia-card__status">
+                      {isGuiaPurchasable(guia, stripeMode) ? 'Disponible ahora' : 'Próximamente'}
+                    </span>
+                  </>
                 )}
               </div>
               {guia.status === 'free' ? (

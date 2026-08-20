@@ -1,19 +1,40 @@
-export type GuiaStatus = 'free' | 'coming-soon' | 'available';
+import catalog from './guias.json';
+import {
+  authorizeGuidePurchase as authorizePurchase,
+  getGuiaAmountCents as selectAmountCents,
+  getStripeMode as resolveStripeMode,
+  getValidStripeMapping,
+  isGuiaVisible as checkVisibility,
+  isValidBlobKey,
+} from './guide-logic.mjs';
+
+export type GuiaStatus = 'free' | 'coming-soon' | 'testing' | 'available' | 'archived';
+export type StripeMode = 'test' | 'live';
+
+export interface GuiaStripeMapping {
+  productId: string;
+  priceId: string;
+  amountCents: number;
+  previousPriceIds?: string[];
+}
 
 export interface Guia {
   id: string;
   title: string;
   description: string;
   benefits?: string[];
-  price: number;
+  amountCents: number;
   status: GuiaStatus;
   category: string;
   leadMagnetUrl?: string;
-  stripeProductId?: string;
-  stripePriceId?: string;
+  stripe: Partial<Record<StripeMode, GuiaStripeMapping>>;
   blobKey?: string;
   image?: string;
 }
+
+export type PurchasableGuia = Guia & { blobKey: string };
+
+export const guias = catalog as Guia[];
 
 export const formatGuiaPrice = (price: number) =>
   price === 0 ? 'Gratis' : `${price.toFixed(2).replace('.', ',')} €`;
@@ -21,64 +42,35 @@ export const formatGuiaPrice = (price: number) =>
 export const formatGuiaCategory = (category: string) =>
   category === 'alimentacion' ? 'Alimentación' : `${category.charAt(0).toUpperCase()}${category.slice(1)}`;
 
-export const isGuiaPurchasable = (guia: Guia): guia is Guia & { stripePriceId: string; blobKey: string } =>
-  guia.status === 'available' &&
-  Boolean(guia.blobKey) &&
-  Boolean(guia.stripePriceId?.startsWith('price_')) &&
-  !guia.stripePriceId?.includes('PLACEHOLDER');
+export const getStripeMode = (
+  key: string | undefined,
+  vercelEnvironment = process.env.VERCEL_ENV,
+) => resolveStripeMode(key, vercelEnvironment) as StripeMode | undefined;
 
-export const guias: Guia[] = [
-  {
-    id: '25-cosas-normales-bebes',
-    title: '25 cosas normales en los bebés',
-    description: 'Una guía breve para entender mejor algunas cosas habituales en los bebés.',
-    price: 0,
-    status: 'free',
-    category: 'salud',
-    leadMagnetUrl: '/recursos/25-cosas-normales-bebes',
-  },
-  {
-    id: 'recomendaciones-generales-recien-nacido',
-    title: 'Recomendaciones generales para el recién nacido',
-    description: 'Respuestas claras sobre el cordón umbilical, las regurgitaciones, la ropa, el baño y otros cuidados cotidianos del recién nacido.',
-    price: 3.99,
-    status: 'available',
-    category: 'salud',
-    stripeProductId: 'prod_V6P1cCQK6NKXQU',
-    stripePriceId: 'price_1U6CDg2WVIl1hdpgTQkJSjt3',
-    blobKey: 'CONSEJOS GENERALES RN.pdf',
-  },
-  {
-    id: 'conservacion-leche-materna',
-    title: 'Conservación de la leche materna',
-    description: 'Una guía práctica para conservar, congelar, descongelar y transportar la leche materna de forma segura.',
-    price: 3.99,
-    status: 'available',
-    category: 'alimentacion',
-    stripeProductId: 'prod_V6P1covAOkIO5l',
-    stripePriceId: 'price_1U6CDu2WVIl1hdpgzG5ztfvI',
-    blobKey: 'CONSERVACIO\u0301N LECHE MATERNA.pdf',
-  },
-  {
-    id: 'pomada-aceite-uva',
-    title: 'Pomada de aceite de uva',
-    description: 'Una fórmula magistral con su composición, preparación, conservación e indicaciones.',
-    price: 3.99,
-    status: 'available',
-    category: 'salud',
-    stripeProductId: 'prod_V6P2VzHsGoq52V',
-    stripePriceId: 'price_1U6CEI2WVIl1hdpgZsacUjqL',
-    blobKey: 'FO\u0301RMULA MAGISTRAL Pomada para grietas del pezo\u0301n.pdf',
-  },
-  {
-    id: 'guia-definitiva-empezar-comer',
-    title: 'La guía definitiva para empezar a comer',
-    description: 'Alimenta a tu bebé sin miedo, sin normas imposibles y con evidencia científica.',
-    price: 17.99,
-    status: 'available',
-    category: 'alimentacion',
-    stripeProductId: 'prod_V6P2QCuXdRSTgf',
-    stripePriceId: 'price_1U6CEX2WVIl1hdpg3LaIxQr4',
-    blobKey: 'LA GUIA DEFINITIVA PARA EMPEZAR AC.pdf',
-  },
-];
+export const getGuiaStripeMapping = (guia: Guia, mode: StripeMode) =>
+  getValidStripeMapping(guia, mode) as GuiaStripeMapping | undefined;
+
+export const getGuiaAmountCents = (guia: Guia, mode: StripeMode | undefined) =>
+  selectAmountCents(guia, mode) as number;
+
+export const getGuiaPrice = (guia: Guia, mode: StripeMode | undefined) =>
+  getGuiaAmountCents(guia, mode) / 100;
+
+export const isGuiaVisible = (guia: Guia, mode: StripeMode | undefined) =>
+  checkVisibility(guia, mode) as boolean;
+
+export const isGuiaPurchasable = (
+  guia: Guia,
+  mode: StripeMode | undefined,
+): guia is PurchasableGuia => {
+  if (!mode || !isValidBlobKey(guia.blobKey) || !getGuiaStripeMapping(guia, mode)) return false;
+  return guia.status === 'available' || (mode === 'test' && guia.status === 'testing');
+};
+
+export const authorizeGuidePurchase = (
+  guia: Guia,
+  mode: StripeMode,
+  linePriceId: string,
+  snapshotPriceId?: string,
+  snapshotBlobKey?: string,
+) => authorizePurchase(guia, mode, linePriceId, snapshotPriceId, snapshotBlobKey) as string | undefined;

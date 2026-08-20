@@ -1,16 +1,26 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { formatGuiaCategory, formatGuiaPrice, guias, isGuiaPurchasable } from '../../data/guias';
+import {
+  formatGuiaCategory,
+  formatGuiaPrice,
+  getGuiaPrice,
+  getStripeMode,
+  guias,
+  isGuiaPurchasable,
+  isGuiaVisible,
+} from '../../data/guias';
 
 export function getStaticPaths() {
-  return guias.map((guia) => ({
+  const stripeMode = getStripeMode(import.meta.env.STRIPE_SECRET_KEY);
+  return guias.filter((guia) => isGuiaVisible(guia, stripeMode)).map((guia) => ({
     params: { id: guia.id },
     props: { guia },
   }));
 }
 
+const stripeMode = getStripeMode(import.meta.env.STRIPE_SECRET_KEY);
 const { guia } = Astro.props;
-const canCheckout = isGuiaPurchasable(guia);
+const canCheckout = isGuiaPurchasable(guia, stripeMode);
 ---
 
 <Layout title={guia.title} description={guia.description}>
@@ -37,7 +47,9 @@ const canCheckout = isGuiaPurchasable(guia);
 
         <div class="producto__compra">
           <div class="producto__card">
-            <p class="producto__precio">{formatGuiaPrice(guia.price)}</p>
+            <p class="producto__precio">
+              {formatGuiaPrice(getGuiaPrice(guia, stripeMode))}
+            </p>
 
             {guia.status === 'free' && (
               <div class="producto__action">
@@ -48,11 +60,11 @@ const canCheckout = isGuiaPurchasable(guia);
 
             {canCheckout && (
               <div class="producto__action">
-                <p class="producto__entrega">Recibirás por email un enlace de descarga disponible durante 30 días.</p>
+                <p class="producto__entrega">Comprarás un PDF y recibirás por email un enlace de descarga disponible durante 30 días.</p>
                 <form id="checkout-form" method="POST" action="/api/checkout">
                   <input type="hidden" name="guiaId" value={guia.id} />
                   <button id="btn-comprar" type="submit" class="btn btn--primary btn--full">
-                    Comprar ahora
+                    Comprar y recibir por email
                   </button>
                 </form>
                 <ul class="producto__garantias">

@@ -7,9 +7,13 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "npm run guides:check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "guides:check": "node scripts/check-guide-catalog.mjs",
+    "guides:test": "node --test scripts/guide-catalog-core.test.mjs",
+    "guide:provision": "node scripts/guide-catalog.mjs provision",
+    "guide:price": "node scripts/guide-catalog.mjs price"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",

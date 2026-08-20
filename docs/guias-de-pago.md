@@ -9,7 +9,8 @@ Configurar estos valores en local y en los entornos de Vercel que correspondan. 
 | Variable | Uso |
 | --- | --- |
 | `SITE_URL` | URL pública usada en los retornos de Stripe y los enlaces de descarga. |
-| `STRIPE_SECRET_KEY` | Clave test o live del entorno actual. |
+| `STRIPE_SECRET_KEY` | Clave test o live del entorno actual. Una clave test se rechaza en Production. |
+| `STRIPE_CATALOG_KEY` | Clave restringida `rk_test_` usada solo al provisionar desde Development. |
 | `STRIPE_WEBHOOK_SECRET` | Firma del endpoint `/api/webhook` del entorno actual. |
 | `RESEND_API_KEY` | Envío del correo de entrega. |
 | `RESEND_FROM_EMAIL` | Remitente perteneciente a un dominio verificado. |
@@ -19,35 +20,34 @@ Configurar estos valores en local y en los entornos de Vercel que correspondan. 
 
 En Vercel se prioriza OIDC para no mantener una credencial Blob de larga duración. Los Product ID, Price ID y `blobKey` no son secretos, pero deben corresponder al mismo producto y entorno.
 
-## Preparación externa
+## Provisionar una guía nueva
 
-1. Crear un almacén privado en Vercel Blob.
-2. Subir el PDF final con tipo `application/pdf` y anotar su pathname como `blobKey`.
-3. Verificar el dominio remitente en Resend y configurar `RESEND_FROM_EMAIL`.
-4. Crear el producto y precio primero en Stripe test.
-5. Registrar `/api/webhook` para:
-   - `checkout.session.completed`
-   - `checkout.session.async_payment_succeeded`
-6. Copiar el secreto de firma al entorno correspondiente.
-7. Repetir la configuración con IDs y secretos live solo después de superar las pruebas.
+La fuente editable es `src/data/guias.json`; `src/data/guias.ts` solo expone el catálogo a la aplicación. La automatización no extrae ni inventa contenido sanitario del PDF: solicita título, categoría, descripción, tres beneficios aprobados y precio.
 
-## Activación de una guía
+Configurar una clave restringida `rk_test_` como `STRIPE_CATALOG_KEY` únicamente en Vercel Development. Después ejecutar primero el dry-run:
 
-Una guía solo puede pasar a `available` cuando tiene:
+```bash
+npx --yes vercel@latest env run -e development -- npm run guide:provision
+npx --yes vercel@latest env run -e development -- npm run guide:provision -- --apply
+```
 
-- PDF y portada finales.
-- Descripción e índice aprobados.
-- Product ID y Price ID del entorno correcto.
-- `blobKey` de un PDF privado real.
-- Remitente de Resend verificado.
+El segundo comando vuelve a pedir `APLICAR`, sube el PDF privado con una clave basada en su SHA-256, crea o reutiliza Product y Price en Stripe test, actualiza el catálogo de forma atómica y ejecuta el build. La guía queda en `testing`; solo debe cambiarse manualmente a `available` después de una compra test completa.
 
-Actualizar su entrada en `src/data/guias.ts` con los valores reales y ejecutar una compra completa en modo test antes de publicar.
+Para cambiar un precio test sin romper compras anteriores:
+
+```bash
+npx --yes vercel@latest env run -e development -- npm run guide:price -- <guiaId> --price 5,99
+npx --yes vercel@latest env run -e development -- npm run guide:price -- <guiaId> --price 5,99 --apply
+```
+
+La automatización no sustituye PDF existentes ni opera en Stripe live. La activación live continúa siendo manual.
 
 ## Flujo y seguridad
 
-- El navegador solo envía `guiaId`; precio, Price ID y PDF se resuelven en servidor.
+- El navegador solo envía `guiaId`; precio, Price ID y PDF se resuelven en servidor según el modo Stripe.
 - El checkout comprueba que el webhook, el correo y el PDF privado están disponibles antes de cobrar.
-- El webhook verifica la firma sobre el cuerpo original y vuelve a comprobar el pago en Stripe.
+- Checkout guarda el Price ID y `blobKey` exactos de la compra; el webhook verifica firma, entorno, pago y línea de compra antes de entregar.
+- Los Price ID anteriores se conservan para no romper descargas históricas.
 - Resend usa la sesión como clave de idempotencia y Stripe conserva `deliveryEmailId`, `deliveredAt` y `downloadExpiresAt` en metadata.
 - El correo enlaza a `/api/guias/download`; nunca expone `blobKey`.
 - La descarga vuelve a verificar el pago y caduca 30 días después de crear la sesión, salvo que soporte amplíe `downloadExpiresAt` en Stripe.
@@ -62,6 +62,6 @@ Actualizar su entrada en `src/data/guias.ts` con los valores reales y ejecutar u
 5. Descargar el PDF con el enlace recibido.
 6. Probar `/tienda/gracias` y la descarga con una sesión inventada.
 7. Simular un fallo de Resend o Blob y comprobar que no se muestran detalles sensibles.
-8. Ejecutar `npm run build`.
+8. Ejecutar `npm run guides:test` y `npm run build`.
 
 Para soporte, buscar la compra por email o referencia en Stripe, comprobar la metadata de entrega en Resend y ampliar `downloadExpiresAt` si corresponde.
