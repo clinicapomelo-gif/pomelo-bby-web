@@ -3,7 +3,6 @@ import { Resend } from 'resend';
 import Stripe from 'stripe';
 import { guias, isGuiaPurchasable } from '../../data/guias';
 import {
-  getGuideBlobAuth,
   getGuideDownloadExpiresAt,
   isPrivateGuidePdfAvailable,
 } from '../../lib/guide-delivery';
@@ -88,10 +87,9 @@ export const POST: APIRoute = async ({ request }) => {
 
   const resendKey = import.meta.env.RESEND_API_KEY;
   const sender = import.meta.env.RESEND_FROM_EMAIL;
-  const blobAuth = getGuideBlobAuth();
   const siteURL = import.meta.env.SITE_URL;
 
-  if (!resendKey || !sender || !blobAuth || !siteURL) {
+  if (!resendKey || !sender || !siteURL) {
     return new Response('Servicio de entrega no configurado', { status: 503 });
   }
 
@@ -104,7 +102,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   try {
-    if (!await isPrivateGuidePdfAvailable(guia.blobKey, blobAuth)) {
+    if (!await isPrivateGuidePdfAvailable(guia.blobKey)) {
       console.error('Guide PDF configuration error:', eventReference(event));
       return new Response('La guía no está disponible', { status: 500 });
     }
