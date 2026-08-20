@@ -4,14 +4,13 @@ import LeadMagnetForm from '../../components/LeadMagnetForm.astro';
 ---
 
 <Layout title="El Chisme de Mar" description="Historias reales, información clara y crianza sin ruido. Únete al email quincenal de Mar y recibe gratis la guía 25 cosas normales en los bebés.">
-  <LeadMagnetForm heading="h1" />
-
   <section class="newsletter-about" aria-labelledby="newsletter-about-title">
     <div class="container">
       <div class="newsletter-about__card">
         <div>
           <p class="newsletter-about__eyebrow">Cada quince días en tu correo</p>
-          <h2 id="newsletter-about-title">Esto es El Chisme de Mar</h2>
+          <h1 id="newsletter-about-title">El Chisme de Mar</h1>
+          <p class="newsletter-about__intro">Historias reales, salud infantil y crianza sin ruido.</p>
           <p>Te cuento una historia personal o profesional y qué podemos aprender de ella desde la mirada de una enfermera infantil. Sin fórmulas mágicas ni tragedias de Google.</p>
 
           <ul>
@@ -23,7 +22,7 @@ import LeadMagnetForm from '../../components/LeadMagnetForm.astro';
 
         <div class="newsletter-about__trust">
           <div class="newsletter-about__author">
-            <img src="/mar-inicio.webp" alt="" width="1200" height="1601" loading="lazy" decoding="async" />
+            <img src="/mar-inicio.webp" alt="" width="1200" height="1601" loading="eager" decoding="async" />
             <p><strong>Escrito por Mar</strong><span>Enfermera infantil y neonatal · Colegiada n.º 16700</span></p>
           </div>
           <p>Las historias profesionales se cuentan de forma anonimizada y sin datos que permitan identificar a ninguna familia.</p>
@@ -31,11 +30,13 @@ import LeadMagnetForm from '../../components/LeadMagnetForm.astro';
       </div>
     </div>
   </section>
+
+  <LeadMagnetForm eyebrow="Regalo de bienvenida" />
 </Layout>
 
 <style>
   .newsletter-about {
-    padding: 0 0 var(--spacing-xl);
+    padding: var(--spacing-xl) 0 0;
     background-color: var(--color-white);
   }
 
@@ -59,8 +60,14 @@ import LeadMagnetForm from '../../components/LeadMagnetForm.astro';
     text-transform: uppercase;
   }
 
-  .newsletter-about h2 {
-    margin-bottom: var(--spacing-md);
+  .newsletter-about h1 {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .newsletter-about__intro {
+    color: var(--color-text);
+    font-size: 1.15rem;
+    font-weight: 600;
   }
 
   .newsletter-about p,

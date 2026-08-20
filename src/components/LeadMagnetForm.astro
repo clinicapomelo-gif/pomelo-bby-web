@@ -1,16 +1,17 @@
 ---
 interface Props {
   heading?: 'h1' | 'h2';
+  eyebrow?: string;
 }
 
-const { heading = 'h2' } = Astro.props;
+const { heading = 'h2', eyebrow = 'Guía gratuita' } = Astro.props;
 ---
 
 <section id="guia-gratuita" class="lead-magnet" aria-labelledby="lead-magnet-title">
   <div class="container">
     <div class="lead-magnet__card">
       <div class="lead-magnet__content">
-        <p class="lead-magnet__eyebrow">Guía gratuita</p>
+        <p class="lead-magnet__eyebrow">{eyebrow}</p>
         {heading === 'h1' ? (
           <h1 id="lead-magnet-title">25 cosas normales en los bebés</h1>
         ) : (
