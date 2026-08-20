@@ -32,11 +32,11 @@ Lista operativa resumida. Los procedimientos detallados están en:
 - Stripe continúa en sandbox. El flujo de Cuéntame por correo funciona de extremo a extremo por 19 € y los precios de Cal.com son correctos, pero todavía no se aceptan cobros reales.
 - La prueba con `resend.dev` llegó a spam, algo esperable por usar un remitente compartido y un enlace de localhost. La entregabilidad real sigue pendiente del dominio verificado y enlaces HTTPS públicos.
 - Production está pública en `https://pomelo-bby-web.vercel.app`; las Preview continúan protegidas por Vercel Authentication.
-- DonDominio muestra `pomelobaby.es` y DNS Anycast como activos, y la zona contiene los registros de Vercel, correo, Resend y DMARC. Sin embargo, la comprobación externa y los servidores autoritativos de `.es` todavía responden `NXDOMAIN`; falta resolver la delegación DNS antes de validar los servicios.
+- `pomelobaby.es` y `www.pomelobaby.es` ya resuelven por HTTPS en Vercel. La variante `www` todavía responde directamente y falta redirigirla permanentemente al dominio canónico.
 - `MAINTENANCE_MODE=false` en Production desde el último despliegue. Al activarlo, oculta la interfaz, bloquea las API no transaccionales con HTTP 503 y publica `robots.txt` con `Disallow: /`.
 - Los formularios están públicos, pero sin la configuración externa y legal completa deben considerarse en preparación.
-- La auditoría de seguridad deja preparada una CSP con hashes, endurecimiento de pagos y datos sensibles, acceso a Blob por OIDC y dependencias sin vulnerabilidades conocidas en `npm audit` y `pnpm audit`.
-- El webhook Live de Stripe para `https://pomelobaby.es/api/webhook` está creado con los dos eventos de Checkout y `STRIPE_WEBHOOK_SECRET` está guardado como secreto de Production. La clave temporal de Stripe CLI ya no conserva el permiso de escritura.
+- La auditoría de seguridad está desplegada: CSP con hashes y sin `unsafe-inline`, endurecimiento de pagos y datos sensibles, funciones en `fra1` y dependencias sin vulnerabilidades conocidas en `npm audit` y `pnpm audit`.
+- El webhook Live de Stripe para `https://pomelobaby.es/api/webhook` está activo con los dos eventos de Checkout, su secreto está en Production y una petición sin firma válida devuelve `400`. La clave temporal de Stripe CLI ya no conserva el permiso de escritura.
 - El build termina correctamente. En local se usa Node 26 y Vercel avisa de que ejecutará las funciones con Node 24.
 - Los worktrees `task-03`, `task-04`, `task-05`, `task-07` y `task-08` están limpios y sus commits están integrados. La tarea 06 se integró en los commits `c1fd7f6` y `71f7353`. La rama de la tarea 01 no es ancestro de `main`, pero Git confirma que su parche ya está aplicado.
 
@@ -47,7 +47,7 @@ Lista operativa resumida. Los procedimientos detallados están en:
 - [x] **[Mar]** Comprar el dominio definitivo: `pomelobaby.es`.
 - [ ] **[Mar]** Crear o confirmar el correo profesional.
 - [x] **[Dev]** Añadir el dominio a Vercel y unificar `SITE_URL`, Astro, sitemap, robots, enlaces canónicos y Open Graph.
-- [ ] **[Dev]** Validar propagación DNS, certificado HTTPS y redirección entre `www` y el dominio principal.
+- [ ] **[Dev]** Redirigir permanentemente `www.pomelobaby.es` hacia `pomelobaby.es`.
 - [x] **[Dev]** Bloquear también las rutas `/api/*` en Production mientras `MAINTENANCE_MODE` esté activo.
 - [ ] **[Mar + profesional legal]** Completar Aviso legal, Privacidad, Cookies y Condiciones de venta, incluyendo formularios, newsletter, consultas, datos de salud, pagos y proveedores externos.
 - [ ] **[Mar + profesional legal]** Validar el aviso ya publicado en el footer: “No están pensadas para situaciones urgentes: si algo te preocupa de forma inmediata o tu hijo o hija empeora, busca atención sanitaria sin esperar mi respuesta”.
@@ -233,7 +233,7 @@ Las futuras guías se añadirán al catálogo únicamente cuando tengan PDF, Pro
 - [ ] **[Dev]** Usar Node 24 y ejecutar el build final.
 - [ ] **[Dev]** Separar completamente las credenciales Live de Stripe y Resend de Preview.
 - [ ] **[Dev]** Tras desplegar, comprobar OIDC en las guías de pago y retirar o rotar `BLOB_READ_WRITE_TOKEN` si ya no es necesario en Vercel.
-- [ ] **[Dev]** Verificar en producción CSP, cabeceras, Analytics, Cal.com, región `fra1` y que una firma inválida del webhook devuelva `400` en lugar de `503`.
+- [ ] **[Mar + Dev]** Probar en navegador que Vercel Analytics y el popup de Cal.com funcionan sin errores de CSP.
 - [ ] **[Rafael + Mar]** Restringir el buzón de consultas sanitarias, activar MFA y acordar una política de conservación y borrado.
 - [ ] **[Dev]** Revisar móvil, tableta, escritorio, teclado, foco, mensajes de error, enlaces, 404, SEO, sitemap y robots.
 - [ ] **[Mar + Dev]** Probar en producción todos los formularios y servicios que vayan a quedar visibles.
