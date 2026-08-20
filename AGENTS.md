@@ -27,7 +27,8 @@ No hay una suite de tests ni un script de lint. Después de cambios de código, 
 - `src/content/blog/`: posts Markdown gestionados con Astro Content Collections.
 - `src/content.config.ts`: esquema y categorías válidas del blog. Si cambian las categorías, sincroniza `src/pages/blog/index.astro`.
 - `PROMPT-BLOG.md`: guía editorial y visual obligatoria. Consúltala antes de crear o modificar cualquier artículo.
-- `src/data/guias.ts`: catálogo y referencias de Stripe de las guías.
+- `src/data/guias.json`: catálogo editable y referencias Stripe test/live de las guías.
+- `src/data/guias.ts`: tipos y API del catálogo usada por Astro.
 - `src/styles/global.css`: tokens visuales, reset y utilidades globales. Reutiliza las variables CSS existentes.
 - `public/`: recursos estáticos.
 
@@ -63,6 +64,26 @@ Como rasgo identitario heredado de Instagram, los recuadros en Coral Pomelo llev
 - Variables usadas: `SITE_URL`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_CONSULTA_MENSAJE_PRICE_ID`, `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `RESEND_TO_EMAIL`, `RESEND_NEWSLETTER_SEGMENT_ID`, `RESEND_NEWSLETTER_TOPIC_ID`, `NEWSLETTER_CONFIRMATION_SECRET`, `BLOB_STORE_ID`, `VERCEL_OIDC_TOKEN` y `BLOB_READ_WRITE_TOKEN`.
 - Valida los datos del cliente en servidor. No confíes en precios, productos, estados de pago ni identificadores enviados por el navegador.
 - Conserva la verificación de firma de los webhooks de Stripe y la verificación de sesión antes de mostrar o procesar una consulta pagada.
+
+### Entornos Stripe y guías
+
+No hace falta una rama `develop`: cualquier rama distinta de `main` genera Preview; `main` genera Production.
+
+- **Development:** `STRIPE_CATALOG_KEY` restringida del Sandbox correcto y acceso al Blob privado.
+- **Preview:** `STRIPE_SECRET_KEY` y `STRIPE_WEBHOOK_SECRET` del mismo Sandbox.
+- **Production mientras no haya ventas live:** sin variables Stripe; el build solo publica recursos gratuitos.
+- **Production live futura:** claves, webhook y mapeos `stripe.live` propios; nunca reutilizar IDs del Sandbox.
+
+Alta y cambio de precio, siempre con dry-run primero:
+
+```bash
+npx --yes vercel@latest env run -e development -- npm run guide:provision
+npx --yes vercel@latest env run -e development -- npm run guide:provision -- --apply
+npx --yes vercel@latest env run -e development -- npm run guide:price -- <guiaId> --price 5,99
+npx --yes vercel@latest env run -e development -- npm run guide:price -- <guiaId> --price 5,99 --apply
+```
+
+La provisión solo admite claves `rk_test_`, solicita el PDF mediante prompt y no hace commit, push ni despliegue. Consulta `docs/guias-de-pago.md` antes de operar.
 
 ## Servicios y operación
 
