@@ -43,6 +43,8 @@ export default defineConfig({
         !page.includes('/cookies') &&
         !page.includes('/condiciones-venta') &&
         !page.includes('/gracias') &&
+        !page.includes('/consulta-mensaje/enviado') &&
+        !page.includes('/links') &&
         !page.includes('/newsletter') &&
         !page.includes('/chisme/confirm'),
     }),

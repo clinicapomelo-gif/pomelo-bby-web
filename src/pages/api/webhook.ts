@@ -112,22 +112,18 @@ export const POST: APIRoute = async ({ request }) => {
       dateStyle: 'long',
       timeZone: 'Europe/Madrid',
     }).format(new Date(expiresAt * 1000));
-    const paymentReference = typeof session.payment_intent === 'string'
-      ? session.payment_intent
-      : session.payment_intent?.id;
     const resend = new Resend(resendKey);
     const { data, error } = await resend.emails.send(
       {
         from: sender,
         to: customerEmail,
         subject: `Tu guía «${guia.title}» ya está lista`,
-        text: `Hola,\n\nGracias por confiar en pomelo.bby. Ya puedes descargar «${guia.title}»:\n${downloadURL.toString()}\n\nEl enlace estará disponible hasta el ${expirationDate}.${paymentReference ? `\nReferencia de compra: ${paymentReference}` : ''}\n\nSi tienes cualquier problema con la descarga, escríbeme desde la página de contacto y lo solucionamos.\n\nMar · pomelo.bby`,
+        text: `Hola,\n\nGracias por confiar en pomelo.bby. Ya puedes descargar «${guia.title}»:\n${downloadURL.toString()}\n\nEl enlace estará disponible hasta el ${expirationDate}.\n\nSi tienes cualquier problema con la descarga, escríbeme desde la página de contacto y lo solucionamos.\n\nMar · pomelo.bby`,
         html: `
           <p>Hola,</p>
           <p>Gracias por confiar en pomelo.bby. Ya puedes descargar <strong>${guia.title}</strong>.</p>
           <p><a href="${downloadURL.toString()}">Descargar mi guía</a></p>
           <p>El enlace estará disponible hasta el ${expirationDate}.</p>
-          ${paymentReference ? `<p>Referencia de compra: ${paymentReference}</p>` : ''}
           <p>Si tienes cualquier problema con la descarga, <a href="${new URL('/contacto', siteURL).toString()}">escríbeme</a> y lo solucionamos.</p>
           <p>Mar · pomelo.bby</p>
         `,
