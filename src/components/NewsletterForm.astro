@@ -2,8 +2,8 @@
 ---
 
 <div class="newsletter-card" aria-labelledby="newsletter-form-title">
-  <h2 id="newsletter-form-title">¿Te apuntas?</h2>
-  <p class="newsletter-card__intro">Déjame tu nombre y tu correo. Después te pediré que lo confirmes.</p>
+  <h2 id="newsletter-form-title" data-newsletter-heading>¿Te apuntas?</h2>
+  <p class="newsletter-card__intro" data-newsletter-intro>Déjame tu nombre y tu correo. Después te pediré que lo confirmes.</p>
 
   <form method="POST" action="/api/subscribe" class="newsletter-card__form" data-newsletter-form data-friendly-validation novalidate>
     <div class="newsletter-card__honeypot" aria-hidden="true">
@@ -58,17 +58,23 @@
   </form>
 
   <p class="newsletter-card__message" data-newsletter-message aria-live="polite" tabindex="-1" hidden></p>
-  <p class="newsletter-card__note">Cada quince días · Sin spam · Baja fácil</p>
+  <p class="newsletter-card__note" data-newsletter-note>Cada quince días · Sin spam · Baja fácil</p>
 </div>
 
 <script>
   const form = document.querySelector<HTMLFormElement>('[data-newsletter-form]');
   const message = document.querySelector<HTMLParagraphElement>('[data-newsletter-message]');
   const button = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+  const heading = document.querySelector<HTMLElement>('[data-newsletter-heading]');
+  const intro = document.querySelector<HTMLElement>('[data-newsletter-intro]');
+  const note = document.querySelector<HTMLElement>('[data-newsletter-note]');
 
   window.addEventListener('pageshow', () => {
-    if (!form || !message || !button) return;
+    if (!form || !message || !button || !heading || !intro || !note) return;
 
+    heading.textContent = '¿Te apuntas?';
+    intro.hidden = false;
+    note.hidden = false;
     form.hidden = false;
     message.hidden = true;
     button.disabled = false;
@@ -96,7 +102,10 @@
       }
 
       form.hidden = true;
-      message.textContent = '¡Hecho! Si ya estabas dentro, no necesitas hacer nada. Si no, revisa tu correo para confirmar tu dirección.';
+      if (heading) heading.textContent = 'Ya está 💌';
+      if (intro) intro.hidden = true;
+      if (note) note.hidden = true;
+      message.textContent = 'Si hace falta confirmar tu correo, encontrarás un enlace en tu bandeja de entrada. Si ya estabas dentro, no tienes que hacer nada.';
       message.className = 'newsletter-card__message newsletter-card__message--success';
     } catch (error) {
       button.disabled = false;
