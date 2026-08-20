@@ -155,7 +155,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   const confirmationWindow = Math.floor(Date.now() / (60 * 60 * 1000));
   const idempotencyKey = createHmac('sha256', confirmationSecret)
-    .update(`${cleanEmail}:${isLeadMagnet ? LEAD_MAGNET_ID : 'newsletter'}:${confirmationWindow}`)
+    .update(`${cleanEmail}:${isLeadMagnet ? LEAD_MAGNET_ID : 'newsletter'}:${confirmationWindow}:${token}`)
     .digest('hex');
 
   try {
