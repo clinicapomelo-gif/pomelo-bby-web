@@ -118,14 +118,14 @@ export const POST: APIRoute = async ({ request }) => {
         from: sender,
         to: customerEmail,
         subject: `Tu guía «${guia.title}» ya está lista`,
-        text: `Hola,\n\nGracias por confiar en pomelo.bby. Ya puedes descargar «${guia.title}»:\n${downloadURL.toString()}\n\nEl enlace estará disponible hasta el ${expirationDate}.\n\nSi tienes cualquier problema con la descarga, escríbeme desde la página de contacto y lo solucionamos.\n\nMar · pomelo.bby`,
+        text: `Hola,\n\nGracias por confiar en Pomelo Baby. Ya puedes descargar «${guia.title}»:\n${downloadURL.toString()}\n\nEl enlace estará disponible hasta el ${expirationDate}.\n\nSi tienes cualquier problema con la descarga, escríbeme desde la página de contacto y lo solucionamos.\n\nMar · Pomelo Baby`,
         html: `
           <p>Hola,</p>
-          <p>Gracias por confiar en pomelo.bby. Ya puedes descargar <strong>${guia.title}</strong>.</p>
+          <p>Gracias por confiar en Pomelo Baby. Ya puedes descargar <strong>${guia.title}</strong>.</p>
           <p><a href="${downloadURL.toString()}">Descargar mi guía</a></p>
           <p>El enlace estará disponible hasta el ${expirationDate}.</p>
           <p>Si tienes cualquier problema con la descarga, <a href="${new URL('/contacto', siteURL).toString()}">escríbeme</a> y lo solucionamos.</p>
-          <p>Mar · pomelo.bby</p>
+          <p>Mar · Pomelo Baby</p>
         `,
       },
       { idempotencyKey: `guia-${session.id}` },

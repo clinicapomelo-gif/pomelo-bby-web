@@ -106,7 +106,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
       from: fromEmail,
       to: toEmail,
       replyTo: email,
-      subject: 'Nueva consulta por mensaje — pomelo.bby',
+      subject: 'Nueva consulta por mensaje — Pomelo Baby',
       text: `Nueva consulta por mensaje\n\nNombre: ${nombre}\nEmail: ${email}\nEdad del bebé: ${edad}\n\n¿Qué le preocupa?\n${motivo}${contexto ? `\n\nContexto adicional\n${contexto}` : ''}`,
     }, {
       idempotencyKey: `consulta-mensaje-${sessionId}`,
@@ -135,8 +135,8 @@ export const POST: APIRoute = async ({ request, redirect }) => {
       const confirmation = await resend.emails.send({
         from: fromEmail,
         to: email,
-        subject: 'He recibido tu consulta — pomelo.bby',
-        text: `Hola, ${nombre}.\n\nHe recibido tu consulta correctamente. Te responderé a este correo en un plazo de 24-48 horas laborables.\n\nSi para valorar tu caso hacen falta fotos o vídeos, te explicaré el siguiente paso cuando te responda. No los envíes todavía.\n\nSi la situación empeora o crees que puede ser urgente, busca atención sanitaria sin esperar mi respuesta.\n\nGracias por confiar en pomelo.bby.`,
+        subject: 'He recibido tu consulta — Pomelo Baby',
+        text: `Hola, ${nombre}.\n\nHe recibido tu consulta correctamente. Te responderé a este correo en un plazo de 24-48 horas laborables.\n\nSi para valorar tu caso hacen falta fotos o vídeos, te explicaré el siguiente paso cuando te responda. No los envíes todavía.\n\nSi la situación empeora o crees que puede ser urgente, busca atención sanitaria sin esperar mi respuesta.\n\nGracias por confiar en Pomelo Baby.`,
       }, {
         idempotencyKey: `consulta-mensaje-confirmacion-${sessionId}`,
       });

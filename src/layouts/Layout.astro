@@ -45,7 +45,7 @@ const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" />
     <SEO
       title={maintenanceMode ? 'Estamos preparando la web' : title}
-      description={maintenanceMode ? 'Estamos preparando pomelo.bby. Muy pronto encontrarás información clara sobre salud infantil y crianza.' : description}
+      description={maintenanceMode ? 'Estamos preparando Pomelo Baby. Muy pronto encontrarás información clara sobre salud infantil y crianza.' : description}
       image={image}
       type={maintenanceMode ? 'website' : type}
       pubDate={maintenanceMode ? undefined : pubDate}
@@ -61,9 +61,9 @@ const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
     <a class="skip-link" href="#main-content">Saltar al contenido</a>
     <header class="header">
       <nav class="container nav">
-        <a href="/" class="nav__logo" aria-label="Inicio — pomelo.bby">
+        <a href="/" class="nav__logo" aria-label="Inicio — Pomelo Baby">
           <img src="/logo-pomelo.webp" alt="" width="192" height="192" />
-          <span>pomelo.bby</span>
+          <span>Pomelo Baby</span>
         </a>
         <button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-links">
           <span class="nav__toggle-bar"></span>
@@ -169,7 +169,7 @@ const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
           <img
             class="footer__logo"
             src="/logo-pomelo-bby.webp"
-            alt="pomelo.bby — Criar sin culpa"
+            alt="Pomelo Baby — Criar sin culpa"
             width="640"
             height="640"
             loading="lazy"
@@ -190,7 +190,7 @@ const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
           <span aria-hidden="true">·</span>
           <a href="/condiciones-venta">Condiciones de compra</a>
         </nav>
-        <p class="footer__copy">&copy; {new Date().getFullYear()} Piel de Pomelo SLP · pomelo.bby</p>
+        <p class="footer__copy">&copy; {new Date().getFullYear()} Piel de Pomelo SLP · Pomelo Baby</p>
       </div>
     </footer>
       </>

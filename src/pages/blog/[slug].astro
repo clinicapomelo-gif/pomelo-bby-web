@@ -222,6 +222,25 @@ const categoryLabels: Record<string, string> = {
     background: var(--color-nude);
   }
 
+  .prose :global(.warning-signs) {
+    margin: var(--spacing-lg) 0;
+    padding: var(--spacing-lg);
+    border: 2px solid var(--color-peach);
+    border-radius: var(--radius-lg);
+    background: var(--color-white);
+  }
+
+  .prose :global(.warning-signs h3) {
+    margin-top: 0;
+    color: var(--color-coral-hover);
+  }
+
+  .prose :global(.warning-signs p:last-child) {
+    margin: var(--spacing-md) 0 0;
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--color-border);
+  }
+
   .prose :global(.takeaways) {
     margin-top: var(--spacing-xl);
     padding: var(--spacing-lg);
@@ -288,6 +307,7 @@ const categoryLabels: Record<string, string> = {
       grid-template-columns: 1fr;
     }
 
+    .prose :global(.warning-signs),
     .prose :global(.takeaways) {
       padding: var(--spacing-md);
     }

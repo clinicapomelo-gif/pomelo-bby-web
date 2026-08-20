@@ -66,7 +66,7 @@ export const POST: APIRoute = async ({ request }) => {
       from: fromEmail,
       to: toEmail,
       replyTo: email,
-      subject: `Nuevo mensaje de ${nombre} — pomelo.bby`,
+      subject: `Nuevo mensaje de ${nombre} — Pomelo Baby`,
       text: `Nuevo mensaje desde la web\n\nNombre: ${nombre}\nEmail: ${email}\n\nMensaje:\n${mensaje}`,
     });
 

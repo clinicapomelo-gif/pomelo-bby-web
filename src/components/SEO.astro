@@ -17,13 +17,13 @@ const {
   title,
   description,
   image = '/logo-pomelo-bby.jpeg',
-  imageAlt = 'pomelo.bby — Enfermería infantil',
+  imageAlt = 'Pomelo Baby — Enfermería infantil',
   type = 'website',
   pubDate,
   canonicalURL = new URL(Astro.url.pathname, siteURL).toString(),
   noindex = false,
 } = Astro.props;
-const fullTitle = `${title} | pomelo.bby`;
+const fullTitle = `${title} | Pomelo Baby`;
 const imageURL = new URL(image, siteURL).toString();
 const schema = type === 'article'
   ? {
@@ -44,7 +44,7 @@ const schema = type === 'article'
   : {
       '@context': 'https://schema.org',
       '@type': 'WebSite',
-      name: 'pomelo.bby',
+      name: 'Pomelo Baby',
       url: siteURL,
       description: 'Enfermería infantil. Tips reales para familias reales.',
       author: { '@type': 'Person', name: 'Mar Vall', jobTitle: 'Enfermera' },
@@ -67,7 +67,7 @@ Astro.csp.insertScriptHash(`sha256-${schemaHash}`);
 <meta property="og:description" content={description} />
 <meta property="og:image" content={imageURL} />
 <meta property="og:image:alt" content={imageAlt} />
-<meta property="og:site_name" content="pomelo.bby" />
+<meta property="og:site_name" content="Pomelo Baby" />
 <meta property="og:locale" content="es_ES" />
 
 <!-- Twitter Card -->
