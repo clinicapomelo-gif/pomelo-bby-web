@@ -13,7 +13,10 @@ import {
 const stripeMode = getStripeMode(import.meta.env.STRIPE_SECRET_KEY);
 const visibleGuias = guias
   .filter((guia) => isGuiaVisible(guia, stripeMode))
-  .sort((a, b) => getGuiaPrice(a, stripeMode) - getGuiaPrice(b, stripeMode));
+  .sort((a, b) =>
+    Number(a.status !== 'free') - Number(b.status !== 'free') ||
+    getGuiaPrice(a, stripeMode) - getGuiaPrice(b, stripeMode),
+  );
 ---
 
 <Layout title="Las guías de Mar" description="Guías con información fiable, clara y basada en la evidencia para consultar cuando más la necesites.">
