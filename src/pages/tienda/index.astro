@@ -11,7 +11,9 @@ import {
 } from '../../data/guias';
 
 const stripeMode = getStripeMode(import.meta.env.STRIPE_SECRET_KEY);
-const visibleGuias = guias.filter((guia) => isGuiaVisible(guia, stripeMode));
+const visibleGuias = guias
+  .filter((guia) => isGuiaVisible(guia, stripeMode))
+  .sort((a, b) => getGuiaPrice(a, stripeMode) - getGuiaPrice(b, stripeMode));
 ---
 
 <Layout title="Las guías de Mar" description="Guías con información fiable, clara y basada en la evidencia para consultar cuando más la necesites.">
@@ -45,7 +47,7 @@ const visibleGuias = guias.filter((guia) => isGuiaVisible(guia, stripeMode));
               </div>
               {guia.status === 'free' ? (
                 <a href={guia.leadMagnetUrl} class="btn btn--primary">
-                  {guia.leadMagnetUrl?.startsWith('/api/guias/gratis') ? 'Descargar gratis' : 'Recibir la guía gratis'}
+                  Obtener la guía gratis
                 </a>
               ) : (
                 <a href={`/tienda/${guia.id}`} class="btn btn--secondary">Ver guía</a>
