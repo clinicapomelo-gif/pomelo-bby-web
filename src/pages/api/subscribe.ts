@@ -128,9 +128,10 @@ export const POST: APIRoute = async ({ request }) => {
 
   const consentedAt = new Date().toISOString();
   let confirmationUrl: URL;
+  let token: string;
 
   try {
-    const token = encryptNewsletterConfirmation({
+    token = encryptNewsletterConfirmation({
       email: cleanEmail,
       name: cleanNombre,
       source: isLeadMagnet ? 'lead_magnet_25_cosas' : 'newsletter',
