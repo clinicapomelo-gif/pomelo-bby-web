@@ -1,20 +1,5 @@
 [
   {
-    "id": "25-cosas-normales-bebes",
-    "title": "25 cosas normales en los bebés",
-    "description": "Una guía para entender qué cambios y comportamientos son habituales durante los primeros meses, y cuándo conviene consultar.",
-    "benefits": [
-      "25 situaciones habituales explicadas con calma",
-      "Señales que suelen preocupar, pero son normales",
-      "Orientación sencilla sobre cuándo consultar"
-    ],
-    "amountCents": 0,
-    "status": "free",
-    "category": "salud",
-    "leadMagnetUrl": "/recursos/25-cosas-normales-bebes",
-    "stripe": {}
-  },
-  {
     "id": "recomendaciones-generales-recien-nacido",
     "title": "Primeros cuidados del bebé",
     "description": "Respuestas claras para cuidar del cordón, el baño, la ropa, las regurgitaciones y otros momentos cotidianos del recién nacido.",
