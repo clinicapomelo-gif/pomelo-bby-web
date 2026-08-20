@@ -26,6 +26,7 @@ No hay una suite de tests ni un script de lint. Después de cambios de código, 
 - `src/components/`: componentes reutilizables, incluido SEO y formularios.
 - `src/content/blog/`: posts Markdown gestionados con Astro Content Collections.
 - `src/content.config.ts`: esquema y categorías válidas del blog. Si cambian las categorías, sincroniza `src/pages/blog/index.astro`.
+- `PROMPT-BLOG.md`: guía editorial y visual obligatoria. Consúltala antes de crear o modificar cualquier artículo.
 - `src/data/guias.ts`: catálogo y referencias de Stripe de las guías.
 - `src/styles/global.css`: tokens visuales, reset y utilidades globales. Reutiliza las variables CSS existentes.
 - `public/`: recursos estáticos.

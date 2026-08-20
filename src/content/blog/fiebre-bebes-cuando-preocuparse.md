@@ -1,6 +1,6 @@
 ---
 title: "Fiebre en bebés: cuándo preocuparse y cuándo no"
-description: "La fiebre asusta, pero no siempre es mala señal. Te cuento qué significa, qué puedes hacer en casa y cuándo conviene consultar."
+description: "La fiebre asusta, pero no siempre significa que algo vaya mal. Te cuento qué significa, qué puedes hacer en casa y cuándo conviene consultar."
 pubDate: 2026-05-01
 category: salud
 tags: ["fiebre", "bebé", "pediatría", "urgencias"]
@@ -13,15 +13,15 @@ Es uno de los motivos de consulta más frecuentes en pediatría. Y también uno 
 
 Porque ves 39 ºC en el termómetro y tu cerebro automáticamente traduce:
 
-> «Algo va fatal.»
+«Algo va fatal».
 
 Pero no necesariamente.
 
-La fiebre es una respuesta normal del organismo frente a muchas infecciones y, por sí sola, no nos dice lo grave que es una enfermedad.
+La fiebre es una respuesta del organismo frente a muchas infecciones y, por sí sola, no nos dice lo grave que está un niño o una niña.
 
-> **Más fiebre no significa necesariamente más enfermedad.**
+> **Mucha fiebre no siempre significa mucha enfermedad.**
 >
-> Lo que más nos importa es cómo está el niño o la niña en general.
+> Lo importante es valorar también cómo se encuentra el niño o la niña. *(enfamilia.aeped.es)*
 
 ## ¿Qué es exactamente la fiebre?
 
@@ -29,168 +29,121 @@ La fiebre es una elevación regulada de la temperatura corporal que aparece como
 
 No es una enfermedad. Es un síntoma.
 
-Nuestro objetivo no debería ser conseguir que el termómetro vuelva a marcar 36,5 ºC a toda costa. Nos interesa saber por qué tiene fiebre y cómo se encuentra el niño o la niña.
+En general, hablamos de fiebre a partir de **38 ºC**, aunque el valor depende del lugar donde se mida.
 
-En general, hablamos de fiebre a partir de **38 ºC**, aunque la interpretación depende también del lugar donde se mida la temperatura. La AEP considera fiebre una temperatura rectal de 38 ºC o más y utiliza 37,5 ºC como referencia para la medición axilar.
+En bebés pequeños, la temperatura rectal es una de las mediciones más fiables.
 
-## ¿Tengo que bajarle la fiebre siempre?
+<p class="editorial-highlight">La fiebre se mide con un termómetro, no con la mano.</p>
 
-No.
+La frente puede parecer ardiendo y, aun así, no sabemos qué temperatura tiene exactamente.
 
-Y esta es probablemente una de las cosas que más tranquilidad puede darte.
+Tu mano no viene con termómetro incorporado. 😌
 
-Los antitérmicos, como el paracetamol o el ibuprofeno cuando están indicados, se utilizan principalmente para mejorar el malestar y el dolor, no simplemente para bajar un número.
+## ¿Hay que bajar siempre la fiebre?
 
-Si tu bebé tiene fiebre pero está relativamente bien, bebe, responde, juega cuando le toca y no parece encontrarse mal, no necesitas medicarlo solo porque el termómetro marque 38,2 ºC.
+No necesariamente.
+
+Los antitérmicos, cuando están indicados, se utilizan principalmente para mejorar el malestar y el dolor, no simplemente para conseguir que el termómetro marque una cifra concreta.
+
+Si un niño o una niña tiene fiebre pero está relativamente bien, bebe, responde y mantiene un buen estado general, no necesitamos medicarlo únicamente por el número.
 
 > **No estamos intentando ganar una competición contra el termómetro.**
 
-## Entonces, ¿qué puedo hacer en casa?
+Si está incómodo/a, tiene dolor o se encuentra mal, sí puede ser necesario utilizar un antitérmico adecuado para su edad y peso, siguiendo las indicaciones de un profesional sanitario.
+
+## ¿Qué puedo hacer en casa?
 
 Si tu bebé tiene fiebre y su estado general es bueno:
 
 <ul class="visual-list care-list">
-  <li>💧 Ofrécele líquidos o tomas con frecuencia.</li>
-  <li>👕 No lo abrigues en exceso.</li>
+  <li>💧 Ofrece líquidos o tomas con frecuencia.</li>
+  <li>👕 Evita abrigarlo demasiado.</li>
   <li>🛏️ Déjalo descansar.</li>
   <li>👀 Observa cómo está y cómo evoluciona.</li>
 </ul>
 
-Si está incómodo o tiene dolor, puedes valorar un antitérmico adecuado para su edad y peso siguiendo las indicaciones de su profesional sanitario.
+No hace falta obligarlo a comer si no tiene apetito.
 
-> **Importante:** no alternes paracetamol e ibuprofeno de forma rutinaria. Tampoco des medicamentos «porque la fiebre es alta» sin tener clara la dosis adecuada.
->
-> La AEP y las guías clínicas recomiendan evitar la combinación rutinaria de antitérmicos.
+Y tampoco hace falta estar midiéndole la temperatura cada diez minutos. Un poco de observación suele ser más útil que vivir pegado al termómetro.
 
-## ¿Y cuándo tengo que consultar?
+## ¿Cuándo debería consultar?
 
-Aquí sí quiero que te quedes con algunas señales.
+Hay algunas situaciones en las que sí conviene pedir valoración.
 
 <section class="warning-signs" aria-labelledby="warning-signs-title">
-  <h3 id="warning-signs-title">Consulta si:</h3>
+  <h3 id="warning-signs-title">🚩 Especialmente si:</h3>
   <ul>
-    <li>Tiene <strong>menos de 3 meses y una temperatura de 38 ºC o más</strong>.</li>
-    <li>Está muy decaído/a, cuesta despertarlo/a o responde de forma anormal.</li>
+    <li>Tiene <strong>menos de 3 meses y 38 ºC o más</strong>.</li>
+    <li>Está muy decaído/a o cuesta despertarlo/a.</li>
     <li>Tiene dificultad para respirar.</li>
     <li>No consigue beber o alimentarse adecuadamente.</li>
-    <li>Hace mucho menos pis de lo habitual o presenta otros signos de deshidratación.</li>
-    <li>Tiene una convulsión.</li>
-    <li>Aparecen manchas o un sarpullido que no desaparece al presionarlo.</li>
-    <li>La fiebre dura 5 días o más.</li>
-    <li>Tú notas que está empeorando o que no es él o ella.</li>
+    <li>Hace mucho menos pis de lo habitual.</li>
+    <li>Presenta una convulsión.</li>
+    <li>Aparecen manchas en la piel que no desaparecen al presionarlas.</li>
+    <li>La fiebre se mantiene durante varios días sin mejorar.</li>
+    <li>O simplemente notas que no está como siempre.</li>
   </ul>
-  <p><strong>Menor de 3 meses + 38 ºC o más = valoración médica.</strong></p>
 </section>
 
-La edad importa mucho. Especialmente durante los primeros meses, una fiebre de 38 ºC o más necesita valoración médica.
+No necesitas esperar a que esté gravemente enfermo/a para consultar.
 
-> **No necesitas esperar a que esté muy mal para pedir ayuda.**
+<p class="editorial-highlight">Si algo no te cuadra, pregunta.</p>
 
-## ¿Y si tiene 40 ºC?
+La edad y el estado general son especialmente importantes a la hora de valorar la fiebre. *(enfamilia.aeped.es)*
 
-Una temperatura muy alta merece atención, especialmente en bebés pequeños, pero el número por sí solo no nos dice si estamos ante una urgencia.
+## ¿Y si tiene 39 o 40 ºC?
 
-La AEP recuerda que incluso una infección banal puede producir temperaturas cercanas a 40 ºC y que lo importante es valorar la causa y el estado general del niño o la niña.
+Ver un 40 ºC en el termómetro impresiona. Muchísimo.
 
-Así que, en lugar de pensar:
+Pero la cifra por sí sola no nos dice cómo de grave está un niño o una niña. Hay infecciones frecuentes que pueden producir fiebre alta.
 
-> «Tiene 40 ºC = emergencia.»
+Por eso, además del número, fíjate en:
 
-Piensa:
+**cómo está + cómo respira + si bebe + si hace pis + cómo responde.**
 
-> «Tiene una fiebre alta. ¿Cómo está?»
+Si además de la fiebre está muy decaído/a, tiene dificultad para respirar, no consigue hidratarse, presenta una convulsión o empeora claramente, **consulta de forma urgente**.
 
-Si está muy decaído/a, respira mal, no se hidrata, presenta una convulsión o cualquier otro signo de alarma, consulta urgentemente.
-
-## ¿Cómo le tomo bien la temperatura?
-
-Lo más importante: **la fiebre se mide con un termómetro, no con la mano**.
-
-La medición rectal es especialmente útil en bebés pequeños por su precisión, pero no es necesario convertir cada medición doméstica en una expedición científica.
-
-La AEP recomienda en menores de 3 meses la medición rectal con termómetro digital. En niños y niñas mayores también pueden utilizarse otras localizaciones según su edad y las circunstancias.
-
-<ul class="visual-list">
-  <li><strong>Axilar:</strong> práctica y útil para el seguimiento.</li>
-  <li><strong>Rectal:</strong> muy precisa, especialmente en bebés pequeños.</li>
-  <li><strong>Timpánica:</strong> útil cuando la edad y el dispositivo lo permiten y se coloca correctamente.</li>
-  <li><strong>Frontal:</strong> puede ser menos precisa en bebés pequeños y depende del dispositivo y de cómo se utilice.</li>
-</ul>
-
-> La frente de tu bebé no viene con termómetro incorporado.
-
-## Preguntas frecuentes
-
-### ¿Puedo darle paracetamol?
-
-Sí, cuando esté indicado. Pero la dosis debe calcularse según el peso y el medicamento concreto.
-
-No utilices una dosis que le dieron a su hermano o hermana. No utilices la que aparece en una foto de Instagram. Y no calcules: «Bueno, pesa más o menos lo mismo que el hijo de mi amiga…».
-
-El medicamento no funciona por aproximación.
-
-Si tienes dudas con la dosis, consulta a un profesional sanitario o revisa el prospecto del medicamento.
-
-### ¿Y el ibuprofeno?
-
-Puede utilizarse en niños y niñas en determinadas edades y situaciones, pero no es el antitérmico adecuado para todos los bebés.
-
-Especialmente en peques o si existe deshidratación, vómitos importantes, determinadas enfermedades o situaciones clínicas, debe valorarse si está indicado. El ibuprofeno requiere especial precaución cuando hay deshidratación.
-
-No quiero que memorices una edad mágica. Si tienes dudas sobre si puedes utilizarlo, consulta antes de administrarlo.
-
-### ¿Puedo alternar paracetamol e ibuprofeno?
+## ¿Puedo alternar paracetamol e ibuprofeno?
 
 No de forma rutinaria.
 
-Alternarlos sistemáticamente no ha demostrado ser necesario y aumenta las posibilidades de equivocarse con las dosis o los horarios.
+Alternarlos aumenta la posibilidad de equivocarse con las dosis y los horarios y no es necesario hacerlo sistemáticamente.
 
-Si el niño o la niña continúa con malestar pese al primer medicamento, un profesional sanitario puede valorar qué hacer.
+Si tienes dudas sobre qué medicamento utilizar o qué dosis corresponde a tu hijo o hija, consulta con un profesional sanitario.
 
-> **Más medicamentos no significa necesariamente más alivio.**
+Y recuerda: **más medicamentos no significa necesariamente más alivio**.
 
-### ¿Puedo darle un baño para bajarle la fiebre?
+## ¿Puedo darle un baño para bajarle la fiebre?
 
 No necesitas bañar a tu bebé para intentar «sacar» la fiebre.
 
-Los baños o esponjados para bajar la temperatura no se recomiendan como tratamiento rutinario. El agua fría, además, puede provocar escalofríos y hacer que esté todavía más incómodo/a.
+Los baños fríos pueden provocar escalofríos y aumentar el malestar, por lo que no se recomiendan como método para bajar la fiebre.
 
-Si quieres bañarlo porque le relaja, perfecto. Pero:
+Si quieres bañarlo porque le gusta, se relaja o toca el baño de ese día, perfecto. Pero por higiene y confort.
 
-> Baño por higiene o confort ≠ tratamiento de la fiebre.
+No porque necesitemos librar una batalla contra el termómetro.
 
-### ¿La fiebre puede causarle daño cerebral?
+## ¿La fiebre puede causarle daño cerebral?
 
-**La fiebre habitual de una infección no causa daño cerebral.**
+La fiebre habitual asociada a una infección no provoca daño cerebral.
 
-No necesitas entrar en pánico porque el termómetro marque 39 ºC. Tampoco perseguir una cifra concreta por miedo a que «le suba al cerebro».
+Por eso, aunque ver un 39 ºC pueda asustar, no significa que el cerebro se esté «quemando».
 
-Aquí es importante diferenciar la fiebre, que es una respuesta regulada del organismo, de las situaciones de hipertermia extrema, que son otra cosa.
+La fiebre y la hipertermia son situaciones diferentes.
 
-Así que puedes respirar.
-
-> **39 ºC en el termómetro no significa que el cerebro se esté «quemando».**
-
-### ¿Y las convulsiones febriles?
-
-Pueden aparecer en algunos niños y niñas pequeños cuando tienen fiebre. Y sí: verlas da muchísimo miedo.
-
-Pero suelen ser breves y, en la mayoría de los casos, no dejan secuelas.
-
-Los antitérmicos no previenen las convulsiones febriles, por lo que no debemos utilizarlos únicamente con ese objetivo.
-
-Si alguna vez ocurre una convulsión, protégelo/a de golpes, no introduzcas nada en su boca y sigue las indicaciones de emergencias.
+> **39 ºC en el termómetro no significa que el cerebro se esté quemando.**
 
 <section class="takeaways" aria-labelledby="takeaways-title">
   <h2 id="takeaways-title">🍊 Qué quiero que recuerdes</h2>
   <p>La fiebre no es tu enemiga. Es una respuesta del organismo y, muchas veces, forma parte de una infección que terminará resolviéndose sin complicaciones.</p>
-  <p><strong>No necesitas tratar el número. Trata el malestar.</strong></p>
-  <p>Mira al niño o la niña en conjunto: cómo está, cómo respira, cómo bebe, cuánto pis hace y cómo responde.</p>
+  <p>No necesitas obsesionarte con bajar cada décima.</p>
+  <p class="takeaways__final"><strong>Mira al niño o la niña, no solo al termómetro.</strong></p>
+  <p>Cómo está. Cómo respira. Cómo bebe. Cuánto pis hace. Y cómo responde.</p>
   <p><strong>Menor de 3 meses + 38 ºC o más = valoración médica.</strong></p>
-  <p>Consulta si aparece dificultad respiratoria, decaimiento importante, deshidratación, convulsiones, manchas que no desaparecen al presionarlas o cualquier empeoramiento que te preocupe.</p>
-  <p class="takeaways__final"><strong>No necesitas saber diagnosticar una enfermedad. Solo necesitas saber cuándo pedir ayuda.</strong></p>
+  <p>Si aparece dificultad respiratoria, decaimiento importante, deshidratación, convulsiones, manchas que no desaparecen al presionarlas o cualquier empeoramiento que te preocupe, consulta.</p>
+  <p><strong>No necesitas saber diagnosticarlo. Solo necesitas saber cuándo pedir ayuda.</strong></p>
 </section>
 
 ---
 
-*Este artículo tiene finalidad educativa y no sustituye una valoración individual. Si tu bebé tiene fiebre y es menor de 3 meses, presenta una enfermedad previa, está muy decaído/a o tienes cualquier duda sobre su estado, consulta con un profesional sanitario.*
+*Este artículo tiene finalidad educativa y no sustituye una valoración individual. Ante cualquier duda sobre la salud de tu bebé, consulta con un profesional sanitario.*

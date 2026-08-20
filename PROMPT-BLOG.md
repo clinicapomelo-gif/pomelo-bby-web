@@ -19,9 +19,10 @@ Actualiza esta lista si cambia el esquema de `src/content.config.ts`:
 
 ## Diseño editorial obligatorio
 
-- Diseño limpio, ligero, editorial y visual, acorde con Pomelo Baby.
+- Diseño limpio, cálido, profesional, editorial y visual, acorde con Pomelo Baby.
 - Lectura cómoda y escaneable desde móvil.
 - Mucho espacio en blanco y párrafos cortos.
+- Cada artículo resuelve una duda concreta: debe ser útil, pero no convertirse en un manual completo ni saturar de información.
 - `H1`: título del artículo, generado automáticamente desde `title`.
 - Entradilla: `description`, visible bajo el H1 con un tamaño ligeramente menor.
 - Firma: pequeña y discreta; se genera automáticamente.
@@ -29,12 +30,13 @@ Actualiza esta lista si cambia el esquema de `src/content.config.ts`:
 - `H3`: preguntas o subsecciones dentro de cada sección.
 - Texto normal con tamaño cómodo e interlineado amplio.
 - Negrita solo para conceptos clave y palabras que ayuden a escanear. Nunca párrafos enteros.
-- Frases importantes en citas Markdown (`>`), que se muestran como cajas destacadas.
+- Alternar frases importantes en citas Markdown (`>`) y destacados editoriales sin caja; no encerrar todas las frases.
 - Listas con aire entre elementos.
-- Advertencias visibles, pero nunca alarmistas.
-- Humor sutil en frases breves destacadas cuando encaje.
-- La sección “🍊 Qué quiero que recuerdes” debe usar siempre el bloque especial documentado abajo.
-- Un único CTA principal por bloque, si el artículo incluye alguno.
+- Advertencias visibles, pero nunca alarmistas: deben comunicar “esto es importante”, no “entra en pánico”.
+- Como máximo, 3 o 4 toques de humor breves, naturales y nunca relacionados con situaciones graves.
+- La sección “🍊 Qué quiero que recuerdes” debe usar siempre el bloque especial documentado abajo y ser breve.
+- No incluir referencias a ebooks, guías, productos, compras ni promociones dentro del artículo.
+- El lector debe terminar entendiendo la duda y sabiendo qué vigilar, no intentando memorizar una lista interminable.
 
 ## Voz y rigor
 
@@ -61,6 +63,14 @@ Usa una cita Markdown. Puede contener una frase secundaria, pero no párrafos la
 >
 > Necesitas hacerlo seguro y adaptado a tu familia.
 ```
+
+Para destacar sin caja y dejar que el artículo respire:
+
+```html
+<p class="editorial-highlight">Frase breve con especial valor.</p>
+```
+
+No destaques cada conclusión. Reserva ambos formatos para las pocas frases que de verdad ayudan a entender o recordar el artículo.
 
 ### Tarjetas visuales
 
@@ -148,9 +158,12 @@ ESTRUCTURA Y DISEÑO:
 - No escribas un H1 dentro del contenido: se genera desde el frontmatter.
 - Usa H2 para secciones y H3 para preguntas o subsecciones.
 - Usa negrita solo para conceptos clave, nunca para párrafos enteros.
-- Usa citas Markdown para frases importantes y humor breve.
+- Alterna citas Markdown y editorial-highlight para unas pocas frases importantes; no pongas todas en cajas.
 - Usa visual-list para listas visuales, safety-list o warning-list para seguridad y warning-signs para señales de consulta.
-- Termina con el bloque especial takeaways titulado “🍊 Qué quiero que recuerdes”.
+- Termina con un bloque takeaways breve titulado “🍊 Qué quiero que recuerdes”.
+- Limita el humor a 3 o 4 toques naturales y nunca bromees sobre situaciones graves.
+- Resuelve una sola duda con información suficiente, sin convertir el artículo en un manual completo.
+- No incluyas referencias a ebooks, guías, productos, compras ni promociones.
 - Mantén el artículo escaneable desde móvil y evita bloques de texto densos.
 - No incluyas CSS ni estilos inline.
 
@@ -181,9 +194,11 @@ CONTENIDO A TRANSFORMAR:
 4. Revisar la jerarquía H2/H3 y que no haya un segundo H1.
 5. Comprobar que la negrita es selectiva.
 6. Verificar que los bloques HTML tienen etiquetas cerradas, IDs únicos y `aria-labelledby` correcto.
-7. Confirmar que existe el bloque `takeaways`.
-8. Ejecutar `npm run build`.
-9. Hacer commit y push; Vercel desplegará automáticamente desde `main`.
+7. Confirmar que existe un bloque `takeaways` breve.
+8. Eliminar información secundaria que convierta el artículo en un manual o diluya su duda principal.
+9. Confirmar que no hay productos, compras ni promociones.
+10. Ejecutar `npm run build`.
+11. Hacer commit y push; Vercel desplegará automáticamente desde `main`.
 
 ## Categorías y borradores
 
