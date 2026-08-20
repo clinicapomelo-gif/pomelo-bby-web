@@ -47,6 +47,8 @@ No edites artefactos generados en `.astro/`, `dist/` o `.vercel/`. Mantén los c
 
 Coral primero; granate solo como apoyo. No introducir colores ni cambiar esta jerarquía sin aprobación expresa.
 
+Como rasgo identitario heredado de Instagram, los recuadros en Coral Pomelo llevan las letras en blanco. Conserva esta combinación en CTA y piezas visuales equivalentes.
+
 ## Reglas de diseño
 
 - No cambies globalmente la paleta, tipografía o layout para resolver un problema local sin aprobación expresa.
