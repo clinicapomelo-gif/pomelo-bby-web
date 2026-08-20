@@ -9,6 +9,11 @@ const SITE_URL = 'https://pomelobaby.es';
 // https://astro.build/config
 export default defineConfig({
   site: SITE_URL,
+  redirects: {
+    '/tienda': '/guias',
+    '/tienda/gracias': '/guias/gracias',
+    '/tienda/[id]': '/guias/[id]',
+  },
   markdown: { syntaxHighlight: false },
   adapter: vercel(),
   security: {

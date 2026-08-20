@@ -104,8 +104,8 @@ export const POST: APIRoute = async ({ request }) => {
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       line_items: [{ price: stripeMapping.priceId, quantity: 1 }],
-      success_url: `${baseURL}/tienda/gracias?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${baseURL}/tienda/${guiaId}`,
+      success_url: `${baseURL}/guias/gracias?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${baseURL}/guias/${guiaId}`,
       metadata: purchaseMetadata,
       payment_intent_data: { metadata: purchaseMetadata },
       automatic_tax: { enabled: false },

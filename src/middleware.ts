@@ -6,7 +6,7 @@ const MAINTENANCE_BYPASS_PATHS = new Set([
   '/api/webhook',
   '/consulta-mensaje/enviado',
   '/consulta-mensaje/gracias',
-  '/tienda/gracias',
+  '/guias/gracias',
 ]);
 
 export const onRequest = defineMiddleware(async ({ url }, next) => {

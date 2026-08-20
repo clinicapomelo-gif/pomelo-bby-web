@@ -28,7 +28,7 @@ const normalizedPath = currentPath.replace(/\/$/, '') || '/';
 const maintenanceBypassPaths = new Set([
   '/consulta-mensaje/enviado',
   '/consulta-mensaje/gracias',
-  '/tienda/gracias',
+  '/guias/gracias',
 ]);
 const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
   !maintenanceBypassPaths.has(normalizedPath);
@@ -72,7 +72,7 @@ const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
         </button>
         <ul class="nav__links" id="nav-links">
           <li><a href="/blog" class={currentPath.startsWith('/blog') ? 'nav__link--active' : ''} aria-current={normalizedPath === '/blog' ? 'page' : undefined}>Blog</a></li>
-          <li><a href="/tienda" class={currentPath.startsWith('/tienda') ? 'nav__link--active' : ''} aria-current={normalizedPath === '/tienda' ? 'page' : undefined}>Guías</a></li>
+          <li><a href="/guias" class={currentPath.startsWith('/guias') ? 'nav__link--active' : ''} aria-current={normalizedPath === '/guias' ? 'page' : undefined}>Guías</a></li>
           <li><a href="/consultas" class={currentPath.startsWith('/consultas') ? 'nav__link--active' : ''} aria-current={normalizedPath === '/consultas' ? 'page' : undefined}>Consultas</a></li>
           <li><a href="/chisme" class={currentPath.startsWith('/chisme') ? 'nav__link--active' : ''} aria-current={normalizedPath === '/chisme' ? 'page' : undefined}>Chisme</a></li>
           <li><a href="/sobre-mi" class={currentPath.startsWith('/sobre-mi') ? 'nav__link--active' : ''} aria-current={normalizedPath === '/sobre-mi' ? 'page' : undefined}>Sobre mí</a></li>
