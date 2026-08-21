@@ -65,7 +65,7 @@ const canCheckout = isGuiaPurchasable(guia, stripeMode);
             {guia.status === 'free' && (
               <div class="producto__action">
                 <p class="producto__entrega">Una guía rápida gratuita para consultar cuando la necesites.</p>
-                <a href={guia.leadMagnetUrl} class="btn btn--primary btn--full">
+                <a href={guia.leadMagnetUrl} class="btn btn--secondary btn--full">
                   Descargar PDF gratis
                 </a>
               </div>
@@ -80,7 +80,7 @@ const canCheckout = isGuiaPurchasable(guia, stripeMode);
                 </p>
                 <form id="checkout-form" method="POST" action="/api/checkout">
                   <input type="hidden" name="guiaId" value={guia.id} />
-                  <button id="btn-comprar" type="submit" class="btn btn--primary btn--full">
+                  <button id="btn-comprar" type="submit" class="btn btn--secondary btn--full">
                     {guia.kind === 'complete' ? 'Comprar la guía completa' : 'Comprar la guía rápida'}
                   </button>
                 </form>
