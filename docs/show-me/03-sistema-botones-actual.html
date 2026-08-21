@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sistema propuesto de botones — Pomelo Baby</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --white: #fff;
+      --cream: #f6efe7;
+      --nude: #f5ecec;
+      --coral: #ef6e71;
+      --granate: #92363a;
+      --peach: #eac4c6;
+      --text: #2d2d2d;
+      --secondary: #5a5a5a;
+      --border: #e8d8d9;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--cream); color: var(--text); font-family: Montserrat, sans-serif; }
+    main { width: min(1080px, calc(100% - 2rem)); margin: auto; padding: 3rem 0 5rem; }
+    header { max-width: 760px; margin-bottom: 2rem; }
+    h1 { margin: 0 0 .5rem; font-size: clamp(1.8rem, 5vw, 2.5rem); }
+    header p { margin: 0; color: var(--secondary); line-height: 1.65; }
+    h2 { margin: 0 0 1rem; font-size: 1.35rem; }
+
+    .types { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-bottom: 3rem; }
+    .type, .mockup { padding: 1.5rem; border: 1px solid var(--border); border-radius: 12px; background: var(--white); box-shadow: 0 2px 8px rgba(45,45,45,.04); }
+    .type h3, .mockup h3 { margin: 0 0 .35rem; font-size: 1rem; }
+    .description { min-height: 3.7rem; margin: 0 0 1.15rem; color: var(--secondary); font-size: .78rem; line-height: 1.5; }
+
+    .states { display: grid; gap: .7rem; }
+    .state { padding: 1rem; border-radius: 8px; background: var(--cream); }
+    .label { display: block; margin-bottom: .6rem; color: var(--secondary); font-size: .66rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+
+    .btn {
+      display: inline-block;
+      padding: .75rem 1.5rem;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: .86rem;
+      font-weight: 600;
+      line-height: 1.2;
+      text-align: center;
+    }
+    .btn--full { width: 100%; }
+    .primary { background: var(--coral); color: var(--white); }
+    .primary-hover { background: var(--granate); color: var(--white); }
+    .secondary-btn { border: 2px solid var(--coral); background: transparent; color: var(--coral); }
+    .secondary-hover { border: 2px solid var(--coral); background: var(--coral); color: var(--text); }
+    .disabled { background: var(--border); color: var(--secondary); }
+
+    .contexts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .contexts-title { margin-top: 0; }
+    .mockup { display: flex; flex-direction: column; min-height: 245px; }
+    .mockup__eyebrow { margin: 0 0 .35rem; color: var(--coral); font-size: .7rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
+    .mockup h3 { font-size: 1.1rem; }
+    .mockup__text { margin: 0 0 1.25rem; color: var(--secondary); font-size: .82rem; line-height: 1.6; }
+    .mockup__actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: auto; }
+    .mockup__actions--column { flex-direction: column; }
+    .field { height: 44px; margin-bottom: .7rem; border: 1px solid var(--border); border-radius: 8px; background: var(--white); }
+    .price { margin: 0 0 .9rem; font-size: 1.5rem; font-weight: 700; }
+
+    .legend { margin-top: 1rem; padding: 1rem 1.25rem; border-left: 3px solid var(--coral); background: var(--white); color: var(--secondary); font-size: .82rem; line-height: 1.6; }
+    .legend strong { color: var(--text); }
+
+    @media (max-width: 800px) {
+      .types { grid-template-columns: 1fr; }
+      .description { min-height: 0; }
+      .contexts { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      main { padding-top: 2rem; }
+      .mockup__actions { flex-direction: column; }
+      .mockup__actions .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Sistema propuesto</h1>
+      <p>Tres apariencias globales. El color depende de la función del botón, no de la página en la que aparece.</p>
+    </header>
+
+    <section class="types" aria-label="Tipos de botón">
+      <article class="type">
+        <h3>1 · Principal</h3>
+        <p class="description">Enviar, reservar, comprar o descargar. La acción importante del bloque.</p>
+        <div class="states">
+          <div class="state"><span class="label">Normal</span><span class="btn btn--full primary">Comprar guía</span></div>
+          <div class="state"><span class="label">Hover</span><span class="btn btn--full primary-hover">Comprar guía</span></div>
+        </div>
+      </article>
+
+      <article class="type">
+        <h3>2 · Secundario</h3>
+        <p class="description">Ver más, explorar otra sección o volver. No completa una acción.</p>
+        <div class="states">
+          <div class="state"><span class="label">Normal</span><span class="btn btn--full secondary-btn">Ver guía</span></div>
+          <div class="state"><span class="label">Hover</span><span class="btn btn--full secondary-hover">Ver guía</span></div>
+        </div>
+      </article>
+
+      <article class="type">
+        <h3>3 · Deshabilitado</h3>
+        <p class="description">Una acción que todavía no está disponible. No tiene hover.</p>
+        <div class="states">
+          <div class="state"><span class="label">Normal</span><span class="btn btn--full disabled">Próximamente</span></div>
+          <div class="state"><span class="label">Sin hover</span><span class="btn btn--full disabled">Próximamente</span></div>
+        </div>
+      </article>
+    </section>
+
+    <h2 class="contexts-title">Aplicados en la web</h2>
+    <section class="contexts" aria-label="Ejemplos en contexto">
+      <article class="mockup">
+        <p class="mockup__eyebrow">Inicio</p>
+        <h3>Hola, soy Mar</h3>
+        <p class="mockup__text">Dos opciones distintas porque tienen diferente jerarquía, no porque estén en Inicio.</p>
+        <div class="mockup__actions">
+          <span class="btn primary">Quiero hablar con Mar</span>
+          <span class="btn secondary-btn">Ver las guías de Mar</span>
+        </div>
+      </article>
+
+      <article class="mockup">
+        <p class="mockup__eyebrow">Catálogo de guías</p>
+        <h3>Primeros cuidados del bebé</h3>
+        <p class="mockup__text">La tarjeta sirve para explorar el recurso antes de decidir.</p>
+        <div class="mockup__actions mockup__actions--column">
+          <span class="btn btn--full secondary-btn">Ver guía</span>
+        </div>
+      </article>
+
+      <article class="mockup">
+        <p class="mockup__eyebrow">Ficha de guía</p>
+        <h3>Alimentación complementaria</h3>
+        <p class="mockup__text">Aquí la familia ya ha visto la información y puede completar la compra.</p>
+        <p class="price">14,99 €</p>
+        <div class="mockup__actions mockup__actions--column">
+          <span class="btn btn--full primary">Comprar la guía completa</span>
+        </div>
+      </article>
+
+      <article class="mockup">
+        <p class="mockup__eyebrow">Formulario</p>
+        <h3>Enviar mensaje</h3>
+        <p class="mockup__text">El envío es la acción principal, igual que comprar, reservar o descargar.</p>
+        <div class="field"></div>
+        <div class="mockup__actions mockup__actions--column">
+          <span class="btn btn--full primary">Enviar mensaje</span>
+        </div>
+      </article>
+
+      <article class="mockup">
+        <p class="mockup__eyebrow">Consulta</p>
+        <h3>Duda concreta</h3>
+        <p class="mockup__text">Reservar completa la intención de la página y utiliza el mismo principal global.</p>
+        <div class="mockup__actions mockup__actions--column">
+          <span class="btn btn--full primary">Reservar consulta</span>
+        </div>
+      </article>
+
+      <article class="mockup">
+        <p class="mockup__eyebrow">Guía no disponible</p>
+        <h3>Nuevo recurso</h3>
+        <p class="mockup__text">El gris comunica que todavía no se puede interactuar.</p>
+        <div class="mockup__actions mockup__actions--column">
+          <span class="btn btn--full disabled">Próximamente</span>
+        </div>
+      </article>
+    </section>
+
+    <p class="legend"><strong>Resultado:</strong> Inicio ya no tiene colores propios. Simplemente muestra juntos el botón principal y el secundario. El resto de páginas reutiliza exactamente esos mismos dos estilos.</p>
+  </main>
+</body>
+</html>

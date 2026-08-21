@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Botones actuales de Pomelo Baby</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --white: #fff;
+      --cream: #f6efe7;
+      --nude: #f5ecec;
+      --coral: #ef6e71;
+      --granate: #92363a;
+      --peach: #eac4c6;
+      --text: #2d2d2d;
+      --secondary: #5a5a5a;
+      --border: #e8d8d9;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--text);
+      font-family: Montserrat, sans-serif;
+    }
+
+    main {
+      width: min(1080px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 3rem 0 6rem;
+    }
+
+    header {
+      max-width: 760px;
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      margin: 0 0 .5rem;
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+    }
+
+    header p {
+      margin: 0;
+      color: var(--secondary);
+      line-height: 1.6;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .option {
+      position: relative;
+      padding: 1.5rem;
+      border: 2px solid transparent;
+      border-radius: 12px;
+      background: var(--white);
+      box-shadow: 0 2px 8px rgba(45, 45, 45, .05);
+      cursor: pointer;
+    }
+
+    .option:hover { border-color: var(--peach); }
+    .option.selected { border-color: var(--coral); }
+
+    .option__top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .option__letter {
+      display: grid;
+      place-items: center;
+      flex: 0 0 2rem;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      background: var(--nude);
+      color: var(--granate);
+      font-weight: 700;
+    }
+
+    .option.selected .option__letter {
+      background: var(--coral);
+      color: var(--white);
+    }
+
+    h2 {
+      margin: 0 0 .25rem;
+      font-size: 1rem;
+    }
+
+    .used-in {
+      margin: 0;
+      color: var(--secondary);
+      font-size: .78rem;
+      line-height: 1.5;
+    }
+
+    .states {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .75rem;
+    }
+
+    .state {
+      min-width: 0;
+      padding: 1rem;
+      border-radius: 8px;
+      background: var(--cream);
+    }
+
+    .state__label {
+      display: block;
+      margin-bottom: .65rem;
+      color: var(--secondary);
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: .75rem 1rem;
+      border: 0;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: .82rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    /* A — Inicio, CTA principal */
+    .a-normal { background: var(--coral); color: var(--white); }
+    .a-hover { background: var(--granate); color: var(--white); }
+
+    /* B — Primario global */
+    .b-normal { background: var(--coral); color: var(--text); }
+    .b-hover { background: var(--granate); color: var(--white); }
+
+    /* C — Secundario global */
+    .c-normal { border: 2px solid var(--coral); background: transparent; color: var(--coral); }
+    .c-hover { border: 2px solid var(--coral); background: var(--coral); color: var(--text); }
+
+    /* D — Secundario de Inicio */
+    .d-normal { border: 2px solid var(--coral); background: transparent; color: var(--coral); }
+    .d-hover { border: 2px solid var(--granate); background: var(--nude); color: var(--granate); }
+
+    /* E — Actual de guías */
+    .e-normal { border: 2px solid var(--coral); background: transparent; color: var(--granate); }
+    .e-hover { border: 2px solid var(--coral); background: var(--coral); color: var(--granate); }
+
+    /* F — Deshabilitado */
+    .f-normal, .f-hover { background: var(--border); color: var(--secondary); }
+
+    .choice {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      left: 1rem;
+      z-index: 2;
+      max-width: 560px;
+      margin: auto;
+      padding: .9rem 1rem;
+      border: 1px solid var(--peach);
+      border-radius: 10px;
+      background: var(--white);
+      box-shadow: 0 8px 30px rgba(45,45,45,.16);
+      color: var(--secondary);
+      font-size: .85rem;
+      text-align: center;
+    }
+
+    .choice strong { color: var(--granate); }
+
+    @media (max-width: 760px) {
+      main { padding-top: 2rem; }
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 420px) {
+      .states { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Colores de botones actuales</h1>
+      <p>Estos son todos los patrones que existen ahora mismo en la web. Cada opción muestra el estado normal y el hover de forma simultánea. Pulsa una tarjeta para marcarla.</p>
+    </header>
+
+    <section class="grid" aria-label="Opciones de color">
+      <article class="option" data-choice="A — Coral con texto blanco">
+        <div class="option__top">
+          <div>
+            <h2>A · Principal de Inicio</h2>
+            <p class="used-in">“Quiero hablar con Mar”</p>
+          </div>
+          <span class="option__letter">A</span>
+        </div>
+        <div class="states">
+          <div class="state"><span class="state__label">Normal</span><span class="btn a-normal">Ver guía</span></div>
+          <div class="state"><span class="state__label">Hover</span><span class="btn a-hover">Ver guía</span></div>
+        </div>
+      </article>
+
+      <article class="option" data-choice="B — Coral con texto oscuro">
+        <div class="option__top">
+          <div>
+            <h2>B · Principal global</h2>
+            <p class="used-in">Consultas, Contacto, formularios y ficha de guía</p>
+          </div>
+          <span class="option__letter">B</span>
+        </div>
+        <div class="states">
+          <div class="state"><span class="state__label">Normal</span><span class="btn b-normal">Ver guía</span></div>
+          <div class="state"><span class="state__label">Hover</span><span class="btn b-hover">Ver guía</span></div>
+        </div>
+      </article>
+
+      <article class="option" data-choice="C — Borde y texto coral">
+        <div class="option__top">
+          <div>
+            <h2>C · Secundario global</h2>
+            <p class="used-in">“Ver mis consultas” y estilo anterior de las guías</p>
+          </div>
+          <span class="option__letter">C</span>
+        </div>
+        <div class="states">
+          <div class="state"><span class="state__label">Normal</span><span class="btn c-normal">Ver guía</span></div>
+          <div class="state"><span class="state__label">Hover</span><span class="btn c-hover">Ver guía</span></div>
+        </div>
+      </article>
+
+      <article class="option" data-choice="D — Secundario suave de Inicio">
+        <div class="option__top">
+          <div>
+            <h2>D · Secundario de Inicio</h2>
+            <p class="used-in">“Ver las guías de Mar”</p>
+          </div>
+          <span class="option__letter">D</span>
+        </div>
+        <div class="states">
+          <div class="state"><span class="state__label">Normal</span><span class="btn d-normal">Ver guía</span></div>
+          <div class="state"><span class="state__label">Hover</span><span class="btn d-hover">Ver guía</span></div>
+        </div>
+      </article>
+
+      <article class="option" data-choice="E — Estilo actual de Guías">
+        <div class="option__top">
+          <div>
+            <h2>E · Guías ahora</h2>
+            <p class="used-in">“Ver guía” tras el último cambio de paleta</p>
+          </div>
+          <span class="option__letter">E</span>
+        </div>
+        <div class="states">
+          <div class="state"><span class="state__label">Normal</span><span class="btn e-normal">Ver guía</span></div>
+          <div class="state"><span class="state__label">Hover</span><span class="btn e-hover">Ver guía</span></div>
+        </div>
+      </article>
+
+      <article class="option" data-choice="F — Deshabilitado neutro">
+        <div class="option__top">
+          <div>
+            <h2>F · Deshabilitado</h2>
+            <p class="used-in">“Próximamente” en las fichas</p>
+          </div>
+          <span class="option__letter">F</span>
+        </div>
+        <div class="states">
+          <div class="state"><span class="state__label">Normal</span><span class="btn f-normal">Próximamente</span></div>
+          <div class="state"><span class="state__label">Sin hover</span><span class="btn f-hover">Próximamente</span></div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <p class="choice" id="choice">Pulsa una opción y dime su <strong>letra</strong>.</p>
+
+  <script>
+    const options = document.querySelectorAll('.option');
+    const choice = document.querySelector('#choice');
+    options.forEach((option) => {
+      option.addEventListener('click', () => {
+        options.forEach((item) => item.classList.remove('selected'));
+        option.classList.add('selected');
+        choice.innerHTML = `Has elegido: <strong>${option.dataset.choice}</strong>`;
+      });
+    });
+  </script>
+</body>
+</html>

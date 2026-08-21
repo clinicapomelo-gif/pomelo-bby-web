@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Auditoría de fondos — Pomelo Baby</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --white: #fff;
+      --cream: #f6efe7;
+      --nude: #f5ecec;
+      --coral: #ef6e71;
+      --granate: #92363a;
+      --peach: #eac4c6;
+      --text: #2d2d2d;
+      --secondary: #5a5a5a;
+      --tertiary: #7a7a7a;
+      --border: #e8d8d9;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--cream); color: var(--text); font-family: Montserrat, sans-serif; }
+    main { width: min(1180px, calc(100% - 2rem)); margin: auto; padding: 3rem 0 5rem; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin-bottom: .6rem; font-size: clamp(1.9rem, 5vw, 2.7rem); }
+    h2 { margin-bottom: 1rem; font-size: 1.4rem; }
+    h3 { margin-bottom: .35rem; font-size: .98rem; }
+    .intro { max-width: 820px; margin-bottom: 2rem; color: var(--secondary); line-height: 1.65; }
+
+    .verdict {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      align-items: start;
+      margin-bottom: 2.5rem;
+      padding: 1.35rem 1.5rem;
+      border: 1px solid var(--peach);
+      border-left: 5px solid var(--coral);
+      border-radius: 12px;
+      background: var(--white);
+    }
+    .verdict__icon { font-size: 1.5rem; }
+    .verdict h2 { margin-bottom: .35rem; font-size: 1.1rem; }
+    .verdict p { margin: 0; color: var(--secondary); font-size: .88rem; line-height: 1.65; }
+
+    .palette { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .75rem; margin-bottom: 3rem; }
+    .swatch { overflow: hidden; border: 1px solid var(--border); border-radius: 10px; background: var(--white); }
+    .swatch__color { height: 72px; border-bottom: 1px solid var(--border); }
+    .swatch__body { padding: .85rem; }
+    .swatch strong, .swatch small { display: block; }
+    .swatch strong { margin-bottom: .15rem; font-size: .82rem; }
+    .swatch small { color: var(--secondary); font-size: .68rem; line-height: 1.45; }
+
+    .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 3rem; }
+    .comparison-card { padding: 1.25rem; border: 1px solid var(--border); border-radius: 12px; background: var(--white); }
+    .comparison-card--keep { border: 2px solid var(--coral); }
+    .tag { display: inline-block; margin-bottom: .65rem; padding: .22rem .55rem; border-radius: 999px; background: var(--nude); color: var(--granate); font-size: .65rem; font-weight: 700; text-transform: uppercase; }
+    .comparison-card--keep .tag { background: var(--coral); color: var(--white); }
+    .comparison-card p { margin: .7rem 0 0; color: var(--secondary); font-size: .78rem; line-height: 1.55; }
+
+    .mini-page { overflow: hidden; height: 220px; border: 1px solid var(--border); border-radius: 8px; }
+    .mini-header, .mini-footer { height: 22px; background: var(--white); }
+    .mini-header { border-bottom: 1px solid var(--border); }
+    .mini-footer { border-top: 1px solid var(--border); }
+    .mini-main { display: grid; gap: 9px; height: 174px; padding: 13px; }
+    .mini-main--chisme { background: var(--white); }
+    .mini-main--standard { background: var(--cream); }
+    .mini-panel { border-radius: 7px; }
+    .mini-panel--nude { background: var(--nude); border: 1px solid var(--peach); }
+    .mini-panel--cream { background: var(--cream); border: 1px solid var(--border); }
+    .mini-panel--white { background: var(--white); border: 1px solid var(--border); }
+
+    .group { margin-top: 2.75rem; }
+    .group__intro { max-width: 820px; margin: -.45rem 0 1rem; color: var(--secondary); font-size: .83rem; line-height: 1.6; }
+    .routes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+    .route { display: grid; grid-template-columns: 92px 1fr; min-height: 125px; overflow: hidden; border: 1px solid var(--border); border-radius: 10px; background: var(--white); }
+    .route__visual { display: flex; flex-direction: column; border-right: 1px solid var(--border); }
+    .route__bar { height: 15px; flex: 0 0 auto; background: var(--white); }
+    .route__canvas { display: grid; flex: 1; gap: 6px; padding: 9px; }
+    .route__canvas--cream { background: var(--cream); }
+    .route__canvas--white { background: var(--white); }
+    .route__canvas--nude { background: var(--nude); }
+    .route__canvas--home { grid-template-rows: 1fr 1fr 1fr 1fr; padding: 0; gap: 0; }
+    .route__canvas--home span:nth-child(1), .route__canvas--home span:nth-child(4) { background: var(--cream); }
+    .route__canvas--home span:nth-child(2) { background: var(--nude); }
+    .route__canvas--home span:nth-child(3) { background: var(--white); }
+    .surface { border: 1px solid var(--border); border-radius: 5px; background: var(--white); }
+    .surface--nude { border-color: var(--peach); background: var(--nude); }
+    .surface--cream { background: var(--cream); }
+    .route__body { padding: 1rem; }
+    .route__path { display: block; overflow-wrap: anywhere; margin-bottom: .28rem; color: var(--granate); font: 700 .72rem/1.35 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .route__colors { margin-bottom: .45rem; color: var(--tertiary); font-size: .65rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+    .route__reason { margin: 0; color: var(--secondary); font-size: .74rem; line-height: 1.5; }
+
+    .shared { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; margin-top: 1rem; }
+    .shared article { padding: 1rem; border: 1px solid var(--border); border-radius: 10px; background: var(--white); }
+    .shared p { margin: 0; color: var(--secondary); font-size: .75rem; line-height: 1.55; }
+
+    .redirects { margin-top: 2rem; padding: 1rem 1.25rem; border-radius: 10px; background: var(--nude); color: var(--secondary); font-size: .8rem; line-height: 1.6; }
+    code { color: var(--granate); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+    @media (max-width: 900px) {
+      .palette { grid-template-columns: repeat(3, 1fr); }
+      .routes { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 650px) {
+      main { padding-top: 2rem; }
+      .palette, .comparison, .shared { grid-template-columns: 1fr; }
+      .route { grid-template-columns: 76px 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Auditoría de backgrounds</h1>
+    <p class="intro">Inventario de todas las páginas visuales actuales. El header y el footer son blancos en toda la web; aquí se analiza el lienzo principal y las superficies interiores.</p>
+
+    <section class="verdict">
+      <div class="verdict__icon">✓</div>
+      <div>
+        <h2>Dejaría El Chisme como está</h2>
+        <p>Su fondo blanco sí tiene una razón: es una landing editorial y de conversión, no un índice. El blanco recuerda a una carta o un email, reduce ruido y deja que el bloque nude de presentación y la tarjeta crema del formulario creen la jerarquía. Además, comparte esta lógica con la landing del recurso gratuito; no es una excepción aislada.</p>
+      </div>
+    </section>
+
+    <h2>Fondos disponibles y función</h2>
+    <section class="palette">
+      <article class="swatch"><div class="swatch__color" style="background:#f6efe7"></div><div class="swatch__body"><strong>Crema · #F6EFE7</strong><small>Lienzo general y lectura cálida.</small></div></article>
+      <article class="swatch"><div class="swatch__color" style="background:#fff"></div><div class="swatch__body"><strong>Blanco · #FFFFFF</strong><small>Tarjetas, formularios y landings enfocadas.</small></div></article>
+      <article class="swatch"><div class="swatch__color" style="background:#f5ecec"></div><div class="swatch__body"><strong>Rosa nude · #F5ECEC</strong><small>Secciones emocionales y destacados suaves.</small></div></article>
+      <article class="swatch"><div class="swatch__color" style="background:#eac4c6"></div><div class="swatch__body"><strong>Melocotón · #EAC4C6</strong><small>Etiquetas y bordes; no lienzo de página.</small></div></article>
+      <article class="swatch"><div class="swatch__color" style="background:#ef6e71"></div><div class="swatch__body"><strong>Coral · #EF6E71</strong><small>CTA y piezas activas; no fondo general.</small></div></article>
+    </section>
+
+    <h2>El Chisme: diferencia con intención</h2>
+    <section class="comparison">
+      <article class="comparison-card comparison-card--keep">
+        <span class="tag">Recomendado · actual</span>
+        <div class="mini-page">
+          <div class="mini-header"></div>
+          <div class="mini-main mini-main--chisme"><div class="mini-panel mini-panel--nude"></div><div class="mini-panel mini-panel--cream"></div></div>
+          <div class="mini-footer"></div>
+        </div>
+        <p>Blanco exterior + presentación nude + formulario crema. Se siente editorial y mantiene una jerarquía clara.</p>
+      </article>
+      <article class="comparison-card">
+        <span class="tag">Uniformado con índices</span>
+        <div class="mini-page">
+          <div class="mini-header"></div>
+          <div class="mini-main mini-main--standard"><div class="mini-panel mini-panel--white"></div><div class="mini-panel mini-panel--white"></div></div>
+          <div class="mini-footer"></div>
+        </div>
+        <p>Crema exterior + tarjetas blancas. Es correcto, pero convierte El Chisme en otro catálogo o formulario genérico.</p>
+      </article>
+    </section>
+
+    <section class="group">
+      <h2>1 · Landings con personalidad</h2>
+      <p class="group__intro">Estas páginas pueden romper deliberadamente el lienzo crema porque cuentan una historia o buscan una conversión muy concreta.</p>
+      <div class="routes">
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--home"><span></span><span></span><span></span><span></span></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/</span><div class="route__colors">Crema → nude → blanco → crema</div><p class="route__reason">Inicio necesita ritmo entre presentación, consultas, regalo y blog. La alternancia ayuda a recorrer una página larga.</p></div></article>
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--cream"><span class="surface"></span><span class="surface"></span><span class="surface"></span></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/sobre-mi</span><div class="route__colors">Crema + bloques blancos</div><p class="route__reason">Historia personal extensa. El crema aporta calidez y los paneles blancos dividen capítulos sin parecer un documento clínico.</p></div></article>
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--white"><span class="surface surface--nude"></span><span class="surface surface--cream"></span></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/chisme</span><div class="route__colors">Blanco + nude + crema</div><p class="route__reason">Landing editorial. El blanco da sensación de carta/email y centra la atención en confianza y suscripción.</p></div></article>
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--white"><span class="surface surface--cream"></span></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/recursos/25-cosas-normales-bebes</span><div class="route__colors">Blanco + tarjeta crema</div><p class="route__reason">Landing de una sola conversión. El fondo limpio evita competir con el formulario.</p></div></article>
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--white"><span class="surface" style="background:#ef6e71;border-color:#ef6e71"></span><span class="surface"></span><span class="surface"></span></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/links</span><div class="route__colors">Blanco + tarjetas blancas/coral</div><p class="route__reason">Página utilitaria tipo “link in bio”. El blanco maximiza claridad en móvil; la primera tarjeta coral marca prioridad.</p></div></article>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2>2 · Índices y servicios</h2>
+      <p class="group__intro">Aquí sí existe una estructura uniforme: lienzo crema y unidades blancas. Facilita escanear opciones y comparar.</p>
+      <div class="routes">
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--cream"><span class="surface"></span><span class="surface"></span></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/blog</span><div class="route__colors">Crema + tarjetas blancas</div><p class="route__reason">Índice editorial: el fondo separa claramente cada artículo como unidad navegable.</p></div></article>
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--cream"><span class="surface"></span><span class="surface"></span></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/guias</span><div class="route__colors">Crema + tarjetas blancas</div><p class="route__reason">Catálogo: misma lógica que Blog para comparar recursos sin introducir otra familia visual.</p></div></article>
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--cream"><span class="surface"></span><span class="surface"></span><span class="surface"></span></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/consultas</span><div class="route__colors">Crema + tarjetas blancas</div><p class="route__reason">Comparación de modalidades. Las tarjetas blancas contienen cada nivel de servicio.</p></div></article>
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--cream"><span class="surface"></span><span class="surface"></span></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/contacto</span><div class="route__colors">Crema + bloques blancos</div><p class="route__reason">Orientación y formulario. Las superficies blancas distinguen destinos y entrada de datos.</p></div></article>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2>3 · Lectura y detalle</h2>
+      <p class="group__intro">El lienzo crema se mantiene para una lectura cálida; el blanco se reserva para información accionable o recuadros.</p>
+      <div class="routes">
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--cream"><span class="surface surface--nude"></span><span class="surface"></span></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/blog/blw-que-es-por-donde-empezar</span><div class="route__colors">Crema + callouts nude/blancos</div><p class="route__reason">Artículo largo: lectura directa sobre crema y recuadros solo para información que necesita énfasis.</p></div></article>
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--cream"><span class="surface surface--nude"></span><span class="surface"></span></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/blog/fiebre-bebes-cuando-preocuparse</span><div class="route__colors">Crema + callouts nude/blancos</div><p class="route__reason">Misma plantilla de lectura para que el tema no cambie la jerarquía visual.</p></div></article>
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--cream"><span class="surface surface--nude"></span><span class="surface"></span></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/guias/recomendaciones-generales-recien-nacido</span><div class="route__colors">Crema + compra blanca + aviso nude</div><p class="route__reason">Ficha de producto: información integrada en el lienzo y acción comercial contenida en blanco.</p></div></article>
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--cream"><span class="surface surface--nude"></span><span class="surface"></span></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/guias/conservacion-leche-materna</span><div class="route__colors">Crema + compra blanca + aviso nude</div><p class="route__reason">Misma ficha; el estado gratuito o deshabilitado no altera el fondo.</p></div></article>
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--cream"><span class="surface surface--nude"></span><span class="surface"></span></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/guias/pomada-aceite-uva</span><div class="route__colors">Crema + compra blanca + aviso nude</div><p class="route__reason">Repite la plantilla para mantener comparables todas las guías rápidas.</p></div></article>
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--cream"><span class="surface surface--nude"></span><span class="surface"></span></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/guias/guia-definitiva-empezar-comer</span><div class="route__colors">Crema + compra blanca + aviso nude</div><p class="route__reason">La guía completa se diferencia por contenido y etiquetas, no inventando otro fondo.</p></div></article>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2>4 · Páginas legales</h2>
+      <p class="group__intro">Todas usan crema para integrarse con la web. El blanco aparece únicamente cuando hay datos estructurados que conviene aislar.</p>
+      <div class="routes">
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--cream"><span class="surface"></span></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/aviso-legal</span><div class="route__colors">Crema + ficha blanca</div><p class="route__reason">La ficha blanca separa los datos identificativos del texto jurídico.</p></div></article>
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--cream"><span class="surface"></span></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/proteccion-datos</span><div class="route__colors">Crema + ficha blanca</div><p class="route__reason">Misma lógica para los datos del responsable; el resto se lee directamente sobre crema.</p></div></article>
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--cream"></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/cookies</span><div class="route__colors">Crema</div><p class="route__reason">Documento lineal sin bloques de datos que justifiquen tarjetas adicionales.</p></div></article>
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--cream"></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/condiciones-venta</span><div class="route__colors">Crema</div><p class="route__reason">Contenido provisional y lineal. Mantiene el lienzo legal común.</p></div></article>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2>5 · Formularios y estados transaccionales</h2>
+      <p class="group__intro">Crema en todos los estados reduce sorpresas después de enviar, confirmar o pagar. El blanco solo encierra formularios complejos.</p>
+      <div class="routes">
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--cream"><span class="surface"></span></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/consulta-mensaje/gracias</span><div class="route__colors">Crema + formulario blanco</div><p class="route__reason">Formulario sanitario largo: la superficie blanca delimita claramente los campos.</p></div></article>
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--cream"></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/consulta-mensaje/enviado</span><div class="route__colors">Crema</div><p class="route__reason">Confirmación breve; una tarjeta extra no aporta jerarquía.</p></div></article>
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--cream"></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/gracias</span><div class="route__colors">Crema</div><p class="route__reason">Estado final del formulario de contacto, simple y centrado.</p></div></article>
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--cream"></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/guias/gracias</span><div class="route__colors">Crema</div><p class="route__reason">Estado de compra: continuidad visual y mínima distracción mientras se confirma Stripe.</p></div></article>
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--cream"></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/chisme/confirm</span><div class="route__colors">Crema</div><p class="route__reason">Paso operativo del doble opt-in; no necesita conservar la personalidad completa de la landing.</p></div></article>
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--cream"></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/chisme/confirmada</span><div class="route__colors">Crema</div><p class="route__reason">Confirmación breve y consistente con el resto de estados finales.</p></div></article>
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--cream"></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/chisme/gracias</span><div class="route__colors">Crema</div><p class="route__reason">Estado “revisa tu correo”; misma gramática que otras confirmaciones.</p></div></article>
+        <article class="route"><div class="route__visual"><div class="route__bar"></div><div class="route__canvas route__canvas--cream"></div><div class="route__bar"></div></div><div class="route__body"><span class="route__path">/recursos/25-cosas-normales-bebes/gracias</span><div class="route__colors">Crema</div><p class="route__reason">Confirmación del recurso gratuito; se integra con todos los estados transaccionales.</p></div></article>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2>6 · Elementos compartidos y estados especiales</h2>
+      <div class="shared">
+        <article><h3>Header y footer</h3><p>Blancos en todas las páginas. Funcionan como marco estable aunque cambie el lienzo interior.</p></article>
+        <article><h3>Mantenimiento</h3><p>Crema exterior + tarjeta blanca. Es un estado global de sistema, no una página de contenido.</p></article>
+        <article><h3>Inputs y tarjetas</h3><p>Blancos sobre crema, nude o blanco. La delimitación viene del borde cuando coinciden con el lienzo.</p></article>
+      </div>
+    </section>
+
+    <p class="redirects"><strong>Rutas sin background propio:</strong> <code>/newsletter/*</code> redirige a <code>/chisme/*</code>; <code>/tienda</code>, <code>/tienda/gracias</code> y <code>/tienda/[id]</code> redirigen a Guías. <code>/robots.txt</code> y las rutas API no tienen interfaz visual.</p>
+  </main>
+</body>
+</html>
