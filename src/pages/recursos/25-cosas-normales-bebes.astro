@@ -1,11 +1,14 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import LeadMagnetForm from '../../components/LeadMagnetForm.astro';
+import { CHISME_ENABLED } from '../../data/chisme';
 ---
 
 <Layout
   title="25 cosas normales en los bebés"
-  description="Recibe gratis una guía breve para entender mejor algunas cosas habituales en los bebés."
+  description={CHISME_ENABLED
+    ? 'Recibe gratis una guía breve para entender mejor algunas cosas habituales en los bebés.'
+    : 'La guía 25 cosas normales en los bebés estará disponible próximamente.'}
 >
   <LeadMagnetForm heading="h1" />
 </Layout>

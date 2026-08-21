@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { CHISME_ENABLED } from '../../data/chisme';
 import { decryptNewsletterConfirmation } from '../../lib/newsletter-confirmation';
 
 export const prerender = false;
@@ -11,7 +12,7 @@ const token = Astro.url.searchParams.get('token') || '';
 const error = Astro.url.searchParams.get('error');
 let source: 'newsletter' | 'lead_magnet_25_cosas' | undefined;
 
-if (!error && token && import.meta.env.NEWSLETTER_CONFIRMATION_SECRET) {
+if (CHISME_ENABLED && !error && token && import.meta.env.NEWSLETTER_CONFIRMATION_SECRET) {
   try {
     source = decryptNewsletterConfirmation(token, import.meta.env.NEWSLETTER_CONFIRMATION_SECRET).source;
   } catch {
@@ -22,11 +23,24 @@ if (!error && token && import.meta.env.NEWSLETTER_CONFIRMATION_SECRET) {
 const temporary = error === 'temporary';
 ---
 
-<Layout title="Confirma tu correo" description="Confirma tu correo para unirte a El Chisme de Mar." noindex={true}>
+<Layout
+  title="Confirma tu correo"
+  description={CHISME_ENABLED
+    ? 'Confirma tu correo para unirte a El Chisme de Mar.'
+    : 'El Chisme de Mar estará disponible próximamente.'}
+  noindex={true}
+>
   <section class="confirmation">
     <div class="container">
       <div class="confirmation__content">
-        {source ? (
+        {!CHISME_ENABLED ? (
+          <>
+            <p class="confirmation__icon" aria-hidden="true">💌</p>
+            <h1>El Chisme estará disponible próximamente</h1>
+            <p>Ahora mismo no estoy abriendo nuevas suscripciones. Cuando todo esté listo, podrás apuntarte desde esta página.</p>
+            <a href="/" class="btn btn--primary">Volver al inicio</a>
+          </>
+        ) : source ? (
           <>
             <p class="confirmation__icon" aria-hidden="true">💌</p>
             <h1>Solo falta confirmar</h1>

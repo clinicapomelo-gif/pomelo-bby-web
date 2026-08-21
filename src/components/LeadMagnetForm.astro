@@ -1,4 +1,6 @@
 ---
+import { CHISME_ENABLED } from '../data/chisme';
+
 interface Props {
   heading?: 'h1' | 'h2';
   eyebrow?: string;
@@ -11,74 +13,84 @@ const { heading = 'h2', eyebrow = 'Guía gratuita' } = Astro.props;
   <div class="container">
     <div class="lead-magnet__card">
       <div class="lead-magnet__content">
-        <p class="lead-magnet__eyebrow">{eyebrow}</p>
+        <p class="lead-magnet__eyebrow">{CHISME_ENABLED ? eyebrow : 'Próximamente'}</p>
         {heading === 'h1' ? (
           <h1 id="lead-magnet-title">25 cosas normales en los bebés</h1>
         ) : (
           <h2 id="lead-magnet-title">25 cosas normales en los bebés</h2>
         )}
         <p>Una guía breve para entender mejor algunas cosas habituales en los bebés, explicadas con calma y en palabras sencillas.</p>
-        <p>Recíbela gratis al unirte a <strong>El Chisme de Mar</strong>: un email cada dos semanas con historias reales de crianza y salud infantil. Situaciones que han pasado, errores que nos pueden enseñar algo, sustos que luego se quedaron en anécdota y esas cosas que pensamos que solo nos pasan a nosotros.</p>
+        <p>Esta guía es el regalo de bienvenida de <strong>El Chisme de Mar</strong>: un email cada dos semanas con historias reales de crianza y salud infantil. Situaciones que han pasado, errores que nos pueden enseñar algo, sustos que luego se quedaron en anécdota y esas cosas que pensamos que solo nos pasan a nosotros.</p>
         <p class="lead-magnet__newsletter">Porque a veces el mejor aprendizaje es la experiencia de otra familia. Sin spam ni agobios. Puedes darte de baja cuando quieras.</p>
         <p class="lead-magnet__disclaimer">Este recurso es informativo y no sustituye la valoración de un profesional sanitario.</p>
       </div>
 
       <div class="lead-magnet__form-card">
-        <form method="POST" action="/api/subscribe" data-lead-magnet-form data-friendly-validation novalidate>
-          <input type="hidden" name="recurso" value="25-cosas-normales-bebes" />
+        {CHISME_ENABLED ? (
+          <form method="POST" action="/api/subscribe" data-lead-magnet-form data-friendly-validation novalidate>
+            <input type="hidden" name="recurso" value="25-cosas-normales-bebes" />
 
-          <div class="lead-magnet__honeypot" aria-hidden="true">
-            <label for="lead-magnet-website">No rellenes este campo</label>
-            <input id="lead-magnet-website" type="text" name="website" tabindex="-1" autocomplete="off" />
-          </div>
+            <div class="lead-magnet__honeypot" aria-hidden="true">
+              <label for="lead-magnet-website">No rellenes este campo</label>
+              <input id="lead-magnet-website" type="text" name="website" tabindex="-1" autocomplete="off" />
+            </div>
 
-          <div class="lead-magnet__field" data-validation-field>
-            <label for="lead-magnet-email">Correo electrónico</label>
-            <input
-              id="lead-magnet-email"
-              type="email"
-              name="email"
-              placeholder="tu@email.com"
-              autocomplete="email"
-              inputmode="email"
-              maxlength="254"
-              required
-              data-error-required="Escribe tu correo para que pueda enviarte la guía."
-              data-error-invalid="Revisa el correo. Debe tener un formato como nombre@correo.com."
-            />
-          </div>
-
-          <div class="lead-magnet__field" data-validation-field>
-            <label for="lead-magnet-nombre">Nombre</label>
-            <input
-              id="lead-magnet-nombre"
-              type="text"
-              name="nombre"
-              placeholder="Tu nombre"
-              autocomplete="given-name"
-              maxlength="100"
-              required
-              data-error-required="Escribe tu nombre para que pueda personalizar tus correos."
-            />
-          </div>
-
-          <div class="lead-magnet__privacy-field" data-validation-field>
-            <label class="lead-magnet__privacy">
+            <div class="lead-magnet__field" data-validation-field>
+              <label for="lead-magnet-email">Correo electrónico</label>
               <input
-                id="lead-magnet-privacy"
-                type="checkbox"
-                name="privacy"
+                id="lead-magnet-email"
+                type="email"
+                name="email"
+                placeholder="tu@email.com"
+                autocomplete="email"
+                inputmode="email"
+                maxlength="254"
                 required
-                data-error-required="Necesito que aceptes la política de privacidad para enviarte la guía."
+                data-error-required="Escribe tu correo para que pueda enviarte la guía."
+                data-error-invalid="Revisa el correo. Debe tener un formato como nombre@correo.com."
               />
-              <span>Acepto que Piel de Pomelo SLP use mi nombre y email para enviarme la guía y El Chisme. Puedo darme de baja cuando quiera. <a href="/proteccion-datos" target="_blank" rel="noopener">Más información y derechos</a>.</span>
-            </label>
+            </div>
+
+            <div class="lead-magnet__field" data-validation-field>
+              <label for="lead-magnet-nombre">Nombre</label>
+              <input
+                id="lead-magnet-nombre"
+                type="text"
+                name="nombre"
+                placeholder="Tu nombre"
+                autocomplete="given-name"
+                maxlength="100"
+                required
+                data-error-required="Escribe tu nombre para que pueda personalizar tus correos."
+              />
+            </div>
+
+            <div class="lead-magnet__privacy-field" data-validation-field>
+              <label class="lead-magnet__privacy">
+                <input
+                  id="lead-magnet-privacy"
+                  type="checkbox"
+                  name="privacy"
+                  required
+                  data-error-required="Necesito que aceptes la política de privacidad para enviarte la guía."
+                />
+                <span>Acepto que Piel de Pomelo SLP use mi nombre y email para enviarme la guía y El Chisme. Puedo darme de baja cuando quiera. <a href="/proteccion-datos" target="_blank" rel="noopener">Más información y derechos</a>.</span>
+              </label>
+            </div>
+
+            <button type="submit" class="btn btn--primary lead-magnet__button">Quiero la guía y unirme al Chisme</button>
+          </form>
+        ) : (
+          <div class="lead-magnet__coming-soon">
+            <p class="lead-magnet__coming-soon-title">El Chisme está en camino 💌</p>
+            <p>Lo estoy preparando con calma para que llegue bien hecho. Cuando esté listo, podrás apuntarte aquí y recibir la guía de bienvenida.</p>
+            <span class="btn btn--disabled btn--full" aria-disabled="true">Próximamente</span>
           </div>
+        )}
 
-          <button type="submit" class="btn btn--primary lead-magnet__button">Quiero la guía y unirme al Chisme</button>
-        </form>
-
-        <p class="lead-magnet__message" data-lead-magnet-message aria-live="polite" tabindex="-1" hidden></p>
+        {CHISME_ENABLED && (
+          <p class="lead-magnet__message" data-lead-magnet-message aria-live="polite" tabindex="-1" hidden></p>
+        )}
       </div>
     </div>
   </div>
@@ -177,6 +189,28 @@ const { heading = 'h2', eyebrow = 'Guía gratuita' } = Astro.props;
     background-color: var(--color-white);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
+  }
+
+  .lead-magnet__coming-soon {
+    text-align: center;
+  }
+
+  .lead-magnet__coming-soon-title {
+    color: var(--color-text);
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .lead-magnet__coming-soon > p:not(.lead-magnet__coming-soon-title) {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .lead-magnet__coming-soon .btn--disabled {
+    color: var(--color-text-secondary);
+    background-color: var(--color-border);
+    cursor: not-allowed;
   }
 
   .lead-magnet__field {

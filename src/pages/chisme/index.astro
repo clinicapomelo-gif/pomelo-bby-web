@@ -1,14 +1,19 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import LeadMagnetForm from '../../components/LeadMagnetForm.astro';
+import { CHISME_ENABLED } from '../../data/chisme';
+
+const description = CHISME_ENABLED
+  ? 'Historias reales, información clara y crianza sin ruido. Únete al email quincenal de Mar y recibe gratis la guía 25 cosas normales en los bebés.'
+  : 'El Chisme de Mar estará disponible próximamente: historias reales, información clara y crianza sin ruido.';
 ---
 
-<Layout title="El Chisme de Mar" description="Historias reales, información clara y crianza sin ruido. Únete al email quincenal de Mar y recibe gratis la guía 25 cosas normales en los bebés.">
+<Layout title="El Chisme de Mar" description={description}>
   <section class="newsletter-about" aria-labelledby="newsletter-about-title">
     <div class="container">
       <div class="newsletter-about__card">
         <div>
-          <p class="newsletter-about__eyebrow">Cada quince días en tu correo</p>
+          <p class="newsletter-about__eyebrow">{CHISME_ENABLED ? 'Cada quince días en tu correo' : 'Próximamente'}</p>
           <h1 id="newsletter-about-title">El Chisme de Mar</h1>
           <p class="newsletter-about__intro">Historias reales, salud infantil y crianza sin ruido.</p>
           <p>Te cuento una historia personal o profesional y qué podemos aprender de ella desde la mirada de una enfermera infantil. Sin fórmulas mágicas ni tragedias de Google.</p>
