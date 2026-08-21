@@ -128,7 +128,7 @@ export const POST: APIRoute = async ({ request }) => {
       timeZone: 'Europe/Madrid',
     }).format(new Date(expiresAt * 1000));
     const resend = new Resend(resendKey);
-    const downloadLabel = guia.kind === 'complete' ? 'Descargar la guía en PDF' : 'Descargar el PDF';
+    const downloadLabel = guia.kind === 'complete' ? 'Descargar el ebook' : 'Descargar el PDF';
     const { data, error } = await resend.emails.send(
       {
         from: sender,

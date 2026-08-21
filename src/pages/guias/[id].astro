@@ -72,7 +72,7 @@ const canCheckout = isGuiaPurchasable(guia, stripeMode);
               <div class="producto__action">
                 <p class="producto__entrega">
                   {guia.kind === 'complete'
-                    ? 'Recibirás por email esta guía completa en PDF, con un enlace de descarga disponible durante 30 días.'
+                    ? 'Recibirás por email este ebook, con un enlace de descarga disponible durante 30 días.'
                     : 'Recibirás por email esta guía rápida en PDF, con un enlace de descarga disponible durante 30 días.'}
                 </p>
                 <form id="checkout-form" method="POST" action="/api/checkout">
@@ -83,7 +83,7 @@ const canCheckout = isGuiaPurchasable(guia, stripeMode);
                 </form>
                 <ul class="producto__garantias">
                   <li>✓ Pago seguro con Stripe</li>
-                  <li>✓ Guía descargable en PDF</li>
+                  <li>✓ {guia.kind === 'complete' ? 'Ebook descargable' : 'Guía descargable en PDF'}</li>
                   <li>✓ Si pierdes el enlace, escríbeme y revisamos tu compra</li>
                 </ul>
               </div>
