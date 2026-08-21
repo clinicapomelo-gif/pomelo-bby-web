@@ -74,10 +74,11 @@ El enlace del email abre una página sin efectos. La confirmación solo se proce
 
 `consented_at`, que ya existe en Resend, identifica la confirmación procesada:
 
-1. Si la fecha cifrada es nueva, se confirma o reactiva el Topic y se guarda esa fecha.
-2. Si el mismo enlace se pulsa otra vez, se permite volver a descargar la guía pero no se cambia la preferencia.
-3. Si la persona se da de baja y pulsa un enlace antiguo, no se reactiva.
-4. Para volver a suscribirse debe rellenar de nuevo el formulario y confirmar un enlace nuevo.
+1. Si la fecha cifrada es nueva, se confirma o reactiva el Topic y se guarda la hora a la que se procesa la confirmación.
+2. En contactos existentes, se reparan primero el Segmento y el Topic; la reactivación global y `consented_at` se guardan juntas al final. Si Resend falla antes, un reintento puede terminar la operación. El timestamp reduce conflictos entre solicitudes solapadas, pero no actúa como un bloqueo distribuido.
+3. Si el mismo enlace se pulsa otra vez, se permite volver a descargar la guía pero no se cambia la preferencia.
+4. Si la persona se da de baja y pulsa un enlace antiguo, no se reactiva.
+5. Para volver a suscribirse debe rellenar de nuevo el formulario y confirmar un enlace nuevo.
 
 ## Qué ocurre con cada caso
 

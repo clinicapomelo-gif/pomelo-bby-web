@@ -8,11 +8,20 @@
 - [Arquitectura de doble opt-in](docs/arquitectura-doble-opt-in.md)
 - [Estrategia de Blog, El Chisme de Mar y guía gratuita](docs/estrategia-blog-y-el-chisme.md)
 
+## Comprobar el dominio
+
+```bash
+npm run check:domain
+npm run check:domain -- --watch
+```
+
+El script Bash `scripts/check-domain.sh` comprueba la delegación, los registros de la web y del correo, HTTPS y la redirección de `www`. Con `--watch` repite la comprobación cada 30 segundos hasta que todo funciona.
+
 ## Lead magnet: “25 cosas normales en los bebés”
 
 ### Estado actual
 
-La página, el formulario y el envío desde el servidor están implementados, pero la integración externa está **pendiente de configurar**. Resend gestionará tanto los correos transaccionales como El Chisme mediante Contactos globales, Segmentos, Topics, Broadcasts y Automations. Mientras no se complete, un envío válido mostrará “Ahora mismo no he podido guardar tu suscripción. Inténtalo de nuevo en unos minutos”. Es el comportamiento esperado: la web no debe confirmar una entrega que no ha podido realizar.
+El doble opt-in, el alta en Resend y la descarga están implementados y se han probado en Preview de extremo a extremo. En Production todavía faltan la configuración definitiva de Resend y el remitente del dominio profesional. Mientras falten, la web devolverá un error temporal y no confirmará una suscripción que no haya podido iniciar.
 
 ### Pendiente antes de publicar
 

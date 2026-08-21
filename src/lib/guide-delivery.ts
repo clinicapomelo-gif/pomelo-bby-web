@@ -3,11 +3,12 @@ import { head } from '@vercel/blob';
 export const GUIDE_DOWNLOAD_TTL_SECONDS = 30 * 24 * 60 * 60;
 
 export const getGuideDownloadExpiresAt = (sessionCreated: number, configured?: string) => {
+  const defaultExpiresAt = sessionCreated + GUIDE_DOWNLOAD_TTL_SECONDS;
   const configuredTimestamp = Number(configured);
 
-  return Number.isSafeInteger(configuredTimestamp) && configuredTimestamp > sessionCreated
+  return Number.isSafeInteger(configuredTimestamp) && configuredTimestamp > defaultExpiresAt
     ? configuredTimestamp
-    : sessionCreated + GUIDE_DOWNLOAD_TTL_SECONDS;
+    : defaultExpiresAt;
 };
 
 export const isPrivateGuidePdfAvailable = async (blobKey: string) => {

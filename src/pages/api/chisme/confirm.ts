@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
 import { decryptNewsletterConfirmation } from '../../../lib/newsletter-confirmation';
+import { confirmExistingContact } from '../../../lib/resend-contact-confirmation.mjs';
 
 export const prerender = false;
 
@@ -66,7 +67,7 @@ export const POST: APIRoute = async ({ request }) => {
     const properties = {
       signup_source: confirmation.source,
       consent_version: confirmation.consentVersion,
-      consented_at: confirmation.consentedAt,
+      consented_at: new Date().toISOString(),
     };
 
     if (!existing.data) {
@@ -87,42 +88,18 @@ export const POST: APIRoute = async ({ request }) => {
       return success(request, confirmation.source);
     }
 
-    const [updated, segments, topic] = await Promise.all([
-      resend.contacts.update({
-        email: confirmation.email,
-        firstName: confirmation.name,
-        unsubscribed: false,
-        properties,
-      }),
-      resend.contacts.segments.list({ email: confirmation.email }),
-      resend.contacts.topics.update({
-        email: confirmation.email,
-        topics: [{ id: topicId, subscription: 'opt_in' }],
-      }),
-    ]);
+    const confirmed = await confirmExistingContact({
+      contacts: resend.contacts,
+      email: confirmation.email,
+      name: confirmation.name,
+      segmentId,
+      topicId,
+      properties,
+    });
 
-    if (updated.error) {
-      console.error('Resend confirmed contact update failed', updated.error.name, updated.error.statusCode);
+    if (!confirmed.ok) {
+      console.error(`Resend confirmed ${confirmed.operation} failed`, confirmed.error.name, confirmed.error.statusCode);
       return failure(request, 'temporary');
-    }
-    if (segments.error) {
-      console.error('Resend confirmed segment lookup failed', segments.error.name, segments.error.statusCode);
-      return failure(request, 'temporary');
-    }
-    if (topic.error) {
-      console.error('Resend confirmed topic update failed', topic.error.name, topic.error.statusCode);
-      return failure(request, 'temporary');
-    }
-
-    if (!segments.data?.data.some((segment) => segment.id === segmentId)) {
-      const segment = await resend.contacts.segments.add({
-        email: confirmation.email,
-        segmentId,
-      });
-      if (segment.error) {
-        console.error('Resend confirmed segment update failed', segment.error.name, segment.error.statusCode);
-        return failure(request, 'temporary');
-      }
     }
 
     return success(request, confirmation.source);

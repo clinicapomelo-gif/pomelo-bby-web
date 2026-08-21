@@ -9,7 +9,7 @@ Acompañamiento en crianza y salud infantil. Venta de guías (PDFs) y consultas 
 
 ## Stack
 
-- **Framework:** Astro 6.3 (static + server endpoints)
+- **Framework:** Astro 7 (static + server endpoints)
 - **Hosting:** Vercel (plan gratuito, subdominio .vercel.app hasta comprar dominio)
 - **Pagos:** Stripe (checkout sessions + webhook)
 - **Reservas:** Cal.com (popup embebido, cobro via Stripe)

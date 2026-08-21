@@ -2,22 +2,26 @@
 
 ## Proyecto
 
-Web de enfermería pediátrica de Mar Vall Requena, dirigida a familias. Está construida con Astro 6, TypeScript estricto, el adaptador de Vercel y contenido en español.
+Web de enfermería pediátrica de Mar Vall Requena, dirigida a familias. Está construida con Astro 7, TypeScript estricto, el adaptador de Vercel y contenido en español.
 
 Antes de cambiar comportamiento de negocio, consulta `CONTEXT.md` y los ADR de `docs/adr/`.
 
 ## Comandos
 
-Requiere Node.js 22.12 o superior. Prefiere Node.js 24 para reproducir el runtime de Vercel; Node.js 26 genera una advertencia del adaptador.
+Requiere Node.js 22.19 o superior. Prefiere Node.js 24 para reproducir el runtime de Vercel; Node.js 26 genera una advertencia del adaptador.
 
 ```bash
 npm install
 npm run dev
 npm run build
 npm run preview
+npm test
+npm run check
+npm run guides:test
+npm run guides:check
 ```
 
-No hay una suite de tests ni un script de lint. Después de cambios de código, ejecuta como mínimo `npm run build`.
+npm y `package-lock.json` son canónicos; no mantengas lockfiles de otros gestores. No hay un script de lint. `npm run build` ejecuta los tests, valida el catálogo, comprueba Astro y genera la web; después de cambios de código, ejecuta como mínimo ese comando.
 
 ## Estructura y convenciones
 
@@ -72,18 +76,18 @@ No hace falta una rama `develop`: cualquier rama distinta de `main` genera Previ
 - **Development:** `STRIPE_CATALOG_KEY` restringida del Sandbox correcto y acceso al Blob privado.
 - **Preview:** `STRIPE_SECRET_KEY` y `STRIPE_WEBHOOK_SECRET` del mismo Sandbox.
 - **Production mientras no haya ventas live:** sin variables Stripe; el build solo publica recursos gratuitos.
-- **Production live futura:** claves, webhook y mapeos `stripe.live` propios; nunca reutilizar IDs del Sandbox.
+- **Production live futura:** claves, webhook y mapeos `stripe.live` propios; nunca reutilizar IDs del Sandbox. La creación de nuevas compras de la consulta por correo seguirá bloqueada hasta disponer de persistencia duradera aprobada; una sesión ya pagada y válida sí debe poder enviar su caso.
 
 Alta y cambio de precio, siempre con dry-run primero:
 
 ```bash
-npx --yes vercel@latest env run -e development -- npm run guide:provision
-npx --yes vercel@latest env run -e development -- npm run guide:provision -- --apply
+npx --yes vercel@latest env run -e development -- npm run guide:provision -- --pdf /ruta/guia.pdf
+npx --yes vercel@latest env run -e development -- npm run guide:provision -- --pdf /ruta/guia.pdf --apply
 npx --yes vercel@latest env run -e development -- npm run guide:price -- <guiaId> --price 5,99
 npx --yes vercel@latest env run -e development -- npm run guide:price -- <guiaId> --price 5,99 --apply
 ```
 
-La provisión solo admite claves `rk_test_`, solicita el PDF mediante prompt y no hace commit, push ni despliegue. Consulta `docs/guias-de-pago.md` antes de operar.
+La provisión solo admite claves `rk_test_`, valida el PDF indicado, pide `APLICAR` antes de escribir y no hace commit, push ni despliegue. Consulta `docs/guias-de-pago.md` antes de operar.
 
 ## Servicios y operación
 

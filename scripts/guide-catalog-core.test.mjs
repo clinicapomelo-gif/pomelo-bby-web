@@ -214,10 +214,12 @@ test('cambio test conserva importe live e IDs históricos', () => {
   assert.deepEqual(repeated, changed);
 });
 
-test('rechaza credenciales test en Production', () => {
+test('acepta credenciales Stripe solo en su entorno', () => {
   assert.equal(getStripeMode('sk_test_example', 'preview'), 'test');
   assert.equal(getStripeMode('sk_test_example', 'production'), undefined);
   assert.equal(getStripeMode('sk_live_example', 'production'), 'live');
+  assert.equal(getStripeMode('sk_live_example', 'preview'), undefined);
+  assert.equal(getStripeMode('sk_live_example', 'development'), undefined);
 });
 
 test('muestra disponibles y limita testing al entorno test configurado', () => {

@@ -51,7 +51,7 @@ const schema = type === 'article'
     };
 const schemaJson = JSON.stringify(schema).replaceAll('<', '\\u003c');
 const schemaHash = createHash('sha256').update(schemaJson).digest('base64');
-Astro.csp.insertScriptHash(`sha256-${schemaHash}`);
+Astro.csp?.insertScriptHash(`sha256-${schemaHash}`);
 ---
 
 <!-- SEO básico -->

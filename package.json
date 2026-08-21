@@ -3,17 +3,20 @@
   "type": "module",
   "version": "0.0.1",
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=22.19.0"
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run guides:check && astro build",
+    "build": "npm test && npm run guides:check && npm run check && astro build",
     "preview": "astro preview",
-    "astro": "astro",
+    "test": "node --experimental-strip-types --test scripts/*.test.mjs",
+    "check": "astro check",
+    "check:domain": "bash scripts/check-domain.sh",
     "guides:check": "node scripts/check-guide-catalog.mjs",
     "guides:test": "node --test scripts/guide-catalog-core.test.mjs",
     "guide:provision": "node scripts/guide-catalog.mjs provision",
-    "guide:price": "node scripts/guide-catalog.mjs price"
+    "guide:price": "node scripts/guide-catalog.mjs price",
+    "astro": "astro"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
@@ -24,12 +27,11 @@
     "resend": "^6.20.0",
     "stripe": "^22.5.0"
   },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "typescript": "5.9.3"
+  },
   "overrides": {
     "path-to-regexp": "6.3.0"
-  },
-  "pnpm": {
-    "overrides": {
-      "path-to-regexp": "6.3.0"
-    }
   }
 }

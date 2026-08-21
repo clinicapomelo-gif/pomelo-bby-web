@@ -66,7 +66,9 @@ export const getStripeMode = (key, vercelEnvironment) => {
   if (key.startsWith('sk_test_') || key.startsWith('rk_test_')) {
     return vercelEnvironment === 'production' ? undefined : 'test';
   }
-  if (key.startsWith('sk_live_') || key.startsWith('rk_live_')) return 'live';
+  if (key.startsWith('sk_live_') || key.startsWith('rk_live_')) {
+    return vercelEnvironment === 'production' ? 'live' : undefined;
+  }
   return undefined;
 };
 

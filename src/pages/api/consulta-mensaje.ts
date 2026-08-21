@@ -1,6 +1,10 @@
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
 import Stripe from 'stripe';
+import {
+  getConsultationStripeMode,
+  isConsultationSubmissionAuthorized,
+} from '../../lib/consulta-payment.mjs';
 
 export const prerender = false;
 
@@ -19,7 +23,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   }
 
   const stripeKey = import.meta.env.STRIPE_SECRET_KEY;
-  const priceId = import.meta.env.STRIPE_CONSULTA_MENSAJE_PRICE_ID;
+  const stripeMode = getConsultationStripeMode(stripeKey, process.env.VERCEL_ENV);
   const resend = new Resend(resendKey);
 
   let values: Record<string, unknown>;
@@ -48,7 +52,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   // Verificar pago válido
   if (
     !sessionId.startsWith('cs_') || sessionId.length > 255 ||
-    !stripeKey || !priceId?.startsWith('price_')
+    !stripeKey || !stripeMode
   ) {
     return new Response(
       JSON.stringify({ error: 'Sesión de pago no válida.' }),
@@ -64,13 +68,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     session = await stripe.checkout.sessions.retrieve(sessionId);
     const lineItems = await stripe.checkout.sessions.listLineItems(sessionId, { limit: 2 });
     customerEmail = session.customer_details?.email?.trim().toLowerCase() ?? '';
-    if (
-      session.payment_status !== 'paid' ||
-      session.metadata?.type !== 'consulta-mensaje' ||
-      lineItems.data.length !== 1 ||
-      lineItems.data[0]?.price?.id !== priceId ||
-      !customerEmail
-    ) {
+    if (!isConsultationSubmissionAuthorized(session, lineItems, stripeMode)) {
       return new Response(
         JSON.stringify({ error: 'Pago no verificado.' }),
         { status: 403, headers: { 'Content-Type': 'application/json' } }

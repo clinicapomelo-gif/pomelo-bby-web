@@ -1,6 +1,10 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Stripe from 'stripe';
+import {
+  getConsultationStripeMode,
+  isPaidConsultationSession,
+} from '../../lib/consulta-payment.mjs';
 
 export const prerender = false;
 
@@ -13,13 +17,14 @@ const sessionId = url.searchParams.get('session_id');
 
 let isValid = false;
 
-if (sessionId) {
+if (sessionId?.startsWith('cs_') && sessionId.length <= 255) {
   const stripeKey = import.meta.env.STRIPE_SECRET_KEY;
-  if (stripeKey && stripeKey !== 'sk_test_PLACEHOLDER') {
+  const stripeMode = getConsultationStripeMode(stripeKey, process.env.VERCEL_ENV);
+  if (stripeKey && stripeMode) {
     try {
       const stripe = new Stripe(stripeKey);
       const session = await stripe.checkout.sessions.retrieve(sessionId);
-      isValid = session.payment_status === 'paid' && session.metadata?.type === 'consulta-mensaje';
+      isValid = isPaidConsultationSession(session, stripeMode);
     } catch {
       isValid = false;
     }

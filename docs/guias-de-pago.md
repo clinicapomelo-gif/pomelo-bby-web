@@ -27,8 +27,8 @@ La fuente editable es `src/data/guias.json`; `src/data/guias.ts` solo expone el 
 Configurar una clave restringida `rk_test_` como `STRIPE_CATALOG_KEY` únicamente en Vercel Development. Después ejecutar primero el dry-run:
 
 ```bash
-npx --yes vercel@latest env run -e development -- npm run guide:provision
-npx --yes vercel@latest env run -e development -- npm run guide:provision -- --apply
+npx --yes vercel@latest env run -e development -- npm run guide:provision -- --pdf /ruta/guia.pdf
+npx --yes vercel@latest env run -e development -- npm run guide:provision -- --pdf /ruta/guia.pdf --apply
 ```
 
 El segundo comando vuelve a pedir `APLICAR`, sube el PDF privado con una clave basada en su SHA-256, crea o reutiliza Product y Price en Stripe test, actualiza el catálogo de forma atómica y ejecuta el build. La guía queda en `testing`; solo debe cambiarse manualmente a `available` después de una compra test completa.

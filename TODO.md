@@ -28,16 +28,16 @@ Lista operativa resumida. Los procedimientos detallados están en:
 
 - El catálogo, el lead magnet, las consultas y la infraestructura de entrega de guías están integrados en `main`.
 - Los cinco PDF están en el almacén privado `pomelo-bby-recursos`. Las cuatro guías de pago tienen `blobKey`, Product ID y Price ID y están marcadas como disponibles en el catálogo; sigue pendiente probar el flujo completo.
-- El doble opt-in está probado en Preview de extremo a extremo: solicitud, email, página sin efectos, confirmación, alta en Resend y descarga. Falta probar baja, reutilización del enlace y nueva alta.
+- El doble opt-in está probado en Preview de extremo a extremo: solicitud, email, página sin efectos, confirmación, alta en Resend y descarga. Falta probar baja, reutilización del enlace, nueva alta y confirmaciones solapadas.
 - Stripe continúa en sandbox. El flujo de Cuéntame por correo funciona de extremo a extremo por 19 € y los precios de Cal.com son correctos, pero todavía no se aceptan cobros reales.
 - La prueba con `resend.dev` llegó a spam, algo esperable por usar un remitente compartido y un enlace de localhost. La entregabilidad real sigue pendiente del dominio verificado y enlaces HTTPS públicos.
 - Production está pública en `https://pomelo-bby-web.vercel.app`; las Preview continúan protegidas por Vercel Authentication.
-- `pomelobaby.es` y `www.pomelobaby.es` ya resuelven por HTTPS en Vercel. La variante `www` todavía responde directamente y falta redirigirla permanentemente al dominio canónico.
+- `npm run check:domain` confirma 10/11 comprobaciones: `pomelobaby.es` y `www.pomelobaby.es` resuelven por HTTPS, pero `www` todavía responde directamente y falta redirigirla permanentemente al dominio canónico.
 - `MAINTENANCE_MODE=false` en Production desde el último despliegue. Al activarlo, oculta la interfaz, bloquea las API no transaccionales con HTTP 503 y publica `robots.txt` con `Disallow: /`.
 - Los formularios están públicos, pero sin la configuración externa y legal completa deben considerarse en preparación.
-- La auditoría de seguridad está desplegada: CSP con hashes y sin `unsafe-inline`, endurecimiento de pagos y datos sensibles, funciones en `fra1` y dependencias sin vulnerabilidades conocidas en `npm audit` y `pnpm audit`.
+- La auditoría de seguridad está desplegada: CSP con hashes y sin `unsafe-inline`, endurecimiento de pagos y datos sensibles, funciones en `fra1` y dependencias sin vulnerabilidades conocidas en `npm audit`.
 - El webhook Live de Stripe para `https://pomelobaby.es/api/webhook` está activo con los dos eventos de Checkout, su secreto está en Production y una petición sin firma válida devuelve `400`. La clave temporal de Stripe CLI ya no conserva el permiso de escritura.
-- El build termina correctamente. En local se usa Node 26 y Vercel avisa de que ejecutará las funciones con Node 24.
+- El build termina correctamente con 28 tests y Astro Check sin errores ni warnings. En local se usa Node 26 y Vercel avisa de que ejecutará las funciones con Node 24.
 - Los worktrees `task-03`, `task-04`, `task-05`, `task-07` y `task-08` están limpios y sus commits están integrados. La tarea 06 se integró en los commits `c1fd7f6` y `71f7353`. La rama de la tarea 01 no es ancestro de `main`, pero Git confirma que su parche ya está aplicado.
 
 ---
@@ -47,7 +47,7 @@ Lista operativa resumida. Los procedimientos detallados están en:
 - [x] **[Mar]** Comprar el dominio definitivo: `pomelobaby.es`.
 - [ ] **[Mar]** Crear o confirmar el correo profesional.
 - [x] **[Dev]** Añadir el dominio a Vercel y unificar `SITE_URL`, Astro, sitemap, robots, enlaces canónicos y Open Graph.
-- [ ] **[Dev]** Redirigir permanentemente `www.pomelobaby.es` hacia `pomelobaby.es`.
+- [ ] **[Dev]** Redirigir permanentemente `www.pomelobaby.es` y `pomelo-bby-web.vercel.app` hacia `https://pomelobaby.es`.
 - [x] **[Dev]** Bloquear también las rutas `/api/*` en Production mientras `MAINTENANCE_MODE` esté activo.
 - [ ] **[Mar + profesional legal]** Completar Aviso legal, Privacidad, Cookies y Condiciones de venta, incluyendo formularios, newsletter, consultas, datos de salud, pagos y proveedores externos.
 - [ ] **[Mar + profesional legal]** Validar el aviso ya publicado en el footer: “No están pensadas para situaciones urgentes: si algo te preocupa de forma inmediata o tu hijo o hija empeora, busca atención sanitaria sin esperar mi respuesta”.
@@ -144,7 +144,8 @@ La configuración detallada está en [`docs/configuracion-resend.md`](docs/confi
 - [x] Configurar `NEWSLETTER_CONFIRMATION_SECRET` en Production.
 - [ ] Configurar `RESEND_NEWSLETTER_SEGMENT_ID` y `RESEND_NEWSLETTER_TOPIC_ID` en Production; Preview ya está configurado.
 - [ ] Configurar `RESEND_FROM_EMAIL` y `RESEND_TO_EMAIL` cuando exista dominio y buzón.
-- [ ] Probar alta nueva, alta existente, baja y nueva suscripción consentida.
+- [ ] Probar alta nueva, alta existente, baja, reutilización del enlace, nueva suscripción consentida, reintentos tras fallos parciales y confirmaciones solapadas.
+- [ ] **[Dev]** Si se necesita una garantía estricta entre confirmaciones concurrentes ejecutadas en instancias distintas, añadir estado pendiente con escritura condicional o un almacén duradero; el timestamp actual no es un bloqueo distribuido.
 - [ ] Limpiar de Resend los contactos de prueba y cualquier dirección incorrecta antes del primer Broadcast.
 - [x] Enviar confirmación a la familia cuando se reciba correctamente una consulta por correo.
 - [ ] Tras verificar el dominio, repetir Contacto, lead magnet y correos transaccionales con remitente propio y enlaces HTTPS en Gmail, Outlook y móvil, incluyendo spam y promociones.
@@ -168,7 +169,9 @@ La configuración detallada está en [`docs/configuracion-resend.md`](docs/confi
 - [ ] **[Mar]** Crear en la cuenta definitiva de Stripe el producto y Price de 19 €.
 - [ ] **[Dev]** Configurar `STRIPE_CONSULTA_MENSAJE_PRICE_ID` en producción; en test ya está verificado el cobro de 19 €.
 - [x] **[Dev]** Impedir duplicados con metadata de Stripe e idempotencia de Resend.
-- [ ] **[Dev]** Evitar perder el caso si Resend falla después del pago y devolver siempre errores genéricos.
+- [x] **[Dev]** Aceptar una sesión ya pagada con un Price histórico aunque el precio se haya rotado o retirado de la configuración actual.
+- [x] **[Dev]** Mantener bloqueada en Live la creación de nuevas compras de Cuéntame por correo hasta disponer de persistencia duradera aprobada para datos de salud, sin dejar sin servicio una sesión ya pagada y válida.
+- [ ] **[Dev]** Implementar esa persistencia antes de habilitar cobros Live: guardar el caso antes de enviarlo a Resend y permitir reintentos sin depender del plazo de idempotencia del correo ni de la metadata de Stripe.
 - [ ] **[Mar + Dev]** Elegir y validar el canal para solicitar fotografías o vídeos después del primer correo. Comparativa y prueba propuesta en [`docs/canales-archivos-consultas.md`](docs/canales-archivos-consultas.md); no implementarlo ni anunciarlo hasta validar privacidad, acceso y conservación.
 - [ ] **[Mar + Dev]** Hacer una compra completa de prueba y otra real controlada antes de abrir el servicio.
 
@@ -191,13 +194,14 @@ Stripe continúa en sandbox y los precios visibles son correctos. Antes de acept
 ## Productos y precios acordados
 
 - [x] **[Dev]** Añadir al catálogo como disponibles:
-  - Recomendaciones generales para el recién nacido — **3,99 €**.
+  - Primeros cuidados del bebé — **4,99 €**.
   - Conservación de la leche materna — **3,99 €**.
   - Pomada de aceite de uva — **3,99 €**.
-  - La guía definitiva para empezar a comer — **17,99 €**.
+  - La alimentación complementaria en palabras normales — **17,99 €**.
+- [ ] **[Mar]** Entregar el PDF final de la Guía de sueño — **17,99 €**. El producto test existe, pero no debe publicarse sin PDF privado.
 - [x] **[Mar]** Subir los cuatro PDF de pago al Vercel Blob privado.
 - [x] **[Dev]** Comprobar que los cinco archivos de `pomelo-bby-recursos` son privados, coinciden en nombre y tamaño con los PDF locales y configurar los cuatro `blobKey`.
-- [ ] **[Mar + gestoría]** Confirmar que **3,99 €** y **17,99 €** son precios finales y cómo se tratan los impuestos y la facturación.
+- [ ] **[Mar + gestoría]** Confirmar que **3,99 €**, **4,99 €** y **17,99 €** son precios finales y cómo se tratan los impuestos y la facturación.
 - [ ] **[Mar]** Confirmar si se mantienen los 30 días actuales de acceso al enlace de descarga.
 
 ## Datos que Mar debe copiar de los paneles
@@ -210,8 +214,7 @@ Stripe continúa en sandbox y los precios visibles son correctos. Antes de acept
 
 ## Conexión y prueba técnica
 
-- [x] **[Dev]** Añadir los cuatro `stripeProductId` en `src/data/guias.ts`.
-- [x] **[Dev]** Añadir los cuatro `stripePriceId` recibidos en `src/data/guias.ts`.
+- [x] **[Dev]** Configurar los Product ID y Price ID test en `src/data/guias.json`.
 - [ ] **[Dev]** Configurar y probar en Preview un webhook de Stripe de test con su propio secreto; no reutilizar credenciales Live en Preview.
 - [ ] **[Mar + Dev]** Probar cada guía de extremo a extremo: pago test, un único email, reintento del webhook, descarga del PDF correcto, página de gracias y errores seguros.
 - [x] **[Dev]** Marcar como `available` las cuatro guías que ya tienen Blob, Product ID y Price ID, según la decisión de catálogo de Mar.
@@ -231,6 +234,7 @@ Las futuras guías se añadirán al catálogo únicamente cuando tengan PDF, Pro
 - [ ] **[Dev]** Eliminar los worktrees y ramas de tareas ya integradas después de una última comprobación.
 - [ ] **[Mar + Dev]** Decidir qué materiales originales de `images/` se conservan fuera de Git y cuáles se versionan optimizados en `public/`.
 - [ ] **[Dev]** Usar Node 24 y ejecutar el build final.
+- [ ] **[Dev]** Resolver el whitespace pendiente de `.env.example` y comprobar que `git diff --check` termina limpio sin perder cambios ajenos.
 - [ ] **[Dev]** Separar completamente las credenciales Live de Stripe y Resend de Preview.
 - [ ] **[Dev]** Tras desplegar, comprobar OIDC en las guías de pago y retirar o rotar `BLOB_READ_WRITE_TOKEN` si ya no es necesario en Vercel.
 - [ ] **[Mar + Dev]** Probar en navegador que Vercel Analytics y el popup de Cal.com funcionan sin errores de CSP.

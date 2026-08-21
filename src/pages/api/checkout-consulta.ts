@@ -1,12 +1,19 @@
 import type { APIRoute } from 'astro';
 import Stripe from 'stripe';
+import {
+  CONSULTATION_PAYMENT_METHOD_TYPES,
+  canCreateConsultationCheckout,
+  getConsultationStripeMode,
+  isStripeSessionMode,
+} from '../../lib/consulta-payment.mjs';
 import { getSiteUrl } from '../../lib/site-url';
 
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
   const stripeKey = import.meta.env.STRIPE_SECRET_KEY;
-  if (!stripeKey || stripeKey === 'sk_test_PLACEHOLDER') {
+  const stripeMode = getConsultationStripeMode(stripeKey, process.env.VERCEL_ENV);
+  if (!stripeKey || !canCreateConsultationCheckout(stripeMode)) {
     return new Response(
       JSON.stringify({ error: 'Stripe no está configurado todavía.' }),
       { status: 503, headers: { 'Content-Type': 'application/json' } }
@@ -22,19 +29,20 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const stripe = new Stripe(stripeKey);
-  const siteURL = getSiteUrl(request);
+  const siteURL = getSiteUrl(request).replace(/\/$/, '');
 
   try {
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
+      payment_method_types: CONSULTATION_PAYMENT_METHOD_TYPES,
       line_items: [{ price: priceId, quantity: 1 }],
       success_url: `${siteURL}/consulta-mensaje/gracias?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${siteURL}/consultas`,
-      metadata: { type: 'consulta-mensaje' },
+      metadata: { type: 'consulta-mensaje', priceId },
       automatic_tax: { enabled: false },
     });
 
-    if (!session.url) {
+    if (!session.url || !isStripeSessionMode(session.livemode, stripeMode)) {
       return new Response(
         JSON.stringify({ error: 'No se pudo crear la sesión de pago.' }),
         { status: 500, headers: { 'Content-Type': 'application/json' } }

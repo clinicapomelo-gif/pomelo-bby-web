@@ -41,7 +41,7 @@ export const decryptNewsletterConfirmation = (token: string, secret: string): Ne
     !('name' in payload) || typeof payload.name !== 'string' || !payload.name || payload.name.length > 100 ||
     !('source' in payload) || !['newsletter', 'lead_magnet_25_cosas'].includes(String(payload.source)) ||
     !('consentVersion' in payload) || typeof payload.consentVersion !== 'string' ||
-    !('consentedAt' in payload) || typeof payload.consentedAt !== 'string' ||
+    !('consentedAt' in payload) || typeof payload.consentedAt !== 'string' || !Number.isFinite(Date.parse(payload.consentedAt)) ||
     !('expiresAt' in payload) || typeof payload.expiresAt !== 'number' || payload.expiresAt < Date.now()
   ) {
     throw new Error('Invalid newsletter confirmation payload');
