@@ -177,7 +177,7 @@ button {
 
 .btn--primary {
   background-color: var(--color-coral);
-  color: var(--color-text);
+  color: var(--color-white);
 }
 
 .btn--primary:hover {
