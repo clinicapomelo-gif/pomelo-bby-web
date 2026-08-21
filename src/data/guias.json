@@ -51,29 +51,6 @@
     "blobKey": "CONSERVACIÓN LECHE MATERNA.pdf"
   },
   {
-    "id": "pomada-aceite-uva",
-    "title": "Pomada de aceite de uva",
-    "description": "Una fórmula magistral transmitida de profesional en profesional por sus beneficios en la prevención y el tratamiento de las grietas del pezón durante la lactancia.",
-    "benefits": [
-      "Composición de la fórmula magistral",
-      "Cómo prepararla y conservarla",
-      "Indicaciones y recomendaciones de uso"
-    ],
-    "amountCents": 399,
-    "pageCount": 2,
-    "status": "available",
-    "kind": "practical",
-    "category": "salud",
-    "stripe": {
-      "test": {
-        "productId": "prod_V6P2VzHsGoq52V",
-        "priceId": "price_1U6CEI2WVIl1hdpgZsacUjqL",
-        "amountCents": 399
-      }
-    },
-    "blobKey": "FÓRMULA MAGISTRAL Pomada para grietas del pezón.pdf"
-  },
-  {
     "id": "guia-definitiva-empezar-comer",
     "title": "La alimentación complementaria en palabras normales",
     "description": "Todo lo que necesitas para empezar a alimentar a tu bebé con criterio, entender qué ofrecer y dejar atrás el ruido, las culpas y las normas imposibles de Internet.",
