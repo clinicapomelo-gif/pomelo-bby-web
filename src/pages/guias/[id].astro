@@ -24,6 +24,7 @@ const stripeMode = getStripeMode(import.meta.env.STRIPE_SECRET_KEY);
 const { guia } = Astro.props;
 const canDownloadFree = isFreeGuiaDownloadEnabled(guia);
 const canCheckout = isGuiaPurchasable(guia, stripeMode);
+const isAvailable = canDownloadFree || canCheckout;
 ---
 
 <Layout title={guia.title} description={guia.description}>
@@ -60,7 +61,7 @@ const canCheckout = isGuiaPurchasable(guia, stripeMode);
 
         <div class="producto__compra">
           <div class="producto__card">
-            <p class="producto__precio">
+            <p class={`producto__precio${isAvailable ? '' : ' producto__precio--unavailable'}`}>
               {canDownloadFree
                 ? 'Gratis'
                 : canCheckout ? formatGuiaPrice(getGuiaPrice(guia, stripeMode)) : 'Próximamente'}
@@ -300,6 +301,10 @@ const canCheckout = isGuiaPurchasable(guia, stripeMode);
     font-weight: 700;
     color: var(--color-text);
     margin: 0;
+  }
+
+  .producto__precio--unavailable {
+    font-size: 1.5rem;
   }
 
   .producto__action {
