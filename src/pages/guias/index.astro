@@ -31,8 +31,11 @@ const visibleGuias = guias
       </header>
 
       <div class="tienda__grid">
-        {visibleGuias.map((guia) => (
-          <article class="guia-card">
+        {visibleGuias.map((guia) => {
+          const canDownloadFree = isFreeGuiaDownloadEnabled(guia);
+          const canCheckout = isGuiaPurchasable(guia, stripeMode);
+
+          return <article class="guia-card">
             <div class="guia-card__body">
               <div class="guia-card__tags">
                 <span class={`guia-card__kind guia-card__kind--${guia.kind}`}>
@@ -52,19 +55,21 @@ const visibleGuias = guias
             <div class="guia-card__footer">
               <div class="guia-card__availability">
                 <span class="guia-card__price">
-                  {guia.status === 'free' ? 'Gratis' : formatGuiaPrice(getGuiaPrice(guia, stripeMode))}
+                  {canDownloadFree
+                    ? 'Gratis'
+                    : canCheckout ? formatGuiaPrice(getGuiaPrice(guia, stripeMode)) : 'Próximamente'}
                 </span>
-                <span class="guia-card__status">
-                  {isFreeGuiaDownloadEnabled(guia)
-                    ? 'Descarga en PDF'
-                    : isGuiaPurchasable(guia, stripeMode) ? 'Disponible ahora' : 'Próximamente'}
-                </span>
+                {(canDownloadFree || canCheckout) && (
+                  <span class="guia-card__status">
+                    {canDownloadFree ? 'Descarga en PDF' : 'Disponible ahora'}
+                  </span>
+                )}
               </div>
 
               <a href={`/guias/${guia.id}`} class="btn btn--secondary btn--full">Ver guía</a>
             </div>
-          </article>
-        ))}
+          </article>;
+        })}
       </div>
     </div>
   </section>

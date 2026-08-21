@@ -38,6 +38,8 @@ export interface Guia {
 
 export type PurchasableGuia = Guia & { blobKey: string };
 
+export const GUIDES_ENABLED = false;
+
 export const guias = catalog as Guia[];
 
 export const formatGuiaPrice = (price: number) =>
@@ -67,13 +69,13 @@ export const isGuiaVisible = (guia: Guia, mode: StripeMode | undefined) =>
   checkVisibility(guia, mode) as boolean;
 
 export const isFreeGuiaDownloadEnabled = (guia: Guia) =>
-  guia.status === 'free' && guia.downloadEnabled !== false;
+  GUIDES_ENABLED && guia.status === 'free' && guia.downloadEnabled !== false;
 
 export const isGuiaPurchasable = (
   guia: Guia,
   mode: StripeMode | undefined,
 ): guia is PurchasableGuia => {
-  if (!mode || !isValidBlobKey(guia.blobKey) || !getGuiaStripeMapping(guia, mode)) return false;
+  if (!GUIDES_ENABLED || !mode || !isValidBlobKey(guia.blobKey) || !getGuiaStripeMapping(guia, mode)) return false;
   return guia.status === 'available' || (mode === 'test' && guia.status === 'testing');
 };
 

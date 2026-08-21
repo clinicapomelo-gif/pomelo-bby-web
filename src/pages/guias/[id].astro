@@ -61,7 +61,9 @@ const canCheckout = isGuiaPurchasable(guia, stripeMode);
         <div class="producto__compra">
           <div class="producto__card">
             <p class="producto__precio">
-              {formatGuiaPrice(getGuiaPrice(guia, stripeMode))}
+              {canDownloadFree
+                ? 'Gratis'
+                : canCheckout ? formatGuiaPrice(getGuiaPrice(guia, stripeMode)) : 'Próximamente'}
             </p>
 
             {canDownloadFree && (
