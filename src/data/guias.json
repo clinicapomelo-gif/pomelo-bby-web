@@ -35,7 +35,7 @@
       "Cómo descongelar y transportar la leche"
     ],
     "amountCents": 0,
-    "pageCount": 3,
+    "pageCount": 5,
     "status": "free",
     "downloadEnabled": false,
     "kind": "practical",
@@ -72,5 +72,28 @@
       }
     },
     "blobKey": "LA GUIA DEFINITIVA PARA EMPEZAR AC.pdf"
+  },
+  {
+    "id": "conservacion-alimentos",
+    "title": "Conservación de alimentos",
+    "description": "Cómo guardar, congelar, descongelar y recalentar la comida de tu bebé con seguridad, sin complicarte y evitando desperdicios.",
+    "benefits": [
+      "Tiempos y pautas para nevera y congelador",
+      "Cómo descongelar y recalentar con seguridad",
+      "Qué hacer con las sobras del plato del bebé"
+    ],
+    "kind": "practical",
+    "pageCount": 6,
+    "category": "alimentacion",
+    "blobKey": "guias/conservacion-alimentos/95c9666afad37b44b916a68b57ce82e458806a275fc730f5e62d7df861ffa24a.pdf",
+    "stripe": {
+      "test": {
+        "productId": "prod_V794Du7a04SOql",
+        "priceId": "price_1U6um22WVIl1hdpgbvYxnwCi",
+        "amountCents": 499
+      }
+    },
+    "amountCents": 499,
+    "status": "testing"
   }
 ]
