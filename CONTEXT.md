@@ -10,7 +10,7 @@ Web de enfermería pediátrica de Mar Vall Requena. Dirigida a padres y madres q
 Artículo del blog escrito en markdown, almacenado en `src/content/blog/`. Tiene un frontmatter con título, descripción, fecha, categoría, tags y estado de borrador. Un post con `draft: true` existe en el repo pero no se publica.
 
 ### Guía
-Producto digital en formato PDF que se vende a precio fijo individual. No es un ebook extenso — es un documento práctico y visual sobre un tema concreto (alimentación, sueño, fiebre, etc.). Sinónimo de uso común: PDF.
+Nombre general de los recursos digitales descargables de Mar. El catálogo distingue entre **Guía rápida**, un PDF centrado en una necesidad concreta, y **Guía completa**, un ebook que desarrolla un tema con mayor profundidad y paso a paso. Ambas se descargan en formato PDF y se venden a precio fijo individual, salvo los recursos gratuitos.
 
 ### Consulta 1:1
 Sesión de videollamada individual entre Mar y un cliente. Se reserva y paga en el momento de la reserva a través de Cal.com con cobro vía Stripe. Tiene duración y precio fijos.

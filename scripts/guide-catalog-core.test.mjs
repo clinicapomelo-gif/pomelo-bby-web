@@ -26,7 +26,9 @@ const paidGuide = () => ({
   description: 'Descripción aprobada de prueba.',
   benefits: ['Beneficio uno', 'Beneficio dos', 'Beneficio tres'],
   amountCents: 399,
+  pageCount: 5,
   status: 'testing',
+  kind: 'practical',
   category: 'salud',
   blobKey: 'guias/guia-prueba/hash.pdf',
   stripe: {
@@ -44,6 +46,8 @@ const provisionInput = (guide = paidGuide()) => ({
   title: guide.title,
   description: guide.description,
   benefits: guide.benefits,
+  kind: guide.kind,
+  pageCount: guide.pageCount,
   category: guide.category,
   blobKey: guide.blobKey,
   stripe: {},
@@ -110,9 +114,18 @@ test('fingerprint de Price es determinista y depende del importe', () => {
   assert.notEqual(priceFingerprint('guia', 399), priceFingerprint('guia', 499));
 });
 
-test('catálogo rechaza slugs duplicados y beneficios incompletos', () => {
+test('catálogo rechaza slugs duplicados, tipos desconocidos y beneficios incompletos', () => {
   const guide = paidGuide();
   assert.throws(() => validateCatalog([guide, structuredClone(guide)]), /duplicado/);
+
+  const unknownKind = paidGuide();
+  unknownKind.kind = 'ebook';
+  assert.throws(() => validateCatalog([unknownKind]), /kind/);
+
+  const invalidPages = paidGuide();
+  invalidPages.pageCount = 0;
+  assert.throws(() => validateCatalog([invalidPages]), /pageCount/);
+
   guide.benefits.pop();
   assert.throws(() => validateCatalog([guide]), /tres beneficios/);
 });

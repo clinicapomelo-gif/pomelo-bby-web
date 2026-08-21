@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import {
   formatGuiaCategory,
+  formatGuiaKind,
   formatGuiaPrice,
   getGuiaPrice,
   getStripeMode,
@@ -15,46 +16,51 @@ const visibleGuias = guias
   .filter((guia) => isGuiaVisible(guia, stripeMode))
   .sort((a, b) =>
     Number(a.status !== 'free') - Number(b.status !== 'free') ||
+    Number(a.kind !== 'complete') - Number(b.kind !== 'complete') ||
     getGuiaPrice(a, stripeMode) - getGuiaPrice(b, stripeMode),
   );
 ---
 
-<Layout title="Las guías de Mar" description="Guías con información fiable, clara y basada en la evidencia para consultar cuando más la necesites.">
+<Layout title="Las guías de Mar" description="Recursos claros, prácticos y basados en evidencia para acompañarte en las dudas del día a día.">
   <section class="tienda">
     <div class="container">
       <header class="page-header">
-        <h1>Las guías de Mar</h1>
-        <p class="page-header__subtitle">Hechas y revisadas por mí, con mucho cariño, desde mi experiencia como enfermera infantil y basadas en la evidencia científica actual.</p>
+        <h1>Las <span>guías</span> de Mar</h1>
+        <p class="page-header__subtitle">Recursos claros, prácticos y basados en evidencia para acompañarte en las dudas del día a día.</p>
       </header>
 
       <div class="tienda__grid">
         {visibleGuias.map((guia) => (
           <article class="guia-card">
             <div class="guia-card__body">
-              <span class="guia-card__category">{formatGuiaCategory(guia.category)}</span>
+              <div class="guia-card__tags">
+                <span class={`guia-card__kind guia-card__kind--${guia.kind}`}>
+                  <span class="guia-card__kind-icon" aria-hidden="true">{guia.kind === 'complete' ? '★' : 'ϟ'}</span>
+                  {formatGuiaKind(guia.kind)}
+                </span>
+                <span class="guia-card__category">{formatGuiaCategory(guia.category)}</span>
+              </div>
               <h2 class="guia-card__title">{guia.title}</h2>
               <p class="guia-card__description">{guia.description}</p>
+              <p class="guia-card__facts">
+                <span>{guia.pageCount} páginas</span>
+                <span>{guia.kind === 'complete' ? 'Ebook' : 'PDF'}</span>
+              </p>
             </div>
+
             <div class="guia-card__footer">
               <div class="guia-card__availability">
-                {guia.status === 'free' ? (
-                  <span class="guia-card__price">Gratis</span>
-                ) : (
-                  <>
-                    <span class="guia-card__price">{formatGuiaPrice(getGuiaPrice(guia, stripeMode))}</span>
-                    <span class="guia-card__status">
-                      {isGuiaPurchasable(guia, stripeMode) ? 'Disponible ahora' : 'Próximamente'}
-                    </span>
-                  </>
-                )}
+                <span class="guia-card__price">
+                  {guia.status === 'free' ? 'Gratis' : formatGuiaPrice(getGuiaPrice(guia, stripeMode))}
+                </span>
+                <span class="guia-card__status">
+                  {guia.status === 'free'
+                    ? 'Descarga en PDF'
+                    : isGuiaPurchasable(guia, stripeMode) ? 'Disponible ahora' : 'Próximamente'}
+                </span>
               </div>
-              {guia.status === 'free' ? (
-                <a href={guia.leadMagnetUrl} class="btn btn--primary">
-                  Obtener la guía gratis
-                </a>
-              ) : (
-                <a href={`/guias/${guia.id}`} class="btn btn--secondary">Ver guía</a>
-              )}
+
+              <a href={`/guias/${guia.id}`} class="btn btn--secondary btn--full">Ver guía</a>
             </div>
           </article>
         ))}
@@ -68,101 +74,147 @@ const visibleGuias = guias
     padding: var(--spacing-xl) 0;
   }
 
+  .page-header h1 span {
+    color: var(--color-coral);
+  }
+
   .tienda__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: var(--spacing-lg);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+    gap: var(--spacing-md);
+    max-width: 1000px;
+    margin: 0 auto;
   }
 
   .guia-card {
-    background-color: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    transition: box-shadow 0.2s ease;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-white);
   }
 
   .guia-card:focus-within {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 16px rgba(45, 45, 45, 0.08);
   }
 
   .guia-card__body {
-    padding: var(--spacing-lg);
-    flex: 1;
     display: flex;
+    flex: 1;
     flex-direction: column;
+    padding: var(--spacing-lg);
+  }
+
+  .guia-card__tags {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .guia-card__kind,
+  .guia-card__category {
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .guia-card__kind {
+    display: inline-flex;
+    align-items: center;
     gap: var(--spacing-sm);
+    padding: 0.45rem 0.8rem;
+  }
+
+  .guia-card__kind--practical {
+    border: 1px solid var(--color-peach);
+    color: var(--color-coral-hover);
+    background-color: var(--color-nude);
+  }
+
+  .guia-card__kind--complete {
+    color: var(--color-white);
+    background-color: var(--color-coral-hover);
+  }
+
+  .guia-card__kind-icon {
+    color: inherit;
+    font-size: 1rem;
+    line-height: 1;
   }
 
   .guia-card__category {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-coral-text);
+    padding: 0.25rem 0.65rem;
+    color: var(--color-coral-hover);
     background-color: var(--color-peach);
-    padding: 0.2rem 0.6rem;
-    border-radius: 999px;
-    align-self: flex-start;
   }
 
   .guia-card__title {
+    margin-bottom: var(--spacing-sm);
     font-size: 1.15rem;
     line-height: 1.4;
   }
 
   .guia-card__description {
+    flex: 1;
+    margin: 0;
     color: var(--color-text-secondary);
     font-size: 0.9rem;
-    line-height: 1.6;
-    flex: 1;
+    line-height: 1.65;
+  }
+
+  .guia-card__facts {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin: var(--spacing-md) 0 0;
+    color: var(--color-coral-hover);
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  .guia-card__facts span + span::before {
+    content: '·';
+    margin-right: var(--spacing-sm);
+    color: var(--color-peach);
   }
 
   .guia-card__footer {
-    padding: var(--spacing-md) var(--spacing-lg);
-    border-top: 1px solid var(--color-border);
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: var(--color-white);
+    flex-direction: column;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-lg) var(--spacing-lg);
+    border-top: 1px solid var(--color-border);
   }
 
   .guia-card__availability {
     display: flex;
-    flex-direction: column;
+    align-items: baseline;
+    gap: var(--spacing-sm);
   }
 
   .guia-card__price {
-    font-size: 1.3rem;
-    font-weight: 700;
     color: var(--color-text);
+    font-size: 1.35rem;
+    font-weight: 700;
   }
 
   .guia-card__status {
     color: var(--color-text-secondary);
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 600;
   }
 
-  @media (max-width: 768px) {
-    .tienda__grid {
-      grid-template-columns: 1fr;
-    }
-  }
-
   @media (max-width: 480px) {
-    .guia-card__footer {
-      align-items: stretch;
-      flex-direction: column;
-      gap: var(--spacing-md);
+    .guia-card__body {
+      padding: var(--spacing-md);
     }
 
-    .guia-card__availability {
-      flex-direction: row;
-      align-items: baseline;
-      gap: var(--spacing-sm);
+    .guia-card__footer {
+      padding: var(--spacing-md);
     }
   }
 </style>

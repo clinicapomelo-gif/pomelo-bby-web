@@ -9,7 +9,9 @@
       "Regurgitaciones y otras dudas de los primeros días"
     ],
     "amountCents": 499,
+    "pageCount": 5,
     "status": "available",
+    "kind": "practical",
     "category": "salud",
     "stripe": {
       "test": {
@@ -33,7 +35,9 @@
       "Cómo descongelar y transportar la leche"
     ],
     "amountCents": 0,
+    "pageCount": 3,
     "status": "free",
+    "kind": "practical",
     "category": "alimentacion",
     "leadMagnetUrl": "/api/guias/gratis?id=conservacion-leche-materna",
     "stripe": {
@@ -55,7 +59,9 @@
       "Indicaciones y recomendaciones de uso"
     ],
     "amountCents": 399,
+    "pageCount": 2,
     "status": "available",
+    "kind": "practical",
     "category": "salud",
     "stripe": {
       "test": {
@@ -76,7 +82,9 @@
       "Seguridad, alérgenos y dudas habituales de las familias"
     ],
     "amountCents": 1799,
+    "pageCount": 81,
     "status": "available",
+    "kind": "complete",
     "category": "alimentacion",
     "stripe": {
       "test": {

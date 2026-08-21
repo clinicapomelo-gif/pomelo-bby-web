@@ -9,6 +9,7 @@ import {
 } from './guide-logic.mjs';
 
 export type GuiaStatus = 'free' | 'coming-soon' | 'testing' | 'available' | 'archived';
+export type GuiaKind = 'practical' | 'complete';
 export type StripeMode = 'test' | 'live';
 
 export interface GuiaStripeMapping {
@@ -24,7 +25,9 @@ export interface Guia {
   description: string;
   benefits?: string[];
   amountCents: number;
+  pageCount: number;
   status: GuiaStatus;
+  kind: GuiaKind;
   category: string;
   leadMagnetUrl?: string;
   stripe: Partial<Record<StripeMode, GuiaStripeMapping>>;
@@ -41,6 +44,9 @@ export const formatGuiaPrice = (price: number) =>
 
 export const formatGuiaCategory = (category: string) =>
   category === 'alimentacion' ? 'Alimentación' : `${category.charAt(0).toUpperCase()}${category.slice(1)}`;
+
+export const formatGuiaKind = (kind: GuiaKind) =>
+  kind === 'complete' ? 'Guía completa' : 'Guía rápida';
 
 export const getStripeMode = (
   key: string | undefined,

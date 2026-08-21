@@ -14,9 +14,11 @@ import {
 } from '../src/data/guide-logic.mjs';
 
 export const GUIDE_CATEGORIES = ['alimentacion', 'sueño', 'salud', 'desarrollo', 'crianza'];
+export const GUIDE_KINDS = ['practical', 'complete'];
 export const GUIDE_STATUSES = ['free', 'coming-soon', 'testing', 'available', 'archived'];
 export const GUIDE_BENEFITS_COUNT = 3;
 export const MAX_BENEFIT_LENGTH = 200;
+export const MAX_GUIDE_PAGE_COUNT = 2_000;
 export {
   MAX_BLOB_KEY_LENGTH,
   MAX_DESCRIPTION_LENGTH,
@@ -117,8 +119,12 @@ export function validateCatalog(catalog) {
         benefit.length < 3 ||
         benefit.length > MAX_BENEFIT_LENGTH)
     ) throw new Error(`${path}.benefits debe contener tres beneficios válidos.`);
+    if (!GUIDE_KINDS.includes(guia.kind)) throw new Error(`${path}.kind no es válido.`);
     if (!GUIDE_CATEGORIES.includes(guia.category)) throw new Error(`${path}.category no es válida.`);
     if (!GUIDE_STATUSES.includes(guia.status)) throw new Error(`${path}.status no es válido.`);
+    if (!Number.isSafeInteger(guia.pageCount) || guia.pageCount < 1 || guia.pageCount > MAX_GUIDE_PAGE_COUNT) {
+      throw new Error(`${path}.pageCount no es válido.`);
+    }
     if (!Number.isSafeInteger(guia.amountCents) || guia.amountCents < 0 || guia.amountCents > MAX_PAID_AMOUNT_CENTS) {
       throw new Error(`${path}.amountCents no es válido.`);
     }
@@ -153,6 +159,8 @@ export function validateCatalog(catalog) {
 const sameCopy = (existing, guide) =>
   existing.title === guide.title &&
   existing.description === guide.description &&
+  existing.kind === guide.kind &&
+  existing.pageCount === guide.pageCount &&
   existing.category === guide.category &&
   JSON.stringify(existing.benefits) === JSON.stringify(guide.benefits);
 

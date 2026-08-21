@@ -22,7 +22,7 @@ En Vercel se prioriza OIDC para no mantener una credencial Blob de larga duraci�
 
 ## Provisionar una guía nueva
 
-La fuente editable es `src/data/guias.json`; `src/data/guias.ts` solo expone el catálogo a la aplicación. La automatización no extrae ni inventa contenido sanitario del PDF: solicita título, categoría, descripción, tres beneficios aprobados y precio.
+La fuente editable es `src/data/guias.json`; `src/data/guias.ts` solo expone el catálogo a la aplicación. La automatización no extrae ni inventa contenido sanitario del PDF: solicita título, tipo (`practical` o `complete`), número de páginas, categoría, descripción, tres beneficios aprobados y precio.
 
 Configurar una clave restringida `rk_test_` como `STRIPE_CATALOG_KEY` únicamente en Vercel Development. Después ejecutar primero el dry-run:
 

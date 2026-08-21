@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import {
   formatGuiaCategory,
+  formatGuiaKind,
   formatGuiaPrice,
   getGuiaPrice,
   getStripeMode,
@@ -30,12 +31,19 @@ const canCheckout = isGuiaPurchasable(guia, stripeMode);
 
       <div class="producto__grid">
         <div class="producto__info">
-          <span class="producto__category">{formatGuiaCategory(guia.category)}</span>
+          <div class="producto__tags">
+            <span class={`producto__kind producto__kind--${guia.kind}`}>{formatGuiaKind(guia.kind)}</span>
+            <span class="producto__category">{formatGuiaCategory(guia.category)}</span>
+          </div>
           <h1 class="producto__title">{guia.title}</h1>
+          <p class="producto__facts">
+            <span>{guia.pageCount} páginas</span>
+            <span>{guia.kind === 'complete' ? 'Ebook' : 'PDF'}</span>
+          </p>
           <p class="producto__description">{guia.description}</p>
 
           {guia.benefits && (
-            <ul class="producto__benefits" aria-label="Qué aprenderás con esta guía">
+            <ul class="producto__benefits" aria-label="Qué encontrarás dentro">
               {guia.benefits.map((benefit) => <li>{benefit}</li>)}
             </ul>
           )}
@@ -53,25 +61,29 @@ const canCheckout = isGuiaPurchasable(guia, stripeMode);
 
             {guia.status === 'free' && (
               <div class="producto__action">
-                <p class="producto__entrega">Un recurso gratuito para acompañarte con información clara.</p>
+                <p class="producto__entrega">Una guía rápida gratuita para consultar cuando la necesites.</p>
                 <a href={guia.leadMagnetUrl} class="btn btn--primary btn--full">
-                  Obtener la guía gratis
+                  Descargar PDF gratis
                 </a>
               </div>
             )}
 
             {canCheckout && (
               <div class="producto__action">
-                <p class="producto__entrega">Comprarás un PDF y recibirás por email un enlace de descarga disponible durante 30 días.</p>
+                <p class="producto__entrega">
+                  {guia.kind === 'complete'
+                    ? 'Recibirás por email esta guía completa en PDF, con un enlace de descarga disponible durante 30 días.'
+                    : 'Recibirás por email esta guía rápida en PDF, con un enlace de descarga disponible durante 30 días.'}
+                </p>
                 <form id="checkout-form" method="POST" action="/api/checkout">
                   <input type="hidden" name="guiaId" value={guia.id} />
                   <button id="btn-comprar" type="submit" class="btn btn--primary btn--full">
-                    Comprar y recibir por email
+                    {guia.kind === 'complete' ? 'Comprar la guía completa' : 'Comprar la guía rápida'}
                   </button>
                 </form>
                 <ul class="producto__garantias">
                   <li>✓ Pago seguro con Stripe</li>
-                  <li>✓ Descarga en PDF</li>
+                  <li>✓ Guía descargable en PDF</li>
                   <li>✓ Si pierdes el enlace, escríbeme y revisamos tu compra</li>
                 </ul>
               </div>
@@ -79,7 +91,7 @@ const canCheckout = isGuiaPurchasable(guia, stripeMode);
 
             {guia.status !== 'free' && !canCheckout && (
               <div class="producto__action">
-                <p class="producto__entrega">Esta guía todavía se está preparando.</p>
+                <p class="producto__entrega">Este recurso todavía se está preparando.</p>
                 <span class="btn btn--disabled btn--full" aria-disabled="true">Próximamente</span>
               </div>
             )}
@@ -95,6 +107,7 @@ const canCheckout = isGuiaPurchasable(guia, stripeMode);
   const button = document.querySelector<HTMLButtonElement>('#btn-comprar');
 
   if (form && button) {
+    const buttonLabel = button.textContent;
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
       button.textContent = 'Redirigiendo...';
@@ -114,7 +127,7 @@ const canCheckout = isGuiaPurchasable(guia, stripeMode);
 
         throw new Error(data.error || 'No se pudo iniciar el pago.');
       } catch (error) {
-        button.textContent = 'Comprar ahora';
+        button.textContent = buttonLabel;
         button.disabled = false;
         alert(error instanceof Error ? error.message : 'Ha ocurrido un error. Por favor, inténtalo de nuevo.');
       }
@@ -147,23 +160,60 @@ const canCheckout = isGuiaPurchasable(guia, stripeMode);
     align-items: start;
   }
 
+  .producto__tags {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .producto__kind,
   .producto__category {
-    font-size: 0.75rem;
-    font-weight: 600;
+    font-size: 0.7rem;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-coral-text);
-    background-color: var(--color-peach);
-    padding: 0.2rem 0.6rem;
+  }
+
+  .producto__kind {
+    padding: 0.25rem 0.65rem;
     border-radius: 999px;
-    display: inline-block;
-    margin-bottom: var(--spacing-md);
+  }
+
+  .producto__kind--practical {
+    color: var(--color-coral-hover);
+    background-color: var(--color-peach);
+  }
+
+  .producto__kind--complete {
+    color: var(--color-white);
+    background-color: var(--color-coral-hover);
+  }
+
+  .producto__category {
+    color: var(--color-text-secondary);
   }
 
   .producto__title {
     font-size: 2rem;
     line-height: 1.25;
     margin-bottom: var(--spacing-md);
+  }
+
+  .producto__facts {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin: calc(var(--spacing-md) * -0.5) 0 var(--spacing-md);
+    color: var(--color-coral-hover);
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+
+  .producto__facts span + span::before {
+    content: '·';
+    margin-right: var(--spacing-sm);
+    color: var(--color-peach);
   }
 
   .producto__description {

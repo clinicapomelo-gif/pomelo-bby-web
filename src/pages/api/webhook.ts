@@ -128,16 +128,17 @@ export const POST: APIRoute = async ({ request }) => {
       timeZone: 'Europe/Madrid',
     }).format(new Date(expiresAt * 1000));
     const resend = new Resend(resendKey);
+    const downloadLabel = guia.kind === 'complete' ? 'Descargar la guía en PDF' : 'Descargar el PDF';
     const { data, error } = await resend.emails.send(
       {
         from: sender,
         to: customerEmail,
-        subject: `Tu guía «${guia.title}» ya está lista`,
+        subject: `Ya puedes descargar «${guia.title}»`,
         text: `Hola,\n\nGracias por confiar en Pomelo Baby. Ya puedes descargar «${guia.title}»:\n${downloadURL.toString()}\n\nEl enlace estará disponible hasta el ${expirationDate}.\n\nSi tienes cualquier problema con la descarga, escríbeme desde la página de contacto y lo solucionamos.\n\nMar · Pomelo Baby`,
         html: `
           <p>Hola,</p>
           <p>Gracias por confiar en Pomelo Baby. Ya puedes descargar <strong>${guia.title}</strong>.</p>
-          <p><a href="${downloadURL.toString()}">Descargar mi guía</a></p>
+          <p><a href="${downloadURL.toString()}">${downloadLabel}</a></p>
           <p>El enlace estará disponible hasta el ${expirationDate}.</p>
           <p>Si tienes cualquier problema con la descarga, <a href="${new URL('/contacto', siteURL).toString()}">escríbeme</a> y lo solucionamos.</p>
           <p>Mar · Pomelo Baby</p>

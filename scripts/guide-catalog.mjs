@@ -10,8 +10,10 @@ import { BlobNotFoundError, get, put } from '@vercel/blob';
 import {
   GUIDE_BENEFITS_COUNT,
   GUIDE_CATEGORIES,
+  GUIDE_KINDS,
   MAX_BENEFIT_LENGTH,
   MAX_DESCRIPTION_LENGTH,
+  MAX_GUIDE_PAGE_COUNT,
   MAX_SLUG_LENGTH,
   MAX_TITLE_LENGTH,
   assertProvisionAllowed,
@@ -42,7 +44,7 @@ function parseArgs(argv) {
     else if (argument === '--yes') options.yes = true;
     else if (argument.startsWith('--')) {
       const name = argument.slice(2);
-      if (!['pdf', 'title', 'slug', 'category', 'description', 'price', 'benefit1', 'benefit2', 'benefit3'].includes(name)) fail(`Opción desconocida: --${name}`);
+      if (!['pdf', 'title', 'slug', 'kind', 'pages', 'category', 'description', 'price', 'benefit1', 'benefit2', 'benefit3'].includes(name)) fail(`Opción desconocida: --${name}`);
       const value = argv[index += 1];
       if (!value || value.startsWith('--')) fail(`Falta el valor de --${name}.`);
       options[name] = value;
@@ -224,6 +226,9 @@ async function provision(args, rl) {
     existing?.title ?? proposedTitle,
   );
   title = title.trim();
+  const kind = (options.kind ?? await ask(rl, `Tipo (${GUIDE_KINDS.join(', ')})`, existing?.kind ?? '')).trim();
+  const pageCountText = (options.pages ?? await ask(rl, 'Número de páginas', existing?.pageCount ? String(existing.pageCount) : '')).trim();
+  const pageCount = /^\d+$/.test(pageCountText) ? Number(pageCountText) : 0;
   const category = (options.category ?? await ask(rl, `Categoría (${GUIDE_CATEGORIES.join(', ')})`, existing?.category ?? '')).trim();
   const description = (options.description ?? await ask(rl, 'Descripción aprobada (no se extrae del PDF)', existing?.description ?? '')).trim();
   const benefits = [];
@@ -243,13 +248,15 @@ async function provision(args, rl) {
     description.length < 10 || description.length > MAX_DESCRIPTION_LENGTH ||
     benefits.some((benefit) => benefit.length < 3 || benefit.length > MAX_BENEFIT_LENGTH) ||
     slug.length > MAX_SLUG_LENGTH ||
+    !GUIDE_KINDS.includes(kind) ||
+    !Number.isSafeInteger(pageCount) || pageCount < 1 || pageCount > MAX_GUIDE_PAGE_COUNT ||
     !GUIDE_CATEGORIES.includes(category)
-  ) fail('Título, slug, categoría, descripción o beneficios no son válidos.');
+  ) fail('Título, slug, tipo, páginas, categoría, descripción o beneficios no son válidos.');
 
   const sha256 = pdfSha256(pdf);
   // Existing paid guides retain their exact legacy pathname, including Unicode normalization.
   const blobKey = existing?.blobKey ?? `guias/${slug}/${sha256}.pdf`;
-  const guideInput = { id: slug, title, description, benefits, category, blobKey, stripe: {}, amountCents, status: 'testing' };
+  const guideInput = { id: slug, title, description, benefits, kind, pageCount, category, blobKey, stripe: {}, amountCents, status: 'testing' };
   try { assertProvisionAllowed(existing, guideInput, amountCents); }
   catch (error) { fail(error instanceof Error ? error.message : 'La guía no se puede provisionar.'); }
 
@@ -272,7 +279,7 @@ async function provision(args, rl) {
     defaultPriceId(reconciliation.product) !== existing.stripe.test.priceId
   )) fail('La guía existente no coincide exactamente con Stripe test. Usa guide:price o resuelve la discrepancia manualmente.');
 
-  console.log(`Resumen: archivo ${JSON.stringify(basename(pdfPath))}; título ${JSON.stringify(title)}; slug ${slug}; categoría ${category}; precio ${(amountCents / 100).toFixed(2)} EUR.`);
+  console.log(`Resumen: archivo ${JSON.stringify(basename(pdfPath))}; título ${JSON.stringify(title)}; slug ${slug}; tipo ${kind}; páginas ${pageCount}; categoría ${category}; precio ${(amountCents / 100).toFixed(2)} EUR.`);
   console.log(exactRerun
     ? 'Plan: verificar una repetición exacta sin cambiar PDF, Product, Price ni catálogo.'
     : `Plan: ${blobExists ? 'reutilizar' : 'subir'} PDF privado; ${reconciliation.product ? 'reutilizar' : 'crear'} Product test; ${exactPrice ? 'reutilizar' : 'crear'} Price test; actualizar catálogo.`);
