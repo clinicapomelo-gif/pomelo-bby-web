@@ -35,7 +35,7 @@ const canCheckout = isGuiaPurchasable(guia, stripeMode);
         <div class="producto__info">
           <div class="producto__tags">
             <span class={`producto__kind producto__kind--${guia.kind}`}>
-              <span class="producto__kind-icon" aria-hidden="true">{guia.kind === 'complete' ? '★' : 'ϟ'}</span>
+              <span class="producto__kind-icon" aria-hidden="true">{guia.kind === 'complete' ? '★' : '⚡︎'}</span>
               {formatGuiaKind(guia.kind)}
             </span>
             <span class="producto__category">{formatGuiaCategory(guia.category)}</span>
@@ -205,6 +205,10 @@ const canCheckout = isGuiaPurchasable(guia, stripeMode);
     color: var(--color-coral);
     font-size: 1rem;
     line-height: 1;
+  }
+
+  .producto__kind--complete .producto__kind-icon {
+    font-size: 1.2rem;
   }
 
   .producto__category {

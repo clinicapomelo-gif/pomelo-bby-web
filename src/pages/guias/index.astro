@@ -36,7 +36,7 @@ const visibleGuias = guias
             <div class="guia-card__body">
               <div class="guia-card__tags">
                 <span class={`guia-card__kind guia-card__kind--${guia.kind}`}>
-                  <span class="guia-card__kind-icon" aria-hidden="true">{guia.kind === 'complete' ? '★' : 'ϟ'}</span>
+                  <span class="guia-card__kind-icon" aria-hidden="true">{guia.kind === 'complete' ? '★' : '⚡︎'}</span>
                   {formatGuiaKind(guia.kind)}
                 </span>
                 <span class="guia-card__category">{formatGuiaCategory(guia.category)}</span>
@@ -147,6 +147,10 @@ const visibleGuias = guias
     color: var(--color-coral);
     font-size: 1rem;
     line-height: 1;
+  }
+
+  .guia-card__kind--complete .guia-card__kind-icon {
+    font-size: 1.2rem;
   }
 
   .guia-card__category {
