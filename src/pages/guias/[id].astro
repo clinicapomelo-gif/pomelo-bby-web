@@ -32,7 +32,10 @@ const canCheckout = isGuiaPurchasable(guia, stripeMode);
       <div class="producto__grid">
         <div class="producto__info">
           <div class="producto__tags">
-            <span class={`producto__kind producto__kind--${guia.kind}`}>{formatGuiaKind(guia.kind)}</span>
+            <span class={`producto__kind producto__kind--${guia.kind}`}>
+              <span class="producto__kind-icon" aria-hidden="true">{guia.kind === 'complete' ? '★' : 'ϟ'}</span>
+              {formatGuiaKind(guia.kind)}
+            </span>
             <span class="producto__category">{formatGuiaCategory(guia.category)}</span>
           </div>
           <h1 class="producto__title">{guia.title}</h1>
@@ -170,6 +173,7 @@ const canCheckout = isGuiaPurchasable(guia, stripeMode);
 
   .producto__kind,
   .producto__category {
+    border-radius: 999px;
     font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -177,22 +181,34 @@ const canCheckout = isGuiaPurchasable(guia, stripeMode);
   }
 
   .producto__kind {
-    padding: 0.25rem 0.65rem;
-    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: 0.45rem 0.8rem;
   }
 
   .producto__kind--practical {
+    border: 1px solid var(--color-peach);
     color: var(--color-coral-hover);
-    background-color: var(--color-peach);
+    background-color: var(--color-nude);
   }
 
   .producto__kind--complete {
-    color: var(--color-white);
-    background-color: var(--color-coral-hover);
+    border: 2px solid var(--color-coral);
+    color: var(--color-coral-hover);
+    background-color: var(--color-white);
+  }
+
+  .producto__kind-icon {
+    color: var(--color-coral);
+    font-size: 1rem;
+    line-height: 1;
   }
 
   .producto__category {
-    color: var(--color-text-secondary);
+    padding: 0.25rem 0.65rem;
+    color: var(--color-coral-hover);
+    background-color: var(--color-peach);
   }
 
   .producto__title {

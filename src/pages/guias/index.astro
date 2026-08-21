@@ -137,12 +137,13 @@ const visibleGuias = guias
   }
 
   .guia-card__kind--complete {
-    color: var(--color-white);
-    background-color: var(--color-coral-hover);
+    border: 2px solid var(--color-coral);
+    color: var(--color-coral-hover);
+    background-color: var(--color-white);
   }
 
   .guia-card__kind-icon {
-    color: inherit;
+    color: var(--color-coral);
     font-size: 1rem;
     line-height: 1;
   }
@@ -206,6 +207,10 @@ const visibleGuias = guias
     color: var(--color-text-secondary);
     font-size: 0.78rem;
     font-weight: 600;
+  }
+
+  .guia-card .btn--secondary {
+    color: var(--color-coral-hover);
   }
 
   @media (max-width: 480px) {
