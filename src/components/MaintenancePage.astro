@@ -1,7 +1,6 @@
 <main class="maintenance">
   <section class="maintenance__card" aria-labelledby="maintenance-title">
-    <img src="/logo-pomelo.webp" alt="" width="192" height="192" />
-    <p class="maintenance__brand">Pomelo Baby</p>
+    <img src="/logo-pomelo-vertical.webp" alt="Pomelo Baby" width="429" height="520" />
     <h1 id="maintenance-title">Estamos poniendo todo a punto</h1>
     <p>Esta web todavía está un poco en pañales. Sí, el chiste era inevitable.</p>
     <p>Estoy preparando un espacio con información clara, práctica y sin juicios sobre salud infantil y crianza.</p>
@@ -31,16 +30,9 @@
   }
 
   img {
-    width: 5rem;
-    height: 5rem;
-    margin: 0 auto var(--spacing-sm);
-    border-radius: var(--radius-sm);
-  }
-
-  .maintenance__brand {
-    margin-bottom: var(--spacing-lg);
-    color: var(--color-coral-text);
-    font-weight: 700;
+    width: min(13rem, 60vw);
+    height: auto;
+    margin: 0 auto var(--spacing-lg);
   }
 
   h1 {

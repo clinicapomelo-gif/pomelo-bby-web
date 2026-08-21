@@ -39,7 +39,8 @@ const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/webp" href="/logo-pomelo.webp" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" />
@@ -62,7 +63,7 @@ const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
     <header class="header">
       <nav class="container nav">
         <a href="/" class="nav__logo" aria-label="Inicio — Pomelo Baby">
-          <img src="/logo-pomelo.webp" alt="" width="192" height="192" />
+          <img src="/isotipo-pomelo.webp" alt="" width="135" height="160" />
           <span>Pomelo Baby</span>
         </a>
         <button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-links">
@@ -168,13 +169,12 @@ const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
         <div class="footer__brand">
           <img
             class="footer__logo"
-            src="/logo-pomelo-bby.webp"
-            alt="Pomelo Baby — Criar sin culpa"
+            src="/logo-pomelo-completo.webp"
+            alt="Pomelo Baby — Criar con criterio"
             width="640"
-            height="640"
+            height="396"
             loading="lazy"
           />
-          <p class="footer__tagline">Te guio en la salud y crianza de tus hijos.</p>
         </div>
         <div class="footer__social">
           <a href="https://instagram.com/pomelo.bby" target="_blank" rel="noopener noreferrer">Instagram</a>
@@ -251,9 +251,10 @@ const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
   }
 
   .nav__logo img {
-    width: 3rem;
+    width: auto;
     height: 3rem;
-    border-radius: var(--radius-sm);
+    object-fit: contain;
+    transform: translateY(-0.2rem);
   }
 
   .nav__links {
@@ -319,11 +320,6 @@ const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
   .footer__logo {
     width: min(18rem, 80vw);
     height: auto;
-  }
-
-  .footer__tagline {
-    color: var(--color-text-secondary);
-    font-size: 0.85rem;
   }
 
   .footer__social {
