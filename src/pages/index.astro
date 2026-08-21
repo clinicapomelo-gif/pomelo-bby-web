@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import LeadMagnetForm from '../components/LeadMagnetForm.astro';
+import { CONSULTATIONS_ENABLED } from '../data/consultas';
 
 // Get published blog posts, sorted by date (newest first)
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
@@ -79,7 +80,7 @@ const categoryLabels: Record<string, string> = {
             <p class="home-consultations__description">Me cuentas qué está pasando y te respondo por escrito para ayudarte a entenderlo y saber cuál puede ser el siguiente paso.</p>
             <p class="home-consultations__detail">Respuesta en 24-48 horas laborables</p>
             <div class="home-consultations__card-footer">
-              <strong>19 €</strong>
+              <strong>{CONSULTATIONS_ENABLED ? '19 €' : 'Próximamente'}</strong>
               <span>Ver detalles <span aria-hidden="true">→</span></span>
             </div>
           </a>
@@ -95,7 +96,7 @@ const categoryLabels: Record<string, string> = {
             <p class="home-consultations__description">Reservas una videollamada, nos centramos en una situación y terminamos con las preguntas resueltas y las ideas más claras.</p>
             <p class="home-consultations__detail">Eliges el día y la hora</p>
             <div class="home-consultations__card-footer">
-              <strong>49 €</strong>
+              <strong>{CONSULTATIONS_ENABLED ? '49 €' : 'Próximamente'}</strong>
               <span>Ver detalles <span aria-hidden="true">→</span></span>
             </div>
           </a>
@@ -111,7 +112,7 @@ const categoryLabels: Record<string, string> = {
             <p class="home-consultations__description">Para situaciones con varias piezas: una consulta más amplia, un plan personalizado y seguimiento durante 14 días.</p>
             <p class="home-consultations__detail">Plan y recursos incluidos</p>
             <div class="home-consultations__card-footer">
-              <strong>89 €</strong>
+              <strong>{CONSULTATIONS_ENABLED ? '89 €' : 'Próximamente'}</strong>
               <span>Ver detalles <span aria-hidden="true">→</span></span>
             </div>
           </a>

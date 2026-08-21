@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import Stripe from 'stripe';
+import { CONSULTATIONS_ENABLED } from '../../data/consultas';
 import {
   CONSULTATION_PAYMENT_METHOD_TYPES,
   canCreateConsultationCheckout,
@@ -13,9 +14,9 @@ export const prerender = false;
 export const POST: APIRoute = async ({ request }) => {
   const stripeKey = import.meta.env.STRIPE_SECRET_KEY;
   const stripeMode = getConsultationStripeMode(stripeKey, process.env.VERCEL_ENV);
-  if (!stripeKey || !canCreateConsultationCheckout(stripeMode)) {
+  if (!CONSULTATIONS_ENABLED || !stripeKey || !canCreateConsultationCheckout(stripeMode)) {
     return new Response(
-      JSON.stringify({ error: 'Stripe no está configurado todavía.' }),
+      JSON.stringify({ error: 'Las consultas estarán disponibles próximamente.' }),
       { status: 503, headers: { 'Content-Type': 'application/json' } }
     );
   }

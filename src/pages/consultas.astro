@@ -1,5 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { CONSULTATIONS_ENABLED } from '../data/consultas';
+
+const CAL_USERNAME = 'pomelo-bby';
+const CAL_EXPRESS_SLUG = 'consulta-express';
+const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
 ---
 
 <Layout title="Consultas" description="Consultas de enfermería infantil con Mar. Resuelve tus dudas de crianza y alimentación con acompañamiento profesional.">
@@ -22,7 +27,9 @@ import Layout from '../layouts/Layout.astro';
               <p class="consulta-card__aside">(Esta sería el equivalente a cuando una amiga me escribe por WhatsApp: «Mar, mira, ha hecho esta caca súper rara, ¿pasa algo?»).</p>
             </div>
             <div class="consulta-card__summary-right">
-              <span class="consulta-card__price">19 €</span>
+              <span class={CONSULTATIONS_ENABLED ? 'consulta-card__price' : 'consulta-card__status'}>
+                {CONSULTATIONS_ENABLED ? '19 €' : 'Próximamente'}
+              </span>
               <span class="consulta-card__chevron" aria-hidden="true">▾</span>
             </div>
           </summary>
@@ -55,7 +62,11 @@ import Layout from '../layouts/Layout.astro';
               <li class="checklist--yes">La tranquilidad de poder releer la respuesta siempre que la necesitéis.</li>
             </ul>
             <div class="consulta-card__footer">
-              <span class="btn btn--disabled" aria-disabled="true">Próximamente</span>
+              {CONSULTATIONS_ENABLED ? (
+                <button class="btn btn--primary" id="btn-consulta-mensaje">Consultar por correo</button>
+              ) : (
+                <span class="btn btn--disabled" aria-disabled="true">Próximamente</span>
+              )}
             </div>
           </div>
         </details>
@@ -69,7 +80,9 @@ import Layout from '../layouts/Layout.astro';
               <p class="consulta-card__aside">(Esta sería como decirme: «Mar, llámame cuando puedas, que me pasa una cosa con el niño o la niña y necesito preguntarte varias cosas»).</p>
             </div>
             <div class="consulta-card__summary-right">
-              <span class="consulta-card__price">49 €</span>
+              <span class={CONSULTATIONS_ENABLED ? 'consulta-card__price' : 'consulta-card__status'}>
+                {CONSULTATIONS_ENABLED ? '49 €' : 'Próximamente'}
+              </span>
               <span class="consulta-card__chevron" aria-hidden="true">▾</span>
             </div>
           </summary>
@@ -99,7 +112,11 @@ import Layout from '../layouts/Layout.astro';
               <li class="checklist--yes">Orientación práctica, realista y adaptada a vuestra familia.</li>
             </ul>
             <div class="consulta-card__footer">
-              <span class="btn btn--disabled" aria-disabled="true">Próximamente</span>
+              {CONSULTATIONS_ENABLED ? (
+                <button data-cal-link={`${CAL_USERNAME}/${CAL_EXPRESS_SLUG}`} data-cal-config='{"layout":"month_view"}' class="btn btn--primary">Reservar duda concreta</button>
+              ) : (
+                <span class="btn btn--disabled" aria-disabled="true">Próximamente</span>
+              )}
             </div>
           </div>
         </details>
@@ -113,7 +130,9 @@ import Layout from '../layouts/Layout.astro';
               <p class="consulta-card__aside">(Esta sería como decirme: «Mar, ¿nos tomamos un café? Estoy agotado/a con este tema»).</p>
             </div>
             <div class="consulta-card__summary-right">
-              <span class="consulta-card__price">89 €</span>
+              <span class={CONSULTATIONS_ENABLED ? 'consulta-card__price' : 'consulta-card__status'}>
+                {CONSULTATIONS_ENABLED ? '89 €' : 'Próximamente'}
+              </span>
               <span class="consulta-card__chevron" aria-hidden="true">▾</span>
             </div>
           </summary>
@@ -151,7 +170,11 @@ import Layout from '../layouts/Layout.astro';
               <li class="checklist--yes">Ajustes del plan según la evolución.</li>
             </ul>
             <div class="consulta-card__footer">
-              <span class="btn btn--disabled" aria-disabled="true">Próximamente</span>
+              {CONSULTATIONS_ENABLED ? (
+                <button data-cal-link={`${CAL_USERNAME}/${CAL_PERSONALIZADA_SLUG}`} data-cal-config='{"layout":"month_view"}' class="btn btn--primary">Reservar consulta</button>
+              ) : (
+                <span class="btn btn--disabled" aria-disabled="true">Próximamente</span>
+              )}
             </div>
           </div>
         </details>
@@ -174,6 +197,35 @@ import Layout from '../layouts/Layout.astro';
 
     openConsultationFromHash();
     window.addEventListener('hashchange', openConsultationFromHash);
+  </script>
+
+  <!-- Los botones se renderizan solo al activar las consultas. -->
+  <script is:inline>
+    if (document.querySelector('[data-cal-link]')) {
+      (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+      Cal("init", {origin:"https://cal.com"});
+      Cal("ui", {"styles":{"branding":{"brandColor":"#EF6E71"}},"hideEventTypeDetails":false,"layout":"month_view","locale":"es"});
+    }
+  </script>
+
+  <script>
+    document.getElementById('btn-consulta-mensaje')?.addEventListener('click', async () => {
+      const btn = document.getElementById('btn-consulta-mensaje');
+      if (btn) btn.textContent = 'Procesando...';
+      try {
+        const res = await fetch('/api/checkout-consulta', { method: 'POST' });
+        const data = await res.json();
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          alert(data.error || 'Error al crear el pago. Inténtalo de nuevo.');
+          if (btn) btn.textContent = 'Consultar por correo';
+        }
+      } catch {
+        alert('Error de conexión. Inténtalo de nuevo.');
+        if (btn) btn.textContent = 'Consultar por correo';
+      }
+    });
   </script>
 
 </Layout>
@@ -273,6 +325,13 @@ import Layout from '../layouts/Layout.astro';
     font-size: 1.6rem;
     font-weight: 700;
     color: var(--color-text);
+    white-space: nowrap;
+  }
+
+  .consulta-card__status {
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    font-weight: 700;
     white-space: nowrap;
   }
 
