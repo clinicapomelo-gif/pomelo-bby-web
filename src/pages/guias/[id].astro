@@ -7,6 +7,7 @@ import {
   getGuiaPrice,
   getStripeMode,
   guias,
+  isFreeGuiaDownloadEnabled,
   isGuiaPurchasable,
   isGuiaVisible,
 } from '../../data/guias';
@@ -21,6 +22,7 @@ export function getStaticPaths() {
 
 const stripeMode = getStripeMode(import.meta.env.STRIPE_SECRET_KEY);
 const { guia } = Astro.props;
+const canDownloadFree = isFreeGuiaDownloadEnabled(guia);
 const canCheckout = isGuiaPurchasable(guia, stripeMode);
 ---
 
@@ -62,7 +64,7 @@ const canCheckout = isGuiaPurchasable(guia, stripeMode);
               {formatGuiaPrice(getGuiaPrice(guia, stripeMode))}
             </p>
 
-            {guia.status === 'free' && (
+            {canDownloadFree && (
               <div class="producto__action">
                 <p class="producto__entrega">Una guía rápida gratuita para consultar cuando la necesites.</p>
                 <a href={guia.leadMagnetUrl} class="btn btn--primary btn--full">
@@ -92,7 +94,7 @@ const canCheckout = isGuiaPurchasable(guia, stripeMode);
               </div>
             )}
 
-            {guia.status !== 'free' && !canCheckout && (
+            {!canDownloadFree && !canCheckout && (
               <div class="producto__action">
                 <p class="producto__entrega">Este recurso todavía se está preparando.</p>
                 <span class="btn btn--disabled btn--full" aria-disabled="true">Próximamente</span>

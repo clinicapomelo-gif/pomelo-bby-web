@@ -27,6 +27,7 @@ export interface Guia {
   amountCents: number;
   pageCount: number;
   status: GuiaStatus;
+  downloadEnabled?: boolean;
   kind: GuiaKind;
   category: string;
   leadMagnetUrl?: string;
@@ -64,6 +65,9 @@ export const getGuiaPrice = (guia: Guia, mode: StripeMode | undefined) =>
 
 export const isGuiaVisible = (guia: Guia, mode: StripeMode | undefined) =>
   checkVisibility(guia, mode) as boolean;
+
+export const isFreeGuiaDownloadEnabled = (guia: Guia) =>
+  guia.status === 'free' && guia.downloadEnabled !== false;
 
 export const isGuiaPurchasable = (
   guia: Guia,

@@ -7,6 +7,7 @@ import {
   getGuiaPrice,
   getStripeMode,
   guias,
+  isFreeGuiaDownloadEnabled,
   isGuiaPurchasable,
   isGuiaVisible,
 } from '../../data/guias';
@@ -54,7 +55,7 @@ const visibleGuias = guias
                   {guia.status === 'free' ? 'Gratis' : formatGuiaPrice(getGuiaPrice(guia, stripeMode))}
                 </span>
                 <span class="guia-card__status">
-                  {guia.status === 'free'
+                  {isFreeGuiaDownloadEnabled(guia)
                     ? 'Descarga en PDF'
                     : isGuiaPurchasable(guia, stripeMode) ? 'Disponible ahora' : 'Próximamente'}
                 </span>

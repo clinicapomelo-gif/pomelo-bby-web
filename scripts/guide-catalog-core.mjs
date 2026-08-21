@@ -122,6 +122,9 @@ export function validateCatalog(catalog) {
     if (!GUIDE_KINDS.includes(guia.kind)) throw new Error(`${path}.kind no es válido.`);
     if (!GUIDE_CATEGORIES.includes(guia.category)) throw new Error(`${path}.category no es válida.`);
     if (!GUIDE_STATUSES.includes(guia.status)) throw new Error(`${path}.status no es válido.`);
+    if (guia.downloadEnabled !== undefined && typeof guia.downloadEnabled !== 'boolean') {
+      throw new Error(`${path}.downloadEnabled no es válido.`);
+    }
     if (!Number.isSafeInteger(guia.pageCount) || guia.pageCount < 1 || guia.pageCount > MAX_GUIDE_PAGE_COUNT) {
       throw new Error(`${path}.pageCount no es válido.`);
     }

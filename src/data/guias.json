@@ -37,6 +37,7 @@
     "amountCents": 0,
     "pageCount": 3,
     "status": "free",
+    "downloadEnabled": false,
     "kind": "practical",
     "category": "alimentacion",
     "leadMagnetUrl": "/api/guias/gratis?id=conservacion-leche-materna",

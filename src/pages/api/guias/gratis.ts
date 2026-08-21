@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { get } from '@vercel/blob';
-import { guias } from '../../../data/guias';
+import { guias, isFreeGuiaDownloadEnabled } from '../../../data/guias';
 
 export const prerender = false;
 
@@ -10,11 +10,9 @@ const unavailable = () => new Response('La guía no está disponible temporalmen
 });
 
 export const GET: APIRoute = async ({ url }) => {
-  const guia = guias.find(({ id, status, blobKey }) =>
-    id === url.searchParams.get('id') && status === 'free' && blobKey,
-  );
+  const guia = guias.find(({ id }) => id === url.searchParams.get('id'));
 
-  if (!guia?.blobKey) return unavailable();
+  if (!guia?.blobKey || !isFreeGuiaDownloadEnabled(guia)) return unavailable();
 
   try {
     const result = await get(guia.blobKey, { access: 'private' });
