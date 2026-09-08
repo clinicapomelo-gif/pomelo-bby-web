@@ -42,12 +42,25 @@ npx --yes vercel@latest env run -e development -- npm run guide:price -- <guiaId
 
 La automatización no sustituye PDF existentes ni opera en Stripe live. La activación live continúa siendo manual.
 
+## Actualizar el PDF de una guía
+
+Las revisiones conservan el PDF anterior para no romper compras históricas. `blobKey` identifica la versión actual y `previousBlobKeys` contiene las versiones anteriores, que deben permanecer privadas e inmutables.
+
+Para publicar una revisión:
+
+1. Subir el PDF nuevo con una clave basada en su SHA-256 y sin sobrescribir ningún Blob.
+2. Mover el `blobKey` anterior a `previousBlobKeys` y asignar la clave nueva a `blobKey`.
+3. Validar el catálogo y ejecutar el build.
+4. Probar una compra nueva y la descarga de una sesión anterior.
+
+`guide:provision` no automatiza revisiones. No deben borrarse los Blobs históricos al caducar los 30 días, porque soporte puede ampliar posteriormente una descarga.
+
 ## Flujo y seguridad
 
 - El navegador solo envía `guiaId`; precio, Price ID y PDF se resuelven en servidor según el modo Stripe.
 - El checkout comprueba que el webhook, el correo y el PDF privado están disponibles antes de cobrar.
 - Checkout guarda el Price ID y `blobKey` exactos de la compra; el webhook verifica firma, entorno, pago y línea de compra antes de entregar.
-- Los Price ID anteriores se conservan para no romper descargas históricas.
+- Los Price ID y Blob anteriores se conservan para no romper descargas históricas; no se emparejan por posición, sino mediante la copia exacta guardada en cada compra.
 - Resend usa la sesión como clave de idempotencia y Stripe conserva `deliveryEmailId`, `deliveredAt` y `downloadExpiresAt` en metadata.
 - El correo enlaza a `/api/guias/download`; nunca expone `blobKey`.
 - La descarga vuelve a verificar el pago y caduca 30 días después de crear la sesión, salvo que soporte amplíe `downloadExpiresAt` en Stripe.

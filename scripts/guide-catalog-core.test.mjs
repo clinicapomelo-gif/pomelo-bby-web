@@ -31,6 +31,7 @@ const paidGuide = () => ({
   kind: 'practical',
   category: 'salud',
   blobKey: 'guias/guia-prueba/hash.pdf',
+  previousBlobKeys: ['guias/guia-prueba/hash-anterior.pdf'],
   stripe: {
     test: {
       productId: 'prod_test12345',
@@ -97,6 +98,16 @@ test('valida ruta local, Blob no vacío e importes pagados acotados', () => {
   const tooCheap = paidGuide();
   tooCheap.amountCents = 49;
   assert.throws(() => validateCatalog([tooCheap]), /importe/);
+
+  for (const previousBlobKeys of [
+    [''],
+    ['guias/guia-prueba/hash.pdf'],
+    ['guias/guia-prueba/repetido.pdf', 'guias/guia-prueba/repetido.pdf'],
+  ]) {
+    const invalidHistory = paidGuide();
+    invalidHistory.previousBlobKeys = previousBlobKeys;
+    assert.throws(() => validateCatalog([invalidHistory]), /previousBlobKeys/);
+  }
 });
 
 test('valida que el PDF sea un archivo no vacío con firma correcta', () => {
@@ -180,6 +191,7 @@ test('activa coming-soon solo cuando ficha, importe y recursos están limpios', 
     stripe: {},
   };
   delete coming.blobKey;
+  delete coming.previousBlobKeys;
   const input = { ...provisionInput(coming), blobKey: 'guias/guia-prueba/new.pdf' };
   const next = upsertTestGuide([coming], input, {
     productId: 'prod_test12345', priceId: 'price_new12345', amountCents: 399,
@@ -247,29 +259,30 @@ test('muestra disponibles y limita testing al entorno test configurado', () => {
   assert.equal(isGuiaVisible(free, undefined), true);
 });
 
-test('autoriza Prices actuales o históricos solo con el Blob actual', () => {
+test('autoriza snapshots exactos con Blobs actuales o históricos', () => {
   const guide = paidGuide();
   guide.status = 'archived';
+  const previousBlobKey = guide.previousBlobKeys[0];
 
   assert.equal(
     authorizeGuidePurchase(guide, 'test', 'price_old12345', 'price_old12345', guide.blobKey),
     guide.blobKey,
   );
   assert.equal(
-    authorizeGuidePurchase(guide, 'test', 'price_older12345', 'price_older12345', guide.blobKey),
-    guide.blobKey,
+    authorizeGuidePurchase(guide, 'test', 'price_older12345', 'price_older12345', previousBlobKey),
+    previousBlobKey,
+  );
+  assert.equal(
+    authorizeGuidePurchase(guide, 'test', 'price_old12345', 'price_old12345', previousBlobKey),
+    previousBlobKey,
   );
   assert.equal(authorizeGuidePurchase(guide, 'test', 'price_older12345'), guide.blobKey);
-  assert.equal(
-    authorizeGuidePurchase(guide, 'test', 'price_unknown123', 'price_unknown123', guide.blobKey),
-    undefined,
-  );
-  assert.equal(
-    authorizeGuidePurchase(guide, 'test', 'price_old12345', 'price_old12345', 'arbitrario.pdf'),
-    undefined,
-  );
-  assert.equal(
-    authorizeGuidePurchase(guide, 'test', 'price_old12345', 'price_older12345', guide.blobKey),
-    undefined,
-  );
+
+  for (const args of [
+    ['price_unknown123', 'price_unknown123', guide.blobKey],
+    ['price_old12345', 'price_old12345', 'arbitrario.pdf'],
+    ['price_old12345', 'price_older12345', guide.blobKey],
+    ['price_old12345', 'price_old12345', undefined],
+    ['price_old12345', undefined, guide.blobKey],
+  ]) assert.equal(authorizeGuidePurchase(guide, 'test', ...args), undefined);
 });

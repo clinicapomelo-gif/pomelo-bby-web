@@ -33,6 +33,7 @@ export interface Guia {
   leadMagnetUrl?: string;
   stripe: Partial<Record<StripeMode, GuiaStripeMapping>>;
   blobKey?: string;
+  previousBlobKeys?: string[];
   image?: string;
 }
 

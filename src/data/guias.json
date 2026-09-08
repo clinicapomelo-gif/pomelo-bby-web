@@ -1,8 +1,8 @@
 [
   {
     "id": "recomendaciones-generales-recien-nacido",
-    "title": "Primeros cuidados del bebé",
-    "description": "Respuestas claras para cuidar del cordón, el baño, la ropa, las regurgitaciones y otros momentos cotidianos del recién nacido.",
+    "title": "Los primeros cuidados del recién nacido",
+    "description": "Las respuestas a las dudas más frecuentes sobre los primeros días cuidando a tu bebé.",
     "benefits": [
       "Cuidados del cordón umbilical y del baño",
       "Ropa, sueño y temperatura sin complicaciones",
@@ -23,7 +23,10 @@
         ]
       }
     },
-    "blobKey": "CONSEJOS GENERALES RN.pdf"
+    "blobKey": "guias/recomendaciones-generales-recien-nacido/d5ca9ff25db61078486276481205fa60bceeada4a9edede2f9763556493455c3.pdf",
+    "previousBlobKeys": [
+      "CONSEJOS GENERALES RN.pdf"
+    ]
   },
   {
     "id": "conservacion-leche-materna",

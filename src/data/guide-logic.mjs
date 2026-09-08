@@ -91,11 +91,20 @@ export const getKnownPriceIds = (guia, mode) => {
   return [mapping.priceId, ...(mapping.previousPriceIds ?? []).filter(isValidPriceId)];
 };
 
+export const getKnownBlobKeys = (guia) => {
+  if (!isValidBlobKey(guia?.blobKey)) return [];
+  return [guia.blobKey, ...(guia.previousBlobKeys ?? []).filter(isValidBlobKey)];
+};
+
 export function authorizeGuidePurchase(guia, mode, linePriceId, snapshotPriceId, snapshotBlobKey) {
-  if (!getKnownPriceIds(guia, mode).includes(linePriceId) || !isValidBlobKey(guia.blobKey)) return undefined;
+  if (!getKnownPriceIds(guia, mode).includes(linePriceId)) return undefined;
 
-  const hasSnapshot = Boolean(snapshotPriceId || snapshotBlobKey);
-  if (hasSnapshot && (linePriceId !== snapshotPriceId || snapshotBlobKey !== guia.blobKey)) return undefined;
+  const knownBlobKeys = getKnownBlobKeys(guia);
+  if (knownBlobKeys.length === 0) return undefined;
 
-  return guia.blobKey;
+  const hasSnapshot = snapshotPriceId !== undefined || snapshotBlobKey !== undefined;
+  if (!hasSnapshot) return guia.blobKey;
+  if (linePriceId !== snapshotPriceId || !knownBlobKeys.includes(snapshotBlobKey)) return undefined;
+
+  return snapshotBlobKey;
 }

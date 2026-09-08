@@ -147,6 +147,14 @@ export function validateCatalog(catalog) {
     }
 
     if (guia.blobKey !== undefined && !isValidBlobKey(guia.blobKey)) throw new Error(`${path}.blobKey no es válido.`);
+    if (guia.previousBlobKeys !== undefined) {
+      if (
+        !Array.isArray(guia.previousBlobKeys) ||
+        guia.previousBlobKeys.some((key) => !isValidBlobKey(key)) ||
+        new Set([guia.blobKey, ...guia.previousBlobKeys]).size !== guia.previousBlobKeys.length + 1 ||
+        !['testing', 'available', 'archived'].includes(guia.status)
+      ) throw new Error(`${path}.previousBlobKeys no es válido.`);
+    }
     if (['testing', 'available', 'archived'].includes(guia.status) && !isValidBlobKey(guia.blobKey)) {
       throw new Error(`${path} necesita blobKey.`);
     }
