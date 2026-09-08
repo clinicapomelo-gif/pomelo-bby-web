@@ -98,5 +98,28 @@
     },
     "amountCents": 499,
     "status": "testing"
+  },
+  {
+    "id": "atragantamiento-bebes-ninos",
+    "title": "Atragantamiento en bebés y niños",
+    "description": "Qué hacer paso a paso ante un atragantamiento, según la edad, y cómo actuar hasta que llegue la ayuda.",
+    "benefits": [
+      "Cómo reconocer una obstrucción parcial o completa",
+      "Maniobras explicadas paso a paso según la edad",
+      "Cómo actuar con seguridad hasta que llegue la ayuda"
+    ],
+    "kind": "practical",
+    "pageCount": 6,
+    "category": "salud",
+    "blobKey": "guias/atragantamiento-bebes-ninos/d6f1657c966af93c74f12c7bf3ac1b444b9a2d44f4d7035d7367bfca0bd439c6.pdf",
+    "stripe": {
+      "test": {
+        "productId": "prod_VDrczXaZaZyXIB",
+        "priceId": "price_1UDPth2WVIl1hdpg4TGag9e2",
+        "amountCents": 599
+      }
+    },
+    "amountCents": 599,
+    "status": "available"
   }
 ]
