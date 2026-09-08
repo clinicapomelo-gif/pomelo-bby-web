@@ -76,7 +76,7 @@
   {
     "id": "conservacion-alimentos",
     "title": "Conservación de alimentos",
-    "description": "Cómo guardar, congelar, descongelar y recalentar la comida de tu bebé con seguridad, sin complicarte y evitando desperdicios.",
+    "description": "Cómo conservar, congelar, descongelar y recalentar la comida de tu bebé con seguridad, sin complicarte.",
     "benefits": [
       "Tiempos y pautas para nevera y congelador",
       "Cómo descongelar y recalentar con seguridad",
@@ -85,7 +85,7 @@
     "kind": "practical",
     "pageCount": 6,
     "category": "alimentacion",
-    "blobKey": "guias/conservacion-alimentos/95c9666afad37b44b916a68b57ce82e458806a275fc730f5e62d7df861ffa24a.pdf",
+    "blobKey": "guias/conservacion-alimentos/58dae8311e9eb4d8cf5897d1f6cd2a5b924e117ab41fe62d98def1280cbea38b.pdf",
     "stripe": {
       "test": {
         "productId": "prod_V794Du7a04SOql",
