@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pruebas de logo alargado en la cabecera — Pomelo Baby</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --white: #fff;
+      --cream: #f6efe7;
+      --nude: #f5ecec;
+      --coral: #ef6e71;
+      --granate: #92363a;
+      --peach: #eac4c6;
+      --text: #2d2d2d;
+      --secondary: #5a5a5a;
+      --border: #e8d8d9;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--cream); color: var(--text); font-family: Montserrat, sans-serif; }
+    button { font: inherit; }
+    .page { width: min(1240px, calc(100% - 2rem)); margin: auto; padding: 2.5rem 0 4rem; }
+    h1, h2, p { margin-top: 0; }
+    h1 { margin-bottom: .55rem; font-size: clamp(1.7rem, 4vw, 2.5rem); line-height: 1.15; }
+    .intro { max-width: 820px; margin-bottom: 1.5rem; color: var(--secondary); line-height: 1.65; }
+    .notice { margin-bottom: 1.5rem; padding: .9rem 1rem; border-left: 4px solid var(--coral); border-radius: 8px; background: var(--white); color: var(--secondary); font-size: .85rem; }
+
+    .controls { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; margin-bottom: 1.5rem; padding: .8rem; border: 1px solid var(--border); border-radius: 12px; background: rgba(255,255,255,.96); box-shadow: 0 5px 20px rgba(45,45,45,.07); }
+    .controls strong { margin-right: .25rem; font-size: .8rem; }
+    .viewport-button { padding: .5rem .75rem; border: 1px solid var(--peach); border-radius: 999px; background: var(--white); color: var(--granate); cursor: pointer; font-size: .75rem; font-weight: 700; }
+    .viewport-button:hover, .viewport-button[aria-pressed="true"] { border-color: var(--coral); background: var(--coral); color: var(--white); }
+
+    .test { margin-top: 1.5rem; }
+    .test__heading { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: .65rem; }
+    .test__heading h2 { margin: 0; font-size: 1rem; }
+    .test__heading p { margin: 0; color: var(--secondary); font-size: .75rem; }
+    .tag { display: inline-block; margin-right: .45rem; padding: .18rem .5rem; border-radius: 999px; background: var(--nude); color: var(--granate); font-size: .62rem; font-weight: 700; text-transform: uppercase; }
+    .test--current .tag { background: var(--text); color: var(--white); }
+    .test--balanced .tag { background: var(--coral); color: var(--white); }
+
+    .viewport-scroll { overflow-x: auto; padding: 0 0 .65rem; }
+    .site-shell { overflow: hidden; width: 1024px; min-width: 320px; border: 1px solid var(--border); border-radius: 10px; background: var(--cream); box-shadow: 0 8px 25px rgba(45,45,45,.08); transition: width .25s ease; }
+    .site-header { background: var(--white); border-bottom: 1px solid var(--border); }
+    .nav { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1200px; margin: auto; padding: 16px 32px; }
+    .brand { display: flex; align-items: center; flex: 0 0 auto; color: var(--text); font-size: 20px; font-weight: 700; text-decoration: none; }
+    .brand--current { gap: 8px; }
+    .brand--current img { width: auto; height: 48px; transform: translateY(-3px); }
+    .brand--current span { white-space: nowrap; }
+    .brand--full img { display: block; width: var(--logo-width); height: auto; }
+    .nav-links { display: flex; gap: 32px; margin: 0; padding: 0; list-style: none; }
+    .nav-links a { color: var(--text); font-size: 14.4px; font-weight: 500; text-decoration: none; white-space: nowrap; }
+    .nav-links a:first-child { color: var(--coral); font-weight: 700; text-decoration: underline 2px var(--coral); text-underline-offset: .35em; }
+    .hamburger { display: none; width: 44px; height: 44px; padding: 10px; border: 0; background: transparent; }
+    .hamburger span { display: block; width: 24px; height: 2px; margin: 5px 0; background: var(--text); }
+    .mock-content { min-height: 150px; padding: 28px 32px 35px; }
+    .mock-content h2 { margin-bottom: .5rem; font-size: clamp(1.25rem, 3vw, 1.8rem); }
+    .mock-content p { max-width: 650px; margin: 0; color: var(--secondary); font-size: .83rem; line-height: 1.6; }
+    .mock-line { width: min(510px, 80%); height: 10px; margin-top: 1rem; border-radius: 999px; background: var(--peach); opacity: .65; }
+    .mock-line:last-child { width: min(350px, 55%); margin-top: .55rem; }
+
+    .site-shell[data-mobile="true"] .nav { padding-right: 16px; padding-left: 16px; }
+    .site-shell[data-mobile="true"] .nav-links { display: none; }
+    .site-shell[data-mobile="true"] .hamburger { display: block; }
+    .site-shell[data-mobile="true"] .mock-content { padding-right: 16px; padding-left: 16px; }
+
+    .summary { display: grid; grid-template-columns: repeat(2, 1fr); gap: .75rem; margin-top: 2rem; }
+    .summary article { padding: 1rem; border: 1px solid var(--border); border-radius: 10px; background: var(--white); }
+    .summary strong { display: block; margin-bottom: .3rem; font-size: .8rem; }
+    .summary p { margin: 0; color: var(--secondary); font-size: .73rem; line-height: 1.55; }
+
+    @media (max-width: 700px) {
+      .page { padding-top: 1.5rem; }
+      .summary { grid-template-columns: 1fr; }
+      .test__heading { display: block; }
+      .test__heading p { margin-top: .3rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <h1>Logo alargado en la cabecera</h1>
+    <p class="intro">Comparativa real de los logos <strong>2.png</strong> y <strong>3.png</strong> de la carpeta <code>images</code>, manteniendo el menú, colores y anchos de la web. Cambia el tamaño de pantalla para comprobar escritorio, el punto más justo del menú y móvil.</p>
+    <div class="notice"><strong>Solo es una prueba visual.</strong> Este archivo no modifica la cabecera real ni se publica como una página de la web.</div>
+
+    <div class="controls" aria-label="Elegir ancho de prueba">
+      <strong>Ancho de pantalla:</strong>
+      <button class="viewport-button" data-width="1440" aria-pressed="false">1440 px</button>
+      <button class="viewport-button" data-width="1024" aria-pressed="true">1024 px</button>
+      <button class="viewport-button" data-width="800" aria-pressed="false">800 px</button>
+      <button class="viewport-button" data-width="768" aria-pressed="false">768 px</button>
+      <button class="viewport-button" data-width="390" aria-pressed="false">390 px</button>
+    </div>
+
+    <section class="test test--current">
+      <div class="test__heading">
+        <h2><span class="tag">Referencia</span>Cabecera actual</h2>
+        <p>Isotipo de 48 px + “Pomelo Baby” en texto · cabecera aprox. 80 px</p>
+      </div>
+      <div class="viewport-scroll">
+        <div class="site-shell">
+          <header class="site-header"><nav class="nav">
+            <a class="brand brand--current" href="#"><img src="../../public/isotipo-pomelo.webp" alt=""><span>Pomelo Baby</span></a>
+            <ul class="nav-links"><li><a href="#">Blog</a></li><li><a href="#">Guías</a></li><li><a href="#">Consultas</a></li><li><a href="#">Chisme</a></li><li><a href="#">Sobre mí</a></li><li><a href="#">Contacto</a></li></ul>
+            <button class="hamburger" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+          </nav></header>
+          <div class="mock-content"><h2>Información clara para cuidar con calma</h2><p>Así se relaciona la nueva marca con el contenido justo debajo de la cabecera.</p><div class="mock-line"></div><div class="mock-line"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="test">
+      <div class="test__heading">
+        <h2><span class="tag">2.png</span>Nombre sin isotipo</h2>
+        <p>225 px de ancho · cabecera aprox. 63 px</p>
+      </div>
+      <div class="viewport-scroll">
+        <div class="site-shell">
+          <header class="site-header"><nav class="nav">
+            <a class="brand brand--full" style="--logo-width:225px" href="#"><img src="assets/logo-2-cabecera.png" alt="Pomelo Baby"></a>
+            <ul class="nav-links"><li><a href="#">Blog</a></li><li><a href="#">Guías</a></li><li><a href="#">Consultas</a></li><li><a href="#">Chisme</a></li><li><a href="#">Sobre mí</a></li><li><a href="#">Contacto</a></li></ul>
+            <button class="hamburger" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+          </nav></header>
+          <div class="mock-content"><h2>Información clara para cuidar con calma</h2><p>Una cabecera más baja y limpia. La marca se lee bien, pero desaparecen el isotipo y el lema.</p><div class="mock-line"></div><div class="mock-line"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="test test--balanced">
+      <div class="test__heading">
+        <h2><span class="tag">3.png</span>Logo horizontal completo</h2>
+        <p>198 px de ancho · cabecera aprox. 92 px</p>
+      </div>
+      <div class="viewport-scroll">
+        <div class="site-shell">
+          <header class="site-header"><nav class="nav">
+            <a class="brand brand--full" style="--logo-width:198px" href="#"><img src="assets/logo-3-cabecera.png" alt="Pomelo Baby — Criar con criterio"></a>
+            <ul class="nav-links"><li><a href="#">Blog</a></li><li><a href="#">Guías</a></li><li><a href="#">Consultas</a></li><li><a href="#">Chisme</a></li><li><a href="#">Sobre mí</a></li><li><a href="#">Contacto</a></li></ul>
+            <button class="hamburger" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+          </nav></header>
+          <div class="mock-content"><h2>Información clara para cuidar con calma</h2><p>Mantiene el isotipo, el nombre y “criar con criterio”. Tiene más identidad, aunque necesita algo más de altura.</p><div class="mock-line"></div><div class="mock-line"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="summary" aria-label="Resumen de las pruebas">
+      <article><strong>2.png · Más ligero</strong><p>Funciona bien si buscamos una cabecera muy compacta y tipográfica.</p></article>
+      <article><strong>3.png · Más completo</strong><p>Conserva todos los elementos de marca y sigue teniendo un formato horizontal adecuado para la cabecera.</p></article>
+    </section>
+  </main>
+
+  <script>
+    const buttons = document.querySelectorAll('.viewport-button');
+    const previews = document.querySelectorAll('.site-shell');
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const width = Number(button.dataset.width);
+        buttons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+        previews.forEach((preview) => {
+          preview.style.width = `${width}px`;
+          preview.dataset.mobile = String(width <= 768);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
