@@ -63,8 +63,7 @@ const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
     <header class="header">
       <nav class="container nav">
         <a href="/" class="nav__logo" aria-label="Inicio — Pomelo Baby">
-          <img src="/isotipo-pomelo.webp" alt="" width="135" height="160" />
-          <span>Pomelo Baby</span>
+          <img src="/logo-pomelo-horizontal.webp" alt="" width="1650" height="500" />
         </a>
         <button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-links">
           <span class="nav__toggle-bar"></span>
@@ -237,24 +236,13 @@ const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
   }
 
   .nav__logo {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
+    display: block;
     flex-shrink: 0;
-    color: var(--color-text);
-    font-size: 1.25rem;
-    font-weight: 700;
-  }
-
-  .nav__logo:hover {
-    color: var(--color-coral-hover);
   }
 
   .nav__logo img {
-    width: auto;
-    height: 3rem;
-    object-fit: contain;
-    transform: translateY(-0.2rem);
+    width: 12.375rem;
+    height: auto;
   }
 
   .nav__links {
