@@ -55,16 +55,16 @@
   },
   {
     "id": "guia-definitiva-empezar-comer",
-    "title": "La alimentación complementaria en palabras normales",
-    "description": "Todo lo que necesitas para empezar a alimentar a tu bebé con criterio, entender qué ofrecer y dejar atrás el ruido, las culpas y las normas imposibles de Internet.",
+    "title": "Alimentación complementaria sin miedo",
+    "description": "Una guía clara y práctica para saber cuándo empezar, qué alimentos ofrecer y cómo acompañar a tu bebé con seguridad, sin culpas ni normas imposibles.",
     "benefits": [
-      "Cómo empezar y avanzar en la alimentación complementaria",
-      "Texturas, alimentos y cantidades explicados de forma sencilla",
-      "Seguridad, alérgenos y dudas habituales de las familias"
+      "Cuándo empezar y qué alimentos ofrecer primero",
+      "BLW, triturados y texturas explicados sin guerras ni extremos",
+      "Alérgenos, arcadas y atragantamientos con pautas claras de seguridad"
     ],
     "amountCents": 1799,
     "pageCount": 81,
-    "status": "available",
+    "status": "testing",
     "kind": "complete",
     "category": "alimentacion",
     "stripe": {
@@ -74,7 +74,10 @@
         "amountCents": 1799
       }
     },
-    "blobKey": "LA GUIA DEFINITIVA PARA EMPEZAR AC.pdf"
+    "blobKey": "guias/alimentacion-complementaria-sin-miedo/3758c900a53885163f0e9a389b1b6b363b16375d3dba47bf4e3461e014ff0fc2.pdf",
+    "previousBlobKeys": [
+      "LA GUIA DEFINITIVA PARA EMPEZAR AC.pdf"
+    ]
   },
   {
     "id": "conservacion-alimentos",
