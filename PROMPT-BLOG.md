@@ -1,62 +1,131 @@
-# Prompt y guía para artículos del blog de Pomelo Baby
+# Guía para artículos del blog de Pomelo Baby
 
-Esta es la referencia para crear y maquetar futuros artículos. El diseño consolidado parte de:
+Referencia obligatoria para crear o modificar artículos en `src/content/blog/`.
 
-- `src/content/blog/blw-que-es-por-donde-empezar.md`
-- `src/content/blog/fiebre-bebes-cuando-preocuparse.md`
+El diseño común ya vive en `src/pages/blog/[slug].astro`: no añadas CSS ni estilos inline al artículo. Los posts existentes son ejemplos, no la fuente de verdad.
 
-Los estilos comunes viven en `src/pages/blog/[slug].astro` y se aplican automáticamente a todos los artículos de `src/content/blog/`. No añadas estilos dentro de cada post ni dupliques CSS.
+## Objetivo
 
-## Categorías disponibles
+Resolver **una duda concreta** con información útil, clara y suficiente.
 
-Actualiza esta lista si cambia el esquema de `src/content.config.ts`:
+- Extensión orientativa: **700-1.000 palabras**; superar 1.200 solo si el tema lo exige.
+- Elimina información secundaria antes de añadir más apartados.
+- El resultado debe dar tranquilidad y criterio, no parecer un manual médico.
+- No incluyas ebooks, guías, productos, compras ni promociones.
 
-- `alimentacion`
-- `sueño`
-- `salud`
-- `desarrollo`
-- `crianza`
+La persona debe terminar pensando: “Ahora lo entiendo y sé qué vigilar”, no “Tengo que memorizar 25 normas”.
 
-## Diseño editorial obligatorio
+## Voz
 
-- Diseño limpio, cálido, profesional, editorial y visual, acorde con Pomelo Baby.
-- Lectura cómoda y escaneable desde móvil.
-- Mucho espacio en blanco y párrafos cortos.
-- Cada artículo resuelve una duda concreta: debe ser útil, pero no convertirse en un manual completo ni saturar de información.
-- `H1`: título del artículo, generado automáticamente desde `title`.
-- Entradilla: `description`, visible bajo el H1 con un tamaño ligeramente menor.
-- Firma: pequeña y discreta; se genera automáticamente.
-- `H2`: secciones principales.
-- `H3`: preguntas o subsecciones dentro de cada sección.
-- Texto normal con tamaño cómodo e interlineado amplio.
-- Negrita solo para conceptos clave y palabras que ayuden a escanear. Nunca párrafos enteros.
-- Alternar frases importantes en citas Markdown (`>`) y destacados editoriales sin caja; no encerrar todas las frases.
-- Listas con aire entre elementos.
-- Advertencias visibles, pero nunca alarmistas: deben comunicar “esto es importante”, no “entra en pánico”.
-- Como máximo, 3 o 4 toques de humor breves, naturales y nunca relacionados con situaciones graves.
-- La sección “🍊 Qué quiero que recuerdes” debe usar siempre el bloque especial documentado abajo y ser breve.
-- No incluir referencias a ebooks, guías, productos, compras ni promociones dentro del artículo.
-- El lector debe terminar entendiendo la duda y sabiendo qué vigilar, no intentando memorizar una lista interminable.
+Sigue siempre la voz de Mar definida en `AGENTS.md`:
 
-## Voz y rigor
-
-- Cercana, cálida, clara y directa.
+- Cercana, cálida, directa y profesional.
+- Lenguaje cotidiano y párrafos cortos.
 - Ciencia y validación emocional juntas.
 - Sin alarmar, culpabilizar, juzgar ni infantilizar.
-- Explicar cualquier término médico con lenguaje cotidiano.
-- Usar lenguaje inclusivo: “niño o niña”, “hijo o hija”, “decaído/a”.
-- No presentar absolutos cuando la evidencia tenga limitaciones.
-- Explicar qué puede ser normal, qué puede hacer la familia y cuándo consultar.
-- Verificar afirmaciones sanitarias y recomendaciones antes de publicar.
-- El artículo debe sentirse profesional y amable, no como un documento médico.
+- Lenguaje inclusivo: “niño o niña”, “hijo o hija”, “decaído/a”.
+- Como máximo, 3 o 4 toques de humor naturales. Nunca bromees sobre situaciones graves.
 
-## Fuentes y enlaces
+## Estructura
 
+El layout genera automáticamente el H1, la entradilla y la firma.
+
+1. Frontmatter.
+2. Introducción breve que conecte con la duda real de la familia.
+3. H2 para las secciones principales; H3 solo para preguntas o subsecciones.
+4. Respuesta práctica: qué significa, qué puede hacerse y cuándo consultar.
+5. Bloque breve `🍊 Qué quiero que recuerdes`.
+6. Disclaimer educativo.
+
+Usa negrita solo para conceptos clave. Evita párrafos enteros en negrita, bloques densos y secciones repetidas.
+
+## Frontmatter
+
+```yaml
+---
+title: "Título claro y orientado a búsqueda"
+description: "Entradilla de hasta 155 caracteres."
+pubDate: YYYY-MM-DD
+category: salud
+tags: ["fiebre", "bebé", "pediatría"]
+draft: false
+---
+```
+
+Sustituye el ejemplo por la fecha, categoría y etiquetas reales. Las categorías válidas son `alimentacion`, `sueño`, `salud`, `desarrollo` y `crianza`; el esquema definitivo está en `src/content.config.ts`.
+
+## Recursos visuales
+
+Úsalos solo cuando faciliten la lectura. No destaques cada conclusión.
+
+### Frase con caja
+
+```md
+> **Una idea importante y breve.**
+```
+
+### Frase destacada sin caja
+
+```html
+<p class="editorial-highlight">Una idea importante y breve.</p>
+```
+
+Alterna ambos formatos. Como orientación, usa entre 3 y 5 destacados en todo el artículo.
+
+### Lista visual
+
+```html
+<ul class="visual-list">
+  <li>💧 Elemento breve.</li>
+  <li>👀 Elemento breve.</li>
+</ul>
+```
+
+Para seguridad o advertencias en una sola columna, añade `safety-list` o `warning-list`:
+
+```html
+<ul class="visual-list safety-list">
+  <li>👶 Medida de seguridad.</li>
+</ul>
+```
+
+### Señales para consultar
+
+```html
+<section class="warning-signs" aria-labelledby="warning-signs-title">
+  <h3 id="warning-signs-title">🚩 Consulta si:</h3>
+  <ul>
+    <li>Señal explicada con claridad.</li>
+  </ul>
+</section>
+```
+
+Debe comunicar “esto es importante”, no “entra en pánico”. El `id` debe ser único y coincidir con `aria-labelledby`.
+
+### Cierre Pomelo Baby
+
+```html
+<section class="takeaways" aria-labelledby="takeaways-title">
+  <h2 id="takeaways-title">🍊 Qué quiero que recuerdes</h2>
+  <p>Resumen breve.</p>
+  <p class="takeaways__final"><strong>Idea final importante.</strong></p>
+</section>
+```
+
+Limítalo a 3-5 ideas. Usa `takeaways__welcome` únicamente para una frase final muy breve que realmente lo necesite.
+
+## Fuentes sanitarias
+
+- Verifica las afirmaciones antes de publicar.
+- Prioriza fuentes oficiales y sociedades científicas: AEP, AESAN, Ministerio de Sanidad, OMS y guías clínicas vigentes.
+- No inventes estudios, cifras, recomendaciones ni enlaces.
 - Añade al final, antes del disclaimer, una sección `## Fuentes consultadas` con una lista numerada de 2-4 referencias relevantes.
-- Usa enlaces descriptivos con el nombre de la entidad y el título del recurso. No uses dominios sueltos como `(enfamilia.aeped.es)` ni textos como “haz clic aquí”.
+- Usa enlaces descriptivos con el nombre de la entidad y el título del recurso. Nunca dejes dominios sueltos como `(dominio.es)` ni uses “haz clic aquí”.
 - Enlaza la página oficial concreta que respalda la información; usa una portada solo cuando la referencia sea general.
-- Incluye únicamente fuentes realmente consultadas y prioriza organismos sanitarios, sociedades científicas y guías clínicas.
-- Si una afirmación necesita atribución dentro del texto, enlaza allí el nombre de la fuente de forma natural y evita citas repetidas.
+- Si una afirmación necesita atribución dentro del texto, enlaza el nombre de la fuente de forma natural. Evita repetir la misma cita en cada párrafo.
+- Incluye únicamente fuentes realmente consultadas y expresa los límites de la evidencia cuando corresponda.
+
+Ejemplo:
 
 ```md
 ## Fuentes consultadas
@@ -64,158 +133,23 @@ Actualiza esta lista si cambia el esquema de `src/content.config.ts`:
 1. [Asociación Española de Pediatría — EnFamilia](https://www.aeped.es/enfamilia)
 ```
 
-## Bloques visuales disponibles
+## Disclaimer
 
-Estos nombres de clase forman parte del diseño compartido y no deben renombrarse sin actualizar `src/pages/blog/[slug].astro`.
-
-### Frase destacada
-
-Usa una cita Markdown. Puede contener una frase secundaria, pero no párrafos largos.
+Adáptalo al tema y mantenlo breve:
 
 ```md
-> **No necesitas hacerlo perfecto.**
->
-> Necesitas hacerlo seguro y adaptado a tu familia.
+---
+
+*Este artículo tiene finalidad educativa y no sustituye una valoración individual. Ante cualquier duda sobre la salud de tu bebé, consulta con un profesional sanitario.*
 ```
 
-Para destacar sin caja y dejar que el artículo respire:
+## Antes de publicar
 
-```html
-<p class="editorial-highlight">Frase breve con especial valor.</p>
-```
-
-No destaques cada conclusión. Reserva ambos formatos para las pocas frases que de verdad ayudan a entender o recordar el artículo.
-
-### Tarjetas visuales
-
-Para alimentos, señales, cuidados o elementos fáciles de escanear:
-
-```html
-<ul class="visual-list">
-  <li>🥑 Elemento breve.</li>
-  <li>🍌 Elemento breve.</li>
-</ul>
-```
-
-En escritorio aparecen en dos columnas y en móvil en una. Se pueden añadir nombres descriptivos como `checklist`, `food-grid` o `care-list`, pero `visual-list` es la clase que activa el diseño.
-
-### Lista de seguridad o advertencias
-
-Para mostrar una sola tarjeta por fila con un fondo suave:
-
-```html
-<ul class="visual-list safety-list">
-  <li>👶 Medida de seguridad.</li>
-  <li>👀 Medida de supervisión.</li>
-</ul>
-```
-
-Usa `warning-list` en advertencias y `safety-list` en recomendaciones de seguridad. No emplees colores nuevos ni recursos visuales alarmistas.
-
-### Bloque de señales de consulta
-
-Para agrupar criterios de consulta o señales importantes:
-
-```html
-<section class="warning-signs" aria-labelledby="warning-signs-title">
-  <h3 id="warning-signs-title">Consulta si:</h3>
-  <ul>
-    <li>Primera señal explicada de forma clara.</li>
-    <li>Segunda señal explicada de forma clara.</li>
-  </ul>
-  <p><strong>Mensaje clave breve.</strong></p>
-</section>
-```
-
-El `id` debe ser único dentro del artículo y coincidir con `aria-labelledby`.
-
-### Bloque final “Qué quiero que recuerdes”
-
-Todos los artículos deben cerrar sus ideas principales con esta estructura:
-
-```html
-<section class="takeaways" aria-labelledby="takeaways-title">
-  <h2 id="takeaways-title">🍊 Qué quiero que recuerdes</h2>
-  <p>Resumen cercano de la idea principal.</p>
-  <ul>
-    <li>Primera idea práctica.</li>
-    <li>Segunda idea práctica.</li>
-  </ul>
-  <p class="takeaways__final"><strong>Frase final importante.</strong></p>
-</section>
-```
-
-Si encaja una última frase breve y cálida, puede utilizarse:
-
-```html
-<p class="takeaways__welcome"><strong>Frase final muy destacada. 😌</strong></p>
-```
-
-## Prompt base
-
-Copia este bloque en la IA y sustituye `[CONTENIDO]` por el texto de Mar:
-
-```text
-Eres el asistente editorial de Mar Vall Requena, enfermera infantil de Pomelo Baby.
-Convierte el contenido proporcionado en un artículo Markdown listo para guardar en src/content/blog/.
-
-CONTENIDO Y VOZ:
-- Mantén un tono cercano, cálido, claro y basado en evidencia.
-- No alarmes, culpabilices, juzgues ni infantilices.
-- Traduce los términos médicos a lenguaje cotidiano.
-- Usa lenguaje inclusivo.
-- Conserva la prudencia cuando la evidencia tenga limitaciones.
-- Explica qué es, qué puede hacer la familia y cuándo consultar cuando corresponda.
-- Usa frases y párrafos cortos.
-
-ESTRUCTURA Y DISEÑO:
-- No escribas un H1 dentro del contenido: se genera desde el frontmatter.
-- Usa H2 para secciones y H3 para preguntas o subsecciones.
-- Usa negrita solo para conceptos clave, nunca para párrafos enteros.
-- Alterna citas Markdown y editorial-highlight para unas pocas frases importantes; no pongas todas en cajas.
-- Usa visual-list para listas visuales, safety-list o warning-list para seguridad y warning-signs para señales de consulta.
-- Termina con un bloque takeaways breve titulado “🍊 Qué quiero que recuerdes”.
-- Limita el humor a 3 o 4 toques naturales y nunca bromees sobre situaciones graves.
-- Resuelve una sola duda con información suficiente, sin convertir el artículo en un manual completo.
-- No incluyas referencias a ebooks, guías, productos, compras ni promociones.
-- Mantén el artículo escaneable desde móvil y evita bloques de texto densos.
-- No incluyas CSS ni estilos inline.
-
-FRONTMATTER:
-- title: título claro y orientado a búsqueda.
-- description: entradilla y descripción SEO de máximo 155 caracteres.
-- pubDate: fecha real de publicación en formato YYYY-MM-DD.
-- category: una categoría válida.
-- tags: entre 3 y 5 palabras clave.
-- draft: false.
-
-CIERRE:
-- Añade un disclaimer educativo adaptado al tema, en cursiva y separado por una línea horizontal.
-- Indica con claridad cuándo se necesita valoración profesional.
-
-Devuelve únicamente el archivo Markdown completo.
-El nombre debe estar en minúsculas, sin tildes y con guiones.
-
-CONTENIDO A TRANSFORMAR:
-[CONTENIDO]
-```
-
-## Lista de comprobación antes de publicar
-
-1. Revisar la exactitud sanitaria y que no falten matices relevantes.
-2. Confirmar que la fecha es la fecha real de publicación, no una fecha provisional.
-3. Comprobar que `description` funciona como entradilla y no supera 155 caracteres.
-4. Revisar la jerarquía H2/H3 y que no haya un segundo H1.
-5. Comprobar que la negrita es selectiva.
-6. Verificar que los bloques HTML tienen etiquetas cerradas, IDs únicos y `aria-labelledby` correcto.
-7. Confirmar que existe un bloque `takeaways` breve.
-8. Eliminar información secundaria que convierta el artículo en un manual o diluya su duda principal.
-9. Confirmar que no hay productos, compras ni promociones.
-10. Ejecutar `npm run build`.
-11. Hacer commit y push; Vercel desplegará automáticamente desde `main`.
-
-## Categorías y borradores
-
-- Si añades una categoría, actualiza `src/content.config.ts` y `src/pages/blog/index.astro`.
-- Antes de eliminar una categoría, comprueba que ningún artículo la utiliza.
-- Usa `draft: true` para conservar un artículo sin publicarlo.
+1. ¿Resuelve una sola duda sin convertirse en un manual?
+2. ¿Puede eliminarse algún apartado sin perder la respuesta principal?
+3. ¿Las recomendaciones sanitarias están verificadas y existe una sección `Fuentes consultadas` con enlaces oficiales y descriptivos?
+4. ¿Se han eliminado los dominios sueltos y se enlaza el recurso concreto cuando existe?
+5. ¿La negrita, el humor y los destacados se usan con moderación?
+6. ¿El bloque de señales es claro y el cierre es breve?
+7. ¿La fecha y el frontmatter son correctos?
+8. Ejecuta `npm run build`.
