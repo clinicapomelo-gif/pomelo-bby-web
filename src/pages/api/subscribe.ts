@@ -116,7 +116,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const resendKey = import.meta.env.RESEND_API_KEY;
-  const sender = import.meta.env.RESEND_FROM_EMAIL?.trim();
+  const sender = import.meta.env.RESEND_NEWSLETTER_FROM_EMAIL?.trim() ?? import.meta.env.RESEND_FROM_EMAIL?.trim();
   const confirmationSecret = import.meta.env.NEWSLETTER_CONFIRMATION_SECRET;
   if (
     !resendKey || !sender || !confirmationSecret ||

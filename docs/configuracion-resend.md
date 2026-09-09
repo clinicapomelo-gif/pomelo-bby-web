@@ -63,8 +63,10 @@ Configurar sin guardar valores reales en Git:
 | `RESEND_API_KEY` | Contactos y envío de emails. Debe tener permisos para las operaciones utilizadas. |
 | `RESEND_NEWSLETTER_SEGMENT_ID` | Segmento “El Chisme de Mar”. |
 | `RESEND_NEWSLETTER_TOPIC_ID` | Topic público “El Chisme de Mar”. |
-| `RESEND_FROM_EMAIL` | Remitente del dominio verificado. |
-| `RESEND_TO_EMAIL` | Buzón que recibe Contacto y consultas. |
+| `RESEND_FROM_EMAIL` | Remitente del dominio verificado para correos automáticos. |
+| `RESEND_NEWSLETTER_FROM_EMAIL` | Remitente de El Chisme y sus correos de confirmación. |
+| `RESEND_TO_EMAIL` | Buzón que recibe Contacto. |
+| `RESEND_CONSULTA_TO_EMAIL` | Buzón reservado para las consultas pagadas. |
 | `BLOB_STORE_ID` y `VERCEL_OIDC_TOKEN` | Acceso OIDC al PDF privado; Vercel los proporciona al conectar el store. |
 | `NEWSLETTER_CONFIRMATION_SECRET` | Clave aleatoria de 32 bytes para cifrar los enlaces de confirmación. |
 
@@ -76,12 +78,14 @@ Para enviar a cualquier familia hace falta comprar un dominio y verificarlo en R
 
 Resend permite enviar desde cualquier dirección del dominio verificado, pero no crea un buzón tradicional. Para recibir y responder correos usaremos DonDominio con redirección a un Gmail dedicado, según [`configuracion-correo-profesional.md`](configuracion-correo-profesional.md).
 
-Configuración inicial sugerida:
+Configuración inicial:
 
-- Remitente: `Mar de pomelo.bby <hola@pomelobaby.es>`.
-- Buzón receptor y de respuesta: `hola@pomelobaby.es`.
+- Remitente de correos automáticos: `Mar de pomelo.bby <mar@pomelobaby.es>`.
+- Remitente de El Chisme: `El Chisme de Mar <chisme@pomelobaby.es>`.
+- Contacto general e incidencias: `hola@pomelobaby.es`.
+- Consultas pagadas: `mar@pomelobaby.es`.
 
-Resend permite enviar desde esa dirección después de verificar el dominio, pero no crea el buzón. Para recibir respuestas y consultas hay que crear `hola@pomelobaby.es` con un proveedor de correo.
+Resend permite enviar desde `mar@pomelobaby.es` después de verificar el dominio, pero no crea buzones. DonDominio recibe el correo dirigido a ambas direcciones.
 
 ## Almacenamiento de los PDF
 

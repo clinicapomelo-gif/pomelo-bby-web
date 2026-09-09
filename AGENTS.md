@@ -65,7 +65,7 @@ Como rasgo identitario heredado de Instagram, los recuadros en Coral Pomelo llev
 
 - Stripe se usa directamente desde endpoints server-side; Resend gestiona correo transaccional, contactos y El Chisme mediante Segmentos, Topics, Broadcasts y Automations.
 - Nunca expongas, registres ni confirmes secretos o datos personales. No leas ni versiones `.env`.
-- Variables usadas: `SITE_URL`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_CONSULTA_MENSAJE_PRICE_ID`, `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `RESEND_TO_EMAIL`, `RESEND_NEWSLETTER_SEGMENT_ID`, `RESEND_NEWSLETTER_TOPIC_ID`, `NEWSLETTER_CONFIRMATION_SECRET`, `BLOB_STORE_ID`, `VERCEL_OIDC_TOKEN` y `BLOB_READ_WRITE_TOKEN`.
+- Variables usadas: `SITE_URL`, `STRIPE_SECRET_KEY`, `STRIPE_CATALOG_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_CONSULTA_MENSAJE_PRICE_ID`, `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `RESEND_NEWSLETTER_FROM_EMAIL`, `RESEND_TO_EMAIL`, `RESEND_CONSULTA_TO_EMAIL`, `RESEND_NEWSLETTER_SEGMENT_ID`, `RESEND_NEWSLETTER_TOPIC_ID`, `NEWSLETTER_CONFIRMATION_SECRET`, `BLOB_STORE_ID`, `VERCEL_OIDC_TOKEN` y `BLOB_READ_WRITE_TOKEN`.
 - Valida los datos del cliente en servidor. No confíes en precios, productos, estados de pago ni identificadores enviados por el navegador.
 - Conserva la verificación de firma de los webhooks de Stripe y la verificación de sesión antes de mostrar o procesar una consulta pagada.
 

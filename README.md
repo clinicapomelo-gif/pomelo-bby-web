@@ -34,7 +34,9 @@ La lista operativa y legal completa está en [`TODO.md`](./TODO.md). No debe pub
 - `RESEND_NEWSLETTER_TOPIC_ID`: Topic público que controla la preferencia de El Chisme.
 - `NEWSLETTER_CONFIRMATION_SECRET`: clave aleatoria de 32 bytes para cifrar enlaces de confirmación.
 - `RESEND_FROM_EMAIL`: remitente verificado, con el formato `pomelo.bby <correo@dominio-verificado>`.
-- `RESEND_TO_EMAIL`: buzón profesional que recibe contacto y consultas.
+- `RESEND_NEWSLETTER_FROM_EMAIL`: remitente verificado usado para El Chisme y sus confirmaciones.
+- `RESEND_TO_EMAIL`: buzón profesional que recibe Contacto.
+- `RESEND_CONSULTA_TO_EMAIL`: buzón profesional reservado para las consultas pagadas.
 - `BLOB_STORE_ID` y `VERCEL_OIDC_TOKEN`: acceso al Blob privado; Vercel los proporciona al conectar el store en cada entorno.
 - `SITE_URL`: URL pública de la web usada para validar el origen de las solicitudes.
 
