@@ -24,7 +24,9 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
-# local worktrees and tooling
+# local worktrees, tooling and source assets
 .worktrees/
+.pi/
 .idea/
 .vercel/
+images/
