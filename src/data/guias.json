@@ -114,7 +114,10 @@
     "kind": "practical",
     "pageCount": 6,
     "category": "salud",
-    "blobKey": "guias/atragantamiento-bebes-ninos/d6f1657c966af93c74f12c7bf3ac1b444b9a2d44f4d7035d7367bfca0bd439c6.pdf",
+    "blobKey": "guias/atragantamiento-bebes-ninos/d3f971a6bf4871cbba4ca89f23d9a9bc16514bdf745848466c668eef68f27569.pdf",
+    "previousBlobKeys": [
+      "guias/atragantamiento-bebes-ninos/d6f1657c966af93c74f12c7bf3ac1b444b9a2d44f4d7035d7367bfca0bd439c6.pdf"
+    ],
     "stripe": {
       "test": {
         "productId": "prod_VDrczXaZaZyXIB",
