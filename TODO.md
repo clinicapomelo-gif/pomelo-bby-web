@@ -6,7 +6,7 @@ Solo tareas pendientes. Si no está aquí, no bloquea.
 
 - La web y `pomelobaby.es` están publicados; `MAINTENANCE_MODE=false`.
 - Stripe sigue en Sandbox. No se aceptan cobros reales y `GUIDES_ENABLED=false` mantiene desactivadas las compras de guías.
-- El catálogo contiene siete guías: dos `available`, tres `testing`, una gratuita con descarga desactivada y el Manual del primer año como `coming-soon`.
+- El catálogo contiene siete guías: cinco `available`, una gratuita con descarga desactivada y el Manual del primer año como `coming-soon`; las seis guías terminadas se muestran como «Próximamente» mientras `GUIDES_ENABLED=false`.
 - Las cinco guías de pago actuales tienen PDF privado y Price test: Primeros cuidados (5,90 €), Alimentación complementaria (14,90 €), Conservación de alimentos (4,90 €), Atragantamiento (6,90 €) y Sueño infantil (14,90 €).
 - Manual de supervivencia al primer año está anunciado a 19,90 €, pero todavía no tiene PDF, páginas ni beneficios definitivos.
 - El doble opt-in de El Chisme funciona en Preview.
@@ -73,7 +73,7 @@ Solo tareas pendientes. Si no está aquí, no bloquea.
 - [ ] **[Dev]** Configurar `STRIPE_WEBHOOK_SECRET` del Sandbox correcto en Preview.
 - [ ] **[Dev]** Habilitar temporalmente el checkout en Preview y comprobar que Production continúa rechazando credenciales test.
 - [ ] **[Mar + Dev]** Probar las cinco guías de extremo a extremo: pago test, email único, reintento del webhook, PDF correcto, página de gracias, caducidad y errores seguros.
-- [ ] **[Dev]** Pasar Alimentación complementaria, Conservación de alimentos y Sueño infantil de `testing` a `available` solo después de superar sus compras de prueba.
+- [x] **[Dev]** Alimentación complementaria, Conservación de alimentos y Sueño infantil pasaron de `testing` a `available` después de superar sus compras de prueba.
 - [ ] **[Mar]** Crear los Products y Prices de Stripe Live cuando legal y fiscalidad estén cerrados.
 - [ ] **[Dev]** Añadir al catálogo los mapeos `stripe.live` sin reutilizar IDs del Sandbox.
 - [ ] **[Mar + Dev]** Hacer una compra real controlada de cada guía y verificar correo y descarga antes de abrir ventas.

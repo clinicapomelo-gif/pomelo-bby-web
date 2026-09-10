@@ -267,7 +267,7 @@ test('muestra disponibles y limita testing al entorno test configurado', () => {
   guide.status = 'coming-soon';
   guide.stripe = {};
   delete guide.blobKey;
-  assert.equal(isGuiaVisible(guide, undefined), true);
+  assert.equal(isGuiaVisible(guide, undefined), false);
 
   guide.status = 'archived';
   assert.equal(isGuiaVisible(guide, 'test'), false);

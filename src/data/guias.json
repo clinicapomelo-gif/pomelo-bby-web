@@ -66,7 +66,7 @@
     ],
     "amountCents": 1490,
     "pageCount": 82,
-    "status": "testing",
+    "status": "available",
     "kind": "complete",
     "category": "alimentacion",
     "stripe": {
@@ -112,7 +112,7 @@
       }
     },
     "amountCents": 490,
-    "status": "testing"
+    "status": "available"
   },
   {
     "id": "atragantamiento-bebes-ninos",
@@ -164,7 +164,7 @@
       }
     },
     "amountCents": 1490,
-    "status": "testing"
+    "status": "available"
   },
   {
     "id": "manual-supervivencia-primer-ano",
