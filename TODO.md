@@ -5,11 +5,18 @@ Solo tareas pendientes. Si no está aquí, no bloquea.
 ## Estado actual
 
 - La web y `pomelobaby.es` están publicados; `MAINTENANCE_MODE=false`.
-- Stripe sigue en Sandbox. No se aceptan cobros reales.
-- Hay tres guías de pago preparadas: Primeros cuidados, Pomada de aceite de uva y Alimentación complementaria.
-- Conservación de la leche materna es gratuita, pero su descarga está desactivada.
+- Stripe sigue en Sandbox. No se aceptan cobros reales y `GUIDES_ENABLED=false` mantiene desactivadas las compras de guías.
+- El catálogo contiene siete guías: dos `available`, tres `testing`, una gratuita con descarga desactivada y el Manual del primer año como `coming-soon`.
+- Las cinco guías de pago actuales tienen PDF privado y Price test: Primeros cuidados (5,90 €), Alimentación complementaria (14,90 €), Conservación de alimentos (4,90 €), Atragantamiento (6,90 €) y Sueño infantil (14,90 €).
+- Manual de supervivencia al primer año está anunciado a 19,90 €, pero todavía no tiene PDF, páginas ni beneficios definitivos.
 - El doble opt-in de El Chisme funciona en Preview.
 - Cuéntame por correo funciona en test, pero Live está bloqueado hasta guardar los casos de forma duradera.
+
+## Integrar la revisión actual
+
+- [ ] **[Dev]** Confirmar que los PDF de trabajo permanecen fuera de Git; solo se versionan sus `blobKey`.
+- [ ] **[Dev]** Hacer commit, push y PR de la revisión del catálogo, los precios, las versiones de PDF y el soporte de `coming-soon`.
+- [ ] **[Mar + Dev]** Revisar en Preview las siete fichas, sus títulos, descripciones, precios, categorías y estados.
 
 # 1. Antes de aceptar cobros o consultas reales
 
@@ -60,12 +67,17 @@ Solo tareas pendientes. Si no está aquí, no bloquea.
 
 # 4. Activar guías de pago
 
-- [ ] **[Mar + gestoría]** Confirmar precios finales, impuestos y facturación.
+- [ ] **[Mar + gestoría]** Confirmar los precios finales, impuestos y facturación de las cinco guías de pago.
 - [ ] **[Mar]** Confirmar si el enlace de descarga seguirá disponible durante 30 días.
-- [ ] **[Dev]** Configurar y probar el webhook Stripe test de Preview.
-- [ ] **[Mar + Dev]** Probar las tres guías de extremo a extremo: pago test, email único, reintento del webhook, PDF correcto, página de gracias y errores seguros.
-- [ ] **[Mar]** Crear los productos y precios en Stripe Live cuando legal y fiscalidad estén cerrados.
-- [ ] **[Dev]** Configurar IDs Live y hacer una compra real controlada de cada guía antes de vender.
+- [ ] **[Dev]** Rotar cualquier credencial Stripe compartida fuera del gestor de secretos y conservar `STRIPE_CATALOG_KEY` solo en Vercel Development.
+- [ ] **[Dev]** Configurar `STRIPE_WEBHOOK_SECRET` del Sandbox correcto en Preview.
+- [ ] **[Dev]** Habilitar temporalmente el checkout en Preview y comprobar que Production continúa rechazando credenciales test.
+- [ ] **[Mar + Dev]** Probar las cinco guías de extremo a extremo: pago test, email único, reintento del webhook, PDF correcto, página de gracias, caducidad y errores seguros.
+- [ ] **[Dev]** Pasar Alimentación complementaria, Conservación de alimentos y Sueño infantil de `testing` a `available` solo después de superar sus compras de prueba.
+- [ ] **[Mar]** Crear los Products y Prices de Stripe Live cuando legal y fiscalidad estén cerrados.
+- [ ] **[Dev]** Añadir al catálogo los mapeos `stripe.live` sin reutilizar IDs del Sandbox.
+- [ ] **[Mar + Dev]** Hacer una compra real controlada de cada guía y verificar correo y descarga antes de abrir ventas.
+- [ ] **[Dev]** Activar `GUIDES_ENABLED` únicamente cuando los cinco flujos estén verificados y Production tenga su configuración Live definitiva.
 
 # 5. Preparar El Chisme
 
@@ -88,7 +100,8 @@ Solo tareas pendientes. Si no está aquí, no bloquea.
 
 # Más adelante — no bloquea el lanzamiento
 
-- [ ] **[Mar]** Preparar y entregar la Guía de sueño.
+- [ ] **[Mar]** Terminar el Manual de supervivencia al primer año y entregar PDF, páginas y tres beneficios definitivos.
+- [ ] **[Dev]** Provisionar el Manual en Blob y Stripe test, probar su compra y sustituir `coming-soon` por `available` cuando esté aprobado.
 - [ ] **[Mar]** Decidir cuándo activar la descarga gratuita de Conservación de la leche materna.
 
 ## Documentación operativa

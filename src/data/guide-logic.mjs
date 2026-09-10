@@ -81,7 +81,7 @@ export const getGuiaAmountCents = (guia, mode) =>
   getValidStripeMapping(guia, mode)?.amountCents ?? guia.amountCents;
 
 export const isGuiaVisible = (guia, mode) => {
-  if (guia.status === 'free' || guia.status === 'available') return true;
+  if (['free', 'coming-soon', 'available'].includes(guia.status)) return true;
   return guia.status === 'testing' && mode === 'test' && Boolean(getValidStripeMapping(guia, mode));
 };
 

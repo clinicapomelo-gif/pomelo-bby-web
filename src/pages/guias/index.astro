@@ -47,7 +47,7 @@ const visibleGuias = guias
               <h2 class="guia-card__title">{guia.title}</h2>
               <p class="guia-card__description">{guia.description}</p>
               <p class="guia-card__facts">
-                <span>{guia.pageCount} páginas</span>
+                {guia.pageCount && <span>{guia.pageCount} páginas</span>}
                 <span>{guia.kind === 'complete' ? 'Ebook' : 'PDF'}</span>
               </p>
             </div>

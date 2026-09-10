@@ -25,7 +25,7 @@ export interface Guia {
   description: string;
   benefits?: string[];
   amountCents: number;
-  pageCount: number;
+  pageCount?: number;
   status: GuiaStatus;
   downloadEnabled?: boolean;
   kind: GuiaKind;

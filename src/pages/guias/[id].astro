@@ -43,7 +43,7 @@ const isAvailable = canDownloadFree || canCheckout;
           </div>
           <h1 class="producto__title">{guia.title}</h1>
           <p class="producto__facts">
-            <span>{guia.pageCount} páginas</span>
+            {guia.pageCount && <span>{guia.pageCount} páginas</span>}
             <span>{guia.kind === 'complete' ? 'Ebook' : 'PDF'}</span>
           </p>
           <p class="producto__description">{guia.description}</p>

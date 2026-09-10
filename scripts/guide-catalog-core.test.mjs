@@ -141,6 +141,23 @@ test('catálogo rechaza slugs duplicados, tipos desconocidos y beneficios incomp
   assert.throws(() => validateCatalog([guide]), /tres beneficios/);
 });
 
+test('permite una ficha coming-soon sin páginas, beneficios ni recursos', () => {
+  const coming = {
+    id: 'guia-futura',
+    title: 'Guía futura',
+    description: 'Descripción aprobada de la guía futura.',
+    amountCents: 1990,
+    status: 'coming-soon',
+    kind: 'complete',
+    category: 'crianza',
+    stripe: {},
+  };
+  assert.deepEqual(validateCatalog([coming]), [coming]);
+
+  const withBlob = { ...coming, blobKey: 'guias/guia-futura/hash.pdf' };
+  assert.throws(() => validateCatalog([withBlob]), /no puede tener PDF/);
+});
+
 test('provisión permite solo repetición exacta y conserva históricos y live', () => {
   const original = paidGuide();
   original.status = 'available';
@@ -192,7 +209,9 @@ test('activa coming-soon solo cuando ficha, importe y recursos están limpios', 
   };
   delete coming.blobKey;
   delete coming.previousBlobKeys;
-  const input = { ...provisionInput(coming), blobKey: 'guias/guia-prueba/new.pdf' };
+  delete coming.pageCount;
+  delete coming.benefits;
+  const input = { ...provisionInput(paidGuide()), blobKey: 'guias/guia-prueba/new.pdf' };
   const next = upsertTestGuide([coming], input, {
     productId: 'prod_test12345', priceId: 'price_new12345', amountCents: 399,
   });
@@ -243,6 +262,11 @@ test('muestra disponibles y limita testing al entorno test configurado', () => {
   guide.status = 'available';
   assert.equal(isGuiaVisible(guide, 'test'), true);
   assert.equal(isGuiaVisible(guide, 'live'), true);
+  assert.equal(isGuiaVisible(guide, undefined), true);
+
+  guide.status = 'coming-soon';
+  guide.stripe = {};
+  delete guide.blobKey;
   assert.equal(isGuiaVisible(guide, undefined), true);
 
   guide.status = 'archived';

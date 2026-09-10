@@ -1,14 +1,14 @@
 [
   {
     "id": "recomendaciones-generales-recien-nacido",
-    "title": "Los primeros cuidados del recién nacido",
-    "description": "Las respuestas a las dudas más frecuentes sobre los primeros días cuidando a tu bebé.",
+    "title": "Los primeros cuidados del recién nacido: ¿y ahora qué?",
+    "description": "Las dudas más frecuentes de los primeros días, explicadas de forma sencilla y sin complicarte la vida.",
     "benefits": [
       "Cuidados del cordón umbilical y del baño",
       "Ropa, sueño y temperatura sin complicaciones",
       "Regurgitaciones y otras dudas de los primeros días"
     ],
-    "amountCents": 499,
+    "amountCents": 590,
     "pageCount": 5,
     "status": "available",
     "kind": "practical",
@@ -16,15 +16,17 @@
     "stripe": {
       "test": {
         "productId": "prod_V6P1cCQK6NKXQU",
-        "priceId": "price_1U6YvH2WVIl1hdpgpESSEwbF",
-        "amountCents": 499,
+        "priceId": "price_1UE5N22WVIl1hdpgJj9RZSxg",
+        "amountCents": 590,
         "previousPriceIds": [
+          "price_1U6YvH2WVIl1hdpgpESSEwbF",
           "price_1U6CDg2WVIl1hdpgTQkJSjt3"
         ]
       }
     },
-    "blobKey": "guias/recomendaciones-generales-recien-nacido/d5ca9ff25db61078486276481205fa60bceeada4a9edede2f9763556493455c3.pdf",
+    "blobKey": "guias/recomendaciones-generales-recien-nacido/503f049910f05e83f5b8cb4b010a2250c459507ebbf89e59037ec4fb8e23e3c3.pdf",
     "previousBlobKeys": [
+      "guias/recomendaciones-generales-recien-nacido/d5ca9ff25db61078486276481205fa60bceeada4a9edede2f9763556493455c3.pdf",
       "CONSEJOS GENERALES RN.pdf"
     ]
   },
@@ -55,34 +57,38 @@
   },
   {
     "id": "guia-definitiva-empezar-comer",
-    "title": "Alimentación complementaria sin miedo",
-    "description": "Una guía clara y práctica para saber cuándo empezar, qué alimentos ofrecer y cómo acompañar a tu bebé con seguridad, sin culpas ni normas imposibles.",
+    "title": "Alimentación complementaria: ¿por dónde empiezo?",
+    "description": "Qué ofrecer, cómo hacerlo y qué necesitas saber para empezar con seguridad y sin agobios.",
     "benefits": [
       "Cuándo empezar y qué alimentos ofrecer primero",
       "BLW, triturados y texturas explicados sin guerras ni extremos",
       "Alérgenos, arcadas y atragantamientos con pautas claras de seguridad"
     ],
-    "amountCents": 1799,
-    "pageCount": 81,
+    "amountCents": 1490,
+    "pageCount": 82,
     "status": "testing",
     "kind": "complete",
     "category": "alimentacion",
     "stripe": {
       "test": {
         "productId": "prod_V6P2QCuXdRSTgf",
-        "priceId": "price_1U6CEX2WVIl1hdpg3LaIxQr4",
-        "amountCents": 1799
+        "priceId": "price_1UE5NO2WVIl1hdpgZewEsduH",
+        "amountCents": 1490,
+        "previousPriceIds": [
+          "price_1U6CEX2WVIl1hdpg3LaIxQr4"
+        ]
       }
     },
-    "blobKey": "guias/alimentacion-complementaria-sin-miedo/3758c900a53885163f0e9a389b1b6b363b16375d3dba47bf4e3461e014ff0fc2.pdf",
+    "blobKey": "guias/alimentacion-complementaria-sin-miedo/2b49890f4fd57e7c84562414ca72f0094851e182fc54bb4d07548274ec4f4c3b.pdf",
     "previousBlobKeys": [
+      "guias/alimentacion-complementaria-sin-miedo/3758c900a53885163f0e9a389b1b6b363b16375d3dba47bf4e3461e014ff0fc2.pdf",
       "LA GUIA DEFINITIVA PARA EMPEZAR AC.pdf"
     ]
   },
   {
     "id": "conservacion-alimentos",
-    "title": "Conservación de alimentos",
-    "description": "Cómo conservar, congelar, descongelar y recalentar la comida de tu bebé con seguridad, sin complicarte.",
+    "title": "¿Este alimento lo puedo guardar?",
+    "description": "Todo lo que necesitas saber para conservar los alimentos de forma segura.",
     "benefits": [
       "Tiempos y pautas para nevera y congelador",
       "Cómo descongelar y recalentar con seguridad",
@@ -91,21 +97,27 @@
     "kind": "practical",
     "pageCount": 6,
     "category": "alimentacion",
-    "blobKey": "guias/conservacion-alimentos/58dae8311e9eb4d8cf5897d1f6cd2a5b924e117ab41fe62d98def1280cbea38b.pdf",
+    "blobKey": "guias/conservacion-alimentos/e3039bc1e225f8b402581d99678901076c20109452b338e0301a1411406f078e.pdf",
+    "previousBlobKeys": [
+      "guias/conservacion-alimentos/58dae8311e9eb4d8cf5897d1f6cd2a5b924e117ab41fe62d98def1280cbea38b.pdf"
+    ],
     "stripe": {
       "test": {
         "productId": "prod_V794Du7a04SOql",
-        "priceId": "price_1U6um22WVIl1hdpgbvYxnwCi",
-        "amountCents": 499
+        "priceId": "price_1UE5NX2WVIl1hdpgIDJsU7Qh",
+        "amountCents": 490,
+        "previousPriceIds": [
+          "price_1U6um22WVIl1hdpgbvYxnwCi"
+        ]
       }
     },
-    "amountCents": 499,
+    "amountCents": 490,
     "status": "testing"
   },
   {
     "id": "atragantamiento-bebes-ninos",
-    "title": "Atragantamiento en bebés y niños",
-    "description": "Qué hacer paso a paso ante un atragantamiento, según la edad, y cómo actuar hasta que llegue la ayuda.",
+    "title": "Atragantamiento infantil: ¿sabrías qué hacer?",
+    "description": "Lo que debes hacer —y lo que NO— cuando un niño se atraganta.",
     "benefits": [
       "Cómo reconocer una obstrucción parcial o completa",
       "Maniobras explicadas paso a paso según la edad",
@@ -121,11 +133,47 @@
     "stripe": {
       "test": {
         "productId": "prod_VDrczXaZaZyXIB",
-        "priceId": "price_1UDPth2WVIl1hdpg4TGag9e2",
-        "amountCents": 599
+        "priceId": "price_1UE5Ng2WVIl1hdpghhYvshau",
+        "amountCents": 690,
+        "previousPriceIds": [
+          "price_1UDPth2WVIl1hdpg4TGag9e2"
+        ]
       }
     },
-    "amountCents": 599,
+    "amountCents": 690,
     "status": "available"
+  },
+  {
+    "id": "sueno-infantil",
+    "title": "Sueño infantil: ¿qué es normal de verdad?",
+    "description": "Cómo funciona el sueño de los niños, qué puedes esperar en cada etapa y por qué no todo se soluciona con una rutina.",
+    "benefits": [
+      "Cómo funciona el sueño infantil y qué esperar según la edad",
+      "Mitos frecuentes y herramientas para acompañar el sueño",
+      "Sueño seguro, cambios habituales y cuándo consultar"
+    ],
+    "kind": "complete",
+    "pageCount": 57,
+    "category": "sueño",
+    "blobKey": "guias/sueno-infantil/95039c1c46b2f7f02db8deef44b769024d30377919afd4dc0357043d4ac71388.pdf",
+    "stripe": {
+      "test": {
+        "productId": "prod_VEYkborhUgPGVb",
+        "priceId": "price_1UE5d62WVIl1hdpgsVZH6X3N",
+        "amountCents": 1490
+      }
+    },
+    "amountCents": 1490,
+    "status": "testing"
+  },
+  {
+    "id": "manual-supervivencia-primer-ano",
+    "title": "Manual de supervivencia al primer año",
+    "description": "Las dudas que te van a surgir, explicadas de forma sencilla para que sepas qué hacer cuando lleguen.",
+    "amountCents": 1990,
+    "status": "coming-soon",
+    "kind": "complete",
+    "category": "crianza",
+    "stripe": {}
   }
 ]

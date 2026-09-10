@@ -110,24 +110,27 @@ export function validateCatalog(catalog) {
     ids.add(guia.id);
     assertText(guia.title, `${path}.title`, 3, MAX_TITLE_LENGTH);
     assertText(guia.description, `${path}.description`, 10, MAX_DESCRIPTION_LENGTH);
-    if (
-      !Array.isArray(guia.benefits) ||
-      guia.benefits.length !== GUIDE_BENEFITS_COUNT ||
-      guia.benefits.some((benefit) =>
-        typeof benefit !== 'string' ||
-        benefit !== benefit.trim() ||
-        benefit.length < 3 ||
-        benefit.length > MAX_BENEFIT_LENGTH)
-    ) throw new Error(`${path}.benefits debe contener tres beneficios válidos.`);
     if (!GUIDE_KINDS.includes(guia.kind)) throw new Error(`${path}.kind no es válido.`);
     if (!GUIDE_CATEGORIES.includes(guia.category)) throw new Error(`${path}.category no es válida.`);
     if (!GUIDE_STATUSES.includes(guia.status)) throw new Error(`${path}.status no es válido.`);
+    const isComingSoon = guia.status === 'coming-soon';
+    if (
+      (!isComingSoon || guia.benefits !== undefined) &&
+      (!Array.isArray(guia.benefits) ||
+        guia.benefits.length !== GUIDE_BENEFITS_COUNT ||
+        guia.benefits.some((benefit) =>
+          typeof benefit !== 'string' ||
+          benefit !== benefit.trim() ||
+          benefit.length < 3 ||
+          benefit.length > MAX_BENEFIT_LENGTH))
+    ) throw new Error(`${path}.benefits debe contener tres beneficios válidos.`);
     if (guia.downloadEnabled !== undefined && typeof guia.downloadEnabled !== 'boolean') {
       throw new Error(`${path}.downloadEnabled no es válido.`);
     }
-    if (!Number.isSafeInteger(guia.pageCount) || guia.pageCount < 1 || guia.pageCount > MAX_GUIDE_PAGE_COUNT) {
-      throw new Error(`${path}.pageCount no es válido.`);
-    }
+    if (
+      (!isComingSoon || guia.pageCount !== undefined) &&
+      (!Number.isSafeInteger(guia.pageCount) || guia.pageCount < 1 || guia.pageCount > MAX_GUIDE_PAGE_COUNT)
+    ) throw new Error(`${path}.pageCount no es válido.`);
     if (!Number.isSafeInteger(guia.amountCents) || guia.amountCents < 0 || guia.amountCents > MAX_PAID_AMOUNT_CENTS) {
       throw new Error(`${path}.amountCents no es válido.`);
     }
@@ -146,6 +149,9 @@ export function validateCatalog(catalog) {
       throw new Error(`${path} necesita un importe entre 0,50 € y 99.999,99 €.`);
     }
 
+    if (isComingSoon && (guia.blobKey !== undefined || guia.previousBlobKeys !== undefined || Object.keys(guia.stripe).length > 0)) {
+      throw new Error(`${path} coming-soon no puede tener PDF ni configuración Stripe.`);
+    }
     if (guia.blobKey !== undefined && !isValidBlobKey(guia.blobKey)) throw new Error(`${path}.blobKey no es válido.`);
     if (guia.previousBlobKeys !== undefined) {
       if (
@@ -180,9 +186,15 @@ export function assertProvisionAllowed(existing, guide, amountCents) {
   if (existing.status === 'free' || existing.status === 'archived') {
     throw new Error('No se puede provisionar una guía gratuita o archivada.');
   }
-  if (!sameCopy(existing, guide)) throw new Error('El slug ya pertenece a otra ficha. Para cambiar el copy, edita el catálogo por separado.');
-
   if (existing.status === 'coming-soon') {
+    const compatibleCopy =
+      existing.title === guide.title &&
+      existing.description === guide.description &&
+      existing.kind === guide.kind &&
+      existing.category === guide.category &&
+      (existing.pageCount === undefined || existing.pageCount === guide.pageCount) &&
+      (existing.benefits === undefined || JSON.stringify(existing.benefits) === JSON.stringify(guide.benefits));
+    if (!compatibleCopy) throw new Error('El slug ya pertenece a otra ficha. Para cambiar el copy, edita el catálogo por separado.');
     if (
       existing.amountCents !== amountCents ||
       existing.blobKey ||
@@ -191,6 +203,8 @@ export function assertProvisionAllowed(existing, guide, amountCents) {
     ) throw new Error('La guía coming-soon no se puede activar automáticamente de forma segura.');
     return;
   }
+
+  if (!sameCopy(existing, guide)) throw new Error('El slug ya pertenece a otra ficha. Para cambiar el copy, edita el catálogo por separado.');
 
   const test = existing.stripe.test;
   if (
