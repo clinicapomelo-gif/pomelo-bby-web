@@ -6,6 +6,27 @@ export const prerender = false;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export const POST: APIRoute = async ({ request }) => {
+  const origin = request.headers.get('origin');
+  if (origin) {
+    const allowedOrigins = new Set([new URL(request.url).origin]);
+    const siteUrl = import.meta.env.SITE_URL;
+
+    if (siteUrl) {
+      try {
+        allowedOrigins.add(new URL(siteUrl).origin);
+      } catch {
+        // Una URL mal configurada no debe ampliar los orígenes permitidos.
+      }
+    }
+
+    if (!allowedOrigins.has(origin)) {
+      return new Response(
+        JSON.stringify({ error: 'Origen no permitido.' }),
+        { status: 403, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+  }
+
   const resendKey = import.meta.env.RESEND_API_KEY;
   const fromEmail = import.meta.env.RESEND_FROM_EMAIL;
   const toEmail = import.meta.env.RESEND_TO_EMAIL;

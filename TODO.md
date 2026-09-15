@@ -5,18 +5,9 @@ Solo tareas pendientes. Si no está aquí, no bloquea.
 ## Estado actual
 
 - La web y `pomelobaby.es` están publicados; `MAINTENANCE_MODE=false`.
-- Stripe sigue en Sandbox. No se aceptan cobros reales y `GUIDES_ENABLED=false` mantiene desactivadas las compras de guías.
-- El catálogo contiene siete guías: cinco `available`, una gratuita con descarga desactivada y el Manual del primer año como `coming-soon`; las seis guías terminadas se muestran como «Próximamente» mientras `GUIDES_ENABLED=false`.
-- Las cinco guías de pago actuales tienen PDF privado y Price test: Primeros cuidados (5,90 €), Alimentación complementaria (14,90 €), Conservación de alimentos (4,90 €), Atragantamiento (6,90 €) y Sueño infantil (14,90 €).
-- Manual de supervivencia al primer año está anunciado a 19,90 €, pero todavía no tiene PDF, páginas ni beneficios definitivos.
-- El doble opt-in de El Chisme funciona en Preview.
-- Cuéntame por correo funciona en test, pero Live está bloqueado hasta guardar los casos de forma duradera.
-
-## Integrar la revisión actual
-
-- [ ] **[Dev]** Confirmar que los PDF de trabajo permanecen fuera de Git; solo se versionan sus `blobKey`.
-- [ ] **[Dev]** Hacer commit, push y PR de la revisión del catálogo, los precios, las versiones de PDF y el soporte de `coming-soon`.
-- [ ] **[Mar + Dev]** Revisar en Preview las siete fichas, sus títulos, descripciones, precios, categorías y estados.
+- Guías, consultas y El Chisme siguen desactivados por código. No se aceptan cobros, reservas ni suscripciones públicas.
+- Vercel Web Analytics está activo en Production.
+- La propiedad `pomelobaby.es` está verificada en Google Search Console y su sitemap está enviado, pendiente de lectura por Google.
 
 # 1. Antes de aceptar cobros o consultas reales
 
@@ -44,11 +35,12 @@ Solo tareas pendientes. Si no está aquí, no bloquea.
 # 2. Dominio, correo y Resend
 
 - [ ] **[Mar]** Crear o confirmar el correo profesional.
-- [ ] **[Dev]** Redirigir `www.pomelobaby.es` y `pomelo-bby-web.vercel.app` a `https://pomelobaby.es`.
 - [ ] **[Mar]** Completar la verificación del dominio en Resend y personalizar la página de baja.
-- [ ] **[Dev]** Configurar en Production el Segment ID, Topic ID y remitentes definitivos de Resend.
+- [ ] **[Dev]** Cuando el dominio esté verificado en Resend, confirmar en Production el Segment ID, Topic ID y remitentes definitivos de Resend.
 - [ ] **[Mar + Dev]** Probar Contacto, El Chisme y correos transaccionales con dominio propio en Gmail, Outlook y móvil.
-- [ ] **[Dev]** Verificar Google Search Console y enviar `https://pomelobaby.es/sitemap-index.xml`.
+- [ ] **[Dev]** Comprobar que Google puede leer el sitemap enviado y que descubre sus URLs; si el error persiste más de 48 horas, investigar la respuesta pública del dominio antes de reenviarlo.
+- [ ] **[Mar + Dev]** Revisar en Search Console la indexación de Inicio, Blog, Guías, Consultas y Sobre mí cuando Google haya procesado el sitemap; solicitar indexación solo de las páginas principales o de nuevo contenido relevante.
+- [ ] **[Mar + Dev]** Revisar mensualmente en Search Console las consultas, impresiones, clics, cobertura e incidencias para orientar el blog y detectar problemas de indexación.
 
 # 3. Activar consultas
 
@@ -73,7 +65,6 @@ Solo tareas pendientes. Si no está aquí, no bloquea.
 - [ ] **[Dev]** Configurar `STRIPE_WEBHOOK_SECRET` del Sandbox correcto en Preview.
 - [ ] **[Dev]** Habilitar temporalmente el checkout en Preview y comprobar que Production continúa rechazando credenciales test.
 - [ ] **[Mar + Dev]** Probar las cinco guías de extremo a extremo: pago test, email único, reintento del webhook, PDF correcto, página de gracias, caducidad y errores seguros.
-- [x] **[Dev]** Alimentación complementaria, Conservación de alimentos y Sueño infantil pasaron de `testing` a `available` después de superar sus compras de prueba.
 - [ ] **[Mar]** Crear los Products y Prices de Stripe Live cuando legal y fiscalidad estén cerrados.
 - [ ] **[Dev]** Añadir al catálogo los mapeos `stripe.live` sin reutilizar IDs del Sandbox.
 - [ ] **[Mar + Dev]** Hacer una compra real controlada de cada guía y verificar correo y descarga antes de abrir ventas.
@@ -88,11 +79,11 @@ Solo tareas pendientes. Si no está aquí, no bloquea.
 
 # 6. Desarrollo y QA final
 
-- [ ] **[Dev]** Añadir protección proporcionada contra abuso en los formularios públicos.
+- [ ] **[Dev]** Configurar en Vercel una regla de rate limiting para los formularios públicos, empezando en modo observación antes de bloquear solicitudes.
 - [ ] **[Profesional legal + Dev]** Aplicar las primeras capas de privacidad y los controles aprobados a todos los formularios.
 - [ ] **[Dev]** Auditar Vercel Analytics, Cal.com, cookies y almacenamiento local; pedir consentimiento solo cuando corresponda.
+- [ ] **[Mar + Dev]** Revisar mensualmente en Vercel Web Analytics las páginas más visitadas y fuentes de tráfico. No añadir Google Analytics mientras Vercel Analytics cubra las métricas necesarias y no se apruebe un cambio de privacidad.
 - [ ] **[Mar + Dev]** Añadir autoría enlazada, fecha visible de publicación o revisión y fuentes a los contenidos sanitarios.
-- [ ] **[Dev]** Mejorar los títulos SEO de Inicio, Blog y Consultas.
 - [ ] **[Dev]** Separar completamente las credenciales Live de Preview y comprobar OIDC de Blob.
 - [ ] **[Dev]** Ejecutar con Node 24 el build y la revisión final de móvil, escritorio, teclado, foco, errores, enlaces, 404, CSP, SEO, sitemap y robots.
 - [ ] **[Mar + Dev]** Probar en Production todos los formularios y servicios que vayan a quedar visibles.
