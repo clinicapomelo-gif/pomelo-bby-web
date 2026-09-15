@@ -27,6 +27,7 @@ pnpm-debug.log*
 # local worktrees, tooling and source assets
 .worktrees/
 .pi/
+.superset/
 .idea/
 .vercel/
 images/

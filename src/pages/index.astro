@@ -1,22 +1,25 @@
 ---
-import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
 import LeadMagnetForm from '../components/LeadMagnetForm.astro';
 import { CONSULTATIONS_ENABLED } from '../data/consultas';
+import { GUIDES_ENABLED, formatGuiaCategory, formatGuiaKind, guias, isGuiaVisible } from '../data/guias';
 
-// Get published blog posts, sorted by date (newest first)
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
 const latestPosts = allPosts
   .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
   .slice(0, 2);
 
-// Category colors for placeholders (using CSS variable values)
-const categoryColors: Record<string, { bg: string; accent: string }> = {
-  alimentacion: { bg: 'var(--color-cat-alimentacion-bg)', accent: 'var(--color-cat-alimentacion-accent)' },
-  sueño: { bg: 'var(--color-cat-sueno-bg)', accent: 'var(--color-cat-sueno-accent)' },
-  salud: { bg: 'var(--color-cat-salud-bg)', accent: 'var(--color-cat-salud-accent)' },
-  desarrollo: { bg: 'var(--color-cat-desarrollo-bg)', accent: 'var(--color-cat-desarrollo-accent)' },
-  crianza: { bg: 'var(--color-cat-crianza-bg)', accent: 'var(--color-cat-crianza-accent)' },
+const featuredGuides = guias
+  .filter((guia) => isGuiaVisible(guia, undefined))
+  .slice(0, 3);
+
+const categoryColors: Record<string, { accent: string }> = {
+  alimentacion: { accent: 'var(--color-cat-alimentacion-accent)' },
+  sueño: { accent: 'var(--color-cat-sueno-accent)' },
+  salud: { accent: 'var(--color-cat-salud-accent)' },
+  desarrollo: { accent: 'var(--color-cat-desarrollo-accent)' },
+  crianza: { accent: 'var(--color-cat-crianza-accent)' },
 };
 
 const categoryLabels: Record<string, string> = {
@@ -28,15 +31,29 @@ const categoryLabels: Record<string, string> = {
 };
 ---
 
-<Layout title="Inicio">
+<Layout
+  title="Salud infantil y crianza, sin dramas"
+  description="Pomelo Baby te ayuda a entender la salud infantil, separar lo importante del ruido y saber qué hacer después."
+>
   <!-- Hero -->
   <section class="hero">
     <div class="hero__inner">
+      <div class="hero__text">
+        <h1>Salud infantil y crianza, <span>sin dramas.</span></h1>
+        <p class="hero__lead">Entiende qué le pasa a tu peque, qué puedes hacer y cuándo necesitas consultar.</p>
+        <p class="hero__intro">Soy Mar, enfermera y divulgadora de salud infantil.</p>
+        <p class="hero__proof">Evidencia científica. Sentido común. Palabras normales.</p>
+        <p class="hero__aside">Sin culpa. Sin alarmismo. Sin 200 consejos contradictorios de Instagram.</p>
+        <div class="hero__cta">
+          <a href="/consultas" class="btn btn--primary">Quiero hablar con Mar</a>
+          <a href="/guias" class="btn btn--secondary">Ver las guías</a>
+        </div>
+      </div>
       <div class="hero__portrait">
         <div class="hero__arch">
           <img
             src="/mar-inicio.webp"
-            alt="Mar, enfermera infantil"
+            alt="Mar, enfermera infantil y creadora de Pomelo Baby"
             class="hero__photo"
             width="1200"
             height="1601"
@@ -44,15 +61,59 @@ const categoryLabels: Record<string, string> = {
           />
         </div>
       </div>
-      <div class="hero__text">
-        <h1>Hola, soy Mar</h1>
-        <p class="hero__promise">Enfermera y divulgadora de salud infantil</p>
-        <p class="hero__slogan">Salud infantil y crianza, sin dramas.<br />Sin culpa. Sin alarmismo. Sin 200 consejos contradictorios de Instagram.</p>
-        <p class="hero__tagline">Estoy aquí para ayudarte a entender qué está pasando con tu peque, separar lo importante del ruido y saber qué hacer después.<br /><strong>En palabras normales.</strong></p>
-        <div class="hero__cta">
-          <a href="/consultas" class="btn btn--primary">Quiero hablar con Mar</a>
-          <a href="/guias" class="btn btn--secondary">Ver las guías de Mar</a>
-        </div>
+    </div>
+  </section>
+
+  <!-- Caminos -->
+  <section class="paths" aria-labelledby="paths-title">
+    <div class="container">
+      <header class="section-heading">
+        <p class="section-heading__eyebrow">Empieza por aquí</p>
+        <h2 id="paths-title">¿Qué necesitas hoy?</h2>
+      </header>
+      <div class="paths__grid">
+        <a href="/consultas" class="path-card">
+          <span class="path-card__number" aria-hidden="true">01</span>
+          <h3>Tengo una duda sobre mi peque</h3>
+          <p>Consulta online conmigo y hablamos de vuestro caso concreto.</p>
+          <span class="path-card__link">Quiero consultar <span aria-hidden="true">→</span></span>
+        </a>
+        <a href="/guias" class="path-card">
+          <span class="path-card__number" aria-hidden="true">02</span>
+          <h3>Quiero aprender y estar preparado/a</h3>
+          <p>Guías prácticas para entender la salud infantil y saber cómo actuar.</p>
+          <span class="path-card__link">Ver las guías <span aria-hidden="true">→</span></span>
+        </a>
+        <a href="/blog" class="path-card">
+          <span class="path-card__number" aria-hidden="true">03</span>
+          <h3>Quiero entender mejor la crianza</h3>
+          <p>Contenido para criar con menos miedo, menos culpa y más criterio.</p>
+          <span class="path-card__link">Explorar Pomelo <span aria-hidden="true">→</span></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Manifiesto -->
+  <section class="manifesto" aria-labelledby="manifesto-title">
+    <div class="container manifesto__inner">
+      <p class="manifesto__line">No necesitas saberlo todo sobre crianza.</p>
+      <h2 id="manifesto-title">Necesitas saber qué importa.</h2>
+      <div class="manifesto__copy">
+        <p>En Pomelo Baby encontrarás información sobre salud infantil y crianza explicada de forma clara, basada en evidencia y sin convertir cada duda en una emergencia.</p>
+        <p>Porque criar ya es suficientemente difícil como para hacerlo con miedo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Por qué Pomelo -->
+  <section class="why-pomelo" aria-labelledby="why-pomelo-title">
+    <div class="container why-pomelo__inner">
+      <h2 id="why-pomelo-title">¿Por qué Pomelo?</h2>
+      <div class="why-pomelo__content">
+        <p>Porque información hay de sobra. Lo difícil es saber qué hacer con ella.</p>
+        <p>Te ayudo a separar lo importante del ruido, entender qué está pasando y saber cuál puede ser el siguiente paso.</p>
+        <a href="/sobre-mi">Conoce a Mar <span aria-hidden="true">→</span></a>
       </div>
     </div>
   </section>
@@ -62,73 +123,98 @@ const categoryLabels: Record<string, string> = {
     <div class="container">
       <div class="home-consultations__header">
         <div>
-          <p class="home-consultations__eyebrow">Consultas con Mar</p>
-          <h2 id="home-consultations-title">No todas las dudas necesitan lo mismo</h2>
+          <h2 id="home-consultations-title">Consultas online con Mar</h2>
+          <p class="home-consultations__subtitle">Porque a veces necesitas una respuesta. Y otras, poder hablarlo.</p>
         </div>
-        <p class="home-consultations__lead">A veces necesitas una respuesta rápida.<br />Otras, hablarlo con calma.<br />Y algunas situaciones necesitan un plan y acompañamiento.<br /><br />Elige la forma que mejor encaje contigo y con lo que necesitas.</p>
+        <div class="home-consultations__intro">
+          <p>A veces basta con una respuesta por escrito. Otras ayuda poder hablarlo con calma. Y algunas situaciones necesitan ordenar varias piezas y hacer seguimiento.</p>
+          <p>Por eso puedes elegir el formato que mejor encaje con vuestra situación.</p>
+        </div>
       </div>
 
       <ul class="home-consultations__options" aria-label="Modalidades de consulta">
         <li>
-          <a href="/consultas#consulta-correo" class="home-consultations__card home-consultations__card--email">
-            <div class="home-consultations__card-top">
-              <span class="home-consultations__format">Por correo</span>
-              <span class="home-consultations__number" aria-hidden="true">01</span>
-            </div>
-            <h3>Tengo una duda puntual</h3>
-            <p class="home-consultations__service">Cuéntamela por correo</p>
-            <p class="home-consultations__description">Me cuentas qué está pasando y te respondo por escrito, de forma clara y personalizada, para ayudarte a entender la situación y saber qué hacer después.</p>
-            <p class="home-consultations__detail">Respuesta en 24–48 horas laborables</p>
+          <article class="home-consultations__card">
+            <p class="home-consultations__need">Tengo una duda concreta</p>
+            <h3>Respuesta por escrito</h3>
+            <p class="home-consultations__description">Para cuando tienes una duda puntual y quieres saber qué puede estar pasando, qué puedes hacer y cuándo deberías consultar.</p>
+            <p class="home-consultations__ideal"><strong>Ideal si:</strong> quieres una respuesta clara sin necesidad de una videollamada.</p>
             <div class="home-consultations__card-footer">
-              <strong>{CONSULTATIONS_ENABLED ? '19 €' : 'Próximamente'}</strong>
-              <span>Ver detalles <span aria-hidden="true">→</span></span>
+              <a href="/consultas#consulta-correo">Quiero mi respuesta <span aria-hidden="true">→</span></a>
+              {!CONSULTATIONS_ENABLED && <span>Próximamente</span>}
             </div>
-          </a>
+          </article>
         </li>
         <li>
-          <a href="/consultas#duda-concreta" class="home-consultations__card home-consultations__card--video">
-            <div class="home-consultations__card-top">
-              <span class="home-consultations__format">Videollamada · 20 min</span>
-              <span class="home-consultations__number" aria-hidden="true">02</span>
-            </div>
-            <h3>Necesito hablarlo con calma</h3>
-            <p class="home-consultations__service">Duda concreta</p>
-            <p class="home-consultations__description">A veces escribir no es suficiente. Hablamos durante 20 minutos, ponemos en orden lo que está pasando y resolvemos tus dudas para que termines la llamada sabiendo qué hacer.</p>
-            <p class="home-consultations__detail">Tú eliges el día y la hora</p>
+          <article class="home-consultations__card">
+            <p class="home-consultations__need">Quiero hablarlo contigo</p>
+            <h3>Consulta por videollamada</h3>
+            <p class="home-consultations__description">Para cuando necesitas contarme el contexto, resolver varias dudas o simplemente prefieres hablarlo cara a cara.</p>
+            <p class="home-consultations__ideal"><strong>Ideal si:</strong> necesitas poder explicar la situación y conversar sobre ella.</p>
             <div class="home-consultations__card-footer">
-              <strong>{CONSULTATIONS_ENABLED ? '49 €' : 'Próximamente'}</strong>
-              <span>Ver detalles <span aria-hidden="true">→</span></span>
+              <a href="/consultas#duda-concreta">Quiero hablar con Mar <span aria-hidden="true">→</span></a>
+              {!CONSULTATIONS_ENABLED && <span>Próximamente</span>}
             </div>
-          </a>
+          </article>
         </li>
         <li>
-          <a href="/consultas#hablemos-tranquilamente" class="home-consultations__card home-consultations__card--plan">
-            <div class="home-consultations__card-top">
-              <span class="home-consultations__format">Videollamada + seguimiento · 14 días</span>
-              <span class="home-consultations__number" aria-hidden="true">03</span>
-            </div>
-            <h3>Necesito un plan</h3>
-            <p class="home-consultations__service">Hablemos y lo ponemos en orden.</p>
-            <p class="home-consultations__description">Cuando hay un problema que lleváis tiempo intentando resolver, algo que se ha complicado o una situación que está afectando al día a día de la familia, a veces una respuesta puntual no es suficiente.<br /><br />Hablamos por videollamada, preparo un plan personalizado y te acompaño durante 14 días para ver cómo evoluciona la situación, resolver las dudas que vayan surgiendo y ajustar el plan sobre la marcha.</p>
-            <p class="home-consultations__detail">Plan personalizado + recursos + 14 días de seguimiento</p>
+          <article class="home-consultations__card">
+            <p class="home-consultations__need">Necesito un poco más de acompañamiento</p>
+            <h3>Videollamada + seguimiento</h3>
+            <p class="home-consultations__description">Para situaciones en las que una sola conversación se queda corta y necesitas ordenar varias piezas y hacer seguimiento.</p>
+            <p class="home-consultations__ideal"><strong>Ideal si:</strong> quieres que podamos revisar cómo evoluciona la situación.</p>
             <div class="home-consultations__card-footer">
-              <strong>{CONSULTATIONS_ENABLED ? '99 €' : 'Próximamente'}</strong>
-              <span>Ver detalles <span aria-hidden="true">→</span></span>
+              <a href="/consultas#hablemos-tranquilamente">Quiero seguimiento <span aria-hidden="true">→</span></a>
+              {!CONSULTATIONS_ENABLED && <span>Próximamente</span>}
             </div>
-          </a>
+          </article>
         </li>
       </ul>
+
+      <p class="home-consultations__notice">Las consultas online no sustituyen una valoración médica presencial cuando esta sea necesaria. Si existe una situación urgente, debes acudir a los servicios de emergencia correspondientes.</p>
     </div>
   </section>
 
-  <!-- Guía gratuita y El Chisme -->
-  <LeadMagnetForm />
+  <!-- Guías -->
+  <section class="guides" aria-labelledby="guides-title">
+    <div class="container">
+      <div class="guides__header">
+        <div>
+          <p class="section-heading__eyebrow">Herramientas para familias</p>
+          <h2 id="guides-title">Guías prácticas</h2>
+        </div>
+        <p>Cuando quieres tener información fiable a mano y saber cómo actuar.</p>
+      </div>
+      <div class="guides__grid">
+        {featuredGuides.map((guide) => (
+          <a href={`/guias/${guide.id}`} class="guide-card">
+            <div class="guide-card__top">
+              <span>{formatGuiaKind(guide.kind)}</span>
+              <span>{formatGuiaCategory(guide.category)}</span>
+            </div>
+            <h3>{guide.title}</h3>
+            <p>{guide.description}</p>
+            <div class="guide-card__footer">
+              <strong>{GUIDES_ENABLED ? 'Ver guía' : 'Próximamente'}</strong>
+              <span aria-hidden="true">→</span>
+            </div>
+          </a>
+        ))}
+      </div>
+      <div class="section-link">
+        <a href="/guias">Ver todas las guías <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
 
   <!-- Blog -->
-  <section class="blog">
+  <section class="blog" aria-labelledby="blog-title">
     <div class="container">
-      <h2>Lo último en el blog</h2>
-      <p class="section-subtitle">Respuestas tranquilas a las dudas que te quitan el sueño</p>
+      <header class="section-heading section-heading--center">
+        <p class="section-heading__eyebrow">El blog de Pomelo</p>
+        <h2 id="blog-title">Dudas que te quitan el sueño</h2>
+        <p>Respuestas tranquilas para entender qué pasa y qué hacer después.</p>
+      </header>
       <div class="blog__grid">
         {latestPosts.map((post) => {
           const colors = categoryColors[post.data.category] || categoryColors.crianza;
@@ -136,46 +222,119 @@ const categoryLabels: Record<string, string> = {
             <a href={`/blog/${post.id}`} class="post-card">
               <div class="post-card__image">
                 {post.data.image ? (
-                  <img src={post.data.image} alt={post.data.imageAlt || post.data.title} />
+                  <img src={post.data.image} alt={post.data.imageAlt || post.data.title} loading="lazy" />
                 ) : (
                   <div class={`post-card__placeholder post-card__placeholder--${post.data.category}`}>
-                    <svg class="post-card__icon" viewBox="0 0 24 24" fill="none" stroke={colors.accent} stroke-width="1.5">
-                      <path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" stroke-linecap="round" stroke-linejoin="round"/>
+                    <svg class="post-card__icon" viewBox="0 0 24 24" fill="none" stroke={colors.accent} stroke-width="1.5" aria-hidden="true">
+                      <path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" stroke-linecap="round" stroke-linejoin="round"></path>
                     </svg>
                   </div>
                 )}
               </div>
               <div class="post-card__content">
                 <span class="post-card__category">{categoryLabels[post.data.category]}</span>
-                <h3 class="post-card__title">{post.data.title}</h3>
-                <p class="post-card__desc">{post.data.description}</p>
+                <h3>{post.data.title}</h3>
+                <p>{post.data.description}</p>
               </div>
             </a>
           );
         })}
       </div>
       <div class="section-link">
-        <a href="/blog">Ver todos los artículos →</a>
+        <a href="/blog">Ver todos los artículos <span aria-hidden="true">→</span></a>
       </div>
     </div>
   </section>
 
+  <!-- El Chisme -->
+  <LeadMagnetForm eyebrow="El Chisme de Mar" />
+
+  <!-- Cierre -->
+  <section class="closing" aria-labelledby="closing-title">
+    <div class="container closing__inner">
+      <h2 id="closing-title">Menos ruido. Más criterio.</h2>
+      <p>Salud infantil y crianza, en palabras normales.</p>
+      <div class="closing__cta">
+        <a href="/consultas" class="btn btn--primary">Quiero hablar con Mar</a>
+        <a href="/guias" class="btn btn--secondary">Ver las guías</a>
+      </div>
+    </div>
+  </section>
 </Layout>
 
 <style>
-  /* Hero */
   .hero {
+    padding: clamp(3.5rem, 8vw, 7rem) var(--spacing-lg);
     background-color: var(--color-cream);
-    padding: clamp(3rem, 7vw, 6rem) var(--spacing-lg);
   }
 
   .hero__inner {
     display: grid;
-    grid-template-columns: minmax(260px, 350px) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.25fr) minmax(260px, 360px);
     align-items: center;
-    gap: clamp(var(--spacing-xl), 7vw, 5rem);
-    max-width: 1080px;
+    gap: clamp(var(--spacing-xl), 8vw, 7rem);
+    max-width: 1120px;
     margin: 0 auto;
+  }
+
+  .hero__text {
+    max-width: 680px;
+  }
+
+  .section-heading__eyebrow {
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-coral-hover);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  .hero h1 {
+    max-width: 720px;
+    margin-bottom: var(--spacing-lg);
+    font-size: clamp(2.5rem, 6vw, 4.8rem);
+    line-height: 1.04;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+  }
+
+  .hero h1 span {
+    color: var(--color-coral);
+  }
+
+  .hero__lead {
+    max-width: 630px;
+    margin-bottom: var(--spacing-lg);
+    color: var(--color-text);
+    font-size: clamp(1.15rem, 2vw, 1.4rem);
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .hero__intro {
+    margin-bottom: var(--spacing-xs);
+    color: var(--color-text);
+    font-weight: 700;
+  }
+
+  .hero__proof {
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .hero__aside {
+    margin-bottom: var(--spacing-lg);
+    color: var(--color-text-tertiary);
+    font-size: 0.82rem;
+    line-height: 1.55;
+  }
+
+  .hero__cta,
+  .closing__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
   }
 
   .hero__portrait {
@@ -183,12 +342,12 @@ const categoryLabels: Record<string, string> = {
   }
 
   .hero__portrait::before {
-    content: '';
     position: absolute;
     inset: 0.75rem -0.75rem -0.75rem 0.75rem;
     border: 1px solid var(--color-peach);
     border-radius: 50% 50% var(--radius-md) var(--radius-md) / 30% 30% var(--radius-md) var(--radius-md);
     background-color: var(--color-nude);
+    content: '';
   }
 
   .hero__arch {
@@ -206,79 +365,221 @@ const categoryLabels: Record<string, string> = {
     object-position: center 42%;
   }
 
-  .hero h1 {
-    font-size: clamp(2rem, 4vw, 2.75rem);
-    margin-bottom: var(--spacing-xs);
+  .paths,
+  .why-pomelo,
+  .guides,
+  .blog,
+  .closing {
+    padding: clamp(4rem, 8vw, 6.5rem) 0;
   }
 
-  .hero__promise {
-    color: var(--color-text);
-    font-size: 1.1rem;
-    font-weight: 700;
-    line-height: 1.5;
-    margin-bottom: var(--spacing-md);
+  .paths {
+    background-color: var(--color-white);
   }
 
-  .hero__slogan {
-    color: var(--color-coral);
-    font-size: 1.1rem;
-    font-weight: 700;
-    line-height: 1.5;
-    margin-bottom: var(--spacing-md);
+  .section-heading {
+    max-width: 680px;
+    margin-bottom: clamp(var(--spacing-lg), 5vw, var(--spacing-xl));
   }
 
-  .hero__tagline {
-    font-size: 1.05rem;
+  .section-heading h2,
+  .guides h2,
+  .home-consultations h2 {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.025em;
+  }
+
+  .section-heading--center {
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+  }
+
+  .section-heading--center p:last-child {
+    margin: var(--spacing-sm) 0 0;
     color: var(--color-text-secondary);
-    line-height: 1.6;
-    margin-bottom: var(--spacing-md);
   }
 
-  .hero__tagline strong {
-    color: var(--color-text);
+  .paths__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--spacing-md);
   }
 
-  .hero__cta {
+  .path-card {
     display: flex;
-    gap: var(--spacing-sm);
-    flex-wrap: wrap;
+    min-height: 300px;
+    flex-direction: column;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-cream);
+    color: var(--color-text);
+    transition: border-color 0.2s ease, transform 0.2s ease;
   }
 
-  /* Consultas */
-  .home-consultations {
-    scroll-margin-top: 5rem;
-    padding: clamp(4rem, 8vw, 6rem) 0;
+  .path-card:hover {
+    border-color: var(--color-coral);
+    color: var(--color-text);
+    transform: translateY(-3px);
+  }
+
+  .path-card__number {
+    margin-bottom: auto;
+    color: var(--color-peach);
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  .path-card h3 {
+    margin: var(--spacing-xl) 0 var(--spacing-sm);
+    font-size: 1.25rem;
+  }
+
+  .path-card p {
+    color: var(--color-text-secondary);
+    font-size: 0.92rem;
+  }
+
+  .path-card__link,
+  .section-link a {
+    color: var(--color-coral-hover);
+    font-size: 0.88rem;
+    font-weight: 700;
+  }
+
+  .manifesto {
+    padding: clamp(3.5rem, 7vw, 4rem) 0;
     background-color: var(--color-nude);
   }
 
-  .home-consultations__header {
+  .manifesto__inner {
+    max-width: 900px;
+  }
+
+  .manifesto__line {
+    margin: 0 0 0.4rem;
+    color: var(--color-text-secondary);
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .manifesto h2 {
+    max-width: 720px;
+    margin: 0 auto;
+    color: var(--color-coral-hover);
+    font-size: clamp(2.25rem, 5vw, 3.8rem);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+    text-align: center;
+  }
+
+  .manifesto__copy {
     display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(300px, 0.75fr);
-    align-items: end;
-    gap: clamp(var(--spacing-lg), 6vw, 5rem);
-    max-width: 1040px;
-    margin: 0 auto var(--spacing-xl);
+    grid-template-columns: minmax(0, 1.35fr) minmax(220px, 0.8fr);
+    gap: clamp(var(--spacing-lg), 5vw, 2.5rem);
+    max-width: 730px;
+    margin: var(--spacing-lg) auto 0;
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--color-peach);
   }
 
-  .home-consultations__eyebrow {
-    margin-bottom: var(--spacing-sm);
-    color: var(--color-coral-text);
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .home-consultations h2 {
-    max-width: 600px;
-    margin: 0;
-    font-size: clamp(1.85rem, 4vw, 2.6rem);
-  }
-
-  .home-consultations__lead {
+  .manifesto__copy p {
     margin: 0;
     color: var(--color-text-secondary);
     line-height: 1.75;
+  }
+
+  .manifesto__copy p:last-child {
+    margin-bottom: 0;
+    color: var(--color-text);
+    font-weight: 700;
+  }
+
+  .why-pomelo {
+    background-color: var(--color-white);
+  }
+
+  .why-pomelo__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(300px, 0.8fr);
+    align-items: start;
+    gap: clamp(var(--spacing-lg), 10vw, 8rem);
+    max-width: 1040px;
+  }
+
+  .why-pomelo h2 {
+    margin: 0;
+    font-size: clamp(2.25rem, 5vw, 3.8rem);
+    letter-spacing: -0.04em;
+  }
+
+  .why-pomelo__content p {
+    margin: 0 0 var(--spacing-md);
+    color: var(--color-text-secondary);
+    line-height: 1.75;
+  }
+
+  .why-pomelo__content p:last-of-type {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .why-pomelo__content a {
+    display: inline-block;
+    margin-top: var(--spacing-sm);
+    color: var(--color-coral-hover);
+    font-size: 0.88rem;
+    font-weight: 700;
+  }
+
+  .guides__header,
+  .home-consultations__header {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(300px, 0.8fr);
+    align-items: start;
+    gap: clamp(var(--spacing-lg), 8vw, 6rem);
+    max-width: 1040px;
+    margin: 0 auto;
+  }
+
+  .home-consultations {
+    scroll-margin-top: 5rem;
+    padding: clamp(4rem, 8vw, 6.5rem) 0;
+    background-color: var(--color-cream);
+  }
+
+  .home-consultations__header {
+    align-items: end;
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .guides__header > p {
+    margin: 0;
+    color: var(--color-text-secondary);
+    line-height: 1.75;
+  }
+
+  .home-consultations__subtitle {
+    max-width: 500px;
+    margin: var(--spacing-sm) 0 0;
+    color: var(--color-coral-hover);
+    font-weight: 600;
+    line-height: 1.6;
+  }
+
+  .home-consultations__intro p {
+    margin: 0 0 var(--spacing-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.75;
+  }
+
+  .home-consultations__intro p:last-child {
+    margin-bottom: 0;
+    color: var(--color-text);
+    font-weight: 600;
   }
 
   .home-consultations__options {
@@ -289,44 +590,18 @@ const categoryLabels: Record<string, string> = {
     margin: 0 auto;
   }
 
-  .home-consultations__options li {
-    min-width: 0;
-  }
-
   .home-consultations__card {
     display: flex;
-    flex-direction: column;
     height: 100%;
-    min-height: 410px;
+    min-height: 390px;
+    flex-direction: column;
     padding: clamp(1.35rem, 2.5vw, 2rem);
     border: 1px solid var(--color-border);
-    border-top: 4px solid var(--color-peach);
     border-radius: var(--radius-md);
     background-color: var(--color-white);
     color: var(--color-text);
-    box-shadow: 0 5px 18px rgba(45, 45, 45, 0.05);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .home-consultations__card--video {
-    border-top-color: var(--color-coral);
-  }
-
-  .home-consultations__card--plan {
-    border-top-color: var(--color-coral-hover);
-  }
-
-  .home-consultations__card:hover {
-    transform: translateY(-4px);
-    color: var(--color-text);
-    box-shadow: 0 12px 30px rgba(45, 45, 45, 0.1);
-  }
-
-  .home-consultations__card:focus-visible {
-    outline-offset: 4px;
-  }
-
-  .home-consultations__card-top,
   .home-consultations__card-footer {
     display: flex;
     align-items: center;
@@ -334,107 +609,160 @@ const categoryLabels: Record<string, string> = {
     gap: var(--spacing-md);
   }
 
-  .home-consultations__card-top {
-    margin-bottom: var(--spacing-lg);
-  }
-
-  .home-consultations__format {
-    color: var(--color-text-tertiary);
+  .home-consultations__need {
+    min-height: 3.2em;
+    margin-bottom: var(--spacing-md);
+    color: var(--color-coral-hover);
     font-size: 0.72rem;
     font-weight: 700;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.07em;
+    line-height: 1.6;
     text-transform: uppercase;
   }
 
-  .home-consultations__number {
-    color: var(--color-peach);
-    font-size: 1.6rem;
-    font-weight: 700;
-    line-height: 1;
-  }
-
   .home-consultations__card h3 {
-    margin-bottom: var(--spacing-xs);
-    font-size: clamp(1.15rem, 2vw, 1.35rem);
-  }
-
-  .home-consultations__service {
     margin-bottom: var(--spacing-md);
-    color: var(--color-coral-text);
-    font-size: 0.85rem;
-    font-weight: 700;
+    font-size: 1.25rem;
   }
 
   .home-consultations__description {
-    margin-bottom: var(--spacing-lg);
     color: var(--color-text-secondary);
     font-size: 0.9rem;
     line-height: 1.7;
   }
 
-  .home-consultations__detail {
+  .home-consultations__ideal {
     margin: auto 0 0;
     padding-top: var(--spacing-md);
     border-top: 1px solid var(--color-border);
-    color: var(--color-text-tertiary);
-    font-size: 0.78rem;
+    color: var(--color-text-secondary);
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+
+  .home-consultations__ideal strong {
+    color: var(--color-text);
   }
 
   .home-consultations__card-footer {
-    margin-top: var(--spacing-md);
+    align-items: flex-start;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-lg);
   }
 
-  .home-consultations__card-footer strong {
-    color: var(--color-text);
-    font-size: 1.3rem;
-  }
-
-  .home-consultations__card-footer > span {
-    color: var(--color-coral-text);
+  .home-consultations__card-footer a {
+    color: var(--color-coral-hover);
     font-size: 0.82rem;
     font-weight: 700;
   }
 
-  /* Blog */
-  .blog {
-    padding: var(--spacing-xl) 0;
+  .home-consultations__card-footer > span {
+    color: var(--color-text-tertiary);
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+
+  .home-consultations__notice {
+    max-width: 1040px;
+    margin: var(--spacing-xl) auto 0;
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--color-peach);
+    color: var(--color-text-tertiary);
+    font-size: 0.72rem;
+    line-height: 1.6;
+  }
+
+  .guides {
+    background-color: var(--color-white);
+  }
+
+  .guides__header {
+    align-items: end;
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .guides__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--spacing-md);
+    max-width: 1040px;
+    margin: 0 auto;
+  }
+
+  .guide-card {
+    display: flex;
+    min-height: 330px;
+    flex-direction: column;
+    padding: clamp(1.35rem, 2.5vw, 2rem);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
     background-color: var(--color-cream);
+    color: var(--color-text);
+    transition: border-color 0.2s ease, transform 0.2s ease;
   }
 
-  .blog h2 {
-    text-align: center;
-    font-size: 1.5rem;
-    margin-bottom: var(--spacing-xs);
+  .guide-card:hover {
+    border-color: var(--color-coral);
+    color: var(--color-text);
+    transform: translateY(-3px);
   }
 
-  .section-subtitle {
-    text-align: center;
+  .guide-card__top {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .guide-card__top span {
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    background-color: var(--color-peach);
+    color: var(--color-coral-hover);
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .guide-card h3 {
+    margin-bottom: var(--spacing-sm);
+    font-size: 1.15rem;
+    line-height: 1.4;
+  }
+
+  .guide-card > p {
     color: var(--color-text-secondary);
-    font-size: 0.95rem;
-    margin-bottom: var(--spacing-lg);
+    font-size: 0.88rem;
+    line-height: 1.65;
+  }
+
+  .guide-card__footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--color-border);
+    color: var(--color-coral-hover);
+    font-size: 0.82rem;
   }
 
   .section-link {
-    text-align: center;
     margin-top: var(--spacing-lg);
+    text-align: center;
   }
 
-  .section-link a {
-    color: var(--color-coral-text);
-    font-weight: 500;
-    font-size: 0.95rem;
+  .blog {
+    background-color: var(--color-cream);
   }
 
-  .section-link a:hover {
-    text-decoration: underline;
-  }
-
-  /* Blog cards */
   .blog__grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--spacing-lg);
-    max-width: 700px;
+    max-width: 800px;
     margin: 0 auto;
   }
 
@@ -445,23 +773,19 @@ const categoryLabels: Record<string, string> = {
     border-radius: var(--radius-md);
     background-color: var(--color-white);
     color: var(--color-text);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 2px 8px rgba(45, 45, 45, 0.04);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
   .post-card:hover {
     color: var(--color-text);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  }
-
-  .post-card:focus-visible {
-    outline-offset: 4px;
+    box-shadow: 0 8px 22px rgba(45, 45, 45, 0.08);
+    transform: translateY(-3px);
   }
 
   .post-card__image {
-    aspect-ratio: 16/9;
     overflow: hidden;
+    aspect-ratio: 16 / 9;
   }
 
   .post-card__image img {
@@ -471,9 +795,9 @@ const categoryLabels: Record<string, string> = {
   }
 
   .post-card__placeholder {
+    display: flex;
     width: 100%;
     height: 100%;
-    display: flex;
     align-items: center;
     justify-content: center;
   }
@@ -486,104 +810,155 @@ const categoryLabels: Record<string, string> = {
 
   .post-card__icon {
     width: 48px;
-    height: 48px;
     opacity: 0.6;
   }
 
   .post-card__content {
-    padding: var(--spacing-md) var(--spacing-lg);
+    padding: var(--spacing-lg);
   }
 
   .post-card__category {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
     display: inline-block;
     margin-bottom: var(--spacing-sm);
     padding: 0.2rem 0.6rem;
     border-radius: 999px;
     background-color: var(--color-peach);
-    color: var(--color-coral-text);
-    font-weight: 600;
+    color: var(--color-coral-hover);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
   }
 
-  .post-card__title {
-    font-size: 1.05rem;
-    font-weight: 600;
-    margin-bottom: var(--spacing-xs);
-    line-height: 1.3;
-    color: var(--color-text);
+  .post-card h3 {
+    margin-bottom: var(--spacing-sm);
+    font-size: 1.1rem;
   }
 
-  .post-card__desc {
-    font-size: 0.9rem;
+  .post-card p {
+    margin: 0;
     color: var(--color-text-secondary);
-    margin-bottom: 0;
-    line-height: 1.5;
+    font-size: 0.88rem;
+    line-height: 1.6;
   }
 
-  /* Responsive */
-  @media (max-width: 1024px) {
-    .blog__grid {
-      max-width: 500px;
+  .closing {
+    background-color: var(--color-nude);
+    text-align: center;
+  }
+
+  .closing__inner {
+    max-width: 800px;
+  }
+
+  .closing h2 {
+    margin-bottom: var(--spacing-sm);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+  }
+
+  .closing p {
+    margin-bottom: var(--spacing-lg);
+    color: var(--color-text-secondary);
+    font-size: 1.1rem;
+  }
+
+  .closing__cta {
+    justify-content: center;
+  }
+
+  @media (max-width: 900px) {
+    .hero__inner {
+      grid-template-columns: minmax(0, 1fr) minmax(230px, 290px);
+      gap: var(--spacing-xl);
+    }
+
+    .paths__grid,
+    .guides__grid,
+    .home-consultations__options {
+      grid-template-columns: 1fr;
+      max-width: 520px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    .path-card,
+    .guide-card,
+    .home-consultations__card {
+      min-height: 0;
+    }
+
+    .home-consultations__need {
+      min-height: 0;
+    }
+
+    .path-card__number {
+      margin-bottom: 0;
+    }
+
+    .path-card h3,
+    .guide-card__top {
+      margin-top: var(--spacing-lg);
     }
   }
 
   @media (max-width: 768px) {
     .hero {
-      padding: var(--spacing-lg) var(--spacing-lg);
+      padding: var(--spacing-xl) var(--spacing-lg);
     }
 
     .hero__inner {
       grid-template-columns: 1fr;
-      justify-items: center;
-      gap: var(--spacing-xl);
-      text-align: center;
     }
 
     .hero__portrait {
-      width: min(78vw, 300px);
+      width: min(75vw, 300px);
+      margin: var(--spacing-md) auto 0;
     }
 
-    .hero__portrait::before {
-      inset: 0.75rem -0.75rem -0.75rem 0.75rem;
+    .guides__header,
+    .home-consultations__header,
+    .manifesto__copy,
+    .why-pomelo__inner {
+      grid-template-columns: 1fr;
+      margin-left: 0;
     }
 
-    .hero__text {
-      max-width: 600px;
-    }
-
-    .hero h1 {
-      font-size: 1.75rem;
-    }
-
-    .hero__cta {
-      justify-content: center;
-    }
-
+    .guides__header,
     .home-consultations__header {
-      grid-template-columns: 1fr;
-      align-items: start;
-      gap: var(--spacing-md);
       margin-bottom: var(--spacing-lg);
-    }
-
-    .home-consultations__options {
-      grid-template-columns: 1fr;
-      max-width: 440px;
-    }
-
-    .home-consultations__card {
-      min-height: 0;
     }
 
     .blog__grid {
       grid-template-columns: 1fr;
-      max-width: 340px;
+      max-width: 380px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero {
+      padding-right: var(--spacing-md);
+      padding-left: var(--spacing-md);
     }
 
-    .blog h2 {
-      font-size: 1.3rem;
+    .hero h1 {
+      font-size: clamp(2.25rem, 12vw, 3.2rem);
+    }
+
+    .hero__cta,
+    .closing__cta {
+      flex-direction: column;
+    }
+
+    .hero__cta .btn,
+    .closing__cta .btn {
+      width: 100%;
+    }
+
+    .manifesto h2 {
+      font-size: clamp(2.1rem, 10vw, 2.8rem);
     }
   }
 </style>

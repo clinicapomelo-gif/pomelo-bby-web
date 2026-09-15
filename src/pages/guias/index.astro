@@ -13,13 +13,17 @@ import {
 } from '../../data/guias';
 
 const stripeMode = getStripeMode(import.meta.env.STRIPE_SECRET_KEY);
+const guideOrder = [
+  'sueno-infantil',
+  'conservacion-alimentos',
+  'conservacion-leche-materna',
+  'guia-definitiva-empezar-comer',
+  'atragantamiento-bebes-ninos',
+  'recomendaciones-generales-recien-nacido',
+];
 const visibleGuias = guias
-  .filter((guia) => isGuiaVisible(guia, stripeMode))
-  .sort((a, b) =>
-    Number(a.status !== 'free') - Number(b.status !== 'free') ||
-    Number(a.kind !== 'complete') - Number(b.kind !== 'complete') ||
-    getGuiaPrice(a, stripeMode) - getGuiaPrice(b, stripeMode),
-  );
+  .filter((guia) => guideOrder.includes(guia.id) && isGuiaVisible(guia, stripeMode))
+  .sort((a, b) => guideOrder.indexOf(a.id) - guideOrder.indexOf(b.id));
 ---
 
 <Layout title="Las guías de Mar" description="Recursos claros, prácticos y basados en evidencia para acompañarte en las dudas del día a día.">
@@ -27,7 +31,7 @@ const visibleGuias = guias
     <div class="container">
       <header class="page-header">
         <h1>Las <span>guías</span> de Mar</h1>
-        <p class="page-header__subtitle">Yo me encargo de revisar y filtrar la evidencia. Tú recibes lo importante, explicado en palabras normales, sin ruido ni dramas.</p>
+        <p class="page-header__subtitle">Yo me encargo de revisar y filtrar la evidencia. Tú recibes lo importante, explicado en palabras normales y sin ruido ni dramas.</p>
       </header>
 
       <div class="tienda__grid">
