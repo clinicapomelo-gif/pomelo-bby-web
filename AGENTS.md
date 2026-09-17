@@ -1,4 +1,4 @@
-# AGENTS.md — pomelo.bby
+# AGENTS.md — Pomelo Baby
 
 ## Proyecto
 
@@ -60,6 +60,8 @@ Como rasgo identitario heredado de Instagram, los recuadros en Coral Pomelo llev
 - No cambies globalmente la paleta, tipografía o layout para resolver un problema local sin aprobación expresa.
 - Mantén tres familias: landings con personalidad (Inicio, Sobre mí y Chisme), índices consistentes (Blog, Tienda, Consultas y Contacto) y páginas de lectura o detalle.
 - Usa un solo CTA principal por bloque. Aplica hover o elevación a una tarjeta solo si toda ella es interactiva.
+- La marca pública es **Pomelo Baby**. En títulos y textos destacados escribe `Pomelo&nbsp;Baby` para que nunca se parta entre dos líneas; comprueba el resultado en 1440, 1024, 390 y 320 px.
+- `@pomelo.bby` es solo el usuario de Instagram. `pomelo-bby` es un identificador técnico (npm, Vercel, Cal.com y `metadata.app` de Stripe): no lo renombres ni lo muestres como marca.
 
 ## Backend, pagos y datos
 
@@ -73,10 +75,15 @@ Como rasgo identitario heredado de Instagram, los recuadros en Coral Pomelo llev
 
 No hace falta una rama `develop`: cualquier rama distinta de `main` genera Preview; `main` genera Production.
 
-- **Development:** `STRIPE_CATALOG_KEY` restringida del Sandbox correcto y acceso al Blob privado.
-- **Preview:** `STRIPE_SECRET_KEY` y `STRIPE_WEBHOOK_SECRET` del mismo Sandbox.
+- **Development:** usa Sandbox. `STRIPE_CATALOG_KEY` restringida `rk_test_...` y acceso al Blob privado. No necesita ni debe usar claves Live para desarrollar o probar compras.
+- **Preview:** usa Sandbox. `STRIPE_SECRET_KEY=sk_test_...` y `STRIPE_WEBHOOK_SECRET=whsec_...` del mismo Sandbox.
 - **Production mientras no haya ventas live:** sin variables Stripe; el build solo publica recursos gratuitos.
-- **Production live futura:** claves, webhook y mapeos `stripe.live` propios; nunca reutilizar IDs del Sandbox. La creación de nuevas compras de la consulta por correo seguirá bloqueada hasta disponer de persistencia duradera aprobada; una sesión ya pagada y válida sí debe poder enviar su caso.
+- **Production live:** usa exclusivamente `STRIPE_SECRET_KEY=sk_live_...`, el `STRIPE_WEBHOOK_SECRET=whsec_...` del webhook Live y mapeos `stripe.live` propios. Nunca reutilizar claves, IDs de Product/Price ni secretos de webhook del Sandbox. La creación de nuevas compras de la consulta por correo seguirá bloqueada hasta disponer de persistencia duradera aprobada; una sesión ya pagada y válida sí debe poder enviar su caso.
+- **Reconciliación Live local:** si los Products ya se han migrado a Live, guardar temporalmente `STRIPE_LIVE_SECRET_KEY=sk_live_...` solo en el `.env` ignorado y ejecutar `npm run guide:sync-live`. El comando solo lee Stripe Live y muestra los IDs; `npm run guide:sync-live -- --apply` escribe únicamente `stripe.live` en `src/data/guias.json`. No crea recursos, no cambia Stripe/Vercel, no sustituye `STRIPE_SECRET_KEY` y no habilita las guías. Eliminar esa variable local cuando termine la reconciliación.
+- **Products migrados:** `guide:sync-live` identifica cada Product Live por `metadata.app=pomelo-bby` y `metadata.guiaId=<slug>`, y exige un Price predeterminado activo, EUR y de pago único con el importe del catálogo. Si faltan esos metadatos, añadirlos en Stripe Live o reconciliar los IDs manualmente; no adivinarlos por el nombre.
+- **Activación de ventas:** actualmente `GUIDES_ENABLED=false`, por lo que no se puede cobrar aunque existan claves o Products. Antes de cambiarlo, cada guía disponible necesita su mapeo `stripe.live`, un webhook Live configurado, remitente Resend funcional y PDFs accesibles en Blob. Desplegar y hacer una compra Live controlada de la guía más barata, verificando pago, webhook, email y descarga, antes de abrir el resto.
+- **Secretos:** nunca usar una clave, token, contraseña o ID sensible como nombre de una variable de entorno. Si ocurre, rotar inmediatamente el secreto en el proveedor y eliminar la variable mal creada. Los listados de Vercel pueden mostrar los nombres de variables.
+- **Verificación de Production:** `vercel env ls production` confirma que una variable existe, no que su valor sea correcto. Verificar el prefijo y la relación entre secretos en el Dashboard de Vercel/Stripe: `STRIPE_SECRET_KEY` debe ser `sk_live_...` y `STRIPE_WEBHOOK_SECRET` debe pertenecer al webhook Live de `https://pomelobaby.es/api/webhook`.
 
 Alta y cambio de precio, siempre con dry-run primero:
 

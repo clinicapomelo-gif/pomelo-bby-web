@@ -7,7 +7,7 @@ Aceptado
 2026-05-21
 
 ## Contexto
-La tienda de pomelo.bby vende Guías (PDFs) a precio fijo individual. Necesitamos una solución de pagos. Las opciones evaluadas fueron:
+La tienda de Pomelo Baby vende Guías (PDFs) a precio fijo individual. Necesitamos una solución de pagos. Las opciones evaluadas fueron:
 
 1. **Lemon Squeezy** — plataforma especializada en productos digitales. Gestiona pagos, IVA europeo, entrega del archivo y checkout. Comisión ~5% + 0.50€ por venta.
 2. **Stripe directo** — pasarela de pagos genérica. Comisión ~1.5% + 0.25€. Requiere construir la lógica de checkout, entrega del archivo y gestión de IVA.

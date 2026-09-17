@@ -1,4 +1,4 @@
-# Configuración de Resend para pomelo.bby
+# Configuración de Resend para Pomelo Baby
 
 Resend gestionará tanto el correo transaccional como El Chisme de Mar. Supabase no será la fuente de suscriptores; se reserva para auditoría inmutable o persistencia de consultas si más adelante hace falta.
 
@@ -80,7 +80,7 @@ Resend permite enviar desde cualquier dirección del dominio verificado, pero no
 
 Configuración inicial:
 
-- Remitente de correos automáticos: `Mar de pomelo.bby <mar@pomelobaby.es>`.
+- Remitente de correos automáticos: `Mar de Pomelo Baby <mar@pomelobaby.es>`.
 - Remitente de El Chisme: `El Chisme de Mar <chisme@pomelobaby.es>`.
 - Contacto general e incidencias: `hola@pomelobaby.es`.
 - Consultas pagadas: `mar@pomelobaby.es`.
@@ -114,7 +114,7 @@ Personalizar la página en **Settings → Unsubscribe Page** antes del primer en
 - Texto: `#2D2D2D`.
 - Acento: `#EF6E71`.
 
-Es el coral principal de la identidad visual de pomelo.bby.
+Es el coral principal de la identidad visual de Pomelo Baby.
 
 ## Automations
 

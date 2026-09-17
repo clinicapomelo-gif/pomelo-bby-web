@@ -4,9 +4,10 @@ import { CHISME_ENABLED } from '../data/chisme';
 interface Props {
   heading?: 'h1' | 'h2';
   eyebrow?: string;
+  compact?: boolean;
 }
 
-const { heading = 'h2', eyebrow = 'Guía gratuita' } = Astro.props;
+const { heading = 'h2', eyebrow = 'Guía gratuita', compact = false } = Astro.props;
 ---
 
 <section id="guia-gratuita" class="lead-magnet" aria-labelledby="lead-magnet-title">
@@ -19,9 +20,12 @@ const { heading = 'h2', eyebrow = 'Guía gratuita' } = Astro.props;
         ) : (
           <h2 id="lead-magnet-title">25 cosas normales en los bebés</h2>
         )}
-        <p>Una guía breve para entender mejor algunas cosas habituales en los bebés, explicadas con calma y en palabras sencillas.</p>
-        <p>Esta guía es el regalo de bienvenida de <strong>El Chisme de Mar</strong>: un email cada dos semanas con historias reales de crianza y salud infantil. Situaciones que han pasado, errores que nos pueden enseñar algo, sustos que luego se quedaron en anécdota y esas cosas que pensamos que solo nos pasan a nosotros.</p>
-        <p class="lead-magnet__newsletter">Porque a veces el mejor aprendizaje es la experiencia de otra familia. Sin spam ni agobios. Puedes darte de baja cuando quieras.</p>
+        <p>Una guía breve para entender mejor algunas cosas habituales en los bebés, explicadas de forma concisa y en palabras sencillas.</p>
+        <p>Esta guía es el regalo de bienvenida de <strong>El Chisme de Mar</strong>: un email cada dos semanas con historias reales de crianza y salud infantil.</p>
+        {!compact && (
+          <p>Cosas que me han pasado trabajando con familias, errores de los que he aprendido, situaciones que empiezan como un susto y acaban en anécdota, y esas pequeñas cosas que a veces pensamos que solo nos pasan a nosotros.</p>
+        )}
+        <p class="lead-magnet__newsletter">Sin spam. Sin agobios. Y te puedes dar de baja cuando quieras.</p>
         <p class="lead-magnet__disclaimer">Este recurso es informativo y no sustituye la valoración de un profesional sanitario.</p>
       </div>
 
@@ -82,8 +86,9 @@ const { heading = 'h2', eyebrow = 'Guía gratuita' } = Astro.props;
           </form>
         ) : (
           <div class="lead-magnet__coming-soon">
-            <p class="lead-magnet__coming-soon-title">El Chisme está en camino 💌</p>
-            <p>Lo estoy preparando con calma para que llegue bien hecho. Cuando esté listo, podrás apuntarte aquí y recibir la guía de bienvenida.</p>
+            <p class="lead-magnet__coming-soon-title">El Chisme está en camino&nbsp;💌</p>
+            <p>Lo estoy preparando para que llegue bien cargadito de historias, aprendizajes y algún que otro «¿pero esto por qué nadie me lo había contado?».</p>
+            <p>Cuando esté listo, podrás apuntarte aquí y recibir la guía de bienvenida.</p>
             <span class="btn btn--disabled btn--full" aria-disabled="true">Próximamente</span>
           </div>
         )}
@@ -156,7 +161,7 @@ const { heading = 'h2', eyebrow = 'Guía gratuita' } = Astro.props;
   }
 
   .lead-magnet__eyebrow {
-    color: var(--color-coral-text);
+    color: var(--color-coral-hover);
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.08em;

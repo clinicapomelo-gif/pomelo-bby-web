@@ -16,6 +16,7 @@
     "guides:test": "node --test scripts/guide-catalog-core.test.mjs",
     "guide:provision": "node scripts/guide-catalog.mjs provision",
     "guide:price": "node scripts/guide-catalog.mjs price",
+    "guide:sync-live": "node --env-file-if-exists=.env scripts/sync-live-guide-catalog.mjs",
     "astro": "astro"
   },
   "dependencies": {

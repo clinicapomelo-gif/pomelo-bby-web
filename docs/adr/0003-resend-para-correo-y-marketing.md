@@ -8,7 +8,7 @@ Aceptado
 
 ## Contexto
 
-pomelo.bby necesita enviar correos transaccionales de Contacto, consultas y compras, además de gestionar suscriptores y enviar El Chisme de Mar.
+Pomelo Baby necesita enviar correos transaccionales de Contacto, consultas y compras, además de gestionar suscriptores y enviar El Chisme de Mar.
 
 Se valoró separar estas responsabilidades entre Resend y Kit. Resend dispone actualmente de Contactos globales, Segmentos, Topics, Broadcasts, Automations, personalización y gestión automática de bajas, suficientes para la primera fase del proyecto.
 

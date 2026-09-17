@@ -9,6 +9,28 @@ Solo tareas pendientes. Si no está aquí, no bloquea.
 - Vercel Web Analytics está activo en Production.
 - La propiedad `pomelobaby.es` está verificada en Google Search Console y su sitemap está enviado, pendiente de lectura por Google.
 
+# 0. Pendiente tuyo tras la revisión de textos y UX
+
+## Vercel y correo
+
+- [ ] **[Rafael]** Comprobar en Vercel que `RESEND_TO_EMAIL` es `hola@pomelobaby.es` y `RESEND_CONSULTA_TO_EMAIL` es `mar@pomelobaby.es`.
+- [ ] **[Rafael]** Actualizar el remitente en el `.env.local`: `perl -pi -e 's{^RESEND_FROM_EMAIL=.*$}{RESEND_FROM_EMAIL="Mar de Pomelo Baby <mar@pomelobaby.es>"}' .env.local` (en Production y Preview ya está cambiado).
+- [ ] **[Mar]** Crear en Gmail un filtro por cada prefijo del asunto del formulario: `[Orientación]`, `[Colaboración]`, `[Compra]` y `[Otro]`.
+- [ ] **[Mar]** Guardar en Instagram una respuesta rápida que derive las dudas de salud a `/consultas`.
+
+## Decisiones de texto
+
+- [ ] **[Mar]** Contacto: confirmar si es tuyo el usuario `@pomelo.baby` que aparecía en el texto; la web enlaza a `@pomelo.bby`.
+- [ ] **[Mar]** Contacto: aprobar o reescribir los textos que no son suyos: título "Escríbeme", aviso del formulario, "¿Prefieres el email?", "Me encontrarás en Instagram:" y "Muy pronto podrás reservar…".
+- [ ] **[Mar]** Portada: decidir si el bloque del blog debe decir "El blog de Pomelo" o "El blog de Pomelo Baby".
+- [ ] **[Mar]** Chisme: decidir si el título lleva punto final ("El Chisme de Mar.").
+- [ ] **[Mar]** Consultas: confirmar si "Necesito un plan" incluye videollamada y de cuántos minutos, para añadirla a su lista de "Incluye".
+
+## Publicación
+
+- [ ] **[Rafael]** Hacer commit y push de los cambios de textos y UX. Production está en `afa79ab` y aún no los tiene.
+- [ ] **[Dev]** Decidir si se arregla la pantalla de error del formulario de contacto: hoy, si falla el envío, se muestra un JSON en vez de un mensaje.
+
 # 1. Antes de aceptar cobros o consultas reales
 
 ## Empresa, legal y fiscalidad

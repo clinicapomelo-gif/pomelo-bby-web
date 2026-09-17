@@ -1,4 +1,4 @@
-# pomelo.bby
+# Pomelo Baby
 
 ## Documentación operativa
 
@@ -33,7 +33,7 @@ La lista operativa y legal completa está en [`TODO.md`](./TODO.md). No debe pub
 - `RESEND_NEWSLETTER_SEGMENT_ID`: segmento interno con todas las personas de El Chisme.
 - `RESEND_NEWSLETTER_TOPIC_ID`: Topic público que controla la preferencia de El Chisme.
 - `NEWSLETTER_CONFIRMATION_SECRET`: clave aleatoria de 32 bytes para cifrar enlaces de confirmación.
-- `RESEND_FROM_EMAIL`: remitente verificado, con el formato `pomelo.bby <correo@dominio-verificado>`.
+- `RESEND_FROM_EMAIL`: remitente verificado, con el formato `Mar de Pomelo Baby <correo@dominio-verificado>`.
 - `RESEND_NEWSLETTER_FROM_EMAIL`: remitente verificado usado para El Chisme y sus confirmaciones.
 - `RESEND_TO_EMAIL`: buzón profesional que recibe Contacto.
 - `RESEND_CONSULTA_TO_EMAIL`: buzón profesional reservado para las consultas pagadas.

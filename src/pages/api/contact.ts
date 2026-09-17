@@ -5,6 +5,13 @@ export const prerender = false;
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const MOTIVOS: Record<string, string> = {
+  orientacion: 'Orientación',
+  colaboracion: 'Colaboración',
+  compra: 'Compra',
+  otro: 'Otro',
+};
+
 export const POST: APIRoute = async ({ request }) => {
   const origin = request.headers.get('origin');
   if (origin) {
@@ -42,6 +49,7 @@ export const POST: APIRoute = async ({ request }) => {
   let nombre: string | undefined;
   let email: string | undefined;
   let mensaje: string | undefined;
+  let motivo: string | undefined;
   let honeypot: string | undefined;
 
   const contentType = request.headers.get('content-type') || '';
@@ -51,12 +59,14 @@ export const POST: APIRoute = async ({ request }) => {
       nombre = typeof body.nombre === 'string' ? body.nombre : undefined;
       email = typeof body.email === 'string' ? body.email : undefined;
       mensaje = typeof body.mensaje === 'string' ? body.mensaje : undefined;
+      motivo = typeof body.motivo === 'string' ? body.motivo : undefined;
       honeypot = typeof body.website === 'string' ? body.website : undefined;
     } else {
       const formData = await request.formData();
       nombre = formData.get('nombre')?.toString();
       email = formData.get('email')?.toString();
       mensaje = formData.get('mensaje')?.toString();
+      motivo = formData.get('motivo')?.toString();
       honeypot = formData.get('website')?.toString();
     }
   } catch {
@@ -75,7 +85,9 @@ export const POST: APIRoute = async ({ request }) => {
   email = email?.trim().toLowerCase();
   mensaje = mensaje?.trim();
 
-  if (!nombre || nombre.length > 100 || !email || email.length > 254 || !EMAIL_REGEX.test(email) || !mensaje || mensaje.length > 5000) {
+  const motivoLabel = motivo && Object.hasOwn(MOTIVOS, motivo) ? MOTIVOS[motivo] : undefined;
+
+  if (!motivoLabel || !nombre || nombre.length > 100 || !email || email.length > 254 || !EMAIL_REGEX.test(email) || !mensaje || mensaje.length > 5000) {
     return new Response(
       JSON.stringify({ error: 'Revisa los campos del formulario.' }),
       { status: 400, headers: { 'Content-Type': 'application/json' } }
@@ -87,8 +99,8 @@ export const POST: APIRoute = async ({ request }) => {
       from: fromEmail,
       to: toEmail,
       replyTo: email,
-      subject: `Nuevo mensaje de ${nombre} — Pomelo Baby`,
-      text: `Nuevo mensaje desde la web\n\nNombre: ${nombre}\nEmail: ${email}\n\nMensaje:\n${mensaje}`,
+      subject: `[${motivoLabel}] Nuevo mensaje de ${nombre.replace(/\s+/g, ' ')} — Pomelo Baby`,
+      text: `Nuevo mensaje desde la web\n\nMotivo: ${motivoLabel}\nNombre: ${nombre}\nEmail: ${email}\n\nMensaje:\n${mensaje}`,
     });
 
     if (error) {

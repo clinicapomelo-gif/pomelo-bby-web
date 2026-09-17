@@ -39,11 +39,15 @@ const categoryLabels: Record<string, string> = {
   <section class="hero">
     <div class="hero__inner">
       <div class="hero__text">
-        <h1>Salud infantil y crianza, <span>sin dramas.</span></h1>
-        <p class="hero__lead">Entiende qué le pasa a tu peque, qué puedes hacer y cuándo necesitas consultar.</p>
+        <h1>
+          <span class="hero__line">Salud infantil</span>
+          <span class="hero__line">y crianza,</span>
+          <span class="hero__line hero__line--accent">sin dramas.</span>
+        </h1>
+        <p class="hero__lead">Información fiable para entender a tu peque, tomar decisiones con criterio y saber cuándo consultar.</p>
         <p class="hero__intro">Soy Mar, enfermera y divulgadora de salud infantil.</p>
         <p class="hero__proof">Evidencia científica. Sentido común. Palabras normales.</p>
-        <p class="hero__aside">Sin culpa. Sin alarmismo. Sin 200 consejos contradictorios de Instagram.</p>
+        <p class="hero__aside">Sin culpa. Sin alarmismo. Sin consejos contradictorios.</p>
         <div class="hero__cta">
           <a href="/consultas" class="btn btn--primary">Quiero hablar con Mar</a>
           <a href="/guias" class="btn btn--secondary">Ver las guías</a>
@@ -88,7 +92,7 @@ const categoryLabels: Record<string, string> = {
           <span class="path-card__number" aria-hidden="true">03</span>
           <h3>Quiero entender mejor la crianza</h3>
           <p>Contenido para criar con menos miedo, menos culpa y más criterio.</p>
-          <span class="path-card__link">Explorar Pomelo <span aria-hidden="true">→</span></span>
+          <span class="path-card__link">Leer el blog <span aria-hidden="true">→</span></span>
         </a>
       </div>
     </div>
@@ -100,7 +104,7 @@ const categoryLabels: Record<string, string> = {
       <p class="manifesto__line">No necesitas saberlo todo sobre crianza.</p>
       <h2 id="manifesto-title">Necesitas saber qué importa.</h2>
       <div class="manifesto__copy">
-        <p>En Pomelo Baby encontrarás información sobre salud infantil y crianza explicada de forma clara, basada en evidencia y sin convertir cada duda en una emergencia.</p>
+        <p>En Pomelo Baby encontrarás información sobre salud infantil y crianza, explicada de forma clara y basada en evidencia científica, sin convertir cada duda en una emergencia.</p>
         <p>Porque criar ya es suficientemente difícil como para hacerlo con miedo.</p>
       </div>
     </div>
@@ -109,10 +113,10 @@ const categoryLabels: Record<string, string> = {
   <!-- Por qué Pomelo -->
   <section class="why-pomelo" aria-labelledby="why-pomelo-title">
     <div class="container why-pomelo__inner">
-      <h2 id="why-pomelo-title">¿Por qué Pomelo?</h2>
+      <h2 id="why-pomelo-title">¿Por qué Pomelo&nbsp;Baby?</h2>
       <div class="why-pomelo__content">
         <p>Porque información hay de sobra. Lo difícil es saber qué hacer con ella.</p>
-        <p>Te ayudo a separar lo importante del ruido, entender qué está pasando y saber cuál puede ser el siguiente paso.</p>
+        <p>Yo te ayudo a separar lo importante del ruido, entender los tecnicismos y tomar decisiones con más criterio y menos miedo.</p>
         <a href="/sobre-mi">Conoce a Mar <span aria-hidden="true">→</span></a>
       </div>
     </div>
@@ -121,16 +125,12 @@ const categoryLabels: Record<string, string> = {
   <!-- Consultas -->
   <section id="consultas" class="home-consultations" aria-labelledby="home-consultations-title">
     <div class="container">
-      <div class="home-consultations__header">
-        <div>
-          <h2 id="home-consultations-title">Consultas online con Mar</h2>
-          <p class="home-consultations__subtitle">Porque a veces necesitas una respuesta. Y otras, poder hablarlo.</p>
-        </div>
-        <div class="home-consultations__intro">
-          <p>A veces basta con una respuesta por escrito. Otras ayuda poder hablarlo con calma. Y algunas situaciones necesitan ordenar varias piezas y hacer seguimiento.</p>
-          <p>Por eso puedes elegir el formato que mejor encaje con vuestra situación.</p>
-        </div>
-      </div>
+      <header class="home-consultations__header">
+        <h2 id="home-consultations-title">Consultas online con Mar</h2>
+        <p class="home-consultations__subtitle">Porque a veces necesitas una respuesta rápida. Y otras, poder hablarlo con tranquilidad.</p>
+        <p class="home-consultations__intro">Otras situaciones necesitan algo más: ordenar varias piezas y hacer seguimiento.</p>
+        <p class="home-consultations__choice">Por eso puedes elegir el formato que mejor encaje con vuestra situación.</p>
+      </header>
 
       <ul class="home-consultations__options" aria-label="Modalidades de consulta">
         <li>
@@ -181,9 +181,9 @@ const categoryLabels: Record<string, string> = {
       <div class="guides__header">
         <div>
           <p class="section-heading__eyebrow">Herramientas para familias</p>
-          <h2 id="guides-title">Guías prácticas</h2>
+          <h2 id="guides-title">Guías Pomelo&nbsp;Baby</h2>
         </div>
-        <p>Cuando quieres tener información fiable a mano y saber cómo actuar.</p>
+        <p>Información basada en evidencia, explicada en palabras normales. Para que tomes decisiones con criterio y te sientas más seguro/a en el día a día.</p>
       </div>
       <div class="guides__grid">
         {featuredGuides.map((guide) => (
@@ -211,9 +211,9 @@ const categoryLabels: Record<string, string> = {
   <section class="blog" aria-labelledby="blog-title">
     <div class="container">
       <header class="section-heading section-heading--center">
-        <p class="section-heading__eyebrow">El blog de Pomelo</p>
-        <h2 id="blog-title">Dudas que te quitan el sueño</h2>
-        <p>Respuestas tranquilas para entender qué pasa y qué hacer después.</p>
+        <h2 id="blog-title">El blog de Pomelo</h2>
+        <p class="blog__subtitle">Escribo sobre dudas habituales.</p>
+        <p class="blog__intro">Intento resolverlas de forma sencilla y con información fiable. Para que termines la lectura con menos ruido mental y las ideas un poco más claras.</p>
       </header>
       <div class="blog__grid">
         {latestPosts.map((post) => {
@@ -252,11 +252,13 @@ const categoryLabels: Record<string, string> = {
   <!-- Cierre -->
   <section class="closing" aria-labelledby="closing-title">
     <div class="container closing__inner">
-      <h2 id="closing-title">Menos ruido. Más criterio.</h2>
-      <p>Salud infantil y crianza, en palabras normales.</p>
+      <h2 id="closing-title">
+        <span class="closing__line">¿Hay algo que te preocupa?</span>
+        <span class="closing__line closing__line--accent">Cuéntamelo.</span>
+      </h2>
+      <p>No hace falta que sepas exactamente qué necesitas. Cuéntame qué está pasando y vemos juntas/os por dónde empezar.</p>
       <div class="closing__cta">
-        <a href="/consultas" class="btn btn--primary">Quiero hablar con Mar</a>
-        <a href="/guias" class="btn btn--secondary">Ver las guías</a>
+        <a href="/consultas" class="btn btn--primary">Quiero hablar con Mar <span aria-hidden="true">→</span></a>
       </div>
     </div>
   </section>
@@ -299,8 +301,14 @@ const categoryLabels: Record<string, string> = {
     text-transform: uppercase;
   }
 
-  .hero h1 span {
+  .hero__line {
+    display: block;
+    text-wrap: balance;
+  }
+
+  .hero__line--accent {
     color: var(--color-coral);
+    white-space: nowrap;
   }
 
   .hero__lead {
@@ -325,8 +333,8 @@ const categoryLabels: Record<string, string> = {
 
   .hero__aside {
     margin-bottom: var(--spacing-lg);
-    color: var(--color-text-tertiary);
-    font-size: 0.82rem;
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
     line-height: 1.55;
   }
 
@@ -396,9 +404,22 @@ const categoryLabels: Record<string, string> = {
     text-align: center;
   }
 
-  .section-heading--center p:last-child {
-    margin: var(--spacing-sm) 0 0;
+  .section-heading--center {
+    text-wrap: balance;
+  }
+
+  .blog__subtitle {
+    margin: var(--spacing-sm) 0 var(--spacing-md);
+    color: var(--color-coral-hover);
+    font-weight: 600;
+    line-height: 1.6;
+  }
+
+  .blog__intro {
+    margin: 0;
     color: var(--color-text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.75;
   }
 
   .paths__grid {
@@ -535,8 +556,7 @@ const categoryLabels: Record<string, string> = {
     font-weight: 700;
   }
 
-  .guides__header,
-  .home-consultations__header {
+  .guides__header {
     display: grid;
     grid-template-columns: minmax(0, 0.9fr) minmax(300px, 0.8fr);
     align-items: start;
@@ -552,8 +572,10 @@ const categoryLabels: Record<string, string> = {
   }
 
   .home-consultations__header {
-    align-items: end;
-    margin-bottom: var(--spacing-xl);
+    max-width: 720px;
+    margin: 0 auto var(--spacing-xl);
+    text-align: center;
+    text-wrap: balance;
   }
 
   .guides__header > p {
@@ -563,23 +585,23 @@ const categoryLabels: Record<string, string> = {
   }
 
   .home-consultations__subtitle {
-    max-width: 500px;
-    margin: var(--spacing-sm) 0 0;
+    margin: var(--spacing-sm) 0 var(--spacing-md);
     color: var(--color-coral-hover);
     font-weight: 600;
     line-height: 1.6;
   }
 
-  .home-consultations__intro p {
+  .home-consultations__intro {
     margin: 0 0 var(--spacing-sm);
     color: var(--color-text-secondary);
     line-height: 1.75;
   }
 
-  .home-consultations__intro p:last-child {
-    margin-bottom: 0;
+  .home-consultations__choice {
+    margin: 0;
     color: var(--color-text);
     font-weight: 600;
+    line-height: 1.75;
   }
 
   .home-consultations__options {
@@ -852,17 +874,28 @@ const categoryLabels: Record<string, string> = {
   }
 
   .closing h2 {
-    margin-bottom: var(--spacing-sm);
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    line-height: 1.05;
-    letter-spacing: -0.04em;
-    text-transform: uppercase;
+    margin-bottom: var(--spacing-md);
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+  }
+
+  .closing__line--accent {
+    color: var(--color-coral-hover);
+  }
+
+  .closing__line {
+    display: block;
+    text-wrap: balance;
   }
 
   .closing p {
-    margin-bottom: var(--spacing-lg);
+    max-width: 560px;
+    margin: var(--spacing-lg) auto var(--spacing-lg);
     color: var(--color-text-secondary);
     font-size: 1.1rem;
+    line-height: 1.7;
+    text-wrap: balance;
   }
 
   .closing__cta {
@@ -919,7 +952,6 @@ const categoryLabels: Record<string, string> = {
     }
 
     .guides__header,
-    .home-consultations__header,
     .manifesto__copy,
     .why-pomelo__inner {
       grid-template-columns: 1fr;
@@ -944,7 +976,7 @@ const categoryLabels: Record<string, string> = {
     }
 
     .hero h1 {
-      font-size: clamp(2.25rem, 12vw, 3.2rem);
+      font-size: clamp(2rem, 10.5vw, 3.2rem);
     }
 
     .hero__cta,

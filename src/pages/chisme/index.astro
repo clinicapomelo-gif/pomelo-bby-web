@@ -12,31 +12,36 @@ const description = CHISME_ENABLED
   <section class="newsletter-about" aria-labelledby="newsletter-about-title">
     <div class="container">
       <div class="newsletter-about__card">
-        <div>
+        <header class="newsletter-about__header">
           <p class="newsletter-about__eyebrow">{CHISME_ENABLED ? 'Cada quince días en tu correo' : 'Próximamente'}</p>
-          <h1 id="newsletter-about-title">El Chisme de Mar</h1>
-          <p class="newsletter-about__intro">Historias reales, salud infantil y crianza sin ruido.</p>
-          <p>Te cuento una historia personal o profesional y qué podemos aprender de ella desde la mirada de una enfermera infantil. Sin fórmulas mágicas ni tragedias de Google.</p>
+          <h1 id="newsletter-about-title">El Chisme de&nbsp;Mar</h1>
+        </header>
+
+        <div>
+          <p class="newsletter-about__intro">Porque hay cosas que no caben en un post de Instagram.</p>
+          <p>Aquí te cuento historias que me han pasado trabajando con niños y familias, cosas que he aprendido por el camino, situaciones que me han hecho pensar y alguna que otra opinión que quizá no sea la más popular.</p>
+          <p>Sin postureo. Sin recetas mágicas. Y sin convertir la crianza en una película de terror.</p>
 
           <ul>
-            <li>Historias y reflexiones que no caben en un post de Instagram.</li>
-            <li>Contexto claro y una idea práctica que puedas llevarte.</li>
-            <li>Recomendaciones y novedades, solo cuando tengan sentido.</li>
+            <li>Historias que te harán pensar.</li>
+            <li>Cosas que quizá nadie te había contado así.</li>
+            <li>Una mirada de enfermera, pero hablando como una persona normal.</li>
           </ul>
         </div>
 
         <div class="newsletter-about__trust">
           <div class="newsletter-about__author">
             <img src="/mar-inicio.webp" alt="" width="1200" height="1601" loading="eager" decoding="async" />
-            <p><strong>Escrito por Mar</strong><span>Enfermera infantil y neonatal · Colegiada n.º 16700</span></p>
+            <p><strong>Escrito por Mar</strong><span>Enfermera infantil y neonatal · Colegiada n.º&nbsp;16700</span></p>
           </div>
+          <blockquote class="newsletter-about__quote">«Aquí no vengo a decirte cómo tienes que criar. Vengo a contarte lo que he visto, lo que he aprendido y lo que sigo aprendiendo cada día.»</blockquote>
           <p>Las historias profesionales se cuentan de forma anonimizada y sin datos que permitan identificar a ninguna familia.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <LeadMagnetForm eyebrow="Regalo de bienvenida" />
+  <LeadMagnetForm eyebrow="Regalo de bienvenida" compact />
 </Layout>
 
 <style>
@@ -45,10 +50,15 @@ const description = CHISME_ENABLED
     background-color: var(--color-white);
   }
 
+  :where(.newsletter-about p, .newsletter-about li) {
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+
   .newsletter-about__card {
     display: grid;
     grid-template-columns: minmax(0, 1.3fr) minmax(260px, 0.7fr);
-    gap: var(--spacing-xl);
+    gap: 0 var(--spacing-xl);
     max-width: 900px;
     margin: 0 auto;
     padding: var(--spacing-xl);
@@ -56,9 +66,13 @@ const description = CHISME_ENABLED
     border-radius: var(--radius-md);
   }
 
+  .newsletter-about__header {
+    grid-column: 1 / -1;
+  }
+
   .newsletter-about__eyebrow {
     margin-bottom: var(--spacing-sm);
-    color: var(--color-coral-text);
+    color: var(--color-coral-hover);
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -73,12 +87,6 @@ const description = CHISME_ENABLED
     color: var(--color-text);
     font-size: 1.15rem;
     font-weight: 600;
-  }
-
-  .newsletter-about p,
-  .newsletter-about li {
-    color: var(--color-text-secondary);
-    line-height: 1.7;
   }
 
   .newsletter-about ul {
@@ -101,7 +109,7 @@ const description = CHISME_ENABLED
   }
 
   .newsletter-about__trust {
-    align-self: center;
+    align-self: start;
     padding-left: var(--spacing-lg);
     border-left: 1px solid var(--color-peach);
   }
@@ -139,14 +147,22 @@ const description = CHISME_ENABLED
     font-size: 0.78rem;
   }
 
+  .newsletter-about__quote {
+    margin: 0 0 var(--spacing-md);
+    color: var(--color-text);
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
   @media (max-width: 768px) {
     .newsletter-about__card {
       grid-template-columns: 1fr;
-      gap: var(--spacing-lg);
       padding: var(--spacing-lg);
     }
 
     .newsletter-about__trust {
+      margin-top: var(--spacing-lg);
       padding: var(--spacing-lg) 0 0;
       border-top: 1px solid var(--color-peach);
       border-left: 0;

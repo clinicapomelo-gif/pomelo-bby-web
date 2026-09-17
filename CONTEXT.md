@@ -1,4 +1,4 @@
-# CONTEXT — pomelo.bby
+# CONTEXT — Pomelo Baby
 
 Web de enfermería pediátrica de Mar Vall Requena. Dirigida a padres y madres que buscan información fiable y cercana sobre el cuidado de sus hijos.
 
@@ -32,7 +32,7 @@ Clasificación temática de un Post. Las categorías actuales son: `alimentacion
 ## Actores
 
 ### Mar
-Mar Vall Requena. Enfermera infantil con especialidad en pediatría y neonatal. Autora de todo el contenido, titular del negocio y cara visible de pomelo.bby.
+Mar Vall Requena. Enfermera infantil con especialidad en pediatría y neonatal. Autora de todo el contenido, titular del negocio y cara visible de Pomelo Baby.
 
 ### Visitante
 Persona que llega a la web sin haber comprado ni dejado su email. Objetivo: convertirlo en Suscriptor o Cliente.

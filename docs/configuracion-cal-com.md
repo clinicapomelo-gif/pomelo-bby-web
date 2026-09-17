@@ -2,7 +2,7 @@
 
 ## Recomendación
 
-Para pomelo.bby, la mejor opción es seguir usando **Cal.com**.
+Para Pomelo Baby, la mejor opción es seguir usando **Cal.com**.
 
 La web ya está conectada con esta plataforma y Cal.com permite gestionar disponibilidad, pagos con Stripe, videollamadas y cambios de cita. Pasar a Calendly supondría modificar la web sin aportar una ventaja importante para el uso actual.
 

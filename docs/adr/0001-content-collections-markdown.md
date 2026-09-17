@@ -7,7 +7,7 @@ Aceptado
 2026-05-21
 
 ## Contexto
-El blog de pomelo.bby necesita un sistema para gestionar posts. Las opciones evaluadas fueron:
+El blog de Pomelo Baby necesita un sistema para gestionar posts. Las opciones evaluadas fueron:
 
 1. **Content Collections de Astro (markdown en el repo)** — los posts viven como archivos `.md` en `src/content/blog/`, versionados en git.
 2. **CMS headless (Sanity, Contentful, Decap CMS)** — interfaz visual para escribir y publicar posts, desacoplada del código.

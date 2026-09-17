@@ -1,8 +1,8 @@
-# Correo profesional de pomelo.bby
+# Correo profesional de Pomelo Baby
 
 ## Decisión inicial
 
-Usaremos el plan **Mini de DonDominio** con dos buzones: `hola@pomelobaby.es` para contacto general y `mar@pomelobaby.es` para consultas pagadas. El alias `chisme@pomelobaby.es` redirige a `mar@pomelobaby.es`. En una fase posterior, ambos buzones redirigirán los mensajes a una cuenta de Gmail dedicada exclusivamente a pomelo.bby.
+Usaremos el plan **Mini de DonDominio** con dos buzones: `hola@pomelobaby.es` para contacto general y `mar@pomelobaby.es` para consultas pagadas. El alias `chisme@pomelobaby.es` redirige a `mar@pomelobaby.es`. En una fase posterior, ambos buzones redirigirán los mensajes a una cuenta de Gmail dedicada exclusivamente a Pomelo Baby.
 
 No hace falta Google Workspace para esta configuración. DonDominio recibe el correo y proporciona el SMTP; Gmail se utilizará más adelante como bandeja de entrada. Resend envía los correos automáticos desde `mar@pomelobaby.es` y El Chisme desde `chisme@pomelobaby.es`.
 
@@ -24,7 +24,7 @@ Web → Resend desde chisme@pomelobaby.es → El Chisme y su doble confirmación
 2. Crear los buzones `hola@pomelobaby.es` y `mar@pomelobaby.es`.
 3. Crear el alias `chisme@pomelobaby.es` con destino `mar@pomelobaby.es`.
 4. Configurar el MX del dominio principal con host `@`, servidor `mx01.dondominio.com`, prioridad `10` y TTL por defecto.
-5. Más adelante, redirigir ambos buzones a una cuenta de Gmail dedicada a pomelo.bby, no a una cuenta personal de uso cotidiano.
+5. Más adelante, redirigir ambos buzones a una cuenta de Gmail dedicada a Pomelo Baby, no a una cuenta personal de uso cotidiano.
 6. Usar los servidores MX y SMTP exactos que muestre DonDominio.
 7. Activar 2FA en DonDominio.
 8. Comprobar después de contratar el plan que no se haya cambiado la web:
@@ -59,7 +59,7 @@ Los registros de Resend bajo `send.pomelobaby.es` pueden convivir con los regist
 Cuando el dominio esté verificado, configurar en Vercel:
 
 ```text
-RESEND_FROM_EMAIL="Mar de pomelo.bby <mar@pomelobaby.es>"
+RESEND_FROM_EMAIL="Mar de Pomelo Baby <mar@pomelobaby.es>"
 RESEND_NEWSLETTER_FROM_EMAIL="El Chisme de Mar <chisme@pomelobaby.es>"
 RESEND_TO_EMAIL="hola@pomelobaby.es"
 RESEND_CONSULTA_TO_EMAIL="mar@pomelobaby.es"
