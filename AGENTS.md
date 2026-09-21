@@ -126,19 +126,19 @@ Prefiere el despliegue automático al hacer `push` de `main`. No ejecutes `verce
 Todos los commits de este repositorio deben usar esta identidad como **autor y committer**:
 
 ```text
-Rafael Llorens Blanes <rafalb190@gmail.com>
+Rafael Llorens Blanes <clinicapomelo@gmail.com>
 ```
 
 El entorno de Pi puede inyectar variables `GIT_AUTHOR_*` y `GIT_COMMITTER_*` corporativas que tienen prioridad sobre `.git/config`. Por eso no basta con configurar Git: cada commit debe forzar explícitamente los cuatro valores.
 
 ```bash
 git config --local user.name "Rafael Llorens Blanes"
-git config --local user.email "rafalb190@gmail.com"
+git config --local user.email "clinicapomelo@gmail.com"
 
 GIT_AUTHOR_NAME="Rafael Llorens Blanes" \
-GIT_AUTHOR_EMAIL="rafalb190@gmail.com" \
+GIT_AUTHOR_EMAIL="clinicapomelo@gmail.com" \
 GIT_COMMITTER_NAME="Rafael Llorens Blanes" \
-GIT_COMMITTER_EMAIL="rafalb190@gmail.com" \
+GIT_COMMITTER_EMAIL="clinicapomelo@gmail.com" \
 git commit ...
 ```
 
@@ -149,6 +149,10 @@ git show -s --format='autor: %an <%ae>%ncommitter: %cn <%ce>' HEAD
 ```
 
 No incluyas cambios preexistentes o ajenos a la tarea y no reescribas commits sin petición expresa.
+
+### Ramas y despliegue
+
+Nunca hagas commit ni push directo a `main`. Crea siempre una rama nueva para cada cambio y ábrela como Pull Request en GitHub; el merge a `main` lo aprueba manualmente Rafael tras revisar el Preview. Cada push a una rama distinta de `main` genera automáticamente un Preview Deployment en Vercel (comentado en el PR): compártelo para revisión antes de fusionar.
 
 # Voz y tono de Mar
 
