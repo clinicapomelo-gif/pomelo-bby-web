@@ -101,7 +101,7 @@ const categoryLabels: Record<string, string> = {
   <!-- Manifiesto -->
   <section class="manifesto" aria-labelledby="manifesto-title">
     <div class="container manifesto__inner">
-      <p class="manifesto__line">No necesitas saberlo todo sobre crianza.</p>
+      <p class="manifesto__line">No necesitas saberlo todo.</p>
       <h2 id="manifesto-title">Necesitas saber qué importa.</h2>
       <div class="manifesto__copy">
         <p>En Pomelo&nbsp;Baby encontrarás información sobre salud infantil, explicada de forma clara por una enfermera. Aprenderás cuándo debes consultar, sin convertir cada cuestión de salud en una emergencia.</p>
@@ -486,43 +486,60 @@ const categoryLabels: Record<string, string> = {
   }
 
   .manifesto__line {
-    margin: 0 0 0.4rem;
-    color: var(--color-text-secondary);
-    font-size: clamp(1rem, 2vw, 1.25rem);
-    font-weight: 600;
+    margin: 0 0 var(--spacing-md);
+    color: var(--color-coral-hover);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
     text-align: center;
+    text-transform: uppercase;
+  }
+
+  .manifesto__line::after {
+    display: block;
+    width: 3rem;
+    height: 3px;
+    margin: var(--spacing-md) auto 0;
+    border-radius: 2px;
+    background-color: var(--color-coral);
+    content: '';
   }
 
   .manifesto h2 {
-    max-width: 720px;
+    max-width: 760px;
     margin: 0 auto;
-    color: var(--color-coral-hover);
-    font-size: clamp(2.25rem, 5vw, 3.8rem);
+    color: var(--color-text);
+    font-size: clamp(2.25rem, 5.5vw, 4rem);
     line-height: 1.08;
     letter-spacing: -0.04em;
     text-align: center;
+    text-wrap: balance;
   }
 
   .manifesto__copy {
     display: grid;
-    grid-template-columns: minmax(0, 1.35fr) minmax(220px, 0.8fr);
-    gap: clamp(var(--spacing-lg), 5vw, 2.5rem);
-    max-width: 730px;
-    margin: var(--spacing-lg) auto 0;
-    padding-top: 1.4rem;
-    border-top: 1px solid var(--color-peach);
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(var(--spacing-lg), 5vw, 3rem);
+    max-width: 820px;
+    margin: var(--spacing-xl) auto 0;
   }
 
   .manifesto__copy p {
     margin: 0;
     color: var(--color-text-secondary);
+    font-size: 1.02rem;
     line-height: 1.75;
   }
 
   .manifesto__copy p:last-child {
-    margin-bottom: 0;
-    color: var(--color-text);
+    padding: clamp(1.5rem, 3vw, 2rem);
+    border-radius: var(--radius-md);
+    background-color: var(--color-coral);
+    color: var(--color-white);
+    font-size: 1.15rem;
     font-weight: 700;
+    line-height: 1.5;
   }
 
   .why-pomelo {
