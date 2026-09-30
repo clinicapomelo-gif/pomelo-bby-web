@@ -60,13 +60,13 @@ import Layout from '../layouts/Layout.astro';
         <p>Y aprendí algo que todavía hoy me acompaña:</p>
         <p>Cuando ingresa un bebé, también ingresan sus padres.</p>
         <p>El miedo, la culpa, la incertidumbre y las mil preguntas también necesitan cuidados.</p>
-        <p>Giro dramático: Llegó el COVID.</p>
-        <p>Y con ello, me trasladaron al hospital de campaña.</p>
+        <p class="about__twist">Giro dramático: Llegó el COVID.</p>
+        <p>Y con ello, me trasladaron al Hospital de Campaña.</p>
         <p>Seré honesta, después de aquellos años tan difíciles, pensé que quizá no podía, o no quería seguir ejerciendo.</p>
         <p>Así que hice algo bastante propio de mí:</p>
-        <p>Cambié completamente de rumbo.</p>
+        <p class="about__twist">Cambié completamente de rumbo.</p>
         <p>Estudié enfermería dermoestética. Algo más amable. Más ligero. Menos emocionalmente devastador.</p>
-        <p>Spoiler: Tampoco salió como esperaba.</p>
+        <p class="about__twist">Spoiler: Tampoco salió como esperaba.</p>
         <p>Mientras lo estudiaba, terminé trabajando de nuevo en una consulta de enfermería pediátrica en Atención Primaria.</p>
         <p>Y ahí pasó algo bastante inesperado: volví a enamorarme de mi profesión.</p>
         <p>Tuve la suerte de aprender de dos pediatras maravillosas y de trabajar juntas para crear una consulta cercana, actualizada y humana.</p>
@@ -77,7 +77,7 @@ import Layout from '../layouts/Layout.astro';
         <blockquote class="about__quote">«Pensaba que era la única madre a la que le estaba pasando esto».</blockquote>
         <p>Y yo podía responder:</p>
         <blockquote class="about__quote">«No. No eres la única. Y no lo estás haciendo mal».</blockquote>
-        <p>Adivina. Sí, exacto. Otro giro.</p>
+        <p class="about__twist">Adivina. Sí, exacto. Otro giro.</p>
         <p>Un lunes llegué a trabajar y me dijeron que mi contrato terminaba al día siguiente. Sí, un contrato que en teoría iba a durar mucho más.</p>
         <p>Me enfadé. Muchísimo.</p>
         <p>Con el sistema, con la inestabilidad que vivimos las enfermeras y con lo difícil que es desarrollarte como profesional y dar lo mejor de ti, cuando no sabes cuánto tiempo vas a poder seguir haciéndolo.</p>
@@ -217,7 +217,7 @@ import Layout from '../layouts/Layout.astro';
     max-width: 780px;
     margin: 0 auto var(--spacing-xl);
     background-color: var(--color-white);
-    padding: var(--spacing-lg);
+    padding: clamp(1.5rem, 4vw, 2.75rem);
     border-radius: var(--radius-md);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   }
@@ -229,6 +229,30 @@ import Layout from '../layouts/Layout.astro';
   .about__experience p {
     color: var(--color-text-secondary);
     line-height: 1.8;
+  }
+
+  .about__formation p,
+  .about__experience p {
+    max-width: 62ch;
+    margin: 0 0 1.1rem;
+    font-size: 1.02rem;
+  }
+
+  .about__formation p:has(+ .about__quote),
+  .about__experience p:has(+ .about__quote) {
+    margin-bottom: 0.4rem;
+  }
+
+  .about__experience p.about__twist {
+    max-width: none;
+    margin: var(--spacing-lg) 0;
+    padding: 0.9rem 1.25rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-nude);
+    color: var(--color-coral-hover);
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.5;
   }
 
   .about__experience .about__quote {
@@ -245,13 +269,18 @@ import Layout from '../layouts/Layout.astro';
     max-width: 780px;
     margin: 0 auto var(--spacing-xl);
     background-color: var(--color-white);
-    padding: var(--spacing-lg);
+    padding: clamp(1.5rem, 4vw, 2.75rem);
     border-radius: var(--radius-md);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   }
 
   .about__formation h2 {
     margin-bottom: var(--spacing-md);
+  }
+
+  .about__formation .about__quote,
+  .about__experience .about__quote {
+    margin: var(--spacing-md) 0 var(--spacing-lg);
   }
 
   .about__formation p {
