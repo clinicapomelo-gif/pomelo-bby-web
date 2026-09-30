@@ -1,7 +1,7 @@
 ---
 title: "¿Cuánta comida debería comer un bebé?"
 description: "No existe una cantidad exacta que todos los bebés deban comer. Te cuento cómo ofrecer, qué esperar y cuándo merece la pena consultar."
-pubDate: 2026-09-30
+pubDate: 2026-09-16
 category: alimentacion
 tags: ["alimentación complementaria", "cantidad de comida", "bebé", "alimentación responsiva"]
 draft: false

@@ -1,7 +1,7 @@
 ---
 title: "Fiebre en bebés: cuándo preocuparse y cuándo no"
 description: "La fiebre asusta, pero no siempre significa que algo vaya mal. Te cuento qué significa, qué puedes hacer en casa y cuándo conviene consultar."
-pubDate: 2026-05-01
+pubDate: 2026-06-10
 category: salud
 tags: ["fiebre", "bebé", "pediatría", "urgencias"]
 draft: false

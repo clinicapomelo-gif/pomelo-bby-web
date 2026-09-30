@@ -1,7 +1,7 @@
 ---
 title: "BLW: qué es y por dónde empezar"
 description: "¿Tu bebé está a punto de empezar la alimentación complementaria? Vamos a poner un poco de orden para comenzar con seguridad y tranquilidad."
-pubDate: 2026-05-10
+pubDate: 2026-07-20
 category: alimentacion
 tags: ["BLW", "alimentación complementaria", "bebé", "sólidos"]
 draft: false
