@@ -85,8 +85,40 @@ const visibleGuias = guias
     padding: var(--spacing-xl) 0;
   }
 
+  .page-header {
+    max-width: 780px;
+  }
+
+  .page-header h1 {
+    font-size: clamp(2.25rem, 5vw, 3.4rem);
+    letter-spacing: -0.03em;
+  }
+
   .page-header h1 span {
     color: var(--color-coral);
+  }
+
+  .page-header h1::after {
+    display: block;
+    width: 3rem;
+    height: 3px;
+    margin: var(--spacing-md) auto 0;
+    border-radius: 2px;
+    background-color: var(--color-coral);
+    content: '';
+  }
+
+  .page-header__description {
+    margin-top: var(--spacing-lg);
+    color: var(--color-coral-hover);
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    font-weight: 600;
+  }
+
+  .page-header__subtitle {
+    max-width: 640px;
+    margin: var(--spacing-md) auto 0;
+    text-wrap: balance;
   }
 
   .tienda__grid {
