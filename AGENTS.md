@@ -126,19 +126,19 @@ Prefiere el despliegue automático al hacer `push` de `main`. No ejecutes `verce
 Todos los commits de este repositorio deben usar esta identidad como **autor y committer**:
 
 ```text
-Rafael Llorens Blanes <rafalb190@gmail.com>
+Pomelo Baby <clinicapomelo@gmail.com>
 ```
 
-El entorno de Pi puede inyectar variables `GIT_AUTHOR_*` y `GIT_COMMITTER_*` corporativas que tienen prioridad sobre `.git/config`. Por eso no basta con configurar Git: cada commit debe forzar explícitamente los cuatro valores.
+Algunos entornos de ejecución pueden inyectar variables `GIT_AUTHOR_*` y `GIT_COMMITTER_*` que tienen prioridad sobre `.git/config`. Por eso no basta con configurar Git: cada commit debe forzar explícitamente los cuatro valores.
 
 ```bash
-git config --local user.name "Rafael Llorens Blanes"
-git config --local user.email "rafalb190@gmail.com"
+git config --local user.name "Pomelo Baby"
+git config --local user.email "clinicapomelo@gmail.com"
 
-GIT_AUTHOR_NAME="Rafael Llorens Blanes" \
-GIT_AUTHOR_EMAIL="rafalb190@gmail.com" \
-GIT_COMMITTER_NAME="Rafael Llorens Blanes" \
-GIT_COMMITTER_EMAIL="rafalb190@gmail.com" \
+GIT_AUTHOR_NAME="Pomelo Baby" \
+GIT_AUTHOR_EMAIL="clinicapomelo@gmail.com" \
+GIT_COMMITTER_NAME="Pomelo Baby" \
+GIT_COMMITTER_EMAIL="clinicapomelo@gmail.com" \
 git commit ...
 ```
 
