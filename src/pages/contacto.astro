@@ -1,7 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { CONSULTATIONS_ENABLED } from '../data/consultas';
-import { GUIDES_ENABLED } from '../data/guias';
 ---
 
 <Layout title="Contacto" description="Contacta con Mar, enfermera infantil. Estoy aquí para ayudarte con lo que necesites.">
@@ -12,35 +10,45 @@ import { GUIDES_ENABLED } from '../data/guias';
         <p class="page-header__subtitle">Estoy aquí. Cuéntame qué necesitas.</p>
       </header>
 
-      <div class="contacto__orientacion">
-        <div class="contacto__orientacion-item">
-          <h2>¿Necesitas ayuda con tu&nbsp;hijo/a?</h2>
-          <p>
-            {CONSULTATIONS_ENABLED
-              ? 'Mira mis consultas y decide qué opción puede encajar mejor contigo.'
-              : 'Muy pronto podrás reservar una consulta por correo o por videollamada. Mira qué opciones tendrás.'}
-          </p>
+      <div class="contacto__caminos">
+        <article class="contacto__camino">
+          <span class="contacto__icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><path d="M17.5 6.5h.01" /></svg>
+          </span>
+          <h2>¿Quieres conocerme un poquito más?</h2>
+          <p>Sígueme en Instagram y acompáñame en el día a día de Pomelo&nbsp;Baby: salud infantil, crianza real y mucho menos ruido.</p>
+          <a href="https://instagram.com/pomelo.bby" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
+            Ir a Instagram <span aria-hidden="true">→</span>
+          </a>
+        </article>
+
+        <article class="contacto__camino">
+          <span class="contacto__icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.6-.8L3 21l1.9-5.3A8.4 8.4 0 1 1 21 11.5Z" /></svg>
+          </span>
+          <h2>¿Necesitas una consulta?</h2>
+          <p>Si quieres que revisemos juntos tus dudas y encontremos respuestas adaptadas a vuestra situación, aquí puedes ver las consultas disponibles.</p>
           <a href="/consultas" class="btn btn--primary">
-            Ver mis consultas <span aria-hidden="true">→</span>
+            Ver consultas <span aria-hidden="true">→</span>
           </a>
-        </div>
-        <div class="contacto__orientacion-item">
+        </article>
+
+        <article class="contacto__camino">
+          <span class="contacto__icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" /><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z" /></svg>
+          </span>
           <h2>¿No sabes qué escoger?</h2>
-          <p>
-            {GUIDES_ENABLED
-              ? 'Si no sabes dónde encaja tu duda, qué guía comprar o simplemente necesitas aclararte: escríbeme y te indicaré por dónde empezar.'
-              : 'Si no sabes dónde encaja tu duda o simplemente necesitas aclararte: escríbeme y te indicaré por dónde empezar.'}
-          </p>
-          <a href="?motivo=orientacion#formulario" class="btn btn--secondary">
-            Escribirme <span aria-hidden="true">→</span>
+          <p>No pasa nada. Cuéntame qué te preocupa o qué necesitas y te orientaré sobre cuál puede ser la mejor opción para empezar.</p>
+          <a href="?motivo=orientacion#formulario" class="btn btn--primary">
+            Ayúdame a escoger <span aria-hidden="true">→</span>
           </a>
-        </div>
+        </article>
       </div>
 
       <div id="formulario" class="contacto__form-wrapper">
         <div class="contacto__form">
-          <h2>Escríbeme</h2>
-          <p class="contacto__form-desc">Para orientarte sobre qué consulta elegir, colaboraciones, problemas con una compra o cualquier otra cosa. Te respondo en 24–48 horas laborables.</p>
+          <h2>¿Necesitas ponerte en contacto conmigo?</h2>
+          <p class="contacto__form-desc">Para colaboraciones, problemas con una compra o cualquier otra cosa que necesites. Te respondo en 24–48 horas laborables.</p>
           <p class="contacto__form-warning">No lo utilices para urgencias ni envíes datos de salud o imágenes de tu hijo o hija: para eso están las consultas.</p>
           <form
             name="contacto"
@@ -55,16 +63,7 @@ import { GUIDES_ENABLED } from '../data/guias';
               <input type="text" name="website" tabindex="-1" autocomplete="off" />
             </div>
 
-            <div class="form__group" data-validation-field>
-              <label for="motivo">Motivo</label>
-              <select id="motivo" name="motivo" required data-error-required="Elige el motivo de tu mensaje.">
-                <option value="" disabled selected>Elige una opción</option>
-                <option value="orientacion">No sé qué consulta elegir</option>
-                <option value="colaboracion">Colaboración o prensa</option>
-                <option value="compra">Problema con una compra</option>
-                <option value="otro">Otro</option>
-              </select>
-            </div>
+            <input type="hidden" id="motivo" name="motivo" value="otro" />
 
             <div class="form__group" data-validation-field>
               <label for="nombre">Nombre</label>
@@ -85,30 +84,28 @@ import { GUIDES_ENABLED } from '../data/guias';
             </div>
 
             <div class="form__group" data-validation-field>
-              <label for="mensaje">Mensaje</label>
-              <textarea id="mensaje" name="mensaje" rows="5" placeholder="¿En qué puedo ayudarte?" required data-error-required="Cuéntame en qué puedo ayudarte."></textarea>
+              <label for="mensaje">¿En qué puedo ayudarte?</label>
+              <textarea id="mensaje" name="mensaje" rows="5" required data-error-required="Cuéntame en qué puedo ayudarte."></textarea>
             </div>
 
             <p class="form__privacy"><strong>Privacidad:</strong> Piel de Pomelo SLP usará tus datos para responder a tu solicitud. Puedes ejercer tus derechos y consultar destinatarios, conservación y demás información en la <a href="/proteccion-datos" target="_blank" rel="noopener">política de privacidad</a>.</p>
 
             <button type="submit" class="btn btn--primary btn--full">
-              Enviar mensaje
+              Enviar mensaje <span aria-hidden="true">→</span>
             </button>
           </form>
         </div>
         <p class="contacto__alt">¿Prefieres el email? <a href="mailto:hola@pomelobaby.es">hola@pomelobaby.es</a></p>
       </div>
-
-      <p class="contacto__instagram">¿Solo quieres saludar? ¡Me encanta conoceros! Me encontrarás en Instagram: <a href="https://instagram.com/pomelo.bby" target="_blank" rel="noopener noreferrer">@pomelo.bby</a></p>
     </div>
   </section>
 </Layout>
 
 <script>
   const motivo = new URLSearchParams(window.location.search).get('motivo');
-  const select = document.querySelector<HTMLSelectElement>('#motivo');
-  if (select && motivo && Array.from(select.options).some((option) => option.value === motivo)) {
-    select.value = motivo;
+  const campoMotivo = document.querySelector<HTMLInputElement>('#motivo');
+  if (campoMotivo && motivo === 'orientacion') {
+    campoMotivo.value = motivo;
   }
 </script>
 
@@ -117,47 +114,56 @@ import { GUIDES_ENABLED } from '../data/guias';
     padding: var(--spacing-xl) 0;
   }
 
-  .contacto__orientacion {
+  .contacto__caminos {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--spacing-md);
-    max-width: 760px;
+    max-width: 1040px;
     margin: 0 auto var(--spacing-xl);
   }
 
-  .contacto__orientacion-item {
+  .contacto__camino {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: var(--spacing-lg);
-    background-color: var(--color-white);
-    border-radius: var(--radius-md);
+    align-items: flex-start;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
     border: 1px solid var(--color-border);
-    text-align: center;
+    border-radius: var(--radius-md);
+    background-color: var(--color-white);
   }
 
-  .contacto__orientacion-item p {
+  .contacto__icono {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    margin-bottom: var(--spacing-lg);
+    border-radius: 50%;
+    background-color: var(--color-nude);
+    color: var(--color-coral-hover);
+  }
+
+  .contacto__camino h2 {
+    margin-bottom: var(--spacing-sm);
+    font-size: 1.3rem;
+    line-height: 1.3;
+  }
+
+  .contacto__camino p {
+    margin-bottom: var(--spacing-lg);
     color: var(--color-text-secondary);
-    font-size: 0.9rem;
-    margin-bottom: var(--spacing-sm);
+    font-size: 0.95rem;
+    line-height: 1.7;
   }
 
-  .contacto__orientacion-item h2 {
-    margin-bottom: var(--spacing-sm);
-    font-size: 1.05rem;
-    line-height: 1.4;
-  }
-
-  .contacto__orientacion-item .btn {
+  .contacto__camino .btn {
+    width: 100%;
     margin-top: auto;
   }
 
-  .contacto__orientacion-item p:last-of-type {
-    margin-bottom: var(--spacing-md);
-  }
-
   .contacto__form-wrapper {
-    max-width: 550px;
+    max-width: 600px;
     margin: 0 auto;
     scroll-margin-top: 6rem;
   }
@@ -166,7 +172,7 @@ import { GUIDES_ENABLED } from '../data/guias';
     background-color: var(--color-white);
     border-radius: var(--radius-md);
     border: 1px solid var(--color-border);
-    padding: var(--spacing-lg);
+    padding: clamp(1.5rem, 4vw, 2.5rem);
   }
 
   .contacto__form h2 {
@@ -191,24 +197,14 @@ import { GUIDES_ENABLED } from '../data/guias';
     border-radius: var(--radius-sm);
   }
 
-  .contacto__alt,
-  .contacto__instagram {
+  .contacto__alt {
+    margin: var(--spacing-md) 0 0;
     color: var(--color-text-secondary);
     font-size: 0.9rem;
     text-align: center;
   }
 
-  .contacto__alt {
-    margin: var(--spacing-md) 0 0;
-  }
-
-  .contacto__instagram {
-    max-width: 550px;
-    margin: var(--spacing-xl) auto 0;
-  }
-
-  .contacto__alt a,
-  .contacto__instagram a {
+  .contacto__alt a {
     color: var(--color-coral-hover);
     font-weight: 700;
   }
@@ -242,7 +238,6 @@ import { GUIDES_ENABLED } from '../data/guias';
   }
 
   .form__group input,
-  .form__group select,
   .form__group textarea {
     font-family: var(--font-family);
     font-size: 0.95rem;
@@ -256,17 +251,12 @@ import { GUIDES_ENABLED } from '../data/guias';
   }
 
   .form__group input:focus,
-  .form__group select:focus,
   .form__group textarea:focus {
     border-color: var(--color-coral-hover);
   }
 
   .form__group input::placeholder,
   .form__group textarea::placeholder {
-    color: var(--color-text-tertiary);
-  }
-
-  .form__group select:invalid {
     color: var(--color-text-tertiary);
   }
 
@@ -279,9 +269,9 @@ import { GUIDES_ENABLED } from '../data/guias';
   }
 
   @media (max-width: 768px) {
-    .contacto__orientacion {
+    .contacto__caminos {
       grid-template-columns: 1fr;
-      max-width: 550px;
+      max-width: 520px;
     }
   }
 </style>
