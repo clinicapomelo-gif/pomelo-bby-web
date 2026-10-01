@@ -22,6 +22,11 @@
           "price_1U6YvH2WVIl1hdpgpESSEwbF",
           "price_1U6CDg2WVIl1hdpgTQkJSjt3"
         ]
+      },
+      "live": {
+        "productId": "prod_V6P1cCQK6NKXQU",
+        "priceId": "price_1UFtvYFBSvUqQgfmGnthBvJH",
+        "amountCents": 590
       }
     },
     "blobKey": "guias/recomendaciones-generales-recien-nacido/503f049910f05e83f5b8cb4b010a2250c459507ebbf89e59037ec4fb8e23e3c3.pdf",
@@ -77,6 +82,11 @@
         "previousPriceIds": [
           "price_1U6CEX2WVIl1hdpg3LaIxQr4"
         ]
+      },
+      "live": {
+        "productId": "prod_V6P2QCuXdRSTgf",
+        "priceId": "price_1UFtvbFBSvUqQgfmfLwwdk19",
+        "amountCents": 1490
       }
     },
     "blobKey": "guias/alimentacion-complementaria-sin-miedo/2b49890f4fd57e7c84562414ca72f0094851e182fc54bb4d07548274ec4f4c3b.pdf",
@@ -109,6 +119,11 @@
         "previousPriceIds": [
           "price_1U6um22WVIl1hdpgbvYxnwCi"
         ]
+      },
+      "live": {
+        "productId": "prod_V794Du7a04SOql",
+        "priceId": "price_1UFtveFBSvUqQgfmqflBQMrc",
+        "amountCents": 490
       }
     },
     "amountCents": 490,
@@ -138,6 +153,11 @@
         "previousPriceIds": [
           "price_1UDPth2WVIl1hdpg4TGag9e2"
         ]
+      },
+      "live": {
+        "productId": "prod_VDrczXaZaZyXIB",
+        "priceId": "price_1UFtvYFBSvUqQgfmkpHRfFM9",
+        "amountCents": 690
       }
     },
     "amountCents": 690,
@@ -160,6 +180,11 @@
       "test": {
         "productId": "prod_VEYkborhUgPGVb",
         "priceId": "price_1UE5d62WVIl1hdpgsVZH6X3N",
+        "amountCents": 1490
+      },
+      "live": {
+        "productId": "prod_VEYkborhUgPGVb",
+        "priceId": "price_1UFtvYFBSvUqQgfmynhY4lzq",
         "amountCents": 1490
       }
     },
