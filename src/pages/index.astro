@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import LeadMagnetForm from '../components/LeadMagnetForm.astro';
 import { CONSULTATIONS_ENABLED } from '../data/consultas';
-import { GUIDES_ENABLED, formatGuiaCategory, formatGuiaKind, guias, isGuiaVisible } from '../data/guias';
+import { GUIDES_ENABLED, formatGuiaCategory, formatGuiaKind, guias, isFreeGuiaDownloadEnabled, isGuiaVisible } from '../data/guias';
 
 const allPosts = await getCollection('blog', ({ data }) => !data.draft);
 const latestPosts = allPosts
@@ -215,7 +215,7 @@ const categoryIcons: Record<string, string[]> = {
             <h3>{guide.title}</h3>
             <p>{guide.description}</p>
             <div class="guide-card__footer">
-              <strong>{GUIDES_ENABLED ? 'Ver guía' : 'Próximamente'}</strong>
+              <strong>{GUIDES_ENABLED || isFreeGuiaDownloadEnabled(guide) ? 'Ver guía' : 'Próximamente'}</strong>
               <span aria-hidden="true">→</span>
             </div>
           </a>

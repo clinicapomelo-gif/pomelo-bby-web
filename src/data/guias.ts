@@ -40,6 +40,7 @@ export interface Guia {
 export type PurchasableGuia = Guia & { blobKey: string };
 
 export const GUIDES_ENABLED = false;
+export const FREE_GUIDES_ENABLED = false;
 
 export const guias = catalog as Guia[];
 
@@ -70,7 +71,7 @@ export const isGuiaVisible = (guia: Guia, mode: StripeMode | undefined) =>
   checkVisibility(guia, mode) as boolean;
 
 export const isFreeGuiaDownloadEnabled = (guia: Guia) =>
-  GUIDES_ENABLED && guia.status === 'free' && guia.downloadEnabled !== false;
+  FREE_GUIDES_ENABLED && guia.status === 'free' && guia.downloadEnabled !== false;
 
 export const isGuiaPurchasable = (
   guia: Guia,
