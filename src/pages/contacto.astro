@@ -32,23 +32,12 @@ import Layout from '../layouts/Layout.astro';
             Ver consultas <span aria-hidden="true">→</span>
           </a>
         </article>
-
-        <article class="contacto__camino">
-          <span class="contacto__icono" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" /><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z" /></svg>
-          </span>
-          <h2>¿No sabes qué escoger?</h2>
-          <p>No pasa nada. Cuéntame qué te preocupa o qué necesitas y te orientaré sobre cuál puede ser la mejor opción para empezar.</p>
-          <a href="?motivo=orientacion#formulario" class="btn btn--primary">
-            Ayúdame a escoger <span aria-hidden="true">→</span>
-          </a>
-        </article>
       </div>
 
       <div id="formulario" class="contacto__form-wrapper">
         <div class="contacto__form">
           <h2>¿Necesitas ponerte en contacto conmigo?</h2>
-          <p class="contacto__form-desc">Para colaboraciones, problemas con una compra o cualquier otra cosa que necesites. Te respondo en 24–48 horas laborables.</p>
+          <p class="contacto__form-desc">Si no sabes qué consulta elegir, tienes una colaboración, un problema con una compra o cualquier otra cosa: escríbeme. Te respondo en 24–48 horas laborables.</p>
           <p class="contacto__form-warning">No lo utilices para urgencias ni envíes datos de salud o imágenes de tu hijo o hija.</p>
           <form
             name="contacto"
@@ -63,7 +52,16 @@ import Layout from '../layouts/Layout.astro';
               <input type="text" name="website" tabindex="-1" autocomplete="off" />
             </div>
 
-            <input type="hidden" id="motivo" name="motivo" value="otro" />
+            <div class="form__group" data-validation-field>
+              <label for="motivo">Motivo</label>
+              <select id="motivo" name="motivo" required data-error-required="Elige el motivo de tu mensaje.">
+                <option value="" disabled selected>Elige una opción</option>
+                <option value="orientacion">No sé qué consulta elegir</option>
+                <option value="colaboracion">Colaboración o prensa</option>
+                <option value="compra">Problema con una compra</option>
+                <option value="otro">Otro</option>
+              </select>
+            </div>
 
             <div class="form__group" data-validation-field>
               <label for="nombre">Nombre</label>
@@ -103,9 +101,9 @@ import Layout from '../layouts/Layout.astro';
 
 <script>
   const motivo = new URLSearchParams(window.location.search).get('motivo');
-  const campoMotivo = document.querySelector<HTMLInputElement>('#motivo');
-  if (campoMotivo && motivo === 'orientacion') {
-    campoMotivo.value = motivo;
+  const select = document.querySelector<HTMLSelectElement>('#motivo');
+  if (select && motivo && Array.from(select.options).some((option) => option.value === motivo)) {
+    select.value = motivo;
   }
 </script>
 
@@ -116,9 +114,9 @@ import Layout from '../layouts/Layout.astro';
 
   .contacto__caminos {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--spacing-md);
-    max-width: 1040px;
+    max-width: 760px;
     margin: 0 auto var(--spacing-xl);
   }
 
@@ -238,6 +236,7 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .form__group input,
+  .form__group select,
   .form__group textarea {
     font-family: var(--font-family);
     font-size: 0.95rem;
@@ -251,12 +250,17 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .form__group input:focus,
+  .form__group select:focus,
   .form__group textarea:focus {
     border-color: var(--color-coral-hover);
   }
 
   .form__group input::placeholder,
   .form__group textarea::placeholder {
+    color: var(--color-text-tertiary);
+  }
+
+  .form__group select:invalid {
     color: var(--color-text-tertiary);
   }
 
