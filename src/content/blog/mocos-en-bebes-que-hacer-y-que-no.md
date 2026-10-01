@@ -35,7 +35,7 @@ Lo que tenemos que observar es cómo respira y cómo se encuentra.
 
 Son una de las medidas más útiles cuando la nariz está obstruida.
 
-La AEP recomienda realizar los lavados tantas veces como sean necesarias para que el niño o niña esté más cómodo/a y respire mejor. No existe una cantidad fija de lavados que haya que hacer cada día.
+Basándome en las recomendaciones pediátricas actuales, te aconsejo hacer los lavados tantas veces como sean necesarios para que tu bebé esté más cómodo/a y respire mejor. No existe una cantidad fija de lavados que haya que hacer cada día.
 
 Pueden resultar especialmente útiles:
 
@@ -45,7 +45,7 @@ Pueden resultar especialmente útiles:
   <li>👃 Cuando la congestión le dificulta respirar por la nariz.</li>
 </ul>
 
-En bebés pequeños, la AEP señala que suele ser suficiente utilizar aproximadamente 1-2 ml de suero fisiológico en cada fosa nasal.
+En bebés pequeños suele ser suficiente utilizar aproximadamente 1-2 ml de suero fisiológico en cada fosa nasal.
 
 Puedes hacerlo con el bebé tumbado y la cabeza ladeada, o sentado, con la cabeza ligeramente inclinada hacia delante.
 
@@ -69,7 +69,7 @@ Si está comiendo peor, presta atención también a que siga tomando líquidos a
 
 Aquí hay una confusión muy habitual: lavado nasal y aspiración no son exactamente lo mismo.
 
-La AEP recomienda limitar el uso de los aspiradores de secreciones. La succión frecuente puede resultar desagradable para el oído y resecar la mucosa nasal.
+Te recomiendo limitar el uso de los aspiradores de secreciones. La succión frecuente puede resultar desagradable para el oído y resecar la mucosa nasal.
 
 Por eso:
 
@@ -101,7 +101,7 @@ Por eso, ante un bebé congestionado: suero fisiológico sí; medicamentos antic
 
 El humidificador no es imprescindible cada vez que un bebé tiene mocos.
 
-Si el ambiente de casa es muy seco, la AEP contempla utilizarlo durante un periodo corto para ayudar a mantener las secreciones menos espesas. Sin embargo, también advierte de que puede ser perjudicial para algunos niños y niñas con bronquitis o asma.
+Si el ambiente de casa es muy seco, se puede utilizar durante un periodo corto para ayudar a mantener las secreciones menos espesas. Sin embargo, también puede ser perjudicial para algunos niños y niñas con bronquitis o asma.
 
 Por tanto, no es un tratamiento obligatorio para los mocos.
 
