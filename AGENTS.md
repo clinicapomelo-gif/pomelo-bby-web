@@ -8,7 +8,7 @@ Antes de cambiar comportamiento de negocio, consulta `CONTEXT.md` y los ADR de `
 
 ## Comandos
 
-Requiere Node.js 22.19 o superior (`engines`). **Producción corre en Node.js 24**: Vercel solo ofrece 24 (la predeterminada), 22 y 20, y no tiene Node 26 (comprobado el 2 oct 2026; el proyecto está en 24.x). En local se puede usar Node 26 (la versión actual; probado con 26.10.0, el build y los 29 tests pasan), pero `@astrojs/vercel` avisa de que usará Node 24 como runtime. Para reproducir producción, usa Node 24. No fijes `engines.node` ni el ajuste de Vercel a 26: esa versión no existe allí.
+Requiere Node.js 22.19 o superior (`engines`). **Decisión (2 oct 2026): se trabaja y se despliega en Node.js 24**, que es la versión de producción: Vercel solo ofrece 24 (la predeterminada), 22 y 20, y no tiene Node 26 (el proyecto está en 24.x). Con Node 26 en local el build y los tests pasan (probado con 26.10.0), pero `@astrojs/vercel` avisa de que usará Node 24 como runtime; por eso se prefiere la 24 también en local. No fijes `engines.node` ni el ajuste de Vercel a 26: esa versión no existe allí.
 
 ```bash
 npm install
