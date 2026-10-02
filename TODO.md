@@ -18,6 +18,7 @@ Production (push del 2 oct 2026) tiene el aviso de error de Contacto, los datos 
 
 - [ ] **[Mar]** Respuesta rápida de Instagram que derive las dudas de salud a `/consultas`.
 - [ ] **[Vicente / Mar]** Es **S.L.P** (confirmado el 2 oct; la web ya lo dice bien). Faltan para el Aviso legal: el **número de inscripción de la sociedad en el Registro de Sociedades Profesionales** del Colegio de Enfermería (obligatorio por la Ley 2/2007; lo tiene el Colegio o la asesoría), **el colegio de Mar** (nombre exacto) y **su título y país de expedición** (LSSI, art. 10). Ya publicados: Registro Mercantil (Alicante, hoja A-191902, inscripción 1.ª) y n.º de colegiada 16700. Después, **Dev** los añade.
+- [ ] **[Rafael]** SPF de la raíz en DonDominio: hoy es `v=spf1 include:spf.dondominio.com`, sin cierre. Añadir ` ~all` al final, para que el correo que suplante el dominio cuente como sospechoso. No hay que tocar el SPF de `send` (Resend), que ya lo tiene.
 - [ ] **[Rafael + Mar]** Correo profesional: los buzones `hola@` y `mar@pomelobaby.es` ya funcionan. Falta integrarlos con Gmail: redirigirlos a una cuenta de Gmail dedicada y configurar **Enviar como** con el SMTP de DonDominio (pasos en `docs/configuracion-correo-profesional.md`).
 - [ ] **[Mar + Rafael]** Cal.com: conectar Google Calendar como calendario de conflictos (el de Mar y **Pomelo — bloqueos**; ya hay una cuenta de destino, clinicapomelo@gmail.com) y definir la disponibilidad real.
 
@@ -51,7 +52,7 @@ Production (push del 2 oct 2026) tiene el aviso de error de Contacto, los datos 
 - [ ] **[Dev]** Con las Condiciones y la respuesta del IVA: sustituir el texto provisional de `src/lib/checkout-consent.ts`, publicar las Condiciones, poner su URL en Stripe **Live** (Settings → Public details) y decidir `tax_behavior` de los Prices. **Quitar el `noindex` de `/condiciones-venta`** al publicarlas.
 - [ ] **[Dev + gestor]** Casilla de condiciones en la reserva de Cal.com, y reprogramaciones (hasta 2, hasta 24 h): Cal.com no las limita por sí mismo.
 - [ ] **[Mar + Rafael]** Reservar y reembolsar una prueba de cada consulta de Cal.com, cuando haya disponibilidad: el cobro debe aparecer en el Stripe de Pomelo.
-- [ ] **[Mar + Dev]** Compra real de 4,90 € (`conservacion-alimentos`): webhook 200 en Stripe, correo (¿spam en Gmail, Outlook y móvil?) y descarga; reembolsarla. Si cae en spam: añadir `rua` al DMARC. Después, `GUIDES_ENABLED = true` y push.
+- [ ] **[Mar + Dev]** Compra real de 4,90 € (`conservacion-alimentos`): webhook 200 en Stripe, correo (¿spam en Gmail, Outlook y móvil?) y descarga; reembolsarla. Si cae en spam, revisar los informes DMARC: el `rua` ya está configurado y llegan a `dmarc@pomelobaby.es`. Después, `GUIDES_ENABLED = true` y push.
 - [ ] **[Mar + Dev]** «Cuéntame por correo»: compra de prueba y compra real controlada antes de abrirla.
 - [ ] **[Dev]** QA final: ya hecho enlaces (0 rotos), 404 (existe, sin enlace de vuelta; una 404 propia sería texto nuevo y la decide Mar), SEO (100), velocidad y Contacto en Production. Revisión manual de móvil, teclado y foco hecha por Rafael el 2 oct (funciona de 10 en móvil). Falta probar en Production los formularios que se abran.
 
