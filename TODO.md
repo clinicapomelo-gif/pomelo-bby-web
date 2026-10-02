@@ -57,6 +57,10 @@ Push hecho el 2 oct 2026 (`d07042b`): Production tiene el aviso de error de Cont
 - [ ] **[Mar + Dev]** «Cuéntame por correo»: compra de prueba y compra real controlada antes de abrirla.
 - [ ] **[Dev]** QA final: ya hecho enlaces (0 rotos), 404 (existe, sin enlace de vuelta; una 404 propia sería texto nuevo y la decide Mar), SEO (100), velocidad y Contacto en Production. Revisión manual de móvil, teclado y foco hecha por Rafael el 2 oct (funciona de 10 en móvil). Falta probar en Production los formularios que se abran.
 
+# A evaluar
+
+- [ ] **[Rafael]** Valorar mover el alojamiento de Vercel a AWS (CloudFront). Motivo, fecha y quién lo mantiene: por definir. Hoy hay que mirar cinco cosas: el adaptador (`@astrojs/vercel` pasaría a algo como `astro-sst`, que usa Lambda y CloudFront; comprobar que soporta Astro 7), los PDF de pago (hoy en Vercel Blob con `@vercel/blob`; irían a S3), las variables de entorno y secretos, el límite de envíos (hoy el firewall de Vercel; en AWS sería WAF) y el DNS en DonDominio. También cambian el despliegue automático desde GitHub, Vercel Analytics y el webhook de Stripe, que depende de que la web no se caiga. Recomendación: no migrar antes de abrir las ventas.
+
 # Más adelante
 
 Pasar la regla de Vercel `Limitar formularios` de `log` a `deny` cuando se vea el tráfico real. El Chisme (Mar: 3 ediciones y el primer Broadcast con enlace de baja; limpiar los 2 contactos de prueba de Resend; el flujo de alta, confirmación, baja y reactivación ya está probado en local), Manual de supervivencia (PDF de Mar) y fuentes en los artículos de salud.
