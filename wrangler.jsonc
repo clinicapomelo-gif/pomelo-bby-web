@@ -6,6 +6,10 @@
   "compatibility_flags": ["nodejs_compat"],
   "assets": { "directory": "./dist", "binding": "ASSETS" },
   "observability": { "enabled": true },
+  // PDFs privados de las guías. En local es un R2 simulado que empieza vacío: para probar,
+  // cargar los PDFs con `npx wrangler r2 object put pomelo-guias/<clave> --file <pdf> --local`.
+  // Los bindings no se heredan: se repiten en cada entorno.
+  "r2_buckets": [{ "binding": "GUIAS", "bucket_name": "pomelo-guias" }],
   // Sin entorno = desarrollo local (Sandbox). El entorno se elige al construir
   // con CLOUDFLARE_ENV=production o CLOUDFLARE_ENV=preview.
   // Secretos: `npx wrangler secret put <NOMBRE> --env <entorno>`; en local, .dev.vars o .env.
@@ -13,12 +17,14 @@
     // Rama main: Stripe Live.
     "production": {
       "name": "pomelo-bby-web",
-      "vars": { "APP_ENV": "production", "SITE_URL": "https://pomelobaby.es" }
+      "vars": { "APP_ENV": "production", "SITE_URL": "https://pomelobaby.es" },
+      "r2_buckets": [{ "binding": "GUIAS", "bucket_name": "pomelo-guias" }]
     },
     // Otras ramas: Worker aparte para que nunca vea las claves Live. Sin SITE_URL: usa su propia URL.
     "preview": {
       "name": "pomelo-bby-web-preview",
-      "vars": { "APP_ENV": "preview" }
+      "vars": { "APP_ENV": "preview" },
+      "r2_buckets": [{ "binding": "GUIAS", "bucket_name": "pomelo-guias" }]
     }
   }
 }

@@ -7,7 +7,7 @@ import {
   isGuiaPurchasable,
 } from '../../data/guias';
 import { termsConsent } from '../../lib/checkout-consent';
-import { isPrivateGuidePdfAvailable } from '../../lib/guide-delivery';
+import { isPrivateGuidePdfAvailable } from '../../lib/guide-storage';
 import { getSiteUrl } from '../../lib/site-url';
 
 export const prerender = false;

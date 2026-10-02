@@ -2,10 +2,8 @@ import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
 import Stripe from 'stripe';
 import { authorizeGuidePurchase, getStripeMode, guias } from '../../data/guias';
-import {
-  getGuideDownloadExpiresAt,
-  isPrivateGuidePdfAvailable,
-} from '../../lib/guide-delivery';
+import { getGuideDownloadExpiresAt } from '../../lib/guide-delivery';
+import { isPrivateGuidePdfAvailable } from '../../lib/guide-storage';
 
 export const prerender = false;
 

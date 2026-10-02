@@ -1,8 +1,8 @@
 import type { APIRoute } from 'astro';
-import { get } from '@vercel/blob';
 import Stripe from 'stripe';
 import { authorizeGuidePurchase, getStripeMode, guias } from '../../../data/guias';
 import { getGuideDownloadExpiresAt } from '../../../lib/guide-delivery';
+import { privatePdfResponse } from '../../../lib/guide-storage';
 
 export const prerender = false;
 
@@ -98,23 +98,10 @@ export const GET: APIRoute = async ({ url }) => {
   }
 
   try {
-    // La SDK resuelve OIDC o BLOB_READ_WRITE_TOKEN en runtime.
-    const result = await get(purchasedBlobKey, { access: 'private' });
-
-    if (!result || result.statusCode !== 200 || result.blob.contentType !== 'application/pdf') {
-      return temporarilyUnavailable();
-    }
-
-    return new Response(result.stream, {
-      headers: {
-        'Cache-Control': 'private, no-store, max-age=0',
-        'Content-Disposition': `attachment; filename="${guia.id}.pdf"`,
-        'Content-Length': String(result.blob.size),
-        'Content-Type': 'application/pdf',
-      },
-    });
+    return await privatePdfResponse(purchasedBlobKey, `${guia.id}.pdf`, 'private, no-store, max-age=0')
+      ?? temporarilyUnavailable();
   } catch (error: unknown) {
-    console.error('Guide Blob download error:', errorType(error));
+    console.error('Guide PDF download error:', errorType(error));
     return temporarilyUnavailable();
   }
 };

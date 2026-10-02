@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
-import { get } from '@vercel/blob';
 import { guias, isFreeGuiaDownloadEnabled } from '../../../data/guias';
+import { privatePdfResponse } from '../../../lib/guide-storage';
 
 export const prerender = false;
 
@@ -15,19 +15,8 @@ export const GET: APIRoute = async ({ url }) => {
   if (!guia?.blobKey || !isFreeGuiaDownloadEnabled(guia)) return unavailable();
 
   try {
-    const result = await get(guia.blobKey, { access: 'private' });
-    if (!result || result.statusCode !== 200 || result.blob.contentType !== 'application/pdf') {
-      return unavailable();
-    }
-
-    return new Response(result.stream, {
-      headers: {
-        'Cache-Control': 'public, max-age=3600',
-        'Content-Disposition': `attachment; filename="${guia.id}.pdf"`,
-        'Content-Length': String(result.blob.size),
-        'Content-Type': 'application/pdf',
-      },
-    });
+    return await privatePdfResponse(guia.blobKey, `${guia.id}.pdf`, 'public, max-age=3600')
+      ?? unavailable();
   } catch (error: unknown) {
     console.error('Free guide download error:', error instanceof Error ? error.name : 'UnknownError');
     return unavailable();
