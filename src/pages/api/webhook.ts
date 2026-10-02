@@ -4,6 +4,7 @@ import Stripe from 'stripe';
 import { authorizeGuidePurchase, getStripeMode, guias } from '../../data/guias';
 import { getGuideDownloadExpiresAt } from '../../lib/guide-delivery';
 import { isPrivateGuidePdfAvailable } from '../../lib/guide-storage';
+import { getSiteUrl } from '../../lib/site-url';
 
 export const prerender = false;
 
@@ -103,9 +104,10 @@ export const POST: APIRoute = async ({ request }) => {
 
   const resendKey = process.env.RESEND_API_KEY;
   const sender = process.env.RESEND_FROM_EMAIL;
-  const siteURL = process.env.SITE_URL;
+  // Production fija SITE_URL; preview usa su propia URL, la que Stripe llama.
+  const siteURL = getSiteUrl(request);
 
-  if (!resendKey || !sender || !siteURL) {
+  if (!resendKey || !sender) {
     return new Response('Servicio de entrega no configurado', { status: 503 });
   }
 
