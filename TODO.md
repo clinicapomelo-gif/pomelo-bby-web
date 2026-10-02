@@ -9,7 +9,7 @@ Solo lo que bloquea o tiene fecha. Última revisión: 2 oct 2026.
 - [ ] **[Rafael]** Hacer push. El `pull --rebase` ya está hecho: hay 12 commits locales sin subir (mapeos Stripe Live, flag de la gratuita, aviso de error de Contacto, datos de empresa, casilla de Stripe, `noindex` de las Condiciones y documentación). Tiene que subirse antes de activar la guía gratuita el lunes 5.
 - [ ] **[Rafael + Dev]** **5 oct:** activar la guía gratuita: `FREE_GUIDES_ENABLED = true` en `src/data/guias.ts`, quitar `"downloadEnabled": false` en `src/data/guias.json`, build y push. `GUIDES_ENABLED` se queda en `false`.
 - [ ] **[Mar]** Respuesta rápida de Instagram que derive las dudas de salud a `/consultas`.
-- [ ] **[Mar]** Enviar al gestor el correo de revisión (versión final: IVA y facturas, datos de salud, textos publicados y clínica). Rafael y Mar redactan ellos las Condiciones de venta, el desistimiento y las cancelaciones, y se las pasan después para que les echen un vistazo.
+- [ ] **[Mar]** Esperar la respuesta del gestor al correo enviado el **2 oct 2026** (IVA y facturas, datos de salud, textos publicados y clínica). Si en una semana no responde, volver a escribirle. Rafael y Mar redactan ellos las Condiciones de venta, el desistimiento y las cancelaciones, y se las pasan después para que les echen un vistazo.
 - [ ] **[Mar + Rafael]** Decidir cuándo enseñar la web en redes (Mar quiere hacerlo pronto). La web ya está pública y las ventas siguen cerradas: antes, comprobar que todo lo visible es correcto (precios, «Próximamente», textos legales) y que el límite de envíos de Vercel sigue en modo registro.
 - [ ] **[Rafael / Vicente]** Datos del Registro Mercantil de Piel de Pomelo S.L.P; después **[Dev]** los añade al Aviso legal.
 
