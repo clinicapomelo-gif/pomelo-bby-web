@@ -7,6 +7,7 @@ import {
   getConsultationStripeMode,
   isStripeSessionMode,
 } from '../../lib/consulta-payment.mjs';
+import { termsConsent } from '../../lib/checkout-consent';
 import { getSiteUrl } from '../../lib/site-url';
 
 export const prerender = false;
@@ -41,6 +42,7 @@ export const POST: APIRoute = async ({ request }) => {
       cancel_url: `${siteURL}/consultas`,
       metadata: { type: 'consulta-mensaje', priceId },
       automatic_tax: { enabled: false },
+      ...termsConsent(siteURL, 'consulta'),
     });
 
     if (!session.url || !isStripeSessionMode(session.livemode, stripeMode)) {

@@ -6,6 +6,7 @@ import {
   guias,
   isGuiaPurchasable,
 } from '../../data/guias';
+import { termsConsent } from '../../lib/checkout-consent';
 import { isPrivateGuidePdfAvailable } from '../../lib/guide-delivery';
 import { getSiteUrl } from '../../lib/site-url';
 
@@ -111,6 +112,7 @@ export const POST: APIRoute = async ({ request }) => {
       automatic_tax: { enabled: false },
       adaptive_pricing: { enabled: false },
       locale: 'es',
+      ...termsConsent(baseURL, 'guia'),
     });
 
     if (!session.url) {
