@@ -37,6 +37,9 @@ import Layout from '../layouts/Layout.astro';
       <div id="formulario" class="contacto__form-wrapper">
         <div class="contacto__form">
           <h2>¿Necesitas ponerte en contacto conmigo?</h2>
+          <p id="contacto-error" class="contacto__error" role="alert" tabindex="-1" hidden>
+            No hemos podido enviar tu mensaje. Inténtalo de nuevo en unos minutos o escríbenos a <a href="mailto:hola@pomelobaby.es">hola@pomelobaby.es</a>.
+          </p>
           <p class="contacto__form-desc">Si no sabes qué consulta elegir, tienes una colaboración, un problema con una compra o cualquier otra cosa: escríbeme. Te respondo en 24–48 horas laborables.</p>
           <p class="contacto__form-warning">No lo utilices para urgencias ni envíes datos de salud o imágenes de tu hijo o hija.</p>
           <form
@@ -100,10 +103,20 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <script>
-  const motivo = new URLSearchParams(window.location.search).get('motivo');
+  const params = new URLSearchParams(window.location.search);
+  const motivo = params.get('motivo');
   const select = document.querySelector<HTMLSelectElement>('#motivo');
   if (select && motivo && Array.from(select.options).some((option) => option.value === motivo)) {
     select.value = motivo;
+  }
+
+  const error = document.querySelector<HTMLElement>('#contacto-error');
+  if (error && params.has('error')) {
+    error.hidden = false;
+    error.focus();
+    params.delete('error');
+    const query = params.toString();
+    history.replaceState(null, '', `${window.location.pathname}${query ? `?${query}` : ''}${window.location.hash}`);
   }
 </script>
 
@@ -183,6 +196,22 @@ import Layout from '../layouts/Layout.astro';
     font-size: 0.9rem;
     margin-bottom: var(--spacing-sm);
     line-height: 1.5;
+  }
+
+  .contacto__error {
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-sm) var(--spacing-md);
+    color: var(--color-text);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    background-color: var(--color-nude);
+    border-left: 3px solid var(--color-coral-hover);
+    border-radius: var(--radius-sm);
+  }
+
+  .contacto__error a {
+    color: var(--color-coral-hover);
+    font-weight: 600;
   }
 
   .contacto__form-warning {

@@ -34,14 +34,17 @@ export const POST: APIRoute = async ({ request }) => {
     }
   }
 
+  const contentType = request.headers.get('content-type') || '';
+  const fail = (status: number, error: string) =>
+    contentType.includes('application/json')
+      ? new Response(JSON.stringify({ error }), { status, headers: { 'Content-Type': 'application/json' } })
+      : Response.redirect(new URL('/contacto?error=1#formulario', request.url), 303);
+
   const resendKey = import.meta.env.RESEND_API_KEY;
   const fromEmail = import.meta.env.RESEND_FROM_EMAIL;
   const toEmail = import.meta.env.RESEND_TO_EMAIL;
   if (!resendKey || !fromEmail || !toEmail) {
-    return new Response(
-      JSON.stringify({ error: 'Servicio de email no configurado.' }),
-      { status: 503, headers: { 'Content-Type': 'application/json' } }
-    );
+    return fail(503, 'Servicio de email no configurado.');
   }
 
   const resend = new Resend(resendKey);
@@ -52,7 +55,6 @@ export const POST: APIRoute = async ({ request }) => {
   let motivo: string | undefined;
   let honeypot: string | undefined;
 
-  const contentType = request.headers.get('content-type') || '';
   try {
     if (contentType.includes('application/json')) {
       const body = await request.json();
@@ -70,10 +72,7 @@ export const POST: APIRoute = async ({ request }) => {
       honeypot = formData.get('website')?.toString();
     }
   } catch {
-    return new Response(
-      JSON.stringify({ error: 'Datos mal formados.' }),
-      { status: 400, headers: { 'Content-Type': 'application/json' } }
-    );
+    return fail(400, 'Datos mal formados.');
   }
 
   // Honeypot: si este campo tiene valor, es un bot
@@ -88,10 +87,7 @@ export const POST: APIRoute = async ({ request }) => {
   const motivoLabel = motivo && Object.hasOwn(MOTIVOS, motivo) ? MOTIVOS[motivo] : undefined;
 
   if (!motivoLabel || !nombre || nombre.length > 100 || !email || email.length > 254 || !EMAIL_REGEX.test(email) || !mensaje || mensaje.length > 5000) {
-    return new Response(
-      JSON.stringify({ error: 'Revisa los campos del formulario.' }),
-      { status: 400, headers: { 'Content-Type': 'application/json' } }
-    );
+    return fail(400, 'Revisa los campos del formulario.');
   }
 
   try {
@@ -105,18 +101,12 @@ export const POST: APIRoute = async ({ request }) => {
 
     if (error) {
       console.error('Resend contact error:', error.name);
-      return new Response(
-        JSON.stringify({ error: 'No se pudo enviar el mensaje.' }),
-        { status: 502, headers: { 'Content-Type': 'application/json' } }
-      );
+      return fail(502, 'No se pudo enviar el mensaje.');
     }
 
     return Response.redirect(new URL('/gracias', request.url), 303);
   } catch (err: unknown) {
     console.error('Resend contact exception:', err instanceof Error ? err.name : 'UnknownError');
-    return new Response(
-      JSON.stringify({ error: 'No se pudo enviar el mensaje.' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
-    );
+    return fail(500, 'No se pudo enviar el mensaje.');
   }
 };
