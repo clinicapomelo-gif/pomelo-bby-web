@@ -44,7 +44,7 @@ La web corre en **Cloudflare Workers**, el equivalente a las funciones de Vercel
 ## 1. Decidir y preparar (sin publicar nada)
 
 - [ ] 1. **[Mar + Rafael]** Decidir la migración y el día del cambio. Avisar a Mar.
-- [ ] 2. **[Rafael / Vicente]** Cloudflare → Manage Account → Billing: tarjeta y dirección de facturación de Piel de Pomelo S.L.P. Crear la alerta de gasto de 1 $ en Billing → Billable Usage → Create budget alert.
+- [ ] 2. **[Rafael / Vicente]** Cloudflare → Manage Account → Billing: tarjeta y dirección de facturación de Piel de Pomelo S.L.P. La alerta de gasto de 1 $ ya está creada (2 oct 2026).
 - [ ] 3. **[Dev → Mar + asesoría]** Privacidad y Cookies: cambiar Vercel por Cloudflare (alojamiento, almacenamiento de las guías y analítica). Se publica el día del cambio, no antes.
 - [ ] 4. **[Dev]** Cal.com: cambiar la opción obsoleta `styles` por `cssVarsPerTheme` en `src/scripts/cal-embed.js`.
 
