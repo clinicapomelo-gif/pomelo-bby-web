@@ -2,7 +2,7 @@
 
 Solo lo que bloquea o tiene fecha. Última revisión: 2 oct 2026.
 
-**Estado:** web publicada. Guías, consultas y El Chisme apagados por código (`GUIDES_ENABLED`, `CONSULTATIONS_ENABLED`, `CHISME_ENABLED`; la guía gratuita tiene el suyo, `FREE_GUIDES_ENABLED`). Stripe Live y Vercel Production listos para las guías, probadas en Sandbox (`docs/guias-de-pago.md`). Cal.com configurado (precios 49 € y 89 €) salvo la disponibilidad (`docs/configuracion-cal-com.md`). Mar envió el 2 oct el correo al gestor. Migración a Cloudflare en curso en la rama `cloudflare` (sección C). Los textos actuales los ha revisado Mar: no se tocan.
+**Estado:** web publicada. Guías, consultas y El Chisme apagados por código (`GUIDES_ENABLED`, `CONSULTATIONS_ENABLED`, `CHISME_ENABLED`; la guía gratuita tiene el suyo, `FREE_GUIDES_ENABLED`). Stripe Live y Vercel Production listos para las guías, probadas en Sandbox (`docs/guias-de-pago.md`). Cal.com configurado (precios 49 € y 89 €) salvo la disponibilidad (`docs/configuracion-cal-com.md`). Mar envió el 2 oct el correo al gestor. Migración a Cloudflare en curso en la rama `cloudflare` (`TODO-cloudflare.md`). Los textos actuales los ha revisado Mar: no se tocan.
 
 # A. Podemos hacer ahora mismo
 
@@ -56,19 +56,9 @@ Production (push del 2 oct 2026) tiene el aviso de error de Contacto, los datos 
 - [ ] **[Mar + Dev]** «Cuéntame por correo»: compra de prueba y compra real controlada antes de abrirla.
 - [ ] **[Dev]** QA final: ya hecho enlaces (0 rotos), 404 (existe, sin enlace de vuelta; una 404 propia sería texto nuevo y la decide Mar), SEO (100), velocidad y Contacto en Production. Revisión manual de móvil, teclado y foco hecha por Rafael el 2 oct (funciona de 10 en móvil). Falta probar en Production los formularios que se abran.
 
-# C. Migración a Cloudflare (rama `cloudflare`, en curso)
+# C. Migración a Cloudflare
 
-Decidido el 2 oct 2026: Vercel Hobby no permite uso comercial (cobrar ni anunciar ventas). **Antes de cobrar o de enseñar la web en redes, la web tiene que estar en Cloudflare.**
-
-Hecho en la rama: adaptador y Astro 7.3.5, secretos en tiempo de ejecución, entornos (production, preview aparte sin claves Live, local), webhook con Web Crypto, cabeceras de seguridad y HSTS, `noindex` fuera de Production. Bucket R2 `pomelo-guias` creado con los 14 PDF copiados y verificados. El código que lee de R2 está probado en local pero **sin commit, en el stash** «cloudflare: fase 3 R2»: recuperarlo con `git checkout cloudflare && git stash pop`. La guía gratuita usa allí una clave nueva sin tildes.
-
-- [ ] **[Dev]** Pasar `scripts/guide-catalog.mjs` (alta de guías) de Vercel Blob a R2.
-- [ ] **[Dev]** Limpieza: quitar `@astrojs/vercel`, `@vercel/blob`, `@vercel/analytics` y `vercel.json`; poner Cloudflare Web Analytics (decidido). Actualizar `AGENTS.md` y `docs/guias-de-pago.md`.
-- [ ] **[Dev → Mar + gestor]** Privacidad y Cookies nombran a Vercel: borrador con Cloudflare para aprobar, publicado el día del cambio.
-- [ ] **[Rafael + Dev]** Workers Builds conectado a GitHub, secretos de preview (Sandbox) y production (Live), y compra de prueba completa en la preview.
-- [ ] **[Rafael + Dev]** Cambio de dominio: bajar TTL en DonDominio 48 h antes; copiar todos los registros (MX, SPF, DKIM, DMARC, Resend, Search Console) con el correo en «DNS only»; desactivar Email Obfuscation, Rocket Loader, Bot Fight Mode e inyección automática de Analytics; redirección www → raíz; regla de rate limit sin `/api/webhook`. Vuelta atrás: apuntar el dominio a Vercel desde el DNS de Cloudflare.
-- [ ] **[Rafael / Vicente]** Cuenta de Cloudflare (clinicapomelo@gmail.com, creada el 2 oct 2026): cambiar la tarjeta y la dirección de facturación a las de Piel de Pomelo S.L.P (Manage Account → Billing). Crear la alerta de gasto de 1 $ (Billing → Billable Usage → Create budget alert) si no está hecha.
-- [ ] **[Dev]** Retirar Vercel (proyecto y Blob) tras una semana sin problemas.
+Decidido el 2 oct 2026: Vercel Hobby no permite uso comercial (cobrar ni anunciar ventas). **Antes de cobrar o de enseñar la web en redes, la web tiene que estar en Cloudflare.** Lista completa, con tiempos de despliegue y de propagación del DNS: **[`TODO-cloudflare.md`](TODO-cloudflare.md)**.
 
 # Más adelante
 
