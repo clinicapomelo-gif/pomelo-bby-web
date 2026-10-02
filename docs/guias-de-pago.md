@@ -77,4 +77,16 @@ Para publicar una revisión:
 7. Simular un fallo de Resend o Blob y comprobar que no se muestran detalles sensibles.
 8. Ejecutar `npm run guides:test` y `npm run build`.
 
+## Probar en local con Sandbox
+
+Sirve para probar las guías sin dinero real y sin Preview. Necesita `STRIPE_SECRET_KEY=sk_test_...` y `RESEND_API_KEY` en `.env`, los tokens de Blob en `.env.local` y la Stripe CLI conectada al Sandbox.
+
+1. Poner `GUIDES_ENABLED = true` en `src/data/guias.ts` solo en local. No se commitea; hay que revertirlo al terminar.
+2. Reenviar los webhooks: `stripe listen --forward-to localhost:4321/api/webhook`. El secreto temporal sale de `stripe listen --print-secret`.
+3. Arrancar Astro cargando los archivos de entorno, porque en desarrollo no pasa `.env` a `process.env` y Blob lo necesita: `STRIPE_WEBHOOK_SECRET=<secreto> node --env-file=.env --env-file=.env.local ./node_modules/astro/bin/astro.mjs dev`.
+4. Comprar cada guía en `localhost:4321/guias/<id>` con la tarjeta `4242 4242 4242 4242`, fecha futura, CVC cualquiera y un email propio.
+5. Comprobar página de gracias, un solo correo (revisar Spam), PDF correcto y los metadatos `deliveryEmailId`, `deliveredAt` y `downloadExpiresAt` de la sesión en Stripe.
+
+El token OIDC de `.env.local` caduca a las pocas horas; en local basta `BLOB_READ_WRITE_TOKEN`. El enlace del correo usa `SITE_URL`, que en local es `localhost`, así que los correos de prueba pueden caer en spam aunque los de producción no.
+
 Para soporte, buscar la compra por email o referencia en Stripe, comprobar la metadata de entrega en Resend y ampliar `downloadExpiresAt` si corresponde.

@@ -80,27 +80,32 @@ No se recomienda compartir contraseñas. Si en el futuro necesita modificar prec
 
 ## Configuración de las consultas
 
-### Duda concreta
+Nombres, precios y política de reembolso configurados el 2 de octubre de 2026. Los títulos públicos coinciden con la web; los enlaces no cambian, porque los botones de reservar apuntan a ellos.
 
-- Nombre visible: **Duda concreta**.
-- Enlace actual: `cal.com/pomelo-bby/consulta-express`.
+### Necesito hablarlo con calma (antes «Duda concreta»)
+
+- Título público: **Necesito hablarlo con calma**.
+- Enlace: `cal.com/pomelo-bby/consulta-express`. No cambiarlo.
 - Duración: **20 minutos**.
-- Precio: **49 €**.
-- Moneda: **EUR**.
+- Precio: **49 €**, en **EUR**.
 - Ubicación: Google Meet.
-- Pago obligatorio al reservar mediante Stripe.
+- Pago: «Cobrar el pago durante la reserva».
+- Reembolso: «Si se cancela **2 días del calendario** antes» (equivale a 48 horas).
 
-### Hablemos tranquilamente
+### Necesito un plan (antes «Hablemos tranquilamente»)
 
-- Nombre visible: **Hablemos tranquilamente**.
-- Enlace actual: `cal.com/pomelo-bby/consulta-personalizada`.
-- Precio: **89 €**.
-- Moneda: **EUR**.
+- Título público: **Necesito un plan**.
+- Enlace: `cal.com/pomelo-bby/consulta-personalizada`. No cambiarlo.
+- Precio: **99 €**, en **EUR** (la web publica 99 €; la versión anterior de esta guía decía 89 €).
 - Ubicación: Google Meet.
-- Pago obligatorio al reservar mediante Stripe.
-- Duración: Mar debe confirmar si mantiene los **40 minutos** configurados actualmente o necesita más tiempo.
+- Pago y reembolso: igual que la anterior, con 2 días del calendario de antelación.
+- Duración: **40 minutos** en Cal.com (2 oct 2026). La web no indica los minutos de esta consulta; está pendiente decidir si se añade.
 
-Los enlaces pueden conservar sus nombres actuales aunque se cambien los títulos visibles. Así no será necesario modificar la web.
+Se usa «días del calendario» y no «días laborales» a propósito: los laborales no cuentan los fines de semana y alargarían el plazo por encima de las 48 horas.
+
+### Política de cancelación aplicada
+
+Decidida por Mar: hasta 2 reprogramaciones, reprogramables hasta 24 horas antes, y devolución del dinero si se cancela con 48 horas de antelación. El ajuste de reembolso de Cal.com solo cubre el último punto. Cal.com no bloquea por sí mismo cancelar o reprogramar con menos de 24 horas; el efecto económico es el mismo, porque con menos de 48 horas no hay reembolso. Si cancela Mar, el reembolso o la nueva cita se gestionan a mano en Stripe.
 
 ## Preguntas previas a la reserva
 
@@ -126,33 +131,21 @@ Mar debe decidir estos límites según su disponibilidad real:
 
 Es mejor empezar con pocas horas y ampliar después. No necesita llenar la agenda desde el primer día.
 
-## Situación actual que debe corregirse
+## Estado de la configuración (2 de octubre de 2026)
 
-Los eventos y enlaces de Cal.com ya existen, pero antes de abrir las reservas hay que revisar lo siguiente:
+Según Rafael, todo está configurado en Cal.com **salvo la disponibilidad**:
 
-- Los dos eventos aparecen actualmente como gratuitos y con moneda USD.
-- Duda concreta tiene correctamente una duración de 20 minutos, pero todavía aparece públicamente como “Consulta express”.
-- Hablemos tranquilamente tiene actualmente una duración de 40 minutos, pero todavía aparece públicamente como “Consulta Personalizada”.
-- Ambos usan Google Meet y la zona horaria Europe/Madrid.
-- Ambos comparten el mismo horario de disponibilidad.
-- Actualmente se publica disponibilidad de lunes a viernes, aproximadamente de 09:00 a 17:00.
-- No están configuradas las preguntas sobre la edad y la preocupación principal.
-- Las reservas tienen actualmente un periodo público ilimitado, sin una fecha máxima definida.
-- Las cancelaciones y reprogramaciones están permitidas.
+- Stripe conectado, con precios, moneda y reembolso de los dos eventos.
+- Títulos públicos y descripciones, tomados de la web.
+- Preguntas previas obligatorias (edad y preocupación principal) y el resto de ajustes de reserva.
 
-## Orden recomendado para terminarlo
+Pendiente:
 
-1. Conectar Stripe con Cal.com.
-2. Cambiar los nombres visibles a “Duda concreta” y “Hablemos tranquilamente”, y configurar los precios de 49 € y 89 € en EUR.
-3. Confirmar la duración de Hablemos tranquilamente.
-4. Crear el horario de disponibilidad real.
-5. Conectar todos los calendarios que deban bloquear reservas.
-6. Crear y compartir el calendario Pomelo — bloqueos.
-7. Añadir las preguntas previas obligatorias.
-8. Definir márgenes, preaviso, límite de reservas y política de cambios.
-9. Hacer una reserva de prueba para cada consulta.
-10. Comprobar el pago, el bloqueo del horario, el enlace de Google Meet y los correos automáticos.
-11. Hacer una última reserva real controlada antes de abrir el servicio al público.
+1. **Disponibilidad:** horario real de Mar. En las pruebas aparecía solo de lunes a jueves, y la guía anterior decía de lunes a viernes de 09:00 a 17:00.
+2. **Conectar Google Calendar a Cal.com** como calendario de conflictos (el de Mar y **Pomelo — bloqueos**), para que no se ofrezcan horas ocupadas.
+3. Casilla obligatoria de aceptar las condiciones de venta en el formulario de reserva, cuando la asesoría entregue el texto.
+4. Comprobar que el cobro llega a la **cuenta de Stripe de Pomelo** y no a otra.
+5. Una reserva de prueba de cada consulta (pago, bloqueo del horario, Google Meet, cancelación, reprogramación y correos) y una reserva real controlada antes de abrir al público; reembolsarla después.
 
 ## Qué necesita cambiarse en la web
 

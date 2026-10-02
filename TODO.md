@@ -1,128 +1,46 @@
 # TODO — Pomelo Baby
 
-Solo tareas pendientes. Si no está aquí, no bloquea.
+Solo lo que bloquea o tiene fecha. Última revisión: 2 oct 2026.
 
-## Estado actual
+**Estado:** web publicada. Guías, consultas y El Chisme apagados por código (`GUIDES_ENABLED`, `CONSULTATIONS_ENABLED`, `CHISME_ENABLED`; la guía gratuita tiene el suyo, `FREE_GUIDES_ENABLED`). Stripe Live y Vercel Production listos para las guías, probadas en Sandbox (`docs/guias-de-pago.md`). Cal.com configurado salvo la disponibilidad (`docs/configuracion-cal-com.md`). Los textos actuales los ha revisado Mar: no se tocan.
 
-- La web y `pomelobaby.es` están publicados; `MAINTENANCE_MODE=false`.
-- Guías, consultas y El Chisme siguen desactivados por código. No se aceptan cobros, reservas ni suscripciones públicas.
-- Vercel Web Analytics está activo en Production.
-- La propiedad `pomelobaby.es` está verificada en Google Search Console y su sitemap está enviado, pendiente de lectura por Google.
+## Esta semana
 
-# 0. Pendiente tuyo tras la revisión de textos y UX
+- [ ] **[Rafael]** `git pull --rebase` y push. Hay 2 commits locales (mapeos Stripe Live y flag de la gratuita) y `origin` trae el artículo de mocos.
+- [ ] **[Rafael + Dev]** **5 oct:** activar la guía gratuita: `FREE_GUIDES_ENABLED = true` en `src/data/guias.ts`, quitar `"downloadEnabled": false` en `src/data/guias.json`, build y push. `GUIDES_ENABLED` se queda en `false`.
+- [ ] **[Mar]** Respuesta rápida de Instagram que derive las dudas de salud a `/consultas`.
+- [ ] **[Mar]** Enviar a la asesoría el mensaje de revisión (IVA, condiciones, desistimiento, cancelaciones, datos de salud).
+- [ ] **[Rafael / Vicente]** Datos del Registro Mercantil de Piel de Pomelo S.L.P; después **[Dev]** los añade al Aviso legal.
 
-## Vercel y correo
+## Para cobrar guías
 
-- [ ] **[Rafael]** Comprobar en Vercel que `RESEND_TO_EMAIL` es `hola@pomelobaby.es` y `RESEND_CONSULTA_TO_EMAIL` es `mar@pomelobaby.es`.
-- [ ] **[Rafael]** Actualizar el remitente en el `.env.local`: `perl -pi -e 's{^RESEND_FROM_EMAIL=.*$}{RESEND_FROM_EMAIL="Mar de Pomelo Baby <mar@pomelobaby.es>"}' .env.local` (en Production y Preview ya está cambiado).
-- [ ] **[Mar]** Crear en Gmail un filtro por cada prefijo del asunto del formulario: `[Orientación]`, `[Colaboración]`, `[Compra]` y `[Otro]`.
-- [ ] **[Mar]** Guardar en Instagram una respuesta rápida que derive las dudas de salud a `/consultas`.
+- [ ] **[Asesoría]** Condiciones de venta (hoy placeholder), texto del desistimiento y confirmación del contrato. Incluye las cancelaciones: Mar decidió 2 reprogramaciones, hasta 24 h antes, y reembolso con 48 h. Faltan los casos de 24–48 h, menos de 24 h, ausencia y si cancela Mar.
+- [ ] **[Gestoría]** IVA o exención de guías y consultas, qué pone la factura, que factura la S.L.P y que los precios son finales.
+- [ ] **[Dev]** Con esas respuestas: sustituir el texto provisional de `src/lib/checkout-consent.ts`, publicar las Condiciones, poner su URL en Stripe **Live** (Settings → Public details) y decidir `tax_behavior` de los Prices. **Quitar el `noindex` de `/condiciones-venta`** al publicarlas.
+- [ ] **[Asesoría]** Revisar Aviso legal, Privacidad, Cookies, aviso sanitario del footer (Mar ya lo aprobó) y las capas de privacidad de los formularios.
+- [ ] **[Mar + Dev]** Compra real de 4,90 € (`conservacion-alimentos`): webhook 200 en Stripe, correo (¿spam en Gmail, Outlook y móvil?) y descarga; reembolsarla. Si cae en spam: añadir `rua` al DMARC. Después, `GUIDES_ENABLED = true` y push.
 
-## Decisiones de texto
+## Para abrir consultas
 
-- [ ] **[Mar]** Contacto: confirmar si es tuyo el usuario `@pomelo.baby` que aparecía en el texto; la web enlaza a `@pomelo.bby`.
-- [ ] **[Mar]** Contacto: aprobar o reescribir los textos que no son suyos: título "Escríbeme", aviso del formulario, "¿Prefieres el email?", "Me encontrarás en Instagram:" y "Muy pronto podrás reservar…".
-- [ ] **[Mar]** Portada: decidir si el bloque del blog debe decir "El blog de Pomelo" o "El blog de Pomelo Baby".
-- [ ] **[Mar]** Chisme: decidir si el título lleva punto final ("El Chisme de Mar.").
-- [ ] **[Mar]** Consultas: confirmar si "Necesito un plan" incluye videollamada y de cuántos minutos, para añadirla a su lista de "Incluye".
+Prioridad de Mar: los dos primeros.
 
-## Publicación
+- [ ] **[Empresa]** Autorización sanitaria (titular, dirección, nº registral, U.2) con confirmación escrita de que cubre videollamada, formulario, correo y seguimiento. **[Dev]** la publica.
+- [ ] **[Empresa]** Confirmación escrita del seguro: sociedad, Mar, menores y atención remota.
+- [ ] **[Mar + asesoría]** Datos de salud: qué se guarda, cuánto tiempo y quién accede; canal seguro para fotos y vídeos (no Instagram); buzón restringido con MFA.
+- [ ] **[Dev]** «Cuéntame por correo»: guardar el caso antes de enviarlo (Blob privado, con borrado según el plazo de la asesoría). Mantiene cerrado el checkout Live. Después, compra test y real.
+- [ ] **[Mar + Rafael]** Cal.com: conectar Google Calendar como calendario de conflictos (el de Mar y **Pomelo — bloqueos**; ya hay una cuenta de destino, clinicapomelo@gmail.com), definir la disponibilidad y reservar y reembolsar una prueba de cada consulta. El cobro debe aparecer en el Stripe de Pomelo.
+- [ ] **[Dev + asesoría]** Casilla de condiciones en la reserva de Cal.com, y reprogramaciones (hasta 2, hasta 24 h): Cal.com no las limita por sí mismo.
+- [ ] **[Mar]** ¿La web debe decir los 40 minutos de «Necesito un plan»? Pendiente: sería texto nuevo.
+- [ ] **[Rafael + Mar]** Correo profesional: los buzones `hola@` y `mar@pomelobaby.es` ya funcionan. Falta integrarlos con Gmail: redirigirlos a una cuenta de Gmail dedicada y configurar **Enviar como** con el SMTP de DonDominio para responder desde cada dirección (pasos en `docs/configuracion-correo-profesional.md`).
 
-- [ ] **[Rafael]** Hacer commit y push de los cambios de textos y UX. Production está en `afa79ab` y aún no los tiene.
-- [ ] **[Dev]** Decidir si se arregla la pantalla de error del formulario de contacto: hoy, si falla el envío, se muestra un JSON en vez de un mensaje.
+## Antes de anunciar
 
-# 1. Antes de aceptar cobros o consultas reales
+- [ ] **[Dev]** QA final (móvil, teclado, enlaces, 404, SEO) y probar los formularios en Production.
 
-## Empresa, legal y fiscalidad
+## Más adelante
 
-- [ ] **[Empresa + asesoría]** Facilitar denominación registral, CIF, domicilio y datos del Registro Mercantil.
-- [ ] **[Asesoría]** Confirmar que Piel de Pomelo SLP contrata y factura guías y consultas.
-- [ ] **[Gestoría]** Confirmar IVA, facturación y que todos los precios publicados son finales.
-- [ ] **[Profesional legal]** Revisar Privacidad, Cookies y Aviso legal, y completar las Condiciones de venta.
-- [ ] **[Mar + profesional legal]** Aprobar el aviso sanitario del footer y definir cancelaciones, reprogramaciones, ausencias, devoluciones y desistimiento.
+Pasar la regla de Vercel `Limitar formularios` de `log` a `deny` cuando se vea el tráfico real. El Chisme (Mar: 3 ediciones; probar altas y bajas; limpiar 2 contactos de prueba de Resend), Manual de supervivencia (PDF de Mar) y fuentes en los artículos de salud.
 
-## Autorización sanitaria y seguro
+## Documentación
 
-- [ ] **[Empresa]** Localizar la autorización sanitaria de la clínica y comprobar titular, dirección, número registral y oferta **U.2 Enfermería**.
-- [ ] **[Empresa]** Obtener confirmación escrita de que la U.2 cubre videollamada, formulario, correo y seguimiento infantil.
-- [ ] **[Empresa]** Obtener confirmación escrita de que el seguro cubre a la sociedad, a Mar, a menores y la atención remota.
-- [ ] **[Dev]** Publicar los datos sanitarios verificados cuando exista la documentación.
-
-## Privacidad sanitaria
-
-- [ ] **[Mar + profesional legal]** Definir qué documentación clínica se conserva, durante cuánto tiempo y quién puede acceder.
-- [ ] **[Mar + Dev]** Elegir y validar un canal seguro para fotografías o vídeos; no usar Instagram.
-- [ ] **[Rafael + Mar]** Restringir el buzón sanitario, activar MFA y acordar conservación y borrado.
-
-# 2. Dominio, correo y Resend
-
-- [ ] **[Mar]** Crear o confirmar el correo profesional.
-- [ ] **[Mar]** Completar la verificación del dominio en Resend y personalizar la página de baja.
-- [ ] **[Dev]** Cuando el dominio esté verificado en Resend, confirmar en Production el Segment ID, Topic ID y remitentes definitivos de Resend.
-- [ ] **[Mar + Dev]** Probar Contacto, El Chisme y correos transaccionales con dominio propio en Gmail, Outlook y móvil.
-- [ ] **[Dev]** Comprobar que Google puede leer el sitemap enviado y que descubre sus URLs; si el error persiste más de 48 horas, investigar la respuesta pública del dominio antes de reenviarlo.
-- [ ] **[Mar + Dev]** Revisar en Search Console la indexación de Inicio, Blog, Guías, Consultas y Sobre mí cuando Google haya procesado el sitemap; solicitar indexación solo de las páginas principales o de nuevo contenido relevante.
-- [ ] **[Mar + Dev]** Revisar mensualmente en Search Console las consultas, impresiones, clics, cobertura e incidencias para orientar el blog y detectar problemas de indexación.
-
-# 3. Activar consultas
-
-## Cal.com
-
-- [ ] **[Mar]** Conectar el calendario personal y revisar disponibilidad, límites y margen de 15 minutos.
-- [ ] **[Mar]** Conectar Cal.com con el Stripe definitivo y activar el pago obligatorio.
-- [ ] **[Mar + Dev]** Probar reserva, pago, Google Meet, cancelación, reprogramación y correos de ambas consultas.
-
-## Cuéntame por correo
-
-- [ ] **[Mar]** Crear el producto y Price Live de 19 €.
-- [ ] **[Dev]** Guardar el caso de forma duradera antes de enviarlo por Resend y permitir reintentos seguros.
-- [ ] **[Dev]** Configurar el Price ID en Production después de implementar la persistencia.
-- [ ] **[Mar + Dev]** Hacer una compra test completa y una compra real controlada antes de abrir el servicio.
-
-# 4. Activar guías de pago
-
-- [ ] **[Mar + gestoría]** Confirmar los precios finales, impuestos y facturación de las cinco guías de pago.
-- [ ] **[Mar]** Confirmar si el enlace de descarga seguirá disponible durante 30 días.
-- [ ] **[Dev]** Rotar cualquier credencial Stripe compartida fuera del gestor de secretos y conservar `STRIPE_CATALOG_KEY` solo en Vercel Development.
-- [ ] **[Dev]** Configurar `STRIPE_WEBHOOK_SECRET` del Sandbox correcto en Preview.
-- [ ] **[Dev]** Habilitar temporalmente el checkout en Preview y comprobar que Production continúa rechazando credenciales test.
-- [ ] **[Mar + Dev]** Probar las cinco guías de extremo a extremo: pago test, email único, reintento del webhook, PDF correcto, página de gracias, caducidad y errores seguros.
-- [ ] **[Mar]** Crear los Products y Prices de Stripe Live cuando legal y fiscalidad estén cerrados.
-- [ ] **[Dev]** Añadir al catálogo los mapeos `stripe.live` sin reutilizar IDs del Sandbox.
-- [ ] **[Mar + Dev]** Hacer una compra real controlada de cada guía y verificar correo y descarga antes de abrir ventas.
-- [ ] **[Dev]** Activar `GUIDES_ENABLED` únicamente cuando los cinco flujos estén verificados y Production tenga su configuración Live definitiva.
-
-# 5. Preparar El Chisme
-
-- [ ] **[Mar]** Redactar tres ediciones y el primer artículo relacionado.
-- [ ] **[Mar]** Crear y probar el primer Broadcast con Topic y enlace de baja.
-- [ ] **[Mar + Dev]** Probar alta nueva, alta existente, baja, reutilización del enlace y nueva alta consentida.
-- [ ] **[Dev]** Limpiar contactos de prueba de Resend antes del primer envío.
-
-# 6. Desarrollo y QA final
-
-- [ ] **[Dev]** Configurar en Vercel una regla de rate limiting para los formularios públicos, empezando en modo observación antes de bloquear solicitudes.
-- [ ] **[Profesional legal + Dev]** Aplicar las primeras capas de privacidad y los controles aprobados a todos los formularios.
-- [ ] **[Dev]** Auditar Vercel Analytics, Cal.com, cookies y almacenamiento local; pedir consentimiento solo cuando corresponda.
-- [ ] **[Mar + Dev]** Revisar mensualmente en Vercel Web Analytics las páginas más visitadas y fuentes de tráfico. No añadir Google Analytics mientras Vercel Analytics cubra las métricas necesarias y no se apruebe un cambio de privacidad.
-- [ ] **[Mar + Dev]** Añadir autoría enlazada, fecha visible de publicación o revisión y fuentes a los contenidos sanitarios.
-- [ ] **[Dev]** Separar completamente las credenciales Live de Preview y comprobar OIDC de Blob.
-- [ ] **[Dev]** Ejecutar con Node 24 el build y la revisión final de móvil, escritorio, teclado, foco, errores, enlaces, 404, CSP, SEO, sitemap y robots.
-- [ ] **[Mar + Dev]** Probar en Production todos los formularios y servicios que vayan a quedar visibles.
-- [ ] **[Dev]** Limpiar cambios locales, worktrees, ramas, imágenes, whitespace, URLs provisionales y placeholders sin perder cambios ajenos.
-
-# Más adelante — no bloquea el lanzamiento
-
-- [ ] **[Mar]** Terminar el Manual de supervivencia al primer año y entregar PDF, páginas y tres beneficios definitivos.
-- [ ] **[Dev]** Provisionar el Manual en Blob y Stripe test, probar su compra y sustituir `coming-soon` por `available` cuando esté aprobado.
-- [ ] **[Mar]** Decidir cuándo activar la descarga gratuita de Conservación de la leche materna.
-
-## Documentación operativa
-
-- [Configuración de Cal.com](docs/configuracion-cal-com.md)
-- [Configuración de Resend](docs/configuracion-resend.md)
-- [Correo profesional](docs/configuracion-correo-profesional.md)
-- [Doble opt-in](docs/arquitectura-doble-opt-in.md)
-- [El Chisme](docs/estrategia-blog-y-el-chisme.md)
-- [Guías de pago](docs/guias-de-pago.md)
-- [Canales para archivos sanitarios](docs/canales-archivos-consultas.md)
+[Cal.com](docs/configuracion-cal-com.md) · [Resend](docs/configuracion-resend.md) · [Correo profesional](docs/configuracion-correo-profesional.md) · [Doble opt-in](docs/arquitectura-doble-opt-in.md) · [El Chisme](docs/estrategia-blog-y-el-chisme.md) · [Guías de pago](docs/guias-de-pago.md) · [Archivos sanitarios](docs/canales-archivos-consultas.md)
