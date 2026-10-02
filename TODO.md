@@ -66,6 +66,7 @@ Push hecho el 2 oct 2026 (`d07042b`): Production tiene el aviso de error de Cont
   - Probar que los SDK de Stripe y Resend funcionan con `nodejs_compat`, y que el plan gratuito de Workers (100.000 peticiones al día, 10 ms de CPU por petición sin contar la espera de red) alcanza para el webhook.
   - DNS: pasar los nameservers a Cloudflare exige replicar todos los registros de DonDominio (MX, SPF, DKIM, DMARC, los de Resend y la verificación de Search Console), o se rompe el correo.
   - Reproducir el límite de envíos (WAF de Cloudflare), el despliegue desde GitHub y los entornos de preview. Repetir las pruebas de pago, webhook, correo y descarga.
+  - **[Rafael / Vicente]** Cuenta de Cloudflare (clinicapomelo@gmail.com, creada el 2 oct 2026): cambiar la tarjeta y la dirección de facturación a las de Piel de Pomelo S.L.P (Manage Account → Billing). Crear la alerta de gasto de 1 $ (Billing → Billable Usage → Create budget alert) si no está hecha.
   - Más adelante, si se quiere: descargas con PDF identificado por comprador (trazabilidad); revisar antes la parte legal.
 
 # Más adelante
