@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 import { createHash } from 'node:crypto';
-import { readFile, rename, stat, unlink, writeFile } from 'node:fs/promises';
-import { basename, extname, resolve } from 'node:path';
+import { mkdtemp, readFile, rename, rm, stat, unlink, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { basename, extname, join, resolve } from 'node:path';
 import { stdin, stdout } from 'node:process';
 import { createInterface } from 'node:readline/promises';
-import { spawn } from 'node:child_process';
+import { execFile, spawn } from 'node:child_process';
+import { promisify } from 'node:util';
 import Stripe from 'stripe';
-import { BlobNotFoundError, get, put } from '@vercel/blob';
 import {
   GUIDE_BENEFITS_COUNT,
   GUIDE_CATEGORIES,
@@ -31,6 +32,10 @@ import {
 const root = resolve(import.meta.dirname, '..');
 const catalogPath = resolve(root, 'src/data/guias.json');
 const APP = 'pomelo-bby';
+// PDF privados en Cloudflare R2. Usa la sesión de `npx wrangler login`.
+const R2_BUCKET = 'pomelo-guias';
+const wranglerBin = resolve(root, 'node_modules/.bin/wrangler');
+const r2 = (...args) => promisify(execFile)(wranglerBin, ['r2', 'object', ...args, '--remote'], { cwd: root });
 
 class SafeError extends Error {}
 const fail = (message) => { throw new SafeError(message); };
@@ -138,27 +143,23 @@ async function findExactPrice(stripe, stripeProductId, amountCents) {
 }
 
 async function inspectBlob(blobKey, expectedSize, expectedSha256) {
+  const dir = await mkdtemp(join(tmpdir(), 'pomelo-r2-'));
+  const file = join(dir, 'guia.pdf');
   try {
-    const result = await get(blobKey, { access: 'private', useCache: false });
-    if (!result) return false;
-    if (result.statusCode !== 200 || result.blob.contentType !== 'application/pdf' || result.blob.size !== expectedSize) {
-      fail('El Blob existente no coincide exactamente con el PDF local.');
+    try {
+      await r2('get', `${R2_BUCKET}/${blobKey}`, '--file', file);
+    } catch (error) {
+      if (`${error.stdout ?? ''}${error.stderr ?? ''}`.includes('The specified key does not exist')) return false;
+      fail('No se pudo comprobar R2. ¿Has iniciado sesión con `npx wrangler login`?');
     }
 
-    const hash = createHash('sha256');
-    let streamedSize = 0;
-    for await (const chunk of result.stream) {
-      streamedSize += chunk.byteLength;
-      hash.update(chunk);
-    }
-    if (streamedSize !== expectedSize || hash.digest('hex') !== expectedSha256) {
-      fail('El Blob existente no coincide exactamente con el PDF local.');
+    const content = await readFile(file);
+    if (content.length !== expectedSize || createHash('sha256').update(content).digest('hex') !== expectedSha256) {
+      fail('El PDF existente en R2 no coincide exactamente con el PDF local.');
     }
     return true;
-  } catch (error) {
-    if (error instanceof SafeError) throw error;
-    if (error instanceof BlobNotFoundError || (error instanceof Error && error.name === 'BlobNotFoundError')) return false;
-    fail('No se pudo comprobar el almacén Blob con las credenciales disponibles.');
+  } finally {
+    await rm(dir, { recursive: true, force: true });
   }
 }
 
@@ -190,7 +191,7 @@ async function saveCatalog(originalSource, catalog) {
 async function confirmApply(rl, apply, yes = false) {
   if (!apply) return false;
   if (yes) return true;
-  const answer = await rl.question('Escribe APLICAR para confirmar los cambios en Stripe test, Blob y catálogo: ');
+  const answer = await rl.question('Escribe APLICAR para confirmar los cambios en Stripe test, R2 y catálogo: ');
   if (answer.trim() !== 'APLICAR') fail('Operación cancelada sin cambios.');
   return true;
 }
@@ -294,14 +295,14 @@ async function provision(args, rl) {
 
   if (!blobExists) {
     try {
-      const uploaded = await put(blobKey, pdf, {
-        access: 'private',
-        addRandomSuffix: false,
-        allowOverwrite: false,
-        contentType: 'application/pdf',
-        multipart: pdf.length > 5 * 1024 * 1024,
-      });
-      if (uploaded.pathname !== blobKey) fail('Blob devolvió una clave inesperada.');
+      // Sin sobrescritura: inspectBlob ya ha comprobado que la clave no existe.
+      const dir = await mkdtemp(join(tmpdir(), 'pomelo-r2-'));
+      try {
+        await writeFile(join(dir, 'guia.pdf'), pdf);
+        await r2('put', `${R2_BUCKET}/${blobKey}`, '--file', join(dir, 'guia.pdf'), '--content-type', 'application/pdf');
+      } finally {
+        await rm(dir, { recursive: true, force: true });
+      }
     } catch (error) {
       if (error instanceof SafeError) throw error;
       // A concurrent/partial prior run may have completed the exact content-addressed upload.
@@ -344,7 +345,7 @@ async function provision(args, rl) {
   });
   await saveCatalog(source, next);
   await runBuild();
-  console.log('Guía provisionada en Stripe test, Blob privado y catálogo. Sigue en estado testing y el build es válido.');
+  console.log('Guía provisionada en Stripe test, R2 privado y catálogo. Sigue en estado testing y el build es válido.');
 }
 
 async function updatePrice(args, rl) {
