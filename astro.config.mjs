@@ -1,7 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-import vercel from '@astrojs/vercel';
+import cloudflare from '@astrojs/cloudflare';
 import sitemap from '@astrojs/sitemap';
 
 const SITE_URL = 'https://pomelobaby.es';
@@ -15,7 +15,9 @@ export default defineConfig({
     '/tienda/[id]': '/guias/[id]',
   },
   markdown: { syntaxHighlight: false },
-  adapter: vercel(),
+  // Sin sesiones ni astro:assets: evita los bindings KV (SESSION) e Images.
+  adapter: cloudflare({ imageService: 'passthrough' }),
+  session: false,
   security: {
     csp: {
       directives: [
