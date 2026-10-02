@@ -160,6 +160,21 @@ const maintenanceMode = process.env.MAINTENANCE_MODE === 'true' &&
       <slot />
     </main>
 
+    {process.env.APP_ENV === 'production' && (
+      <script>
+        // Cloudflare Web Analytics (sin cookies). Se crea desde un script procesado por Astro
+        // porque el CSP usa strict-dynamic: solo cargan scripts con hash o creados por ellos,
+        // y Astro no calcula el hash de los is:inline.
+        {
+          const beacon = document.createElement('script');
+          beacon.type = 'module';
+          beacon.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+          beacon.dataset.cfBeacon = '{"token": "6a9605f237854684ac7acc487526c6d7"}';
+          document.head.append(beacon);
+        }
+      </script>
+    )}
+
     <footer class="footer">
       <div class="container footer__content">
         <div class="footer__brand">

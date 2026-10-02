@@ -23,7 +23,7 @@ export default defineConfig({
       directives: [
         "default-src 'self'",
         "base-uri 'self'",
-        "connect-src 'self' https://app.cal.com https://cal.com https://*.cal.com",
+        "connect-src 'self' https://app.cal.com https://cal.com https://*.cal.com https://cloudflareinsights.com",
         "font-src 'self' data: https://fonts.gstatic.com",
         "form-action 'self'",
         "frame-ancestors 'none'",
@@ -33,7 +33,7 @@ export default defineConfig({
         'upgrade-insecure-requests',
       ],
       scriptDirective: {
-        resources: ["'self'", 'https://app.cal.com'],
+        resources: ["'self'", 'https://app.cal.com', 'https://static.cloudflareinsights.com'],
         strictDynamic: true,
       },
       styleDirective: {
