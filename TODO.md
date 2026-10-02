@@ -2,7 +2,7 @@
 
 Solo lo que bloquea o tiene fecha. Última revisión: 2 oct 2026.
 
-**Estado:** web publicada. Guías, consultas y El Chisme apagados por código (`GUIDES_ENABLED`, `CONSULTATIONS_ENABLED`, `CHISME_ENABLED`; la guía gratuita tiene el suyo, `FREE_GUIDES_ENABLED`). Stripe Live y Vercel Production listos para las guías, probadas en Sandbox (`docs/guias-de-pago.md`). Cal.com configurado (precios 49 € y 89 €) salvo la disponibilidad (`docs/configuracion-cal-com.md`). Mar envió el 2 oct el correo al gestor. Migración a Cloudflare en curso en la rama `cloudflare` (sección C). Los textos actuales los ha revisado Mar: no se tocan.
+**Estado:** web publicada. Guías, consultas y El Chisme apagados por código (`GUIDES_ENABLED`, `CONSULTATIONS_ENABLED`, `CHISME_ENABLED`; la guía gratuita tiene el suyo, `FREE_GUIDES_ENABLED`). Stripe Live y Vercel Production listos para las guías, probadas en Sandbox (`docs/guias-de-pago.md`). Cal.com configurado (precios 49 € y 89 €) salvo la disponibilidad (`docs/configuracion-cal-com.md`). Mar envió el 2 oct el correo al gestor. Migración a Cloudflare en curso en la rama `cloudflare` (`TODO-cloudflare.md`). Los textos actuales los ha revisado Mar: no se tocan.
 
 # A. Podemos hacer ahora mismo
 
@@ -56,18 +56,9 @@ Production (push del 2 oct 2026) tiene el aviso de error de Contacto, los datos 
 - [ ] **[Mar + Dev]** «Cuéntame por correo»: compra de prueba y compra real controlada antes de abrirla.
 - [ ] **[Dev]** QA final: ya hecho enlaces (0 rotos), 404 (existe, sin enlace de vuelta; una 404 propia sería texto nuevo y la decide Mar), SEO (100), velocidad y Contacto en Production. Revisión manual de móvil, teclado y foco hecha por Rafael el 2 oct (funciona de 10 en móvil). Falta probar en Production los formularios que se abran.
 
-# C. Migración a Cloudflare (rama `cloudflare`, en curso)
+# C. Migración a Cloudflare
 
-Decidido el 2 oct 2026: Vercel Hobby no permite uso comercial (cobrar ni anunciar ventas). **Antes de cobrar o de enseñar la web en redes, la web tiene que estar en Cloudflare.**
-
-Hecho y con commit en la rama (2 oct 2026): adaptador y Astro 7.3.5, secretos en tiempo de ejecución, entornos (production, preview aparte sin claves Live, local), webhook con Web Crypto, cabeceras de seguridad y HSTS, `noindex` fuera de Production. Bucket R2 `pomelo-guias` con los 14 PDF copiados y verificados; la web y el alta de guías leen y suben a R2 (la guía gratuita y *25 cosas* usan claves sin tildes). Sin dependencias de Vercel en el código. Cloudflare Web Analytics solo en Production. Arreglado el embed de Cal.com, que el CSP bloqueaba también en la web publicada: **probar que el calendario se abre antes de activar las consultas.**
-
-- [ ] **[Mar + Rafael → Dev → gestor]** Privacidad y Cookies nombran a Vercel (alojamiento, almacenamiento de las guías y analítica). **Se deja para cuando la decisión de llevarlo todo a Cloudflare sea definitiva**: entonces Dev redacta el texto con Cloudflare, Mar y el gestor lo aprueban y se publica el día del cambio de dominio. Mientras la web siga en Vercel, el texto actual es correcto.
-- [ ] **[Rafael + Dev]** Workers Builds conectado a GitHub, secretos de preview (Sandbox) y production (Live), y compra de prueba completa en la preview.
-- [ ] **[Rafael + Dev]** Cambio de dominio, paso a paso en `docs/migracion-cloudflare.md`: bajar TTL en DonDominio 48 h antes; copiar todos los registros (MX, SPF, DKIM, DMARC, Resend, Search Console) con el correo en «DNS only»; desactivar Email Obfuscation, Rocket Loader, Bot Fight Mode e inyección automática de Analytics; redirección www → raíz; regla de rate limit sin `/api/webhook`. Vuelta atrás: apuntar el dominio a Vercel desde el DNS de Cloudflare.
-- [ ] **[Rafael / Vicente]** Cuenta de Cloudflare (clinicapomelo@gmail.com, creada el 2 oct 2026): cambiar la tarjeta y la dirección de facturación a las de Piel de Pomelo S.L.P (Manage Account → Billing). Crear la alerta de gasto de 1 $ (Billing → Billable Usage → Create budget alert) si no está hecha.
-- [ ] **[Dev]** Retirar Vercel (proyecto y Blob) tras una semana sin problemas.
-- [ ] **[Dev]** Embed de Cal.com: la opción `styles` (color coral) está obsoleta; pasarla a `cssVarsPerTheme` antes de abrir las consultas. Con el arreglo del CSP la ventana ya se abre bien sobre la página (probado en local el 2 oct).
+Decidido el 2 oct 2026: Vercel Hobby no permite uso comercial (cobrar ni anunciar ventas). **Antes de cobrar o de enseñar la web en redes, la web tiene que estar en Cloudflare.** Lista completa, con tiempos de despliegue y de propagación del DNS: **[`TODO-cloudflare.md`](TODO-cloudflare.md)**.
 
 # Más adelante
 
