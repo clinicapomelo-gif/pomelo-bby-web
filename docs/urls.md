@@ -17,6 +17,16 @@
 - Analytics: https://vercel.com/pomelo-bby/pomelo-bby-web/analytics
 - Almacén de PDF (Blob): pestaña Storage del proyecto
 
+## Alojamiento nuevo (Cloudflare, migración en curso)
+
+Cuenta de clinicapomelo@gmail.com. Pasos en `TODO-cloudflare.md`.
+
+- Panel: https://dash.cloudflare.com/3c6e0e814f88cfdd7e67b39396902461
+- Workers (`pomelo-bby-web` producción, `pomelo-bby-web-preview` preview; aún no publicados): https://dash.cloudflare.com/3c6e0e814f88cfdd7e67b39396902461/workers-and-pages
+- PDF de las guías (R2, bucket `pomelo-guias`): https://dash.cloudflare.com/3c6e0e814f88cfdd7e67b39396902461/r2/default/buckets/pomelo-guias
+- Web Analytics: https://dash.cloudflare.com/3c6e0e814f88cfdd7e67b39396902461/web-analytics
+- Facturación y alerta de gasto: https://dash.cloudflare.com/3c6e0e814f88cfdd7e67b39396902461/billing
+
 
 ## Cobros (Stripe)
 

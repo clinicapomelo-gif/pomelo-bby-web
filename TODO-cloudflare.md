@@ -11,6 +11,24 @@ Ya existen la cuenta de Cloudflare (clinicapomelo@gmail.com), el bucket R2 `pome
 
 Para retomarlo: `git checkout cloudflare && npm ci`. La rama usa Astro 7.3.5 y el adaptador de Cloudflare; `main` sigue con Vercel.
 
+## Los Workers
+
+La web corre en **Cloudflare Workers**, el equivalente a las funciones de Vercel, que también sirve los archivos estáticos. Hay dos, definidos en `wrangler.jsonc`:
+
+| Worker | Rama | Claves de Stripe | Dirección |
+| --- | --- | --- | --- |
+| `pomelo-bby-web` | `main` | Live | `pomelobaby.es`; `*.workers.dev` solo hasta el cambio |
+| `pomelo-bby-web-preview` | Las demás | Sandbox | `pomelo-bby-web-preview.<subdominio>.workers.dev`, con `noindex` |
+
+- Son dos Workers separados porque las versiones de un mismo Worker comparten secretos: así la preview nunca ve claves Live.
+- Construir sin entorno genera `pomelo-bby-web-dev`, solo para local: nunca pisa producción.
+- **Plan gratuito de Workers:**
+  - 100.000 peticiones dinámicas al día; las páginas estáticas no cuentan.
+  - 10 ms de CPU por petición, sin contar la espera de red.
+  - 50 llamadas externas por petición.
+  - Si no basta, el plan de pago cuesta 5 $/mes.
+- **Ver qué pasa:** Workers & Pages → Worker → Logs (`observability` activado) y Deployments, para volver a una versión anterior. Por terminal: `npx wrangler deployments list --env production`.
+
 ## Tiempos a tener en cuenta
 
 - **Despliegue:** cada push tarda **unos 3–5 minutos** en estar publicado en Workers Builds: cola, `npm ci`, tests, `astro check` y build. En Vercel era parecido. Cambiar un secreto (`wrangler secret put`) es inmediato y no necesita build. Activar el modo mantenimiento sí necesita build, porque va en `wrangler.jsonc`.
