@@ -18,6 +18,7 @@ Solo lo que bloquea o tiene fecha. Última revisión: 2 oct 2026.
 - [ ] **[Gestoría]** IVA o exención de guías y consultas, qué pone la factura, que factura la S.L.P y que los precios son finales.
 - [ ] **[Dev]** Con esas respuestas: sustituir el texto provisional de `src/lib/checkout-consent.ts`, publicar las Condiciones, poner su URL en Stripe **Live** (Settings → Public details) y decidir `tax_behavior` de los Prices. **Quitar el `noindex` de `/condiciones-venta`** al publicarlas.
 - [ ] **[Asesoría]** Revisar Aviso legal, Privacidad, Cookies, aviso sanitario del footer (Mar ya lo aprobó) y las capas de privacidad de los formularios.
+- [ ] **[Rafael]** El enlace al Código Deontológico del Aviso legal (`consejogeneralenfermeria.org/codigo-deontologico`) da **404**. Localizar en su web, desde el navegador, la dirección actual: en 2025 se aprobó un código nuevo, el «Código Ético y Deontológico de la Enfermera Española» (Resolución 5/2025), que puede sustituir al citado. La asesoría confirma qué documento citar y yo actualizo el enlace.
 - [ ] **[Mar + Dev]** Compra real de 4,90 € (`conservacion-alimentos`): webhook 200 en Stripe, correo (¿spam en Gmail, Outlook y móvil?) y descarga; reembolsarla. Si cae en spam: añadir `rua` al DMARC. Después, `GUIDES_ENABLED = true` y push.
 
 ## Para abrir consultas
