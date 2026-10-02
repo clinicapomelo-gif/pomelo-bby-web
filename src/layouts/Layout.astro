@@ -1,7 +1,6 @@
 ---
 import SEO from '../components/SEO.astro';
 import MaintenancePage from '../components/MaintenancePage.astro';
-import Analytics from '@vercel/analytics/astro';
 
 interface Props {
   title: string;
@@ -160,8 +159,6 @@ const maintenanceMode = process.env.MAINTENANCE_MODE === 'true' &&
     <main id="main-content" tabindex="-1">
       <slot />
     </main>
-
-    <Analytics />
 
     <footer class="footer">
       <div class="container footer__content">

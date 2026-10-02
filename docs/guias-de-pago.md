@@ -1,10 +1,10 @@
 # Compra y entrega de guías de pago
 
-Las guías de pago usan Stripe como registro de la compra, Resend para el correo y un almacén privado de Vercel Blob para los PDF. La aplicación no mantiene una base de datos propia de pedidos.
+Las guías de pago usan Stripe como registro de la compra, Resend para el correo y un bucket privado de Cloudflare R2 (`pomelo-guias`, binding `GUIAS`) para los PDF. La aplicación no mantiene una base de datos propia de pedidos.
 
 ## Variables de entorno
 
-Configurar estos valores en local y en los entornos de Vercel que correspondan. Nunca guardar valores reales en Git.
+En local van en `.env` (o `.dev.vars`); en Cloudflare, como secretos de cada Worker: `npx wrangler secret put <NOMBRE> --env production|preview`. Nunca guardar valores reales en Git.
 
 | Variable | Uso |
 | --- | --- |
@@ -14,21 +14,19 @@ Configurar estos valores en local y en los entornos de Vercel que correspondan. 
 | `STRIPE_WEBHOOK_SECRET` | Firma del endpoint `/api/webhook` del entorno actual. |
 | `RESEND_API_KEY` | Envío del correo de entrega. |
 | `RESEND_FROM_EMAIL` | Remitente perteneciente a un dominio verificado. |
-| `BLOB_STORE_ID` | Identificador del almacén privado conectado al proyecto. |
-| `VERCEL_OIDC_TOKEN` | Credencial temporal inyectada automáticamente por Vercel para acceder a Blob. |
-| `BLOB_READ_WRITE_TOKEN` | Alternativa solo para desarrollo local cuando no hay OIDC. |
+| `APP_ENV` | `production` o `preview`, fijado en `wrangler.jsonc`. Sin valor es desarrollo local. |
 
-En Vercel se prioriza OIDC para no mantener una credencial Blob de larga duración. Los Product ID, Price ID y `blobKey` no son secretos, pero deben corresponder al mismo producto y entorno.
+R2 no necesita credenciales en la web: el Worker accede por el binding `GUIAS`. Los scripts de alta usan la sesión de `npx wrangler login`. Los Product ID, Price ID y `blobKey` no son secretos, pero deben corresponder al mismo producto y entorno.
 
 ## Provisionar una guía nueva
 
 La fuente editable es `src/data/guias.json`; `src/data/guias.ts` solo expone el catálogo a la aplicación. La automatización no extrae ni inventa contenido sanitario del PDF: solicita título, tipo (`practical` o `complete`), número de páginas, categoría, descripción, tres beneficios aprobados y precio.
 
-Configurar una clave restringida `rk_test_` como `STRIPE_CATALOG_KEY` únicamente en Vercel Development. Después ejecutar primero el dry-run:
+Guardar una clave restringida `rk_test_` como `STRIPE_CATALOG_KEY` en el `.env` local e iniciar sesión en Cloudflare con `npx wrangler login`. Después ejecutar primero el dry-run:
 
 ```bash
-npx --yes vercel@latest env run -e development -- npm run guide:provision -- --pdf /ruta/guia.pdf
-npx --yes vercel@latest env run -e development -- npm run guide:provision -- --pdf /ruta/guia.pdf --apply
+node --env-file=.env scripts/guide-catalog.mjs provision --pdf /ruta/guia.pdf
+node --env-file=.env scripts/guide-catalog.mjs provision --pdf /ruta/guia.pdf --apply
 ```
 
 El segundo comando vuelve a pedir `APLICAR`, sube el PDF privado con una clave basada en su SHA-256, crea o reutiliza Product y Price en Stripe test, actualiza el catálogo de forma atómica y ejecuta el build. La guía queda en `testing`; solo debe cambiarse manualmente a `available` después de una compra test completa.
@@ -36,8 +34,8 @@ El segundo comando vuelve a pedir `APLICAR`, sube el PDF privado con una clave b
 Para cambiar un precio test sin romper compras anteriores:
 
 ```bash
-npx --yes vercel@latest env run -e development -- npm run guide:price -- <guiaId> --price 5,99
-npx --yes vercel@latest env run -e development -- npm run guide:price -- <guiaId> --price 5,99 --apply
+node --env-file=.env scripts/guide-catalog.mjs price <guiaId> --price 5,99
+node --env-file=.env scripts/guide-catalog.mjs price <guiaId> --price 5,99 --apply
 ```
 
 La automatización no sustituye PDF existentes ni opera en Stripe live. La activación live continúa siendo manual.
@@ -48,19 +46,19 @@ Las revisiones conservan el PDF anterior para no romper compras históricas. `bl
 
 Para publicar una revisión:
 
-1. Subir el PDF nuevo con una clave basada en su SHA-256 y sin sobrescribir ningún Blob.
+1. Subir el PDF nuevo con una clave basada en su SHA-256 y sin sobrescribir ningún PDF de R2.
 2. Mover el `blobKey` anterior a `previousBlobKeys` y asignar la clave nueva a `blobKey`.
 3. Validar el catálogo y ejecutar el build.
 4. Probar una compra nueva y la descarga de una sesión anterior.
 
-`guide:provision` no automatiza revisiones. No deben borrarse los Blobs históricos al caducar los 30 días, porque soporte puede ampliar posteriormente una descarga.
+`guide:provision` no automatiza revisiones. No deben borrarse los PDF históricos de R2 al caducar los 30 días, porque soporte puede ampliar posteriormente una descarga.
 
 ## Flujo y seguridad
 
 - El navegador solo envía `guiaId`; precio, Price ID y PDF se resuelven en servidor según el modo Stripe.
 - El checkout comprueba que el webhook, el correo y el PDF privado están disponibles antes de cobrar.
 - Checkout guarda el Price ID y `blobKey` exactos de la compra; el webhook verifica firma, entorno, pago y línea de compra antes de entregar.
-- Los Price ID y Blob anteriores se conservan para no romper descargas históricas; no se emparejan por posición, sino mediante la copia exacta guardada en cada compra.
+- Los Price ID y PDF anteriores se conservan para no romper descargas históricas; no se emparejan por posición, sino mediante la copia exacta guardada en cada compra.
 - Resend usa la sesión como clave de idempotencia y Stripe conserva `deliveryEmailId`, `deliveredAt` y `downloadExpiresAt` en metadata.
 - El correo enlaza a `/api/guias/download`; nunca expone `blobKey`.
 - La descarga vuelve a verificar el pago y caduca 30 días después de crear la sesión, salvo que soporte amplíe `downloadExpiresAt` en Stripe.
@@ -74,19 +72,20 @@ Para publicar una revisión:
 4. Reenviar el mismo evento y comprobar que Resend no duplica la entrega.
 5. Descargar el PDF con el enlace recibido.
 6. Probar `/tienda/gracias` y la descarga con una sesión inventada.
-7. Simular un fallo de Resend o Blob y comprobar que no se muestran detalles sensibles.
+7. Simular un fallo de Resend o R2 y comprobar que no se muestran detalles sensibles.
 8. Ejecutar `npm run guides:test` y `npm run build`.
 
 ## Probar en local con Sandbox
 
-Sirve para probar las guías sin dinero real y sin Preview. Necesita `STRIPE_SECRET_KEY=sk_test_...` y `RESEND_API_KEY` en `.env`, los tokens de Blob en `.env.local` y la Stripe CLI conectada al Sandbox.
+Sirve para probar las guías sin dinero real y sin Preview, con el mismo runtime de Cloudflare. Necesita `STRIPE_SECRET_KEY=sk_test_...` y `RESEND_API_KEY` en `.env` (Wrangler lo carga solo si no hay `.dev.vars`) y la Stripe CLI conectada al Sandbox.
 
-1. Poner `GUIDES_ENABLED = true` en `src/data/guias.ts` solo en local. No se commitea; hay que revertirlo al terminar.
-2. Reenviar los webhooks: `stripe listen --forward-to localhost:4321/api/webhook`. El secreto temporal sale de `stripe listen --print-secret`.
-3. Arrancar Astro cargando los archivos de entorno, porque en desarrollo no pasa `.env` a `process.env` y Blob lo necesita: `STRIPE_WEBHOOK_SECRET=<secreto> node --env-file=.env --env-file=.env.local ./node_modules/astro/bin/astro.mjs dev`.
-4. Comprar cada guía en `localhost:4321/guias/<id>` con la tarjeta `4242 4242 4242 4242`, fecha futura, CVC cualquiera y un email propio.
-5. Comprobar página de gracias, un solo correo (revisar Spam), PDF correcto y los metadatos `deliveryEmailId`, `deliveredAt` y `downloadExpiresAt` de la sesión en Stripe.
+1. Cargar en el R2 local los PDF que se vayan a probar (empieza vacío): `npx wrangler r2 object put pomelo-guias/<blobKey> --file <pdf> --content-type application/pdf --local --persist-to .wrangler/state`.
+2. Poner `GUIDES_ENABLED = true` en `src/data/guias.ts` solo en local. No se commitea; hay que revertirlo al terminar.
+3. Construir y arrancar el Worker: `npx astro build`, después `npx wrangler dev --config dist/server/wrangler.json --port 8788 --persist-to .wrangler/state --var STRIPE_WEBHOOK_SECRET:$(stripe listen --print-secret)`.
+4. Reenviar los webhooks: `stripe listen --forward-to localhost:8788/api/webhook`.
+5. Comprar cada guía en `localhost:8788/guias/<id>` con la tarjeta `4242 4242 4242 4242`, fecha futura, CVC cualquiera y un email propio.
+6. Comprobar página de gracias, un solo correo (revisar Spam), PDF correcto y los metadatos `deliveryEmailId`, `deliveredAt` y `downloadExpiresAt` de la sesión en Stripe.
 
-El token OIDC de `.env.local` caduca a las pocas horas; en local basta `BLOB_READ_WRITE_TOKEN`. El enlace del correo usa `SITE_URL`, que en local es `localhost`, así que los correos de prueba pueden caer en spam aunque los de producción no.
+Las claves de R2 deben ser ASCII: las claves con tildes (sobre todo si vienen de un Mac, en forma Unicode descompuesta) pueden no encontrarse. El enlace del correo usa `SITE_URL`, que en local es `localhost`, así que los correos de prueba pueden caer en spam aunque los de producción no.
 
 Para soporte, buscar la compra por email o referencia en Stripe, comprobar la metadata de entrega en Resend y ampliar `downloadExpiresAt` si corresponde.
