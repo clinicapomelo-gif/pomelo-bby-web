@@ -26,7 +26,7 @@
 - Claves de API: https://dashboard.stripe.com/apikeys
 - Datos públicos (donde falta poner la URL de las condiciones): https://dashboard.stripe.com/settings/public
 - Pagos: https://dashboard.stripe.com/payments
-- El Sandbox es una cuenta aparte, "pomelo-bby sandbox". Se cambia desde el selector de cuenta arriba a la izquierda.:w
+- El Sandbox es una cuenta aparte, "pomelo-bby sandbox". Se cambia desde el selector de cuenta arriba a la izquierda.
 
 
 ## Correo (Resend)
@@ -38,7 +38,7 @@
 - Broadcasts: https://resend.com/broadcasts
 - Claves de API: https://resend.com/api-keys
 
-## Ageendación (cal.com)
+## Agenda (Cal.com)
 
 - Panel: https://app.cal.com
 - Tipos de reserva: https://app.cal.com/event-types
@@ -52,7 +52,7 @@
 ## Dominio - mail (DonDominio)
 
 - https://www.dondominio.com
-- mails: hola@, mar@, chisme@ (pomelobay.es)
+- mails: hola@, mar@, chisme@ (pomelobaby.es)
 - Además del SMTP
 
 
