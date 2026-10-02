@@ -5,6 +5,17 @@ import { CONSULTATIONS_ENABLED } from '../data/consultas';
 const CAL_USERNAME = 'pomelo-bby';
 const CAL_EXPRESS_SLUG = 'consulta-express';
 const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
+
+// La ventana de reserva de Cal.com se pinta con <style> dentro de un shadow DOM. Solo en
+// esta página se permiten estilos inline; con hashes en style-src se ignoraría, por eso
+// van en style-src-elem (que también cubre las hojas enlazadas: repite 'self' y Google Fonts)
+// y style-src-attr.
+if (CONSULTATIONS_ENABLED) {
+  for (const resource of ["'self'", 'https://fonts.googleapis.com', "'unsafe-inline'"]) {
+    Astro.csp?.insertStyleResource({ resource, kind: 'element' });
+  }
+  Astro.csp?.insertStyleResource({ resource: "'unsafe-inline'", kind: 'attribute' });
+}
 ---
 
 <Layout title="Consultas de enfermería infantil" description="Conoce las modalidades de consulta online con Mar: respuesta por escrito, videollamada y seguimiento para dudas de salud infantil y crianza.">

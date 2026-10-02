@@ -67,6 +67,7 @@ Hecho y con commit en la rama (2 oct 2026): adaptador y Astro 7.3.5, secretos en
 - [ ] **[Rafael + Dev]** Cambio de dominio, paso a paso en `docs/migracion-cloudflare.md`: bajar TTL en DonDominio 48 h antes; copiar todos los registros (MX, SPF, DKIM, DMARC, Resend, Search Console) con el correo en «DNS only»; desactivar Email Obfuscation, Rocket Loader, Bot Fight Mode e inyección automática de Analytics; redirección www → raíz; regla de rate limit sin `/api/webhook`. Vuelta atrás: apuntar el dominio a Vercel desde el DNS de Cloudflare.
 - [ ] **[Rafael / Vicente]** Cuenta de Cloudflare (clinicapomelo@gmail.com, creada el 2 oct 2026): cambiar la tarjeta y la dirección de facturación a las de Piel de Pomelo S.L.P (Manage Account → Billing). Crear la alerta de gasto de 1 $ (Billing → Billable Usage → Create budget alert) si no está hecha.
 - [ ] **[Dev]** Retirar Vercel (proyecto y Blob) tras una semana sin problemas.
+- [ ] **[Dev]** Embed de Cal.com: la opción `styles` (color coral) está obsoleta; pasarla a `cssVarsPerTheme` antes de abrir las consultas. Con el arreglo del CSP la ventana ya se abre bien sobre la página (probado en local el 2 oct).
 
 # Más adelante
 
