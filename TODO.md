@@ -40,7 +40,7 @@ Prioridad de Mar: los dos primeros.
 
 ## Más adelante
 
-Pasar la regla de Vercel `Limitar formularios` de `log` a `deny` cuando se vea el tráfico real. El Chisme (Mar: 3 ediciones; probar altas y bajas; limpiar 2 contactos de prueba de Resend), Manual de supervivencia (PDF de Mar) y fuentes en los artículos de salud.
+Pasar la regla de Vercel `Limitar formularios` de `log` a `deny` cuando se vea el tráfico real. El Chisme (Mar: 3 ediciones y el primer Broadcast con enlace de baja; limpiar los 2 contactos de prueba de Resend. El flujo de alta, confirmación, baja y reactivación ya está probado en local), Manual de supervivencia (PDF de Mar) y fuentes en los artículos de salud.
 
 ## Documentación
 

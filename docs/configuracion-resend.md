@@ -140,3 +140,7 @@ No hace falta guardar solicitudes en Supabase: el token opaco contiene los datos
 8. Darse de baja y comprobar que deja de recibir Broadcasts.
 9. Probar una nueva alta explícita y documentar el comportamiento acordado.
 10. Después de verificar el dominio, repetir con Gmail, Outlook y móvil.
+
+### Prueba local del 2 de octubre de 2026
+
+Probado en local con una variante `+alias` de un correo propio, sin activar El Chisme en Production: alta nueva (el contacto no se crea hasta confirmar), confirmación (Segmento, Topic `opt_in` y propiedades correctos), reutilizar el enlace, repetir el alta ya suscrito (sin segundo correo), baja solo del Topic, baja global, nueva alta explícita tras cada baja (envía confirmación y reactiva) y token manipulado (rechazado). Resend tarda unos segundos en reflejar un cambio de Topic o de baja; hay que esperar antes de leerlo. Los contactos de prueba se borraron.
