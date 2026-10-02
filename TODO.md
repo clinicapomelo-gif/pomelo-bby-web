@@ -10,7 +10,8 @@ No dependen de ninguna respuesta externa.
 
 ## Esta semana, con fecha
 
-- [ ] **[Rafael]** Hacer push de los commits locales (mapeos Stripe Live, flag de la gratuita, aviso de error de Contacto, datos de empresa, casilla de Stripe, `noindex` de las Condiciones, precio de 89 € y documentación). El `pull --rebase` ya está hecho. Hay que subirlo antes del lunes 5.
+Push hecho el 2 oct 2026 (`d07042b`): Production tiene el aviso de error de Contacto, los datos de empresa, `noindex` de las Condiciones y el precio de 89 €, y sigue sin poder cobrarse nada.
+
 - [ ] **[Rafael + Dev]** **5 oct:** activar la guía gratuita: `FREE_GUIDES_ENABLED = true` en `src/data/guias.ts`, quitar `"downloadEnabled": false` en `src/data/guias.json`, build y push. `GUIDES_ENABLED` se queda en `false`.
 
 ## Pequeñas, de una sesión
