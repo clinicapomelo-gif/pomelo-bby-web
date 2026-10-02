@@ -46,7 +46,7 @@
 - Reservas: https://app.cal.com/bookings/upcoming
 - Calendarios, Stripe y claves: Ajustes y Apps dentro del panel
 - Reserva pública de 49 €: https://cal.com/pomelo-bby/consulta-express
-- Reserva pública de 99 €: https://cal.com/pomelo-bby/consulta-personalizada
+- Reserva pública de 89 €: https://cal.com/pomelo-bby/consulta-personalizada
 
 
 ## Dominio - mail (DonDominio)

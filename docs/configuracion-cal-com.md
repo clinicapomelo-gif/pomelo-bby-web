@@ -96,7 +96,7 @@ Nombres, precios y política de reembolso configurados el 2 de octubre de 2026. 
 
 - Título público: **Necesito un plan**.
 - Enlace: `cal.com/pomelo-bby/consulta-personalizada`. No cambiarlo.
-- Precio: **99 €**, en **EUR** (la web publica 99 €; la versión anterior de esta guía decía 89 €).
+- Precio: **89 €**, en **EUR**. Lo decidió Mar el 2 de octubre de 2026; la web publica 89 €. En Cal.com hay que cambiarlo de 99 € a 89 € (pendiente).
 - Ubicación: Google Meet.
 - Pago y reembolso: igual que la anterior, con 2 días del calendario de antelación.
 - Duración: **40 minutos** en Cal.com (2 oct 2026). La web no indica los minutos de esta consulta; está pendiente decidir si se añade.

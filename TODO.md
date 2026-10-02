@@ -29,6 +29,7 @@ Prioridad de Mar: los dos primeros.
 - [ ] **[Empresa]** Confirmación escrita del seguro: sociedad, Mar, menores y atención remota.
 - [ ] **[Mar + asesoría]** Datos de salud: qué se guarda, cuánto tiempo y quién accede; canal seguro para fotos y vídeos (no Instagram); buzón restringido con MFA.
 - [ ] **[Dev]** «Cuéntame por correo»: guardar el caso antes de enviarlo (Blob privado, con borrado según el plazo de la asesoría). Mantiene cerrado el checkout Live. Después, compra test y real.
+- [ ] **[Rafael]** Cambiar en Cal.com el precio de «Necesito un plan» de 99 € a **89 €**, que es lo que ha decidido Mar y lo que ya publica la web. Mientras no se cambie, la web y Cal.com no coinciden.
 - [ ] **[Mar + Rafael]** Cal.com: conectar Google Calendar como calendario de conflictos (el de Mar y **Pomelo — bloqueos**; ya hay una cuenta de destino, clinicapomelo@gmail.com), definir la disponibilidad y reservar y reembolsar una prueba de cada consulta. El cobro debe aparecer en el Stripe de Pomelo.
 - [ ] **[Dev + asesoría]** Casilla de condiciones en la reserva de Cal.com, y reprogramaciones (hasta 2, hasta 24 h): Cal.com no las limita por sí mismo.
 - [ ] **[Mar]** ¿La web debe decir los 40 minutos de «Necesito un plan»? Pendiente: sería texto nuevo.
