@@ -58,7 +58,12 @@ export const getStripeMode = (
   appEnvironment = process.env.APP_ENV,
 ) => resolveStripeMode(key, appEnvironment) as StripeMode | undefined;
 
-export const getGuiaStripeMapping = (guia: Guia, mode: StripeMode) =>
+// Para páginas prerenderizadas: al construir en Cloudflare no hay secretos, así que el
+// modo sale del entorno. Cobrar, entregar y descargar siguen validando la clave real.
+export const getBuildStripeMode = (): StripeMode =>
+  process.env.APP_ENV === 'production' ? 'live' : 'test';
+
+export const getGuiaStripeMapping =(guia: Guia, mode: StripeMode) =>
   getValidStripeMapping(guia, mode) as GuiaStripeMapping | undefined;
 
 export const getGuiaAmountCents = (guia: Guia, mode: StripeMode | undefined) =>

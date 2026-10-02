@@ -30,7 +30,10 @@ export const POST: APIRoute = async ({ request }) => {
 
   let event: Stripe.Event;
   try {
-    event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
+    // En Workers la versión síncrona falla: la firma se verifica con Web Crypto.
+    event = await stripe.webhooks.constructEventAsync(
+      body, signature, webhookSecret, undefined, Stripe.createSubtleCryptoProvider(),
+    );
   } catch {
     return new Response('Firma inválida', { status: 400 });
   }

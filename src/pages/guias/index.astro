@@ -5,14 +5,14 @@ import {
   formatGuiaKind,
   formatGuiaPrice,
   getGuiaPrice,
-  getStripeMode,
+  getBuildStripeMode,
   guias,
   isFreeGuiaDownloadEnabled,
   isGuiaPurchasable,
   isGuiaVisible,
 } from '../../data/guias';
 
-const stripeMode = getStripeMode(process.env.STRIPE_SECRET_KEY);
+const stripeMode = getBuildStripeMode();
 const guideOrder = [
   'sueno-infantil',
   'conservacion-alimentos',

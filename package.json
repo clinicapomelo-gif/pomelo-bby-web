@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "npm test && npm run guides:check && npm run check && astro build",
+    "build:cf": "CLOUDFLARE_ENV=$([ \"$WORKERS_CI_BRANCH\" = main ] && echo production || echo preview) npm run build",
     "preview": "astro preview",
     "test": "node --experimental-strip-types --test scripts/*.test.mjs",
     "check": "astro check",
