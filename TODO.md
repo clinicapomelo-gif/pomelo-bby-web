@@ -2,7 +2,7 @@
 
 Solo lo que bloquea o tiene fecha. Última revisión: 2 oct 2026.
 
-**Estado:** web publicada. Guías, consultas y El Chisme apagados por código (`GUIDES_ENABLED`, `CONSULTATIONS_ENABLED`, `CHISME_ENABLED`; la guía gratuita tiene el suyo, `FREE_GUIDES_ENABLED`). Stripe Live y Vercel Production listos para las guías, probadas en Sandbox (`docs/guias-de-pago.md`). Cal.com configurado (precios 49 € y 89 €) salvo la disponibilidad (`docs/configuracion-cal-com.md`). Mar envió el 2 oct el correo al gestor. Los textos actuales los ha revisado Mar: no se tocan.
+**Estado:** web publicada. Guías, consultas y El Chisme apagados por código (`GUIDES_ENABLED`, `CONSULTATIONS_ENABLED`, `CHISME_ENABLED`; la guía gratuita tiene el suyo, `FREE_GUIDES_ENABLED`). Stripe Live y Vercel Production listos para las guías, probadas en Sandbox (`docs/guias-de-pago.md`). Cal.com configurado (precios 49 € y 89 €) salvo la disponibilidad (`docs/configuracion-cal-com.md`). Mar envió el 2 oct el correo al gestor. Migración a Cloudflare en curso en la rama `cloudflare` (sección C). Los textos actuales los ha revisado Mar: no se tocan.
 
 # A. Podemos hacer ahora mismo
 
@@ -10,7 +10,7 @@ No dependen de ninguna respuesta externa.
 
 ## Esta semana, con fecha
 
-Push hecho el 2 oct 2026 (`d07042b`): Production tiene el aviso de error de Contacto, los datos de empresa, `noindex` de las Condiciones y el precio de 89 €, y sigue sin poder cobrarse nada.
+Production (push del 2 oct 2026) tiene el aviso de error de Contacto, los datos de empresa con el Registro Mercantil, `noindex` de las Condiciones y el precio de 89 €, y sigue sin poder cobrarse nada.
 
 - [ ] **[Rafael + Dev]** **5 oct:** activar la guía gratuita: `FREE_GUIDES_ENABLED = true` en `src/data/guias.ts`, quitar `"downloadEnabled": false` en `src/data/guias.json`, build y push. `GUIDES_ENABLED` se queda en `false`.
 
@@ -18,15 +18,14 @@ Push hecho el 2 oct 2026 (`d07042b`): Production tiene el aviso de error de Cont
 
 - [ ] **[Mar]** Respuesta rápida de Instagram que derive las dudas de salud a `/consultas`.
 - [ ] **[Rafael]** El enlace al Código Deontológico del Aviso legal (`consejogeneralenfermeria.org/codigo-deontologico`) da **404**. Localizar en su web, desde el navegador, la dirección actual: en 2025 se aprobó el «Código Ético y Deontológico de la Enfermera Española» (Resolución 5/2025), que puede sustituir al citado. El gestor confirma qué documento citar y Dev actualiza el enlace.
-- [ ] **[Rafael / Vicente]** Buscar los datos de inscripción en el Registro Mercantil de Piel de Pomelo S.L.P (provincia, tomo, folio, hoja e inscripción; están en la escritura o en una nota simple).
+- [ ] **[Vicente]** Confirmar en la escritura si la sociedad es **S.L.P** (como dice la web) o **S.L.** (como escribe la asesoría el 2 oct). Si es S.L.P, pedir su inscripción en el Registro de Sociedades Profesionales del Colegio de Enfermería, que también va en el Aviso legal. Si es S.L., Dev cambia «S.L.P» por «S.L.» en toda la web. El Registro Mercantil ya está publicado (Alicante, hoja A-191902, inscripción 1.ª).
 - [ ] **[Rafael + Mar]** Correo profesional: los buzones `hola@` y `mar@pomelobaby.es` ya funcionan. Falta integrarlos con Gmail: redirigirlos a una cuenta de Gmail dedicada y configurar **Enviar como** con el SMTP de DonDominio (pasos en `docs/configuracion-correo-profesional.md`).
 - [ ] **[Mar + Rafael]** Cal.com: conectar Google Calendar como calendario de conflictos (el de Mar y **Pomelo — bloqueos**; ya hay una cuenta de destino, clinicapomelo@gmail.com) y definir la disponibilidad real.
 
 ## Decisiones
 
-- [ ] **[Mar + Rafael]** **Decidir el alojamiento antes de cobrar y antes de enseñar la web en redes.** Vercel Hobby es solo para uso personal no comercial (comprobado en su documentación el 2 oct 2026), y cuenta como comercial cualquier cobro y también anunciar la venta de un producto o servicio. Opciones: pasar a **Vercel Pro** (20 $/mes con 1 usuario que despliega y 20 $ de crédito de uso, sin cambios de código) o **migrar a Cloudflare** (plan en «A evaluar»). Mi recomendación: Pro ahora, y valorar Cloudflare después como proyecto aparte.
 - [ ] **[Mar]** ¿La web debe decir los 40 minutos de «Necesito un plan»? En Cal.com están en 40; la web solo dice los 20 minutos de la otra consulta. Sería texto nuevo.
-- [ ] **[Mar + Rafael]** Decidir cuándo enseñar la web en redes (Mar quiere hacerlo pronto). La web ya está pública y las ventas siguen cerradas: antes, comprobar que todo lo visible es correcto (precios, «Próximamente», textos legales) y que el límite de envíos de Vercel sigue en modo registro.
+- [ ] **[Mar + Rafael]** Decidir cuándo enseñar la web en redes (Mar quiere hacerlo pronto). La web ya está pública y las ventas siguen cerradas: antes, terminar la migración a Cloudflare (sección C), porque anunciar ventas en Vercel Hobby ya es uso comercial, y comprobar que todo lo visible es correcto (precios, «Próximamente», textos legales).
 - [ ] **[Mar + Rafael]** Decidir la propuesta E3 para «Cuéntame por correo» (ver abajo). Si se aprueba, **Dev** puede construirla sin esperar al gestor.
 
 ## Redacción y trabajo de Dev
@@ -51,27 +50,29 @@ Push hecho el 2 oct 2026 (`d07042b`): Production tiene el aviso de error de Cont
 ## Esperan a lo anterior (Dev, salvo indicación)
 
 - [ ] **[Dev]** Con las Condiciones y la respuesta del IVA: sustituir el texto provisional de `src/lib/checkout-consent.ts`, publicar las Condiciones, poner su URL en Stripe **Live** (Settings → Public details) y decidir `tax_behavior` de los Prices. **Quitar el `noindex` de `/condiciones-venta`** al publicarlas.
-- [ ] **[Dev]** Añadir los datos del Registro Mercantil al Aviso legal cuando se encuentren.
 - [ ] **[Dev + gestor]** Casilla de condiciones en la reserva de Cal.com, y reprogramaciones (hasta 2, hasta 24 h): Cal.com no las limita por sí mismo.
 - [ ] **[Mar + Rafael]** Reservar y reembolsar una prueba de cada consulta de Cal.com, cuando haya disponibilidad: el cobro debe aparecer en el Stripe de Pomelo.
 - [ ] **[Mar + Dev]** Compra real de 4,90 € (`conservacion-alimentos`): webhook 200 en Stripe, correo (¿spam en Gmail, Outlook y móvil?) y descarga; reembolsarla. Si cae en spam: añadir `rua` al DMARC. Después, `GUIDES_ENABLED = true` y push.
 - [ ] **[Mar + Dev]** «Cuéntame por correo»: compra de prueba y compra real controlada antes de abrirla.
 - [ ] **[Dev]** QA final: ya hecho enlaces (0 rotos), 404 (existe, sin enlace de vuelta; una 404 propia sería texto nuevo y la decide Mar), SEO (100), velocidad y Contacto en Production. Revisión manual de móvil, teclado y foco hecha por Rafael el 2 oct (funciona de 10 en móvil). Falta probar en Production los formularios que se abran.
 
-# A evaluar
+# C. Migración a Cloudflare (rama `cloudflare`, en curso)
 
-- [ ] **[Mar + Rafael]** Migrar de Vercel a **Cloudflare**: web en Workers con `@astrojs/cloudflare` (requiere Astro 6 o superior; aquí hay Astro 7.2.4, por comprobar), PDF de Vercel Blob a **R2** (10 GB gratis, 1 millón de operaciones de escritura y 10 millones de lectura al mes, y descarga sin coste), DonDominio para dominio y correo. Motivos: Hobby no permite uso comercial, y el almacén Blob de Hobby tiene 1 GB, 10 GB de transferencia y 10.000 operaciones simples al mes, y al pasarse deja de funcionar 30 días. El plan propuesto es válido pero omite trabajo:
-  - Código: 4 archivos usan `@vercel/blob` (`guide-delivery.ts` y los tres endpoints de descarga) más `scripts/guide-catalog.mjs`; 7 archivos leen `VERCEL_ENV` o `VERCEL_URL` para distinguir producción y preview; 18 leen secretos con `import.meta.env` (en Workers van por bindings y `wrangler`); `@vercel/analytics` en el layout.
-  - Mantener las claves actuales de los PDF en R2 (hay 14 archivos, 28,5 MiB, incluidas versiones antiguas que el catálogo referencia).
-  - Probar que los SDK de Stripe y Resend funcionan con `nodejs_compat`, y que el plan gratuito de Workers (100.000 peticiones al día, 10 ms de CPU por petición sin contar la espera de red) alcanza para el webhook.
-  - DNS: pasar los nameservers a Cloudflare exige replicar todos los registros de DonDominio (MX, SPF, DKIM, DMARC, los de Resend y la verificación de Search Console), o se rompe el correo.
-  - Reproducir el límite de envíos (WAF de Cloudflare), el despliegue desde GitHub y los entornos de preview. Repetir las pruebas de pago, webhook, correo y descarga.
-  - **[Rafael / Vicente]** Cuenta de Cloudflare (clinicapomelo@gmail.com, creada el 2 oct 2026): cambiar la tarjeta y la dirección de facturación a las de Piel de Pomelo S.L.P (Manage Account → Billing). Crear la alerta de gasto de 1 $ (Billing → Billable Usage → Create budget alert) si no está hecha.
-  - Más adelante, si se quiere: descargas con PDF identificado por comprador (trazabilidad); revisar antes la parte legal.
+Decidido el 2 oct 2026: Vercel Hobby no permite uso comercial (cobrar ni anunciar ventas). **Antes de cobrar o de enseñar la web en redes, la web tiene que estar en Cloudflare.**
+
+Hecho en la rama: adaptador y Astro 7.3.5, secretos en tiempo de ejecución, entornos (production, preview aparte sin claves Live, local), webhook con Web Crypto, cabeceras de seguridad y HSTS, `noindex` fuera de Production. Bucket R2 `pomelo-guias` creado con los 14 PDF copiados y verificados. El código que lee de R2 está probado en local pero **sin commit, en el stash** «cloudflare: fase 3 R2»: recuperarlo con `git checkout cloudflare && git stash pop`. La guía gratuita usa allí una clave nueva sin tildes.
+
+- [ ] **[Dev]** Pasar `scripts/guide-catalog.mjs` (alta de guías) de Vercel Blob a R2.
+- [ ] **[Dev]** Limpieza: quitar `@astrojs/vercel`, `@vercel/blob`, `@vercel/analytics` y `vercel.json`; poner Cloudflare Web Analytics (decidido). Actualizar `AGENTS.md` y `docs/guias-de-pago.md`.
+- [ ] **[Dev → Mar + gestor]** Privacidad y Cookies nombran a Vercel: borrador con Cloudflare para aprobar, publicado el día del cambio.
+- [ ] **[Rafael + Dev]** Workers Builds conectado a GitHub, secretos de preview (Sandbox) y production (Live), y compra de prueba completa en la preview.
+- [ ] **[Rafael + Dev]** Cambio de dominio: bajar TTL en DonDominio 48 h antes; copiar todos los registros (MX, SPF, DKIM, DMARC, Resend, Search Console) con el correo en «DNS only»; desactivar Email Obfuscation, Rocket Loader, Bot Fight Mode e inyección automática de Analytics; redirección www → raíz; regla de rate limit sin `/api/webhook`. Vuelta atrás: apuntar el dominio a Vercel desde el DNS de Cloudflare.
+- [ ] **[Rafael / Vicente]** Cuenta de Cloudflare (clinicapomelo@gmail.com, creada el 2 oct 2026): cambiar la tarjeta y la dirección de facturación a las de Piel de Pomelo S.L.P (Manage Account → Billing). Crear la alerta de gasto de 1 $ (Billing → Billable Usage → Create budget alert) si no está hecha.
+- [ ] **[Dev]** Retirar Vercel (proyecto y Blob) tras una semana sin problemas.
 
 # Más adelante
 
-Pasar la regla de Vercel `Limitar formularios` de `log` a `deny` cuando se vea el tráfico real. El Chisme (Mar: 3 ediciones y el primer Broadcast con enlace de baja; limpiar los 2 contactos de prueba de Resend; el flujo de alta, confirmación, baja y reactivación ya está probado en local), Manual de supervivencia (PDF de Mar) y fuentes en los artículos de salud.
+El Chisme (Mar: 3 ediciones y el primer Broadcast con enlace de baja; limpiar los 2 contactos de prueba de Resend; el flujo de alta, confirmación, baja y reactivación ya está probado en local), Manual de supervivencia (PDF de Mar) y fuentes en los artículos de salud.
 
 ## Documentación
 
