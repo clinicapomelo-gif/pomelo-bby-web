@@ -24,6 +24,7 @@ Push hecho el 2 oct 2026 (`d07042b`): Production tiene el aviso de error de Cont
 
 ## Decisiones
 
+- [ ] **[Mar + Rafael]** **Decidir el alojamiento antes de cobrar y antes de enseñar la web en redes.** Vercel Hobby es solo para uso personal no comercial (comprobado en su documentación el 2 oct 2026), y cuenta como comercial cualquier cobro y también anunciar la venta de un producto o servicio. Opciones: pasar a **Vercel Pro** (20 $/mes con 1 usuario que despliega y 20 $ de crédito de uso, sin cambios de código) o **migrar a Cloudflare** (plan en «A evaluar»). Mi recomendación: Pro ahora, y valorar Cloudflare después como proyecto aparte.
 - [ ] **[Mar]** ¿La web debe decir los 40 minutos de «Necesito un plan»? En Cal.com están en 40; la web solo dice los 20 minutos de la otra consulta. Sería texto nuevo.
 - [ ] **[Mar + Rafael]** Decidir cuándo enseñar la web en redes (Mar quiere hacerlo pronto). La web ya está pública y las ventas siguen cerradas: antes, comprobar que todo lo visible es correcto (precios, «Próximamente», textos legales) y que el límite de envíos de Vercel sigue en modo registro.
 - [ ] **[Mar + Rafael]** Decidir la propuesta E3 para «Cuéntame por correo» (ver abajo). Si se aprueba, **Dev** puede construirla sin esperar al gestor.
@@ -59,7 +60,13 @@ Push hecho el 2 oct 2026 (`d07042b`): Production tiene el aviso de error de Cont
 
 # A evaluar
 
-- [ ] **[Rafael]** Valorar mover el alojamiento de Vercel a AWS (CloudFront). Motivo, fecha y quién lo mantiene: por definir. Hoy hay que mirar cinco cosas: el adaptador (`@astrojs/vercel` pasaría a algo como `astro-sst`, que usa Lambda y CloudFront; comprobar que soporta Astro 7), los PDF de pago (hoy en Vercel Blob con `@vercel/blob`; irían a S3), las variables de entorno y secretos, el límite de envíos (hoy el firewall de Vercel; en AWS sería WAF) y el DNS en DonDominio. También cambian el despliegue automático desde GitHub, Vercel Analytics y el webhook de Stripe, que depende de que la web no se caiga. Recomendación: no migrar antes de abrir las ventas.
+- [ ] **[Mar + Rafael]** Migrar de Vercel a **Cloudflare**: web en Workers con `@astrojs/cloudflare` (requiere Astro 6 o superior; aquí hay Astro 7.2.4, por comprobar), PDF de Vercel Blob a **R2** (10 GB gratis, 1 millón de operaciones de escritura y 10 millones de lectura al mes, y descarga sin coste), DonDominio para dominio y correo. Motivos: Hobby no permite uso comercial, y el almacén Blob de Hobby tiene 1 GB, 10 GB de transferencia y 10.000 operaciones simples al mes, y al pasarse deja de funcionar 30 días. El plan propuesto es válido pero omite trabajo:
+  - Código: 4 archivos usan `@vercel/blob` (`guide-delivery.ts` y los tres endpoints de descarga) más `scripts/guide-catalog.mjs`; 7 archivos leen `VERCEL_ENV` o `VERCEL_URL` para distinguir producción y preview; 18 leen secretos con `import.meta.env` (en Workers van por bindings y `wrangler`); `@vercel/analytics` en el layout.
+  - Mantener las claves actuales de los PDF en R2 (hay 14 archivos, 28,5 MiB, incluidas versiones antiguas que el catálogo referencia).
+  - Probar que los SDK de Stripe y Resend funcionan con `nodejs_compat`, y que el plan gratuito de Workers (100.000 peticiones al día, 10 ms de CPU por petición sin contar la espera de red) alcanza para el webhook.
+  - DNS: pasar los nameservers a Cloudflare exige replicar todos los registros de DonDominio (MX, SPF, DKIM, DMARC, los de Resend y la verificación de Search Console), o se rompe el correo.
+  - Reproducir el límite de envíos (WAF de Cloudflare), el despliegue desde GitHub y los entornos de preview. Repetir las pruebas de pago, webhook, correo y descarga.
+  - Más adelante, si se quiere: descargas con PDF identificado por comprador (trazabilidad); revisar antes la parte legal.
 
 # Más adelante
 
