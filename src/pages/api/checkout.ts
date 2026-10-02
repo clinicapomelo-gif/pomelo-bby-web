@@ -45,17 +45,17 @@ export const POST: APIRoute = async ({ request }) => {
     return Response.json({ error: 'Esta guía no está disponible para nuevas compras.' }, { status: 409 });
   }
 
-  const stripeKey = import.meta.env.STRIPE_SECRET_KEY;
+  const stripeKey = process.env.STRIPE_SECRET_KEY;
   const stripeMode = getStripeMode(stripeKey);
-  const webhookSecret = import.meta.env.STRIPE_WEBHOOK_SECRET;
-  const resendKey = import.meta.env.RESEND_API_KEY;
-  const sender = import.meta.env.RESEND_FROM_EMAIL;
-  const configuredSiteURL = import.meta.env.SITE_URL;
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  const resendKey = process.env.RESEND_API_KEY;
+  const sender = process.env.RESEND_FROM_EMAIL;
+  const configuredSiteURL = process.env.SITE_URL;
 
   if (
     !stripeKey || !stripeMode ||
     !webhookSecret?.startsWith('whsec_') || !resendKey || !sender ||
-    (process.env.VERCEL_ENV === 'production' && !configuredSiteURL)
+    (process.env.APP_ENV === 'production' && !configuredSiteURL)
   ) {
     return Response.json({ error: 'La compra no está configurada todavía.' }, { status: 503 });
   }

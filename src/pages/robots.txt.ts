@@ -4,7 +4,7 @@ import { getSiteUrl } from '../lib/site-url';
 export const prerender = false;
 
 export const GET: APIRoute = ({ request }) => {
-  const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true';
+  const maintenanceMode = process.env.MAINTENANCE_MODE === 'true';
   const content = maintenanceMode
     ? 'User-agent: *\nDisallow: /\n'
     : `User-agent: *\nAllow: /\n\nSitemap: ${new URL('/sitemap-index.xml', getSiteUrl(request)).href}\n`;

@@ -12,9 +12,9 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const getString = (value: unknown) => typeof value === 'string' ? value : '';
 
 export const POST: APIRoute = async ({ request, redirect }) => {
-  const resendKey = import.meta.env.RESEND_API_KEY;
-  const fromEmail = import.meta.env.RESEND_FROM_EMAIL;
-  const toEmail = import.meta.env.RESEND_CONSULTA_TO_EMAIL;
+  const resendKey = process.env.RESEND_API_KEY;
+  const fromEmail = process.env.RESEND_FROM_EMAIL;
+  const toEmail = process.env.RESEND_CONSULTA_TO_EMAIL;
   if (!resendKey || !fromEmail || !toEmail) {
     return new Response(
       JSON.stringify({ error: 'El envío no está disponible ahora mismo. Inténtalo de nuevo más tarde.' }),
@@ -22,8 +22,8 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     );
   }
 
-  const stripeKey = import.meta.env.STRIPE_SECRET_KEY;
-  const stripeMode = getConsultationStripeMode(stripeKey, process.env.VERCEL_ENV);
+  const stripeKey = process.env.STRIPE_SECRET_KEY;
+  const stripeMode = getConsultationStripeMode(stripeKey, process.env.APP_ENV);
   const resend = new Resend(resendKey);
 
   let values: Record<string, unknown>;

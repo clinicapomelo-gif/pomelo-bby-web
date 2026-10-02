@@ -30,7 +30,7 @@ const maintenanceBypassPaths = new Set([
   '/consulta-mensaje/gracias',
   '/guias/gracias',
 ]);
-const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
+const maintenanceMode = process.env.MAINTENANCE_MODE === 'true' &&
   !maintenanceBypassPaths.has(normalizedPath);
 ---
 

@@ -61,13 +61,13 @@ export const isValidStripeMapping = (mapping) => {
     new Set([mapping.priceId, ...mapping.previousPriceIds]).size === mapping.previousPriceIds.length + 1;
 };
 
-export const getStripeMode = (key, vercelEnvironment) => {
+export const getStripeMode = (key, appEnvironment) => {
   if (typeof key !== 'string' || key.toUpperCase().includes('PLACEHOLDER')) return undefined;
   if (key.startsWith('sk_test_') || key.startsWith('rk_test_')) {
-    return vercelEnvironment === 'production' ? undefined : 'test';
+    return appEnvironment === 'production' ? undefined : 'test';
   }
   if (key.startsWith('sk_live_') || key.startsWith('rk_live_')) {
-    return vercelEnvironment === 'production' ? 'live' : undefined;
+    return appEnvironment === 'production' ? 'live' : undefined;
   }
   return undefined;
 };

@@ -55,8 +55,8 @@ export const formatGuiaKind = (kind: GuiaKind) =>
 
 export const getStripeMode = (
   key: string | undefined,
-  vercelEnvironment = process.env.VERCEL_ENV,
-) => resolveStripeMode(key, vercelEnvironment) as StripeMode | undefined;
+  appEnvironment = process.env.APP_ENV,
+) => resolveStripeMode(key, appEnvironment) as StripeMode | undefined;
 
 export const getGuiaStripeMapping = (guia: Guia, mode: StripeMode) =>
   getValidStripeMapping(guia, mode) as GuiaStripeMapping | undefined;

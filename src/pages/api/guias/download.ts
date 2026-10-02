@@ -38,7 +38,7 @@ export const GET: APIRoute = async ({ url }) => {
     return unavailable();
   }
 
-  const stripeKey = import.meta.env.STRIPE_SECRET_KEY;
+  const stripeKey = process.env.STRIPE_SECRET_KEY;
   const stripeMode = getStripeMode(stripeKey);
   if (!stripeKey || !stripeMode) {
     return temporarilyUnavailable();

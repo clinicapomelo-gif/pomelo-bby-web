@@ -12,7 +12,7 @@ import {
   isGuiaVisible,
 } from '../../data/guias';
 
-const stripeMode = getStripeMode(import.meta.env.STRIPE_SECRET_KEY);
+const stripeMode = getStripeMode(process.env.STRIPE_SECRET_KEY);
 const guideOrder = [
   'sueno-infantil',
   'conservacion-alimentos',

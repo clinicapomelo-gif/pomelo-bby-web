@@ -12,9 +12,9 @@ const token = Astro.url.searchParams.get('token') || '';
 const error = Astro.url.searchParams.get('error');
 let source: 'newsletter' | 'lead_magnet_25_cosas' | undefined;
 
-if (CHISME_ENABLED && !error && token && import.meta.env.NEWSLETTER_CONFIRMATION_SECRET) {
+if (CHISME_ENABLED && !error && token && process.env.NEWSLETTER_CONFIRMATION_SECRET) {
   try {
-    source = decryptNewsletterConfirmation(token, import.meta.env.NEWSLETTER_CONFIRMATION_SECRET).source;
+    source = decryptNewsletterConfirmation(token, process.env.NEWSLETTER_CONFIRMATION_SECRET).source;
   } catch {
     source = undefined;
   }

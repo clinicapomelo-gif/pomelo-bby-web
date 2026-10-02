@@ -28,7 +28,7 @@ export const POST: APIRoute = async ({ request }) => {
   const origin = request.headers.get('origin');
   if (origin) {
     const allowedOrigins = new Set([new URL(request.url).origin]);
-    const siteUrl = import.meta.env.SITE_URL;
+    const siteUrl = process.env.SITE_URL;
 
     if (siteUrl) {
       try {
@@ -115,13 +115,13 @@ export const POST: APIRoute = async ({ request }) => {
     }, 400);
   }
 
-  const resendKey = import.meta.env.RESEND_API_KEY;
-  const sender = import.meta.env.RESEND_NEWSLETTER_FROM_EMAIL?.trim() ?? import.meta.env.RESEND_FROM_EMAIL?.trim();
-  const confirmationSecret = import.meta.env.NEWSLETTER_CONFIRMATION_SECRET;
+  const resendKey = process.env.RESEND_API_KEY;
+  const sender = process.env.RESEND_NEWSLETTER_FROM_EMAIL?.trim() ?? process.env.RESEND_FROM_EMAIL?.trim();
+  const confirmationSecret = process.env.NEWSLETTER_CONFIRMATION_SECRET;
   if (
     !resendKey || !sender || !confirmationSecret ||
-    !import.meta.env.RESEND_NEWSLETTER_SEGMENT_ID ||
-    !import.meta.env.RESEND_NEWSLETTER_TOPIC_ID
+    !process.env.RESEND_NEWSLETTER_SEGMENT_ID ||
+    !process.env.RESEND_NEWSLETTER_TOPIC_ID
   ) {
     return jsonResponse({ error: 'Ahora mismo no he podido iniciar la suscripción. Inténtalo de nuevo en unos minutos.' }, 503);
   }
@@ -144,7 +144,7 @@ export const POST: APIRoute = async ({ request }) => {
         }
 
         if (topics.data?.data.some((topic) =>
-          topic.id === import.meta.env.RESEND_NEWSLETTER_TOPIC_ID && topic.subscription === 'opt_in'
+          topic.id === process.env.RESEND_NEWSLETTER_TOPIC_ID && topic.subscription === 'opt_in'
         )) {
           return expectsJson
             ? jsonResponse({ success: true })

@@ -16,7 +16,7 @@ export const POST: APIRoute = async ({ request }) => {
   const origin = request.headers.get('origin');
   if (origin) {
     const allowedOrigins = new Set([new URL(request.url).origin]);
-    const siteUrl = import.meta.env.SITE_URL;
+    const siteUrl = process.env.SITE_URL;
 
     if (siteUrl) {
       try {
@@ -40,9 +40,9 @@ export const POST: APIRoute = async ({ request }) => {
       ? new Response(JSON.stringify({ error }), { status, headers: { 'Content-Type': 'application/json' } })
       : Response.redirect(new URL('/contacto?error=1#formulario', request.url), 303);
 
-  const resendKey = import.meta.env.RESEND_API_KEY;
-  const fromEmail = import.meta.env.RESEND_FROM_EMAIL;
-  const toEmail = import.meta.env.RESEND_TO_EMAIL;
+  const resendKey = process.env.RESEND_API_KEY;
+  const fromEmail = process.env.RESEND_FROM_EMAIL;
+  const toEmail = process.env.RESEND_TO_EMAIL;
   if (!resendKey || !fromEmail || !toEmail) {
     return fail(503, 'Servicio de email no configurado.');
   }

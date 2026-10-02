@@ -31,7 +31,7 @@ export const onRequest = defineMiddleware(async ({ url }, next) => {
   }
 
   if (
-    import.meta.env.MAINTENANCE_MODE !== 'true' ||
+    process.env.MAINTENANCE_MODE !== 'true' ||
     MAINTENANCE_BYPASS_PATHS.has(pathname)
   ) return next();
 

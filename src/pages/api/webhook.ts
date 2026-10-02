@@ -12,9 +12,9 @@ export const prerender = false;
 const eventReference = (event: Stripe.Event) => event.id.slice(-8);
 
 export const POST: APIRoute = async ({ request }) => {
-  const stripeKey = import.meta.env.STRIPE_SECRET_KEY;
+  const stripeKey = process.env.STRIPE_SECRET_KEY;
   const stripeMode = getStripeMode(stripeKey);
-  const webhookSecret = import.meta.env.STRIPE_WEBHOOK_SECRET;
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
   if (!stripeKey || !stripeMode || !webhookSecret) {
     return new Response('Servicio no configurado', { status: 503 });
@@ -100,9 +100,9 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response('OK', { status: 200 });
   }
 
-  const resendKey = import.meta.env.RESEND_API_KEY;
-  const sender = import.meta.env.RESEND_FROM_EMAIL;
-  const siteURL = import.meta.env.SITE_URL;
+  const resendKey = process.env.RESEND_API_KEY;
+  const sender = process.env.RESEND_FROM_EMAIL;
+  const siteURL = process.env.SITE_URL;
 
   if (!resendKey || !sender || !siteURL) {
     return new Response('Servicio de entrega no configurado', { status: 503 });

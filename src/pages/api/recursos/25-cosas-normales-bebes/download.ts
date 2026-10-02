@@ -15,8 +15,8 @@ const unavailable = () => new Response('La guía no está disponible temporalmen
 
 export const GET: APIRoute = async () => {
   const auth = {
-    oidcToken: import.meta.env.VERCEL_OIDC_TOKEN,
-    storeId: import.meta.env.BLOB_STORE_ID,
+    oidcToken: process.env.VERCEL_OIDC_TOKEN,
+    storeId: process.env.BLOB_STORE_ID,
   };
 
   try {

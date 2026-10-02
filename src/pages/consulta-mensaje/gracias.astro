@@ -18,8 +18,8 @@ const sessionId = url.searchParams.get('session_id');
 let isValid = false;
 
 if (sessionId?.startsWith('cs_') && sessionId.length <= 255) {
-  const stripeKey = import.meta.env.STRIPE_SECRET_KEY;
-  const stripeMode = getConsultationStripeMode(stripeKey, process.env.VERCEL_ENV);
+  const stripeKey = process.env.STRIPE_SECRET_KEY;
+  const stripeMode = getConsultationStripeMode(stripeKey, process.env.APP_ENV);
   if (stripeKey && stripeMode) {
     try {
       const stripe = new Stripe(stripeKey);

@@ -14,7 +14,7 @@ const sessionId = Astro.url.searchParams.get('session_id');
 const validSessionId = sessionId?.startsWith('cs_') && sessionId.length <= 255
   ? sessionId
   : undefined;
-const stripeKey = import.meta.env.STRIPE_SECRET_KEY;
+const stripeKey = process.env.STRIPE_SECRET_KEY;
 let state: PurchaseState = validSessionId ? 'error' : 'invalid';
 let guiaTitle: string | undefined;
 

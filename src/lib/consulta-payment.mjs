@@ -2,8 +2,8 @@ import { getStripeMode } from '../data/guide-logic.mjs';
 
 export const CONSULTATION_PAYMENT_METHOD_TYPES = ['card'];
 
-export const getConsultationStripeMode = (key, vercelEnvironment) =>
-  getStripeMode(key, vercelEnvironment);
+export const getConsultationStripeMode = (key, appEnvironment) =>
+  getStripeMode(key, appEnvironment);
 
 export const isStripeSessionMode = (livemode, mode) =>
   Boolean(mode) && livemode === (mode === 'live');

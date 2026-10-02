@@ -13,14 +13,14 @@ import {
 } from '../../data/guias';
 
 export function getStaticPaths() {
-  const stripeMode = getStripeMode(import.meta.env.STRIPE_SECRET_KEY);
+  const stripeMode = getStripeMode(process.env.STRIPE_SECRET_KEY);
   return guias.filter((guia) => isGuiaVisible(guia, stripeMode)).map((guia) => ({
     params: { id: guia.id },
     props: { guia },
   }));
 }
 
-const stripeMode = getStripeMode(import.meta.env.STRIPE_SECRET_KEY);
+const stripeMode = getStripeMode(process.env.STRIPE_SECRET_KEY);
 const { guia } = Astro.props;
 const canDownloadFree = isFreeGuiaDownloadEnabled(guia);
 const canCheckout = isGuiaPurchasable(guia, stripeMode);

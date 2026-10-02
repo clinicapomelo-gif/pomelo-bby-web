@@ -13,8 +13,8 @@ import { getSiteUrl } from '../../lib/site-url';
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
-  const stripeKey = import.meta.env.STRIPE_SECRET_KEY;
-  const stripeMode = getConsultationStripeMode(stripeKey, process.env.VERCEL_ENV);
+  const stripeKey = process.env.STRIPE_SECRET_KEY;
+  const stripeMode = getConsultationStripeMode(stripeKey, process.env.APP_ENV);
   if (!CONSULTATIONS_ENABLED || !stripeKey || !canCreateConsultationCheckout(stripeMode)) {
     return new Response(
       JSON.stringify({ error: 'Las consultas estarán disponibles próximamente.' }),
@@ -22,7 +22,7 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
-  const priceId = import.meta.env.STRIPE_CONSULTA_MENSAJE_PRICE_ID;
+  const priceId = process.env.STRIPE_CONSULTA_MENSAJE_PRICE_ID;
   if (!priceId?.startsWith('price_') || priceId.includes('PLACEHOLDER')) {
     return new Response(
       JSON.stringify({ error: 'La consulta todavía no tiene un precio configurado.' }),

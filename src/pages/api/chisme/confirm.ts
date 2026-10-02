@@ -33,10 +33,10 @@ export const POST: APIRoute = async ({ request }) => {
     return failure(request);
   }
 
-  const secret = import.meta.env.NEWSLETTER_CONFIRMATION_SECRET;
-  const resendKey = import.meta.env.RESEND_API_KEY;
-  const segmentId = import.meta.env.RESEND_NEWSLETTER_SEGMENT_ID;
-  const topicId = import.meta.env.RESEND_NEWSLETTER_TOPIC_ID;
+  const secret = process.env.NEWSLETTER_CONFIRMATION_SECRET;
+  const resendKey = process.env.RESEND_API_KEY;
+  const segmentId = process.env.RESEND_NEWSLETTER_SEGMENT_ID;
+  const topicId = process.env.RESEND_NEWSLETTER_TOPIC_ID;
   if (!secret || !resendKey || !segmentId || !topicId) return failure(request, 'temporary');
 
   let confirmation;
