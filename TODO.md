@@ -6,7 +6,7 @@ Solo lo que bloquea o tiene fecha. Última revisión: 2 oct 2026.
 
 ## Esta semana
 
-- [ ] **[Rafael]** `git pull --rebase` y push. Hay 2 commits locales (mapeos Stripe Live y flag de la gratuita) y `origin` trae el artículo de mocos.
+- [ ] **[Rafael]** Hacer push. El `pull --rebase` ya está hecho: hay 12 commits locales sin subir (mapeos Stripe Live, flag de la gratuita, aviso de error de Contacto, datos de empresa, casilla de Stripe, `noindex` de las Condiciones y documentación). Tiene que subirse antes de activar la guía gratuita el lunes 5.
 - [ ] **[Rafael + Dev]** **5 oct:** activar la guía gratuita: `FREE_GUIDES_ENABLED = true` en `src/data/guias.ts`, quitar `"downloadEnabled": false` en `src/data/guias.json`, build y push. `GUIDES_ENABLED` se queda en `false`.
 - [ ] **[Mar]** Respuesta rápida de Instagram que derive las dudas de salud a `/consultas`.
 - [ ] **[Mar]** Enviar a la asesoría el mensaje de revisión (IVA, condiciones, desistimiento, cancelaciones, datos de salud).
@@ -36,7 +36,7 @@ Prioridad de Mar: los dos primeros.
 
 ## Antes de anunciar
 
-- [ ] **[Dev]** QA final (móvil, teclado, enlaces, 404, SEO) y probar los formularios en Production.
+- [ ] **[Dev]** QA final: ya hecho enlaces (0 rotos), 404 (existe, sin enlace de vuelta; una 404 propia sería texto nuevo y la decide Mar), SEO (100), velocidad y Contacto en Production. Falta la revisión manual de móvil, teclado y foco, y probar en Production los formularios que se abran.
 
 ## Más adelante
 
