@@ -1,7 +1,7 @@
 ---
 title: "Mocos en bebés: qué hacer y qué no hacer"
 description: "¿Tu bebé tiene mocos? Descubre cómo hacer lavados nasales, cuándo utilizar el aspirador, qué evitar y cuáles son las señales de alarma."
-pubDate: 2026-10-01
+pubDate: 2026-10-06
 category: salud
 tags: ["mocos en bebés", "mocos bebé", "bebé congestionado", "lavado nasal bebé", "aspirar mocos bebé", "nariz taponada bebé", "catarro bebé"]
 draft: false
