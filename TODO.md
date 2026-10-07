@@ -32,7 +32,7 @@ Production (push del 2 oct 2026) tiene el aviso de error de Contacto, los datos 
 ## Redacción y trabajo de Dev
 
 - [ ] **[Rafael + Mar + Dev]** Redactar las Condiciones de venta (hoy placeholder), el texto del desistimiento y la confirmación del contrato, con las cancelaciones: Mar decidió 2 reprogramaciones, hasta 24 h antes, y reembolso con 48 h; faltan los casos de 24–48 h, menos de 24 h, ausencia y si cancela Mar. Dev puede preparar un borrador con los datos reales para revisión.
-- [ ] **[Mar + Rafael]** «Cuéntame por correo» (la consulta de 19 €): E3 programada el 7 oct con máximo de 10 al día y pausa desde la web, `CONSULTA_CORREO_PAUSADA` (`docs/consulta-por-correo.md`). Textos aprobados por Mar y 10 todos los días de la semana. Probada en Sandbox el 7 oct. Falta decidir expresamente abrir el cobro Live (hoy solo Sandbox) y enseñar a Mar los textos nuevos de WhatsApp en la confirmación y en «¡Recibido!».
+- [ ] **[Mar + Rafael]** «Cuéntame por correo» (la consulta de 19 €): E3 programada el 7 oct con máximo de 10 al día y pausa desde la web, `CONSULTA_CORREO_PAUSADA` (`docs/consulta-por-correo.md`). Textos aprobados por Mar y 10 todos los días de la semana. Probada en Sandbox el 7 oct. Falta decidir expresamente abrir el cobro Live (hoy solo Sandbox). Mar aprobó también los textos de WhatsApp de la confirmación y de «¡Recibido!».
 
 # B. Pendiente: esperan a una respuesta o a otra tarea
 
