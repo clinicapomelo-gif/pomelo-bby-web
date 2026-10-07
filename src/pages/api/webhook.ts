@@ -6,6 +6,8 @@ import {
   getGuideDownloadExpiresAt,
   isPrivateGuidePdfAvailable,
 } from '../../lib/guide-delivery';
+import { handlePaidConsultation } from '../../lib/consulta-webhook';
+import { getSiteUrl } from '../../lib/site-url';
 
 export const prerender = false;
 
@@ -43,6 +45,9 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const eventSession = event.data.object as Stripe.Checkout.Session;
+  if (eventSession.metadata?.type === 'consulta-mensaje') {
+    return handlePaidConsultation(stripe, eventSession.id, getSiteUrl(request), eventReference(event));
+  }
   if (eventSession.metadata?.type !== 'guia') {
     return new Response('OK', { status: 200 });
   }

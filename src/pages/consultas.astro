@@ -60,6 +60,7 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
             <div class="consulta-card__footer">
               {CONSULTATIONS_ENABLED ? (
                 <button class="btn btn--primary" id="btn-consulta-mensaje">Consultar por correo</button>
+                <p class="consulta-card__aviso" id="consulta-mensaje-aviso" role="status" tabindex="-1" hidden></p>
               ) : (
                 <span class="btn btn--disabled" aria-disabled="true">Próximamente</span>
               )}
@@ -198,21 +199,33 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
   </script>
 
   <script>
-    document.getElementById('btn-consulta-mensaje')?.addEventListener('click', async () => {
-      const btn = document.getElementById('btn-consulta-mensaje');
-      if (btn) btn.textContent = 'Procesando...';
+    const consultaButton = document.querySelector<HTMLButtonElement>('#btn-consulta-mensaje');
+    const consultaAviso = document.querySelector<HTMLParagraphElement>('#consulta-mensaje-aviso');
+    const showConsultaAviso = (message: string) => {
+      if (consultaButton) {
+        consultaButton.disabled = false;
+        consultaButton.textContent = 'Consultar por correo';
+      }
+      if (!consultaAviso) return;
+      consultaAviso.textContent = message;
+      consultaAviso.hidden = false;
+      consultaAviso.focus();
+    };
+
+    consultaButton?.addEventListener('click', async () => {
+      consultaButton.disabled = true;
+      consultaButton.textContent = 'Procesando…';
+      if (consultaAviso) consultaAviso.hidden = true;
       try {
         const res = await fetch('/api/checkout-consulta', { method: 'POST' });
-        const data = await res.json();
+        const data = await res.json().catch(() => ({}));
         if (data.url) {
           window.location.href = data.url;
         } else {
-          alert(data.error || 'Error al crear el pago. Inténtalo de nuevo.');
-          if (btn) btn.textContent = 'Consultar por correo';
+          showConsultaAviso(data.error || 'No se pudo iniciar el pago. Inténtalo de nuevo.');
         }
       } catch {
-        alert('Error de conexión. Inténtalo de nuevo.');
-        if (btn) btn.textContent = 'Consultar por correo';
+        showConsultaAviso('No hay conexión. Inténtalo de nuevo.');
       }
     });
   </script>
@@ -458,6 +471,13 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
   .consulta-card__footer .btn {
     display: block;
     width: 100%;
+  }
+
+  .consulta-card__aviso {
+    margin-top: var(--spacing-sm);
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    text-align: center;
   }
 
   .consulta-card__footer .btn--disabled {
