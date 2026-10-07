@@ -84,6 +84,12 @@ import Layout from '../layouts/Layout.astro';
               />
             </div>
 
+            <div class="form__group">
+              <label for="telefono">Teléfono de contacto <span>(opcional)</span></label>
+              <input type="tel" id="telefono" name="telefono" autocomplete="tel" maxlength="30" placeholder="Tu teléfono" aria-describedby="telefono-ayuda" />
+              <small id="telefono-ayuda">Si lo dejas, puedo escribirte por WhatsApp cuando sea más fácil aclarar algo. Si no, te respondo por email.</small>
+            </div>
+
             <div class="form__group" data-validation-field>
               <label for="mensaje">¿En qué puedo ayudarte?</label>
               <textarea id="mensaje" name="mensaje" rows="5" required data-error-required="Cuéntame en qué puedo ayudarte."></textarea>
@@ -252,6 +258,13 @@ import Layout from '../layouts/Layout.astro';
     font-weight: 500;
     font-size: 0.9rem;
     color: var(--color-text);
+  }
+
+  .form__group label span,
+  .form__group small {
+    color: var(--color-text-secondary);
+    font-size: 0.82rem;
+    line-height: 1.5;
   }
 
   .form__privacy {

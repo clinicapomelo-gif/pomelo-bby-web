@@ -31,15 +31,16 @@ import Layout from '../layouts/Layout.astro';
         <h2 id="datos-finalidades">Qué datos tratamos y para qué</h2>
 
         <h3>Contacto y atención de solicitudes</h3>
-        <p>Tratamos tu nombre, email y el contenido del mensaje para responder a consultas sobre colaboraciones, compras o el funcionamiento de la web. La base jurídica es tu consentimiento al enviarnos el formulario o, cuando corresponda, la aplicación de medidas precontractuales solicitadas por ti.</p>
+        <p>Tratamos tu nombre, email, tu teléfono si decides dejarlo y el contenido del mensaje para responder a consultas sobre colaboraciones, compras o el funcionamiento de la web. Si nos dejas tu teléfono, podremos escribirte por WhatsApp cuando sea más fácil aclarar algo. La base jurídica es tu consentimiento al enviarnos el formulario o, cuando corresponda, la aplicación de medidas precontractuales solicitadas por ti.</p>
 
         <h3>Compras y reservas</h3>
         <p>Tratamos los datos identificativos, de contacto, reserva, compra y facturación necesarios para gestionar el pago, prestar el servicio, entregar una guía, atender incidencias y cumplir nuestras obligaciones legales. La base jurídica es la ejecución del contrato y el cumplimiento de obligaciones fiscales, contables y de consumo.</p>
         <p>Los datos de la tarjeta se introducen directamente en Stripe. Pomelo Baby no recibe ni almacena los datos completos de tu tarjeta.</p>
 
         <h3>Consultas individualizadas de enfermería</h3>
-        <p>Para prestar una consulta podemos tratar el nombre y email de la persona adulta, la edad del niño o niña y la información de salud que sea necesaria, como el motivo de la consulta, antecedentes, medicación o contexto reciente.</p>
+        <p>Para prestar una consulta podemos tratar el nombre, email y, cuando la consulta se hace por WhatsApp, el teléfono de la persona adulta, la edad del niño o niña y la información de salud que sea necesaria, como el motivo de la consulta, antecedentes, medicación o contexto reciente.</p>
         <p>La base jurídica es la prestación del servicio contratado y, para los datos de salud, la prestación de asistencia o atención sanitaria por una profesional sujeta al deber de secreto, de acuerdo con el artículo 9.2.h del RGPD, además de las obligaciones legales aplicables.</p>
+        <p>Si la consulta se hace por WhatsApp, las fotografías y vídeos se envían con la opción «ver una vez» y no se conservan. Al terminar la consulta borramos la conversación. Lo necesario para la atención queda en la historia clínica.</p>
 
         <h3>El Chisme y recursos gratuitos</h3>
         <p>Si te apuntas a El Chisme o solicitas una guía gratuita, tratamos tu nombre, email, origen del alta, fecha y versión del consentimiento para confirmar tu dirección, entregar el recurso y enviarte la newsletter. La base jurídica es tu consentimiento. El alta utiliza doble confirmación y puedes darte de baja en cualquier momento desde el enlace incluido en cada correo.</p>
@@ -51,7 +52,7 @@ import Layout from '../layouts/Layout.astro';
       <section class="legal__section" aria-labelledby="menores-salud">
         <h2 id="menores-salud">Datos de niños y niñas y datos de salud</h2>
         <p>Las consultas están dirigidas a madres, padres, representantes legales o personas autorizadas para ocuparse del niño o niña. Si facilitas datos de un menor, debes estar legitimado/a para hacerlo. Podremos solicitar información para comprobar esa representación cuando sea necesario.</p>
-        <p>Comparte únicamente la información necesaria para la atención. No envíes datos de salud ni imágenes de menores mediante el formulario general de contacto o Instagram. Si una consulta requiere fotografías, vídeos u otra información adicional, te indicaremos previamente un canal adecuado.</p>
+        <p>Comparte únicamente la información necesaria para la atención. No envíes datos de salud ni imágenes de menores mediante el formulario general de contacto o Instagram. Si una consulta requiere fotografías o vídeos, te explicaremos cómo enviarlos por WhatsApp con la opción «ver una vez».</p>
       </section>
 
       <section class="legal__section" aria-labelledby="conservacion-datos">
@@ -59,7 +60,7 @@ import Layout from '../layouts/Layout.astro';
         <ul class="legal__list">
           <li><strong>Contacto:</strong> durante el tiempo necesario para atender la solicitud y, después, durante los plazos aplicables para responder a posibles responsabilidades.</li>
           <li><strong>Compras y reservas:</strong> mientras se presta el servicio y durante los plazos fiscales, contables, de consumo y de defensa de reclamaciones exigidos por la normativa.</li>
-          <li><strong>Consultas de enfermería:</strong> durante la atención y los periodos que exija la normativa sanitaria para la documentación que deba conservarse.</li>
+          <li><strong>Consultas de enfermería:</strong> la historia clínica, como mínimo 5 años desde el final de cada consulta, según la normativa sanitaria. Las conversaciones de WhatsApp se borran al terminar la consulta.</li>
           <li><strong>Newsletter:</strong> hasta que retires tu consentimiento. Podremos conservar la prueba del consentimiento y el estado mínimo de baja durante los plazos necesarios para acreditar el cumplimiento y evitar nuevos envíos.</li>
           <li><strong>Altas sin confirmar:</strong> el enlace cifrado caduca a las 48 horas y no se guarda en una base de datos propia.</li>
         </ul>
@@ -75,6 +76,8 @@ import Layout from '../layouts/Layout.astro';
           <li><strong>Stripe:</strong> cobros, comprobación de pagos y prevención del fraude.</li>
           <li><strong>Cal.com:</strong> agenda y reserva cuando contratas una consulta.</li>
           <li><strong>Google:</strong> carga de tipografías y, cuando corresponde, calendario y videollamada.</li>
+          <li><strong>WhatsApp (Meta):</strong> mensajes y videollamadas de las consultas que se hacen por ese canal.</li>
+          <li><strong>Clinic:</strong> historia clínica de las consultas.</li>
         </ul>
         <p>También podremos comunicar datos a administraciones, juzgados u otras autoridades cuando exista una obligación legal.</p>
         <p>Algunos proveedores pueden tratar datos fuera del Espacio Económico Europeo. Cuando ocurre, se aplican las garantías previstas en el RGPD, como una decisión de adecuación, el Marco de Privacidad de Datos UE-EE. UU. cuando resulte aplicable o cláusulas contractuales tipo. Puedes pedirnos información sobre las garantías aplicables escribiendo al email de privacidad.</p>
@@ -93,7 +96,7 @@ import Layout from '../layouts/Layout.astro';
         <p>Si consideras que no hemos tratado tus datos correctamente, puedes presentar una reclamación ante la <a href="https://www.aepd.es" target="_blank" rel="noopener noreferrer">Agencia Española de Protección de Datos</a>.</p>
       </section>
 
-      <p class="legal__updated">Última actualización: 19 de agosto de 2026.</p>
+      <p class="legal__updated">Última actualización: 7 de octubre de 2026.</p>
     </div>
   </section>
 </Layout>

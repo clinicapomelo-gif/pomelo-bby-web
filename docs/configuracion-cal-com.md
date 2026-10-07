@@ -14,7 +14,7 @@ La idea es que Mar tenga siempre el control de la cuenta y que la gestión del h
 
 - La cuenta de Cal.com debe estar a nombre de Mar.
 - Stripe también debe estar bajo el control de Mar o de su negocio.
-- Las videollamadas se realizarán mediante Google Meet.
+- Las videollamadas se hacen por Google Meet o, si la familia deja su teléfono, por videollamada de WhatsApp que inicia Mar ([ADR 0004](adr/0004-whatsapp-business-para-consultas.md)).
 - La zona horaria debe ser **Europe/Madrid**.
 - Las nuevas reservas deben guardarse en un calendario profesional separado, por ejemplo: **Pomelo — consultas**.
 - Los calendarios personales y laborales que puedan afectar a su disponibilidad deben conectarse como calendarios de conflictos.
@@ -88,7 +88,8 @@ Nombres, precios y política de reembolso configurados el 2 de octubre de 2026. 
 - Enlace: `cal.com/pomelo-bby/consulta-express`. No cambiarlo.
 - Duración: **20 minutos**.
 - Precio: **49 €**, en **EUR**.
-- Ubicación: Google Meet.
+- Ubicación: Google Meet y «teléfono del asistente» (7 oct 2026). Con teléfono, Mar llama por videollamada de WhatsApp. No usar la ubicación «WhatsApp» de Cal.com: pide el enlace `wa.me` de Mar y lo publicaría. La descripción lo explica con una frase aprobada por Mar: «Por Google Meet o por WhatsApp, como te sea más cómodo. Si eliges WhatsApp, déjame tu teléfono y te llamo yo.»
+- Preguntas: «Nº de Teléfono» sigue oculta; el teléfono lo pide la ubicación, solo a quien la elige.
 - Pago: «Cobrar el pago durante la reserva».
 - Reembolso: «Si se cancela **2 días del calendario** antes» (equivale a 48 horas).
 
@@ -102,6 +103,12 @@ Nombres, precios y política de reembolso configurados el 2 de octubre de 2026. 
 - Duración: **40 minutos** en Cal.com (2 oct 2026). La web no indica los minutos de esta consulta; está pendiente decidir si se añade.
 
 Se usa «días del calendario» y no «días laborales» a propósito: los laborales no cuentan los fines de semana y alargarían el plazo por encima de las 48 horas.
+
+### Recordatorio (Workflow)
+
+- Desencadenante: «Antes del inicio del evento», **2 horas** antes. Acción: correo al asistente con la plantilla estándar «Recordatorio». Aprobado por Mar el 7 oct 2026.
+- Las plantillas personalizadas son de pago y no hacen falta: el aviso de que llama Mar lo da ella por WhatsApp con la respuesta rápida `/aviso`.
+- No meter preguntas de la reserva (edad, preocupación) como variables: son datos de salud de un menor.
 
 ### Política de cancelación aplicada
 
@@ -145,7 +152,7 @@ Pendiente:
 2. **Conectar Google Calendar a Cal.com** como calendario de conflictos (el de Mar y **Pomelo — bloqueos**), para que no se ofrezcan horas ocupadas.
 3. Casilla obligatoria de aceptar las condiciones de venta en el formulario de reserva, cuando la asesoría entregue el texto.
 4. Comprobar que el cobro llega a la **cuenta de Stripe de Pomelo** y no a otra.
-5. Una reserva de prueba de cada consulta (pago, bloqueo del horario, Google Meet, cancelación, reprogramación y correos) y una reserva real controlada antes de abrir al público; reembolsarla después.
+5. Una reserva de prueba de cada consulta (pago, bloqueo del horario, Google Meet y la opción de teléfono con videollamada de WhatsApp, recordatorio, cancelación, reprogramación y correos) y una reserva real controlada antes de abrir al público; reembolsarla después.
 
 ## Qué necesita cambiarse en la web
 
