@@ -148,8 +148,8 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     const confirmation = await resend.emails.send({
       from: fromEmail,
       to: email,
-      subject: 'He recibido tu consulta — Pomelo Baby',
-      text: `Hola, ${nombre}.\n\nHe recibido tu consulta correctamente. Te responderé a este correo en un plazo de 24-48 horas laborables.\n\nSi para valorar tu caso hacen falta fotos o vídeos, te explicaré el siguiente paso cuando te responda. No los envíes todavía.\n\nSi la situación empeora o crees que puede ser urgente, busca atención sanitaria sin esperar mi respuesta.\n\nGracias por confiar en Pomelo Baby.`,
+      subject: `He recibido tu consulta (${reference}) — Pomelo Baby`,
+      text: `Hola, ${nombre}.\n\nHe recibido tu consulta correctamente. ${telefono ? 'Te responderé en un plazo de 24-48 horas laborables, por WhatsApp o por correo.' : 'Te responderé a este correo en un plazo de 24-48 horas laborables.'}\n\nSi para valorar tu caso hacen falta fotos o vídeos, te explicaré el siguiente paso cuando te responda. No los envíes todavía.\n\nSi la situación empeora o crees que puede ser urgente, busca atención sanitaria sin esperar mi respuesta.\n\nGracias por confiar en Pomelo Baby.\n\nMar · Pomelo Baby`,
     }, {
       idempotencyKey: `consulta-mensaje-confirmacion-${sessionId}`,
     });

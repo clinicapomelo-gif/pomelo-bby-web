@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import Stripe from 'stripe';
-import { CONSULTA_CORREO_MAXIMO_DIARIO, CONSULTATIONS_ENABLED } from '../../data/consultas';
+import { CONSULTA_CORREO_MAXIMO_DIARIO, CONSULTA_CORREO_PAUSADA, CONSULTATIONS_ENABLED } from '../../data/consultas';
 import {
   CONSULTATION_CHECKOUT_TTL_SECONDS,
   CONSULTATION_PAYMENT_METHOD_TYPES,
@@ -15,7 +15,6 @@ import { getSiteUrl } from '../../lib/site-url';
 
 export const prerender = false;
 
-// TODO(Mar): textos provisionales.
 const UNAVAILABLE_MESSAGES = {
   completa: 'Hoy ya no quedan consultas por correo. Vuelve a intentarlo mañana.',
   pausada: 'Ahora mismo no estoy atendiendo consultas por correo. Vuelve a intentarlo en unos días.',
@@ -36,6 +35,8 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
+  if (CONSULTA_CORREO_PAUSADA) return unavailable('pausada');
+
   const priceId = import.meta.env.STRIPE_CONSULTA_MENSAJE_PRICE_ID;
   if (!priceId?.startsWith('price_') || priceId.includes('PLACEHOLDER')) {
     return new Response(
@@ -47,12 +48,8 @@ export const POST: APIRoute = async ({ request }) => {
   const stripe = new Stripe(stripeKey);
   const siteURL = getSiteUrl(request).replace(/\/$/, '');
 
-  // Mar pausa la venta desactivando el precio en Stripe. Si no se puede comprobar el
-  // cupo, no se vende: mejor no abrir el pago que pasarse del límite.
+  // Si no se puede comprobar el cupo, no se vende: mejor no abrir el pago que pasarse del límite.
   try {
-    const price = await stripe.prices.retrieve(priceId);
-    if (!price.active) return unavailable('pausada');
-
     const nowSeconds = Math.floor(Date.now() / 1000);
     const todaysSessions: Stripe.Checkout.Session[] = [];
     for await (const session of stripe.checkout.sessions.list({ created: { gte: getMadridDayStart() }, limit: 100 })) {

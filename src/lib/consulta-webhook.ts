@@ -8,6 +8,13 @@ import {
 
 const text = (body: string, status = 200) => new Response(body, { status });
 
+// Hora del cobro; la sesión se crea al abrir el pago, que puede ser bastante antes.
+const getPaidAt = (session: Stripe.Checkout.Session) => {
+  const paymentIntent = session.payment_intent;
+  const charge = paymentIntent && typeof paymentIntent === 'object' ? paymentIntent.latest_charge : undefined;
+  return charge && typeof charge === 'object' ? charge.created : session.created;
+};
+
 // Avisa a Mar y a la familia en cuanto Stripe confirma el pago, aunque la familia no
 // vuelva a la web. Si algo falla responde 500 y Stripe reintenta; las claves de
 // idempotencia evitan correos duplicados.
@@ -28,7 +35,7 @@ export const handlePaidConsultation = async (
   let session: Stripe.Checkout.Session;
   let lineItems: Stripe.ApiList<Stripe.LineItem>;
   try {
-    session = await stripe.checkout.sessions.retrieve(sessionId);
+    session = await stripe.checkout.sessions.retrieve(sessionId, { expand: ['payment_intent.latest_charge'] });
     lineItems = await stripe.checkout.sessions.listLineItems(sessionId, { limit: 2 });
   } catch (error: unknown) {
     console.error('Consultation session retrieval error:', reference, error instanceof Error ? error.name : 'UnknownError');
@@ -48,7 +55,7 @@ export const handlePaidConsultation = async (
     dateStyle: 'long',
     timeStyle: 'short',
     timeZone: 'Europe/Madrid',
-  }).format(new Date(session.created * 1000));
+  }).format(new Date(getPaidAt(session) * 1000));
 
   let formURL: URL;
   try {
@@ -68,12 +75,20 @@ export const handlePaidConsultation = async (
       text: `Se ha pagado una consulta por correo.\n\nReferencia: ${consultaRef}\nEmail de la familia: ${familyEmail}\nPago: ${paidAt}\n\nCuando la familia envíe su caso te llegará otro correo con esta misma referencia. Si en 24 horas no ha llegado, puedes escribirle tú primero respondiendo a este correo.`,
     }, { idempotencyKey: `consulta-aviso-mar-${session.id}` });
 
-    // TODO(Mar): texto provisional.
     const toFamily = await resend.emails.send({
       from: sender,
       to: familyEmail,
       subject: `He recibido tu pago (${consultaRef}) — Pomelo Baby`,
       text: `Hola,\n\nHe recibido el pago de tu consulta por correo. Tu referencia es ${consultaRef}.\n\nSi todavía no me has contado tu caso, puedes hacerlo aquí:\n${formURL.toString()}\n\nSi ya lo has enviado, no tienes que hacer nada más: te respondo en 24-48 horas laborables.\n\nMar · Pomelo Baby`,
+      // Recuadro coral con letras blancas, como los CTA de la web.
+      html: `
+        <p>Hola,</p>
+        <p>He recibido el pago de tu consulta por correo. Tu referencia es <strong>${consultaRef}</strong>.</p>
+        <p>Si todavía no me has contado tu caso, puedes hacerlo aquí:</p>
+        <p><a href="${formURL.toString()}" style="display:inline-block;padding:12px 22px;background:#EF6E71;color:#FFFFFF;text-decoration:none;border-radius:8px;font-weight:600;">Contar mi caso</a></p>
+        <p>Si ya lo has enviado, no tienes que hacer nada más: te respondo en 24-48 horas laborables.</p>
+        <p>Mar · Pomelo Baby</p>
+      `,
     }, { idempotencyKey: `consulta-pago-familia-${session.id}` });
 
     if (toMar.error || toFamily.error) {

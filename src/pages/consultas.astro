@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { CONSULTATIONS_ENABLED } from '../data/consultas';
+import { CONSULTA_CORREO_PAUSADA, CONSULTATIONS_ENABLED } from '../data/consultas';
 
 const CAL_USERNAME = 'pomelo-bby';
 const CAL_EXPRESS_SLUG = 'consulta-express';
@@ -58,7 +58,12 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
               <li class="checklist--yes">Podrás releer mi respuesta cuando lo necesites.</li>
             </ul>
             <div class="consulta-card__footer">
-              {CONSULTATIONS_ENABLED ? (
+              {CONSULTATIONS_ENABLED && CONSULTA_CORREO_PAUSADA ? (
+                <>
+                  <span class="btn btn--disabled" aria-disabled="true">Consultar por correo</span>
+                  <p class="consulta-card__aviso">Ahora mismo no estoy atendiendo consultas por correo. Vuelve a intentarlo en unos días.</p>
+                </>
+              ) : CONSULTATIONS_ENABLED ? (
                 <button class="btn btn--primary" id="btn-consulta-mensaje">Consultar por correo</button>
                 <p class="consulta-card__aviso" id="consulta-mensaje-aviso" role="status" tabindex="-1" hidden></p>
               ) : (

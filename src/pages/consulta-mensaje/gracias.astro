@@ -60,7 +60,6 @@ const consultaEmail = import.meta.env.RESEND_CONSULTA_TO_EMAIL ?? '';
 
       {status === 'unchecked' ? (
       <div class="consulta-form__wrapper consulta-form__unchecked" role="alert">
-        {/* TODO(Mar): texto provisional. */}
         <p>No he podido comprobar tu pago ahora mismo. No te preocupes: si has pagado, ya tienes en tu correo un enlace para volver aquí.</p>
         <a href={url.pathname + url.search} class="btn btn--primary">Volver a intentarlo</a>
       </div>
@@ -108,7 +107,6 @@ const consultaEmail = import.meta.env.RESEND_CONSULTA_TO_EMAIL ?? '';
 
           <p class="form__privacy"><strong>Privacidad:</strong> Piel de Pomelo S.L.P tratará tus datos y los del niño o niña para prestar la consulta de enfermería. Al enviarlos confirmas que eres su representante legal o que tienes autorización. Puedes consultar destinatarios, conservación y derechos en la <a href="/proteccion-datos" target="_blank" rel="noopener">política de privacidad</a>.</p>
 
-          {/* TODO(Mar): texto provisional. */}
           <p class="form__help">Te responderé al email con el que has pagado.</p>
 
           <p class="form__message" data-consulta-message aria-live="polite" tabindex="-1" hidden={!hasSubmitError}>{hasSubmitError && 'No se pudo enviar tu caso. Revisa los campos e inténtalo de nuevo.'}</p>
@@ -119,7 +117,6 @@ const consultaEmail = import.meta.env.RESEND_CONSULTA_TO_EMAIL ?? '';
         </form>
 
         <div class="consulta-fallback" data-consulta-fallback data-reference={reference} hidden>
-          {/* TODO(Mar): texto provisional. */}
           <p>No he podido recibir tu caso desde la web. Para que no se pierda, cópialo y envíamelo por correo{consultaEmail && <> a <strong>{consultaEmail}</strong></>}.</p>
           <label for="consulta-copia">Tu caso</label>
           <textarea id="consulta-copia" rows="10" readonly data-consulta-copy></textarea>
