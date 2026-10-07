@@ -107,7 +107,10 @@ const maintenanceMode = import.meta.env.MAINTENANCE_MODE === 'true' &&
         group?.classList.remove('is-invalid');
         group?.querySelector('.form-validation-error')?.remove();
         field.removeAttribute('aria-invalid');
-        field.removeAttribute('aria-describedby');
+        // Solo quita la referencia al error: un campo puede tener su propio texto de ayuda.
+        if (field.getAttribute('aria-describedby') === `${field.id || field.name}-error`) {
+          field.removeAttribute('aria-describedby');
+        }
       };
 
       const validationMessage = (field: ValidatedField) => {

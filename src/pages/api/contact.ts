@@ -51,6 +51,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   let nombre: string | undefined;
   let email: string | undefined;
+  let telefono: string | undefined;
   let mensaje: string | undefined;
   let motivo: string | undefined;
   let honeypot: string | undefined;
@@ -60,6 +61,7 @@ export const POST: APIRoute = async ({ request }) => {
       const body = await request.json();
       nombre = typeof body.nombre === 'string' ? body.nombre : undefined;
       email = typeof body.email === 'string' ? body.email : undefined;
+      telefono = typeof body.telefono === 'string' ? body.telefono : undefined;
       mensaje = typeof body.mensaje === 'string' ? body.mensaje : undefined;
       motivo = typeof body.motivo === 'string' ? body.motivo : undefined;
       honeypot = typeof body.website === 'string' ? body.website : undefined;
@@ -67,6 +69,7 @@ export const POST: APIRoute = async ({ request }) => {
       const formData = await request.formData();
       nombre = formData.get('nombre')?.toString();
       email = formData.get('email')?.toString();
+      telefono = formData.get('telefono')?.toString();
       mensaje = formData.get('mensaje')?.toString();
       motivo = formData.get('motivo')?.toString();
       honeypot = formData.get('website')?.toString();
@@ -82,11 +85,12 @@ export const POST: APIRoute = async ({ request }) => {
 
   nombre = nombre?.trim();
   email = email?.trim().toLowerCase();
+  telefono = telefono?.trim();
   mensaje = mensaje?.trim();
 
   const motivoLabel = motivo && Object.hasOwn(MOTIVOS, motivo) ? MOTIVOS[motivo] : undefined;
 
-  if (!motivoLabel || !nombre || nombre.length > 100 || !email || email.length > 254 || !EMAIL_REGEX.test(email) || !mensaje || mensaje.length > 5000) {
+  if (!motivoLabel || !nombre || nombre.length > 100 || !email || email.length > 254 || !EMAIL_REGEX.test(email) || (telefono && telefono.length > 30) || !mensaje || mensaje.length > 5000) {
     return fail(400, 'Revisa los campos del formulario.');
   }
 
@@ -96,7 +100,7 @@ export const POST: APIRoute = async ({ request }) => {
       to: toEmail,
       replyTo: email,
       subject: `[${motivoLabel}] Nuevo mensaje de ${nombre.replace(/\s+/g, ' ')} — Pomelo Baby`,
-      text: `Nuevo mensaje desde la web\n\nMotivo: ${motivoLabel}\nNombre: ${nombre}\nEmail: ${email}\n\nMensaje:\n${mensaje}`,
+      text: `Nuevo mensaje desde la web\n\nMotivo: ${motivoLabel}\nNombre: ${nombre}\nEmail: ${email}${telefono ? `\nTeléfono de contacto: ${telefono}` : ''}\n\nMensaje:\n${mensaje}`,
     });
 
     if (error) {

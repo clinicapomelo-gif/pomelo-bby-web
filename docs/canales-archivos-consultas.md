@@ -2,7 +2,7 @@
 
 ## Estado
 
-**Decisión pendiente.** Tresorit Send es el primer candidato para una prueba de usabilidad, pero todavía no se considera el canal aprobado.
+**Sustituido por el [ADR 0004](adr/0004-whatsapp-business-para-consultas.md)** (7 oct 2026): fotos y vídeos por WhatsApp Business con la opción «ver una vez», sin conservarlos; Mar describe en Clinic lo que ve. Este documento se mantiene como referencia por si la asesoría exige conservar las imágenes; en ese caso, Tresorit Send era el primer candidato.
 
 Este documento compara alternativas para los casos en los que Mar, después de leer una consulta pagada, necesite solicitar una fotografía o un vídeo. Las familias no deben enviar archivos de forma preventiva.
 
@@ -199,7 +199,8 @@ Inconvenientes:
 ## Opciones descartadas como canal oficial
 
 - Adjuntos por email: dejan copias en varios buzones, redirecciones, dispositivos y copias de seguridad.
-- WhatsApp o Instagram: mezclan el canal profesional con mensajería general, dificultan la conservación y pueden generar expectativas de atención urgente.
+- Instagram: mezcla el canal profesional con mensajería general, dificulta la conservación y puede generar expectativas de atención urgente.
+- WhatsApp quedó descartado por los mismos motivos hasta que Pomelo Baby tuvo un número propio. Desde el 7 oct 2026 es el canal de consultas, con las condiciones del [ADR 0004](adr/0004-whatsapp-business-para-consultas.md).
 - Enlaces públicos de Drive: cualquier persona con el enlace podría acceder.
 - Subidas preventivas: recogen datos que quizá Mar no necesita.
 
