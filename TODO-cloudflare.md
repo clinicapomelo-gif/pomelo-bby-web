@@ -25,7 +25,7 @@ La web corre en **Cloudflare Workers**, el equivalente a las funciones de Vercel
 | `pomelo-bby-web-preview` | Las demás | Sandbox | `pomelo-bby-web-preview.<subdominio>.workers.dev`, con `noindex` |
 
 - Se separaron en dos Workers porque las versiones de un mismo Worker comparten secretos: así la preview nunca ve claves Live.
-- **Cambio de Cloudflare (1 oct 2026):** los Workers nuevos usan [Worker Previews](https://developers.cloudflare.com/workers/previews/) para las ramas que no son la de producción: `npx wrangler preview`, con variables, secretos y bindings propios (no heredan los de producción) y `noindex` en `workers.dev`. Con ellas, el motivo de tener dos Workers desaparece. **Decisión pendiente:**
+- **Cambio de Cloudflare (1 oct 2026):** los Workers nuevos usan [Worker Previews](https://developers.cloudflare.com/workers/previews/) para las ramas que no son la de producción: `npx wrangler preview`, con variables, secretos y bindings propios (no heredan los de producción) y `noindex` en `workers.dev`. Con ellas, el motivo de tener dos Workers desaparece. **Decidido el 8 oct: opción (a).**
   - **(a) Mantener los dos Workers** con la configuración documentada para entornos ([Advanced setups](https://developers.cloudflare.com/workers/ci-cd/builds/advanced-setups/#wrangler-environments)): conectar el repositorio a cada Worker por separado. Sin cambios de código. Recomendado para migrar ya.
   - **(b) Un solo Worker con Worker Previews:** bloque `previews` en `wrangler.jsonc` y secretos de Sandbox para las previews. Más simple a largo plazo, pero sin probar con el adaptador de Astro (requiere Wrangler 4.135 o superior; el proyecto tiene 4.146).
 - Construir sin entorno genera `pomelo-bby-web-dev`, solo para local: nunca pisa producción.
@@ -59,7 +59,7 @@ La web corre en **Cloudflare Workers**, el equivalente a las funciones de Vercel
 
 ## 2. Preview en internet (no afecta a Vercel ni a pomelobaby.es)
 
-- [ ] 5. **[Rafael + Dev]** Cloudflare → Workers & Pages → conectar el repositorio de GitHub (Workers Builds), según la opción elegida arriba:
+- [ ] 5. **[Rafael + Dev]** Cloudflare → Workers & Pages → conectar el repositorio de GitHub (Workers Builds) con la opción (a); la (b) queda como referencia:
   - **(a) Dos Workers:** conectar el repositorio a cada uno. En `pomelo-bby-web`: rama de producción `main`, build `npm run build:cf`, deploy `npx wrangler deploy` y **Preview builds desactivadas**. En `pomelo-bby-web-preview`: rama de producción, la rama de pruebas (hoy `cloudflare`), el mismo build y deploy, y Preview builds desactivadas. `build:cf` elige el entorno por la rama (`WORKERS_CI_BRANCH`).
   - **(b) Worker Previews:** un solo Worker con rama de producción `main`, deploy `npx wrangler deploy` y Preview command `npx wrangler preview`; antes, adaptar `wrangler.jsonc` y probarlo.
   - Ya no hace falta `NODE_VERSION`: Node 24 es el predeterminado de la imagen de build ([Build image](https://developers.cloudflare.com/workers/ci-cd/builds/build-image)).
