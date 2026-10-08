@@ -12,7 +12,8 @@ export default defineConfig({
   redirects: {
     '/tienda': '/guias',
     '/tienda/gracias': '/guias/gracias',
-    '/tienda/[id]': '/guias/[id]',
+    // /tienda/:id va en public/_redirects: aquí Astro genera una regla duplicada que
+    // Cloudflare rechaza al desplegar, y además con un salto de más a /index.html.
   },
   markdown: { syntaxHighlight: false },
   // Sin sesiones ni astro:assets: evita los bindings KV (SESSION) e Images.
