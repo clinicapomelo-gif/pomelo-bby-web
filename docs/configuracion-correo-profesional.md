@@ -2,7 +2,7 @@
 
 ## Decisión inicial
 
-Usaremos el plan **Mini de DonDominio** con dos buzones: `hola@pomelobaby.es` para contacto general y `mar@pomelobaby.es` para consultas pagadas. El alias `chisme@pomelobaby.es` redirige a `mar@pomelobaby.es`. En una fase posterior, ambos buzones redirigirán los mensajes a una cuenta de Gmail dedicada exclusivamente a Pomelo Baby.
+Usaremos el plan **Mini de DonDominio** con dos buzones: `hola@pomelobaby.es` para contacto general y `mar@pomelobaby.es` para consultas pagadas. `chisme@pomelobaby.es` es un tercer buzón (no un alias). Desde el 8 oct 2026, `hola@` y `mar@` se reenvían sin copia al Gmail de Pomelo (ver «Gmail»).
 
 No hace falta Google Workspace para esta configuración. DonDominio recibe el correo y proporciona el SMTP; Gmail se utilizará más adelante como bandeja de entrada. Resend envía los correos automáticos desde `mar@pomelobaby.es` y El Chisme desde `chisme@pomelobaby.es`.
 
@@ -33,15 +33,26 @@ Web → Resend desde chisme@pomelobaby.es → El Chisme y su doble confirmación
 
 El espacio web incluido no se utilizará. La web permanece alojada en Vercel.
 
-## Configuración futura en Gmail
+## Gmail (hecho el 8 oct 2026)
 
-1. Activar 2FA en la cuenta dedicada.
-2. Ir a **Configuración → Cuentas e importación → Enviar como**.
-3. Añadir `hola@pomelobaby.es` y `mar@pomelobaby.es`.
-4. Configurar cada dirección con su propio usuario y contraseña SMTP de DonDominio.
-5. Completar las verificaciones recibidas mediante las redirecciones.
-6. Configurar Gmail para responder desde la misma dirección a la que llegó el mensaje.
-7. Enviar pruebas y comprobar que el remitente visible es el correcto y que las respuestas vuelven correctamente.
+Los buzones `hola@` y `mar@` se leen y se responden desde el Gmail de Pomelo (`clinicapomelo@gmail.com`).
+
+**Reenvío sin copia (DonDominio):** en el WebMail de cada buzón, Configuración → Filtros, un filtro «Reenviar a gmail» con ámbito «todos los mensajes» y una sola acción, «Redirigir mensaje a» el Gmail. Sin la acción «Copiar mensaje a», el correo reenviado se borra del servidor ([ayuda de DonDominio](https://www.dondominio.com/es/help/228/crear-reenvio-correos-desde-webmail/)). Los filtros van dentro de un conjunto (`roundcube`) que tiene que estar activo. Los buzones no se borran: reciben el correo y su contraseña es la del envío.
+
+**Filtros en Gmail:** `Para: hola@pomelobaby.es` y `Para: mar@pomelobaby.es` con «No enviarlo nunca a Spam» y sus etiquetas. Como no queda copia en DonDominio, un mensaje que acabara en spam podría perderse.
+
+**Enviar como** (Gmail → Cuentas e importación → Enviar correo como), una entrada por buzón, «Tratar como un alias»:
+
+| Campo | Valor |
+| --- | --- |
+| Servidor SMTP | `smtp.dondominio.com` |
+| Puerto y seguridad | `465`, SSL |
+| Usuario | la dirección completa (`hola@pomelobaby.es`, `mar@pomelobaby.es`) |
+| Contraseña | la del buzón |
+
+No usar `mailsrv1.dondominio.com` (al que apunta `smtp.pomelobaby.es`): tiene un certificado autofirmado y Gmail lo rechaza, aunque lo muestra como «Error de autenticación». Activar «Responder desde la misma dirección a la que se envió el mensaje».
+
+**Pendiente:** `chisme@pomelobaby.es` es un tercer buzón, no un alias, y no tiene reenvío: lo que llegue ahí se queda en DonDominio. Configurarlo igual cuando se active El Chisme.
 
 Las contraseñas y códigos de verificación no deben guardarse en Git ni compartirse por chat.
 
@@ -56,7 +67,7 @@ Resend y el buzón cumplen funciones diferentes:
 
 Los registros de Resend bajo `send.pomelobaby.es` pueden convivir con los registros de correo de DonDominio en el dominio principal.
 
-Cuando el dominio esté verificado, configurar en Vercel:
+Cuando el dominio esté verificado, configurar como secretos del Worker:
 
 ```text
 RESEND_FROM_EMAIL="Mar de Pomelo Baby <mar@pomelobaby.es>"
