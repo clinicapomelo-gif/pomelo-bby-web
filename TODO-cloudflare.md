@@ -1,6 +1,8 @@
 # TODO — Migración de Vercel a Cloudflare
 
-Objetivo: dejar Vercel, porque el plan Hobby no permite uso comercial. Última revisión: 2 oct 2026.
+Objetivo: dejar Vercel, porque el plan Hobby no permite uso comercial. Última revisión: 8 oct 2026, con cada punto contrastado en la documentación oficial y en el DNS real.
+
+**Urgencia:** Vercel considera comercial cualquier despliegue que busque un beneficio económico de quien participa en el proyecto, y pone como ejemplo «anunciar la venta de un producto o servicio», no solo cobrar ([Fair Use Guidelines](https://vercel.com/docs/limits/fair-use-guidelines)). Una web de empresa que presenta consultas y guías, aunque estén en «Próximamente», está como mínimo en zona gris: migrar cuanto antes.
 
 **Estado:** el código está terminado y probado en local en la rama `cloudflare`, que no está subida a GitHub. Probado en local:
 - compra completa: pago, webhook, un solo correo y descarga desde R2;
@@ -11,6 +13,8 @@ Ya existen la cuenta de Cloudflare (clinicapomelo@gmail.com), el bucket R2 `pome
 
 Para retomarlo: `git checkout cloudflare && npm ci`. La rama usa Astro 7.3.5 y el adaptador de Cloudflare; `main` sigue con Vercel.
 
+**Antes de subir la rama:** traer `main` (teléfono en Contacto, E3 de la consulta por correo y plantilla de correos, del 7 y 8 oct) y adaptar los archivos nuevos a cómo se leen las variables en Workers: `process.env` en lugar de `import.meta.env`, y `APP_ENV` en lugar de `VERCEL_ENV` (`src/lib/consulta-webhook.ts`, `src/pages/api/consulta-mensaje.ts`, `src/pages/api/checkout-consulta.ts` y `src/pages/consulta-mensaje/gracias.astro`).
+
 ## Los Workers
 
 La web corre en **Cloudflare Workers**, el equivalente a las funciones de Vercel, que también sirve los archivos estáticos. Hay dos, definidos en `wrangler.jsonc`:
@@ -20,10 +24,14 @@ La web corre en **Cloudflare Workers**, el equivalente a las funciones de Vercel
 | `pomelo-bby-web` | `main` | Live | `pomelobaby.es`; `*.workers.dev` solo hasta el cambio |
 | `pomelo-bby-web-preview` | Las demás | Sandbox | `pomelo-bby-web-preview.<subdominio>.workers.dev`, con `noindex` |
 
-- Son dos Workers separados porque las versiones de un mismo Worker comparten secretos: así la preview nunca ve claves Live.
+- Se separaron en dos Workers porque las versiones de un mismo Worker comparten secretos: así la preview nunca ve claves Live.
+- **Cambio de Cloudflare (1 oct 2026):** los Workers nuevos usan [Worker Previews](https://developers.cloudflare.com/workers/previews/) para las ramas que no son la de producción: `npx wrangler preview`, con variables, secretos y bindings propios (no heredan los de producción) y `noindex` en `workers.dev`. Con ellas, el motivo de tener dos Workers desaparece. **Decisión pendiente:**
+  - **(a) Mantener los dos Workers** con la configuración documentada para entornos ([Advanced setups](https://developers.cloudflare.com/workers/ci-cd/builds/advanced-setups/#wrangler-environments)): conectar el repositorio a cada Worker por separado. Sin cambios de código. Recomendado para migrar ya.
+  - **(b) Un solo Worker con Worker Previews:** bloque `previews` en `wrangler.jsonc` y secretos de Sandbox para las previews. Más simple a largo plazo, pero sin probar con el adaptador de Astro (requiere Wrangler 4.135 o superior; el proyecto tiene 4.146).
 - Construir sin entorno genera `pomelo-bby-web-dev`, solo para local: nunca pisa producción.
 - **Plan gratuito de Workers:**
-  - 100.000 peticiones dinámicas al día; las páginas estáticas no cuentan.
+  - 100.000 peticiones dinámicas al día, que se reinician a medianoche UTC; las páginas estáticas no cuentan y son ilimitadas.
+  - Ráfagas de hasta 1.000 peticiones por minuto.
   - 10 ms de CPU por petición, sin contar la espera de red.
   - 50 llamadas externas por petición.
   - Si no basta, el plan de pago cuesta 5 $/mes.
@@ -31,14 +39,15 @@ La web corre en **Cloudflare Workers**, el equivalente a las funciones de Vercel
 
 ## Tiempos a tener en cuenta
 
-- **Despliegue:** cada push tarda **unos 3–5 minutos** en estar publicado en Workers Builds: cola, `npm ci`, tests, `astro check` y build. En Vercel era parecido. Cambiar un secreto (`wrangler secret put`) es inmediato y no necesita build. Activar el modo mantenimiento sí necesita build, porque va en `wrangler.jsonc`.
+- **Despliegue:** cada push tarda **unos 3–5 minutos** (estimación propia; Cloudflare no publica una cifra) en estar publicado en Workers Builds: cola, `npm ci`, tests, `astro check` y build. En Vercel era parecido. Cambiar un secreto (`wrangler secret put`) es inmediato y no necesita build. Activar el modo mantenimiento sí necesita build, porque va en `wrangler.jsonc`.
 - **Propagación del DNS:**
-  - Bajar el TTL a 300 s en DonDominio solo sirve si se hace **48 h antes**, para que caduque el TTL antiguo.
-  - El cambio de **nameservers** lo publica el registro `.es` y puede tardar **de unas horas a 24–48 h**. Mientras tanto, unas personas verán Vercel y otras Cloudflare.
+  - **No hace falta bajar el TTL:** el 8 oct los registros de `pomelobaby.es` en DonDominio ya tenían 60 s (comprobado con los resolutores de Google y Cloudflare). Además, el TTL de los registros no controla la delegación de nameservers, que publica el registro `.es`.
+  - Según varios proveedores, el `.es` publica los cambios de nameservers **6 veces al día: 02, 06, 10, 14, 18 y 22 h** ([BlumHost](https://blumhost.net/blog/hora-actualizacion-dns-dominios-es/), [ProfesionalHosting](https://www.profesionalhosting.com/blog/dominios/actualizacion-dns-dominios-frecuencia/)); la guía oficial de dominios.es no lo dice. Un cambio a las 11:00 se publica a las 14:00.
+  - Después, la propagación puede tardar **de unas horas a 24 h** (Cloudflare: «hasta 24 horas»). Mientras tanto, unas personas verán Vercel y otras Cloudflare.
   - Por eso los dos sitios deben funcionar a la vez, con las mismas claves Live. Los webhooks de Stripe pueden llegar a cualquiera de los dos; no hay correos duplicados porque la entrega es idempotente.
   - El correo sigue funcionando solo si **todos los registros de correo ya están copiados en Cloudflare antes** de cambiar los nameservers.
-- **Certificado HTTPS:** al conectar `pomelobaby.es` al Worker, Cloudflare emite el certificado en unos minutos (puede llegar a 15–30). Mientras tanto, HTTPS puede fallar.
-- **Ventana del cambio:** un día entre semana por la mañana, nunca en viernes, con unas 2 horas libres para comprobar. No hay que tocar nada más del DNS hasta 48 h después.
+- **Certificado HTTPS:** al conectar `pomelobaby.es` al Worker, Cloudflare emite el certificado en segundos o pocos minutos ([Custom Domains](https://blog.cloudflare.com/custom-domains-for-workers)). Mientras tanto, HTTPS puede fallar.
+- **Ventana del cambio:** un día entre semana, nunca en viernes, con unas 2 horas libres para comprobar. Cambiar los nameservers antes de una ventana del `.es` (por ejemplo, antes de las 10:00 o las 14:00) para tener la tarde para revisar. No hay que tocar nada más del DNS hasta 48 h después.
 - **Vuelta atrás:** apuntar el dominio otra vez a Vercel desde el DNS de Cloudflare tarda los 5 minutos del TTL. Funciona mientras Vercel no se borre: el paso 20 va siempre una semana después.
 
 ## 1. Decidir y preparar (sin publicar nada)
@@ -50,11 +59,10 @@ La web corre en **Cloudflare Workers**, el equivalente a las funciones de Vercel
 
 ## 2. Preview en internet (no afecta a Vercel ni a pomelobaby.es)
 
-- [ ] 5. **[Rafael + Dev]** Cloudflare → Workers & Pages → conectar el repositorio de GitHub (Workers Builds):
-  - comando de build `npm run build:cf`;
-  - comando de deploy `npx wrangler deploy`, también para las ramas que no son de producción (no `versions upload`);
-  - variable de build `NODE_VERSION=24`;
-  - rama de producción `main`.
+- [ ] 5. **[Rafael + Dev]** Cloudflare → Workers & Pages → conectar el repositorio de GitHub (Workers Builds), según la opción elegida arriba:
+  - **(a) Dos Workers:** conectar el repositorio a cada uno. En `pomelo-bby-web`: rama de producción `main`, build `npm run build:cf`, deploy `npx wrangler deploy` y **Preview builds desactivadas**. En `pomelo-bby-web-preview`: rama de producción, la rama de pruebas (hoy `cloudflare`), el mismo build y deploy, y Preview builds desactivadas. `build:cf` elige el entorno por la rama (`WORKERS_CI_BRANCH`).
+  - **(b) Worker Previews:** un solo Worker con rama de producción `main`, deploy `npx wrangler deploy` y Preview command `npx wrangler preview`; antes, adaptar `wrangler.jsonc` y probarlo.
+  - Ya no hace falta `NODE_VERSION`: Node 24 es el predeterminado de la imagen de build ([Build image](https://developers.cloudflare.com/workers/ci-cd/builds/build-image)).
   - Si falta el subdominio `workers.dev`, abrir una vez Workers & Pages en el panel.
 - [ ] 6. **[Rafael]** Vercel → Settings → Git → Ignored Build Step: que no construya la rama `cloudflare`.
 - [ ] 7. **[Dev]** Subir la rama `cloudflare`. Se publica `pomelo-bby-web-preview` en `*.workers.dev`; tarda unos 5 minutos.
@@ -67,10 +75,10 @@ La web corre en **Cloudflare Workers**, el equivalente a las funciones de Vercel
   - que Mar la vea.
 - [ ] 10. **[Dev]** En Workers → Logs, comprobar que el webhook y las páginas de gracias usan **menos de 10 ms de CPU**, el límite del plan gratuito. Si no, valorar el plan de pago (5 $/mes).
 
-## 3. Preparar producción (48 h antes del cambio)
+## 3. Preparar producción (se puede hacer el mismo día del cambio)
 
 - [ ] 11. **[Dev]** Secretos **Live** en `pomelo-bby-web`, los mismos que tiene hoy Vercel Production. Comprobar con `npx wrangler secret list --env production`.
-- [ ] 12. **[Rafael]** DonDominio: bajar el TTL de todos los registros a 300 s. **Tiene que ser 48 h antes.**
+- [x] 12. ~~DonDominio: bajar el TTL 48 h antes.~~ No hace falta: el 8 oct los registros ya tenían 60 s. Solo comprobar que siguen igual el día del cambio.
 - [ ] 13. **[Rafael + Dev]** Añadir `pomelobaby.es` a Cloudflare (plan Free) **sin cambiar aún los nameservers**. Revisar uno a uno los registros importados con la tabla de `docs/migracion-cloudflare.md`:
   - MX y SPF de DonDominio;
   - Search Console;
@@ -89,7 +97,7 @@ La web corre en **Cloudflare Workers**, el equivalente a las funciones de Vercel
 - [ ] 18. **[Dev]**
   - Quitar los registros A y CNAME de Vercel y añadir `pomelobaby.es` como Custom Domain del Worker. Esperar al certificado.
   - Redirect Rule 301 de `www` al dominio principal.
-  - Regla de WAF de límite de envíos, **sin `/api/webhook`**.
+  - Regla de WAF de límite de envíos, **sin `/api/webhook`**. En el plan gratuito solo hay 1 regla, ventana y bloqueo de 10 s, por IP, y la condición **solo puede usar la ruta** (no el método POST): poner la lista de rutas de `AGENTS.md`, que solo reciben POST ([Rate limiting](https://developers.cloudflare.com/waf/rate-limiting-rules/)).
   - Commit con `"workers_dev": false` en producción.
 - [ ] 19. **[Rafael + Dev]** Comprobar:
   - la web y `www`;
