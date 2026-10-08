@@ -8,7 +8,7 @@ Antes de cambiar comportamiento de negocio, consulta `CONTEXT.md` y los ADR de `
 
 ## Comandos
 
-Requiere Node.js 22.19 o superior (`engines`). **Se construye con Node.js 24** (local y Workers Builds, `NODE_VERSION=24`). En producción la web no corre en Node sino en el runtime de Workers (workerd) con `nodejs_compat`: Stripe, Resend y `node:crypto` funcionan (probado), pero no uses APIs de Node sin comprobarlas con `wrangler dev`.
+Requiere Node.js 22.19 o superior (`engines`). **Se construye con Node.js 24** (local y Workers Builds, donde ya es la versión predeterminada). En producción la web no corre en Node sino en el runtime de Workers (workerd) con `nodejs_compat`: Stripe, Resend y `node:crypto` funcionan (probado), pero no uses APIs de Node sin comprobarlas con `wrangler dev`.
 
 ```bash
 npm install
@@ -73,7 +73,7 @@ Como rasgo identitario heredado de Instagram, los recuadros en Coral Pomelo llev
 
 ### Entornos Stripe y guías
 
-No hace falta una rama `develop`: cualquier rama distinta de `main` despliega el Worker de Preview (`pomelo-bby-web-preview`); `main` despliega Production (`pomelo-bby-web`). Son Workers separados porque las versiones de un mismo Worker comparten secretos: así Preview nunca ve claves Live. `npm run build:cf` elige el entorno según `WORKERS_CI_BRANCH`.
+`main` despliega Production (`pomelo-bby-web`) y la rama de pruebas configurada en Workers Builds despliega el Worker de Preview (`pomelo-bby-web-preview`). Son Workers separados, cada uno conectado al repositorio por su cuenta, para que Preview nunca vea claves Live; se decidió mantenerlos (8 oct 2026) en lugar de usar Worker Previews (ver `TODO-cloudflare.md`). `npm run build:cf` elige el entorno según `WORKERS_CI_BRANCH`.
 
 - **Development:** usa Sandbox. `STRIPE_CATALOG_KEY` restringida `rk_test_...` en `.env` y sesión de `npx wrangler login` para R2. En local, R2 es simulado y empieza vacío (ver `wrangler.jsonc`). No necesita ni debe usar claves Live para desarrollar o probar compras.
 - **Preview:** usa Sandbox. `STRIPE_SECRET_KEY=sk_test_...` y `STRIPE_WEBHOOK_SECRET=whsec_...` del mismo Sandbox.
@@ -101,7 +101,7 @@ La provisión solo admite claves `rk_test_`, valida el PDF indicado, pide `APLIC
 - **Cloudflare:** cuenta de clinicapomelo@gmail.com. Workers `pomelo-bby-web` (Production, rama `main`) y `pomelo-bby-web-preview` (otras ramas), desplegados por Workers Builds desde GitHub. Configuración en `wrangler.jsonc`; secretos con `npx wrangler secret put <NOMBRE> --env production|preview`. Las cabeceras de seguridad están en `public/_headers` (estáticos) y en `src/middleware.ts` (respuestas del Worker): si cambias una, cambia las dos.
 - **Opciones de Cloudflare que deben estar desactivadas en la zona:** Email Address Obfuscation (rompe el CSP y oculta los emails), Rocket Loader, Bot Fight Mode (puede bloquear los webhooks de Stripe) y la inyección automática de Web Analytics.
 - **Condiciones de venta con `noindex`:** `src/pages/condiciones-venta.astro` lleva `noindex={true}` porque su texto es un placeholder. **Quitarlo al publicar las Condiciones reales**, o Google no las mostrará. Lo mismo para cualquier página legal provisional.
-- **Límite de envíos (WAF de Cloudflare, plan Free: 1 regla de rate limit, periodo de 10 s):** se aplica a POST en `/api/contact`, `/api/subscribe`, `/api/consulta-mensaje`, `/api/checkout` y `/api/checkout-consulta`. **Nunca incluir `/api/webhook`**: Stripe debe poder entregar los pagos.
+- **Límite de envíos (WAF de Cloudflare, plan Free: 1 regla de rate limit, periodo de 10 s):** se aplica por ruta a `/api/contact`, `/api/subscribe`, `/api/consulta-mensaje`, `/api/checkout` y `/api/checkout-consulta`. El plan Free no deja filtrar por método; son rutas que solo reciben POST. **Nunca incluir `/api/webhook`**: Stripe debe poder entregar los pagos.
 - **Dominio y correo:** `pomelobaby.es` se compró en **DonDominio**, que sigue siendo el registrador y aloja el correo; el DNS está en Cloudflare. Los registros de correo (MX, SPF, DKIM, DMARC y los de Resend) van siempre en «DNS only». Consulta `docs/configuracion-correo-profesional.md` antes de cambiar registros DNS, MX o SMTP.
 - **Resend:** gestiona correo transaccional y El Chisme. La configuración de dominios, Segmento, Topic, propiedades, Broadcasts y bajas está en `docs/configuracion-resend.md`; el diseño del doble opt-in está en `docs/arquitectura-doble-opt-in.md`.
 - **Stripe y R2:** el flujo de las guías de pago está documentado en `docs/guias-de-pago.md`. No cambies precios, webhooks ni rutas privadas sin revisar ese documento.

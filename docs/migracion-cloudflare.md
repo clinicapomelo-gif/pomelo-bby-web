@@ -7,7 +7,7 @@ Paso a paso para pasar `pomelobaby.es` de Vercel a Cloudflare Workers. El códig
 - [ ] Decisión tomada por Mar y Rafael, y Mar avisada de la ventana del cambio.
 - [ ] Privacidad y Cookies con el texto de Cloudflare, aprobado por Mar y el gestor, en la rama.
 - [ ] Rama `cloudflare` al día con `main` (`git merge main`) y `npm run build` sin errores.
-- [ ] Workers Builds conectado al repositorio: comando de build `npm run build:cf`, comando de deploy `npx wrangler deploy` también para ramas que no son de producción (no `versions upload`), variable de build `NODE_VERSION=24`.
+- [ ] Workers Builds conectado al repositorio en cada Worker (opción (a) de `TODO-cloudflare.md`): build `npm run build:cf`, deploy `npx wrangler deploy` y Preview builds desactivadas. `pomelo-bby-web` con rama de producción `main`; `pomelo-bby-web-preview` con la rama de pruebas. Node 24 ya es el predeterminado.
 - [ ] Secretos del Worker `pomelo-bby-web-preview` con las claves de **Sandbox** y un webhook de Sandbox que apunte a su URL `*.workers.dev`.
 - [ ] Preview probada:
   - compra de cada guía, con correo y descarga;
@@ -20,7 +20,7 @@ Paso a paso para pasar `pomelobaby.es` de Vercel a Cloudflare Workers. El códig
 
 ## 48 horas antes
 
-- [ ] En DonDominio, bajar el TTL de todos los registros a 300 s.
+- [x] TTL de los registros en DonDominio: ya está en 60 s (comprobado el 8 oct 2026), no hace falta bajarlo.
 - [ ] Añadir `pomelobaby.es` a Cloudflare (plan Free) **sin cambiar todavía los nameservers**, y revisar que la importación ha copiado estos registros. En la columna Proxy, «DNS only» significa la nube gris.
 
 | Nombre | Tipo | Para qué | Proxy |
@@ -52,7 +52,7 @@ Valores: copiarlos del panel de DonDominio, no de este documento.
 3. **Cambiar los nameservers en DonDominio** a los dos que indica Cloudflare. DNSSEC está desactivado (no hay registro DS), así que no hay que tocarlo. Esperar a que Cloudflare marque la zona como activa.
 4. **Dominio del Worker:** borrar los registros A y CNAME de Vercel, y añadir `pomelobaby.es` como Custom Domain del Worker `pomelo-bby-web`.
 5. **Redirección `www`:** una Redirect Rule de `www.pomelobaby.es/*` a `https://pomelobaby.es/${1}`, de tipo 301, conservando la query. `www` necesita un registro proxied (por ejemplo, AAAA a `100::`).
-6. **Rate limit:** una regla de WAF en las peticiones POST a `/api/contact`, `/api/subscribe`, `/api/consulta-mensaje`, `/api/checkout` y `/api/checkout-consulta`. **Nunca incluir `/api/webhook`.**
+6. **Rate limit:** una regla de WAF por ruta para `/api/contact`, `/api/subscribe`, `/api/consulta-mensaje`, `/api/checkout` y `/api/checkout-consulta` (el plan Free solo filtra por ruta, no por método; son rutas que solo reciben POST). **Nunca incluir `/api/webhook`.**
 7. **Commit en `main`:**
    - `"workers_dev": false` en `env.production` de `wrangler.jsonc`;
    - `scripts/check-domain.sh` actualizado para Cloudflare.
