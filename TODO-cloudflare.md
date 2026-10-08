@@ -98,10 +98,17 @@ La web corre en **Cloudflare Workers**, el equivalente a las funciones de Vercel
   - Commit con `"workers_dev": false` en producción.
 - [x] 19. **Comprobado el 8 oct:** web, `www` → raíz, `http` → `https`, HSTS, certificado (Google Trust Services, hasta enero de 2027), `robots.txt`, analítica, webhook (400 sin firma), correo de entrada y salida en `hola@` y `mar@` (fuera de spam), Resend verificado y Search Console (URL disponible para Google, sitemap correcto).
 - [ ] 19b. **[Rafael]** 9 oct: repetir la prueba de correo (24 h de propagación) y mirar Search Console → Estadísticas de rastreo → Estado del host.
-- [ ] 19c. **[Dev]** Primera semana: revisar en Workers → Logs que no aparezca el error 1102 (CPU). Si aparece, plan de pago (5 $/mes).
+- [ ] 19c. **[Dev]** Primera semana (8 oct, primeras horas: 398 peticiones, 0 errores, CPU mediana 1,8 ms y máxima 17 ms): revisar en Workers → Logs que no aparezca el error 1102 (CPU). Si aparece, plan de pago (5 $/mes).
+
+## Otros ajustes del 8 oct
+
+- DMARC: los informes van a `hola@pomelobaby.es` (antes a `dmarc@`, que no existe). Sigue en `p=none`; pasar a `p=quarantine` cuando los informes salgan limpios unas semanas.
+- Stripe Sandbox: borrado el webhook que apuntaba a `pomelobaby.es`; queda solo el de la preview.
+- **[Rafael]** Guardar una copia de los PDF originales de las guías fuera de Cloudflare (Drive u ordenador): al borrar Vercel, R2 será la única copia en internet.
+- Opcional: activar DNSSEC en Cloudflare y añadir el registro DS en DonDominio.
 
 ## 5. Una semana después, sin problemas
 
 - [ ] 20. **[Rafael]** Borrar el proyecto de Vercel y su almacén Blob. A partir de aquí ya no se puede volver atrás a Vercel.
-- [ ] 21. **[Dev]** Borrar de R2 las dos copias antiguas con tildes («CONSERVACIÓN LECHE MATERNA.pdf» y «25 cosas normales en bebés… -3.pdf»).
+- [x] 21. **[Dev]** Borradas de R2 el 8 oct las dos copias antiguas con tildes; quedan los 14 PDF en uso.
 - [ ] 22. **[Dev]** Actualizar `scripts/check-domain.sh` y los documentos de DNS y correo que todavía nombran Vercel. Quitar este archivo y la sección C de `TODO.md`.
