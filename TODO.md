@@ -28,12 +28,11 @@ Production (push del 2 oct 2026) tiene el aviso de error de Contacto, los datos 
 
 - [ ] **[Mar]** ¿La web debe decir los 40 minutos de «Necesito un plan»? En Cal.com están en 40; la web solo dice los 20 minutos de la otra consulta. Sería texto nuevo.
 - [ ] **[Mar + Rafael]** Decidir cuándo enseñar la web en redes (Mar quiere hacerlo pronto). La web ya está pública y las ventas siguen cerradas: antes, terminar la migración a Cloudflare (sección C), porque anunciar ventas en Vercel Hobby ya es uso comercial, y comprobar que todo lo visible es correcto (precios, «Próximamente», textos legales).
-- [ ] **[Mar + Rafael]** Decidir la propuesta E3 para «Cuéntame por correo» (ver abajo). Si se aprueba, **Dev** puede construirla sin esperar al gestor.
 
 ## Redacción y trabajo de Dev
 
 - [ ] **[Rafael + Mar + Dev]** Redactar las Condiciones de venta (hoy placeholder), el texto del desistimiento y la confirmación del contrato, con las cancelaciones: Mar decidió 2 reprogramaciones, hasta 24 h antes, y reembolso con 48 h; faltan los casos de 24–48 h, menos de 24 h, ausencia y si cancela Mar. Dev puede preparar un borrador con los datos reales para revisión.
-- [ ] **[Mar + Dev]** «Cuéntame por correo» (la consulta de 19 €): hoy depende de que la familia vuelva a la web. Propuesta E3: el pago avisa a Mar y a la familia por webhook, el formulario se mantiene con 3 reintentos y, si falla, texto copiable y botón de correo preparado; sin guardar el caso en ningún servidor. Incluye arreglar tres fallos actuales (redirige a /consultas si Stripe tarda, JSON crudo si el correo no coincide o falla el envío) y que un pago reembolsado no permita enviar caso. Mar escribe los correos que recibe la familia. Diseño y casos de uso en la página «Consulta por correo» de Claude. El checkout Live sigue cerrado hasta tenerlo.
+- [ ] **[Mar + Rafael]** «Cuéntame por correo» (la consulta de 19 €): E3 programada el 7 oct con máximo de 10 al día y pausa desde la web, `CONSULTA_CORREO_PAUSADA` (`docs/consulta-por-correo.md`). Textos aprobados por Mar y 10 todos los días de la semana. Probada en Sandbox el 7 oct. Falta decidir expresamente abrir el cobro Live (hoy solo Sandbox). Mar aprobó también los textos de WhatsApp de la confirmación y de «¡Recibido!».
 
 # B. Pendiente: esperan a una respuesta o a otra tarea
 
@@ -68,4 +67,4 @@ El Chisme (Mar: 3 ediciones y el primer Broadcast con enlace de baja; limpiar lo
 
 ## Documentación
 
-[Cal.com](docs/configuracion-cal-com.md) · [Resend](docs/configuracion-resend.md) · [Correo profesional](docs/configuracion-correo-profesional.md) · [Doble opt-in](docs/arquitectura-doble-opt-in.md) · [El Chisme](docs/estrategia-blog-y-el-chisme.md) · [Guías de pago](docs/guias-de-pago.md) · [Archivos sanitarios](docs/canales-archivos-consultas.md) · [Enlaces](docs/urls.md)
+[Cal.com](docs/configuracion-cal-com.md) · [Resend](docs/configuracion-resend.md) · [Correo profesional](docs/configuracion-correo-profesional.md) · [Doble opt-in](docs/arquitectura-doble-opt-in.md) · [El Chisme](docs/estrategia-blog-y-el-chisme.md) · [Guías de pago](docs/guias-de-pago.md) · [Consulta por correo](docs/consulta-por-correo.md) · [Archivos sanitarios](docs/canales-archivos-consultas.md) · [Enlaces](docs/urls.md)

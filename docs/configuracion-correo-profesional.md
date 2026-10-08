@@ -67,19 +67,14 @@ RESEND_CONSULTA_TO_EMAIL="mar@pomelobaby.es"
 
 ## Fotografías y vídeos de consultas
 
-La redirección también reenvía archivos adjuntos, por lo que puede servir para fotografías pequeñas. No debe dependerse del email para vídeos: suelen superar los límites de los proveedores y pueden dejar copias en varios sistemas.
+No se piden ni se aceptan fotos o vídeos por correo: dejan copias en varios buzones, redirecciones y copias de seguridad. Desde el [ADR 0004](adr/0004-whatsapp-business-para-consultas.md) (7 oct 2026):
 
-Flujo acordado por ahora:
+1. La familia envía primero la consulta escrita. No envía archivos de forma preventiva.
+2. El correo sirve para que Mar abra la conversación. Si la familia quiere, la consulta sigue por WhatsApp Business.
+3. Si Mar necesita una foto o un vídeo, lo pide por WhatsApp con la opción «ver una vez». Lo abre al valorarlo y describe en Clinic lo que ve.
+4. Al cerrar la consulta, lo importante queda en Clinic. El buzón no es el archivo clínico.
 
-1. La familia envía primero la consulta escrita.
-2. No envía fotografías o vídeos de forma preventiva.
-3. Mar decide si necesita algún archivo.
-4. Las fotografías pequeñas pueden solicitarse únicamente por el canal que se apruebe.
-5. No se ha decidido todavía entre un servicio temporal cifrado, una plataforma profesional o una subida privada propia.
-
-Las alternativas, sus riesgos y la prueba de usabilidad propuesta están en [`canales-archivos-consultas.md`](canales-archivos-consultas.md).
-
-Antes de aceptar imágenes de menores hay que definir con el profesional legal la información previa, legitimación, acceso, conservación y borrado. El buzón no debe utilizarse como único archivo clínico.
+Si la asesoría exige conservar las imágenes, las alternativas están en [`canales-archivos-consultas.md`](canales-archivos-consultas.md).
 
 ## Prueba final
 

@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Stripe from 'stripe';
 import {
+  getConsultationReference,
   getConsultationStripeMode,
   isPaidConsultationSession,
 } from '../../lib/consulta-payment.mjs';
@@ -14,8 +15,11 @@ Astro.response.headers.set('Referrer-Policy', 'no-referrer');
 // Verificar que el session_id es válido y está pagado
 const url = new URL(Astro.request.url);
 const sessionId = url.searchParams.get('session_id');
+const hasSubmitError = url.searchParams.has('error');
 
-let isValid = false;
+// «unchecked»: Stripe no respondió. No se manda a /consultas: el pago puede ser bueno
+// y la familia ya tiene el enlace en su correo.
+let status: 'invalid' | 'unchecked' | 'sent' | 'ready' = 'invalid';
 
 if (sessionId?.startsWith('cs_') && sessionId.length <= 255) {
   const stripeKey = process.env.STRIPE_SECRET_KEY;
@@ -24,16 +28,25 @@ if (sessionId?.startsWith('cs_') && sessionId.length <= 255) {
     try {
       const stripe = new Stripe(stripeKey);
       const session = await stripe.checkout.sessions.retrieve(sessionId);
-      isValid = isPaidConsultationSession(session, stripeMode);
+      if (isPaidConsultationSession(session, stripeMode)) {
+        status = session.metadata?.consultaEnviada === 'true' ? 'sent' : 'ready';
+      }
     } catch {
-      isValid = false;
+      status = 'unchecked';
     }
   }
 }
 
-if (!isValid) {
+if (status === 'invalid') {
   return Astro.redirect('/consultas');
 }
+
+if (status === 'sent') {
+  return Astro.redirect('/consulta-mensaje/enviado');
+}
+
+const reference = getConsultationReference(sessionId);
+const consultaEmail = process.env.RESEND_CONSULTA_TO_EMAIL ?? '';
 ---
 
 <Layout title="Cuéntame tu caso" description="Has reservado tu consulta por correo. Cuéntame qué te preocupa y te respondo en 24-48 horas laborables." noindex={true}>
@@ -42,8 +55,15 @@ if (!isValid) {
       <div class="consulta-form__header">
         <h1>Cuéntame tu caso</h1>
         <p class="consulta-form__subtitle">Gracias por confiar en mí. Ahora cuéntame qué te preocupa con calma. Te respondo en 24-48 horas laborables.</p>
+        <p class="consulta-form__ref">Referencia: <strong>{reference}</strong></p>
       </div>
 
+      {status === 'unchecked' ? (
+      <div class="consulta-form__wrapper consulta-form__unchecked" role="alert">
+        <p>No he podido comprobar tu pago ahora mismo. No te preocupes: si has pagado, ya tienes en tu correo un enlace para volver aquí.</p>
+        <a href={url.pathname + url.search} class="btn btn--primary">Volver a intentarlo</a>
+      </div>
+      ) : (
       <div class="consulta-form__wrapper">
         <form
           name="consulta-mensaje"
@@ -60,17 +80,10 @@ if (!isValid) {
             <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required data-error-required="Cuéntame cómo te llamas." />
           </div>
 
-          <div class="form__group" data-validation-field>
-            <label for="email">Tu email (para responderte)</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="tu@email.com"
-              required
-              data-error-required="Escribe tu correo para que pueda responderte."
-              data-error-invalid="Revisa el correo. Debe tener un formato como nombre@correo.com."
-            />
+          <div class="form__group">
+            <label for="telefono">Teléfono de contacto <span>(opcional)</span></label>
+            <input type="tel" id="telefono" name="telefono" autocomplete="tel" maxlength="30" placeholder="Tu teléfono" aria-describedby="telefono-ayuda" />
+            <small id="telefono-ayuda">Si lo dejas, puedo escribirte por WhatsApp cuando sea más fácil aclarar algo. Si no, te respondo por email.</small>
           </div>
 
           <div class="form__group" data-validation-field>
@@ -94,13 +107,26 @@ if (!isValid) {
 
           <p class="form__privacy"><strong>Privacidad:</strong> Piel de Pomelo S.L.P tratará tus datos y los del niño o niña para prestar la consulta de enfermería. Al enviarlos confirmas que eres su representante legal o que tienes autorización. Puedes consultar destinatarios, conservación y derechos en la <a href="/proteccion-datos" target="_blank" rel="noopener">política de privacidad</a>.</p>
 
-          <p class="form__message" data-consulta-message aria-live="polite" tabindex="-1" hidden></p>
+          <p class="form__help">Te responderé al email con el que has pagado.</p>
+
+          <p class="form__message" data-consulta-message aria-live="polite" tabindex="-1" hidden={!hasSubmitError}>{hasSubmitError && 'No se pudo enviar tu caso. Revisa los campos e inténtalo de nuevo.'}</p>
 
           <button type="submit" class="btn btn--primary btn--full">
             Enviar mi caso
           </button>
         </form>
+
+        <div class="consulta-fallback" data-consulta-fallback data-reference={reference} hidden>
+          <p>No he podido recibir tu caso desde la web. Para que no se pierda, cópialo y envíamelo por correo{consultaEmail && <> a <strong>{consultaEmail}</strong></>}.</p>
+          <label for="consulta-copia">Tu caso</label>
+          <textarea id="consulta-copia" rows="10" readonly data-consulta-copy></textarea>
+          <div class="consulta-fallback__actions">
+            <button type="button" class="btn btn--primary" data-consulta-copy-button>Copiar mi caso</button>
+            {consultaEmail && <a class="btn btn--secondary" data-consulta-mailto data-email={consultaEmail} href={`mailto:${consultaEmail}`}>Abrir mi correo</a>}
+          </div>
+        </div>
       </div>
+      )}
     </div>
   </section>
 </Layout>
@@ -109,6 +135,48 @@ if (!isValid) {
   const consultaForm = document.querySelector<HTMLFormElement>('[data-consulta-form]');
   const consultaMessage = document.querySelector<HTMLParagraphElement>('[data-consulta-message]');
   const consultaButton = consultaForm?.querySelector<HTMLButtonElement>('button[type="submit"]');
+  const fallback = document.querySelector<HTMLElement>('[data-consulta-fallback]');
+  const fallbackCopy = document.querySelector<HTMLTextAreaElement>('[data-consulta-copy]');
+  const fallbackCopyButton = document.querySelector<HTMLButtonElement>('[data-consulta-copy-button]');
+  const fallbackMailto = document.querySelector<HTMLAnchorElement>('[data-consulta-mailto]');
+
+  // El servidor ya ha reintentado. Si aun así no llega, el caso se ofrece para enviarlo
+  // por correo, para que no se pierda lo escrito.
+  const showFallback = (form: HTMLFormElement) => {
+    if (!fallback || !fallbackCopy) return false;
+    const data = new FormData(form);
+    const value = (name: string) => String(data.get(name) ?? '').trim();
+    const reference = fallback.dataset.reference ?? '';
+    const lines: string[] = [];
+    if (reference) lines.push(`Referencia: ${reference}`);
+    lines.push(`Nombre: ${value('nombre')}`);
+    if (value('telefono')) lines.push(`Teléfono de contacto: ${value('telefono')}`);
+    lines.push(`Edad del bebé: ${value('edad')}`, '', '¿Qué me preocupa?', value('motivo'));
+    if (value('contexto')) lines.push('', 'Contexto adicional', value('contexto'));
+    const caseText = lines.join('\n');
+
+    fallbackCopy.value = caseText;
+    if (fallbackMailto?.dataset.email) {
+      const subject = `Mi consulta ${reference}`.trim();
+      // Los enlaces de correo muy largos fallan en algunas aplicaciones: solo se rellena el asunto.
+      const body = caseText.length <= 1500 ? `&body=${encodeURIComponent(caseText)}` : '';
+      fallbackMailto.href = `mailto:${fallbackMailto.dataset.email}?subject=${encodeURIComponent(subject)}${body}`;
+    }
+    form.hidden = true;
+    fallback.hidden = false;
+    fallbackCopy.focus();
+    return true;
+  };
+
+  fallbackCopyButton?.addEventListener('click', async () => {
+    if (!fallbackCopy) return;
+    try {
+      await navigator.clipboard.writeText(fallbackCopy.value);
+      fallbackCopyButton.textContent = 'Copiado';
+    } catch {
+      fallbackCopy.select();
+    }
+  });
 
   consultaForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -119,6 +187,8 @@ if (!isValid) {
     consultaButton.setAttribute('aria-busy', 'true');
     consultaMessage.hidden = true;
 
+    // Sin respuesta (red caída) o con error del servidor, el caso puede no haber llegado.
+    let canFallBack = true;
     try {
       const response = await fetch(consultaForm.action, {
         method: 'POST',
@@ -128,12 +198,15 @@ if (!isValid) {
       });
 
       if (!response.ok) {
+        // 4xx: hay algo que corregir o el pago no vale; no tiene sentido enviarlo por correo.
+        canFallBack = response.status >= 500;
         const result = await response.json().catch(() => ({}));
         throw new Error(result.error || 'No se pudo enviar la consulta. Inténtalo de nuevo.');
       }
 
       window.location.assign(response.url || '/consulta-mensaje/enviado');
     } catch (error) {
+      if (canFallBack && showFallback(consultaForm)) return;
       consultaButton.disabled = false;
       consultaButton.textContent = 'Enviar mi caso';
       consultaButton.removeAttribute('aria-busy');
@@ -237,6 +310,59 @@ if (!isValid) {
 
   .form__privacy a {
     text-decoration: underline;
+  }
+
+  .consulta-form__ref {
+    margin-top: var(--spacing-sm);
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+  }
+
+  .consulta-form__unchecked {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    align-items: flex-start;
+  }
+
+  .form__group label span,
+  .form__group small {
+    color: var(--color-text-secondary);
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  .consulta-fallback {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .form[hidden],
+  .consulta-fallback[hidden] {
+    display: none;
+  }
+
+  .consulta-fallback label {
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+
+  .consulta-fallback textarea {
+    font-family: var(--font-family);
+    font-size: 0.9rem;
+    padding: 0.65rem 0.9rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-cream);
+    color: var(--color-text);
+    resize: vertical;
+  }
+
+  .consulta-fallback__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
   }
 
   .form__message {

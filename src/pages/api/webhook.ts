@@ -4,6 +4,8 @@ import Stripe from 'stripe';
 import { authorizeGuidePurchase, getStripeMode, guias } from '../../data/guias';
 import { getGuideDownloadExpiresAt } from '../../lib/guide-delivery';
 import { isPrivateGuidePdfAvailable } from '../../lib/guide-storage';
+import { handlePaidConsultation } from '../../lib/consulta-webhook';
+import { renderEmail } from '../../lib/email-template.mjs';
 import { getSiteUrl } from '../../lib/site-url';
 
 export const prerender = false;
@@ -45,6 +47,9 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const eventSession = event.data.object as Stripe.Checkout.Session;
+  if (eventSession.metadata?.type === 'consulta-mensaje') {
+    return handlePaidConsultation(stripe, eventSession.id, getSiteUrl(request), eventReference(event));
+  }
   if (eventSession.metadata?.type !== 'guia') {
     return new Response('OK', { status: 200 });
   }
@@ -137,15 +142,17 @@ export const POST: APIRoute = async ({ request }) => {
         from: sender,
         to: customerEmail,
         subject: `Ya puedes descargar «${guia.title}»`,
-        text: `Hola,\n\nGracias por confiar en Pomelo Baby. Ya puedes descargar «${guia.title}»:\n${downloadURL.toString()}\n\nEl enlace estará disponible hasta el ${expirationDate}.\n\nSi tienes cualquier problema con la descarga, escríbeme desde la página de contacto y lo solucionamos.\n\nMar · Pomelo Baby`,
-        html: `
-          <p>Hola,</p>
-          <p>Gracias por confiar en Pomelo Baby. Ya puedes descargar <strong>${guia.title}</strong>.</p>
-          <p><a href="${downloadURL.toString()}">${downloadLabel}</a></p>
-          <p>El enlace estará disponible hasta el ${expirationDate}.</p>
-          <p>Si tienes cualquier problema con la descarga, <a href="${new URL('/contacto', siteURL).toString()}">escríbeme</a> y lo solucionamos.</p>
-          <p>Mar · Pomelo Baby</p>
-        `,
+        ...renderEmail({
+          siteUrl: siteURL,
+          preheader: `Tu guía «${guia.title}» ya está lista.`,
+          greeting: 'Hola,',
+          paragraphs: [['Gracias por confiar en Pomelo Baby. Ya puedes descargar ', { strong: guia.title }, '.']],
+          button: { label: downloadLabel, href: downloadURL.toString() },
+          afterButton: [
+            `El enlace estará disponible hasta el ${expirationDate}.`,
+            ['Si tienes cualquier problema con la descarga, ', { link: 'escríbeme', href: new URL('/contacto', siteURL).toString() }, ' y lo solucionamos.'],
+          ],
+        }),
       },
       { idempotencyKey: `guia-${session.id}` },
     );
