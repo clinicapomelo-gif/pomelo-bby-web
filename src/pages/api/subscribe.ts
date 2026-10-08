@@ -2,6 +2,7 @@ import { createHmac } from 'node:crypto';
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
 import { encryptNewsletterConfirmation } from '../../lib/newsletter-confirmation';
+import { renderEmail } from '../../lib/email-template.mjs';
 import { getSiteUrl } from '../../lib/site-url';
 
 export const prerender = false;
@@ -16,13 +17,6 @@ const jsonResponse = (body: object, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: JSON_HEADERS });
 
 const getString = (value: unknown) => typeof value === 'string' ? value : undefined;
-
-const escapeHtml = (value: string) => value
-  .replaceAll('&', '&amp;')
-  .replaceAll('"', '&quot;')
-  .replaceAll("'", '&#039;')
-  .replaceAll('<', '&lt;')
-  .replaceAll('>', '&gt;');
 
 export const POST: APIRoute = async ({ request }) => {
   const origin = request.headers.get('origin');
@@ -178,8 +172,6 @@ export const POST: APIRoute = async ({ request }) => {
     return jsonResponse({ error: 'Ahora mismo no he podido iniciar la suscripción. Inténtalo de nuevo en unos minutos.' }, 503);
   }
 
-  const safeUrl = escapeHtml(confirmationUrl.href);
-  const greeting = `Hola, ${escapeHtml(cleanNombre)}.`;
   const action = isLeadMagnet ? 'Confirmar y descargar la guía' : 'Confirmar mi suscripción';
   const subject = isLeadMagnet
     ? 'Confirma tu correo y descarga la guía'
@@ -196,18 +188,17 @@ export const POST: APIRoute = async ({ request }) => {
       to: cleanEmail,
       subject,
       headers: { 'X-Entity-Ref-ID': idempotencyKey },
-      text: `Hola, ${cleanNombre}.\n\nConfirma tu correo para ${isLeadMagnet ? 'descargar «25 cosas normales en los bebés» y unirte' : 'unirte'} a El Chisme de Mar:\n${confirmationUrl.href}\n\nEl enlace caduca en 48 horas. Si no has solicitado este email, puedes ignorarlo.`,
-      html: `
-        <div style="font-family: Arial, sans-serif; color: #2d2d2d; line-height: 1.6; max-width: 600px; margin: 0 auto;">
-          <h1 style="font-size: 24px;">Confirma tu correo</h1>
-          <p>${greeting}</p>
-          <p>${isLeadMagnet ? 'Confirma tu dirección para descargar <strong>25 cosas normales en los bebés</strong> y unirte a El Chisme de Mar.' : 'Solo falta confirmar tu dirección para unirte a El Chisme de Mar.'}</p>
-          <p style="margin: 28px 0;">
-            <a href="${safeUrl}" style="background: #ef6e71; border-radius: 8px; color: #2d2d2d; display: inline-block; font-weight: bold; padding: 12px 20px; text-decoration: none;">${action}</a>
-          </p>
-          <p>El enlace caduca en 48 horas. Si no has solicitado este email, puedes ignorarlo.</p>
-        </div>
-      `,
+      ...renderEmail({
+        siteUrl: getSiteUrl(request),
+        preheader: isLeadMagnet ? 'Un clic y tienes la guía.' : 'Un clic y ya estás dentro de El Chisme de Mar.',
+        title: 'Confirma tu correo',
+        greeting: `Hola, ${cleanNombre}.`,
+        paragraphs: [isLeadMagnet
+          ? ['Confirma tu dirección para descargar ', { strong: '25 cosas normales en los bebés' }, ' y unirte a El Chisme de Mar.']
+          : 'Solo falta confirmar tu dirección para unirte a El Chisme de Mar.'],
+        button: { label: action, href: confirmationUrl.href },
+        afterButton: ['El enlace caduca en 48 horas. Si no has solicitado este email, puedes ignorarlo.'],
+      }),
     }, {
       idempotencyKey: `newsletter-confirm-${idempotencyKey}`,
     });

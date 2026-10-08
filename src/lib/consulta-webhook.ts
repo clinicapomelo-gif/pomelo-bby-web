@@ -5,6 +5,7 @@ import {
   getConsultationStripeMode,
   isConsultationSubmissionAuthorized,
 } from './consulta-payment.mjs';
+import { renderEmail } from './email-template.mjs';
 
 const text = (body: string, status = 200) => new Response(body, { status });
 
@@ -79,16 +80,17 @@ export const handlePaidConsultation = async (
       from: sender,
       to: familyEmail,
       subject: `He recibido tu pago (${consultaRef}) — Pomelo Baby`,
-      text: `Hola,\n\nHe recibido el pago de tu consulta por correo. Tu referencia es ${consultaRef}.\n\nSi todavía no me has contado tu caso, puedes hacerlo aquí:\n${formURL.toString()}\n\nSi ya lo has enviado, no tienes que hacer nada más: te respondo en 24-48 horas laborables.\n\nMar · Pomelo Baby`,
-      // Recuadro coral con letras blancas, como los CTA de la web.
-      html: `
-        <p>Hola,</p>
-        <p>He recibido el pago de tu consulta por correo. Tu referencia es <strong>${consultaRef}</strong>.</p>
-        <p>Si todavía no me has contado tu caso, puedes hacerlo aquí:</p>
-        <p><a href="${formURL.toString()}" style="display:inline-block;padding:12px 22px;background:#EF6E71;color:#FFFFFF;text-decoration:none;border-radius:8px;font-weight:600;">Contar mi caso</a></p>
-        <p>Si ya lo has enviado, no tienes que hacer nada más: te respondo en 24-48 horas laborables.</p>
-        <p>Mar · Pomelo Baby</p>
-      `,
+      ...renderEmail({
+        siteUrl: siteURL,
+        preheader: `Tu referencia es ${consultaRef}. Si aún no me has contado tu caso, puedes hacerlo aquí.`,
+        greeting: 'Hola,',
+        paragraphs: [
+          ['He recibido el pago de tu consulta por correo. Tu referencia es ', { strong: consultaRef }, '.'],
+          'Si todavía no me has contado tu caso, puedes hacerlo aquí:',
+        ],
+        button: { label: 'Contar mi caso', href: formURL.toString() },
+        afterButton: ['Si ya lo has enviado, no tienes que hacer nada más: te respondo en 24-48 horas laborables.'],
+      }),
     }, { idempotencyKey: `consulta-pago-familia-${session.id}` });
 
     if (toMar.error || toFamily.error) {
