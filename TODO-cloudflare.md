@@ -1,19 +1,16 @@
 # TODO — Migración de Vercel a Cloudflare
 
-Objetivo: dejar Vercel, porque el plan Hobby no permite uso comercial. Última revisión: 8 oct 2026, con cada punto contrastado en la documentación oficial y en el DNS real.
+Objetivo: dejar Vercel, porque el plan Hobby no permite uso comercial. Última revisión: 8 oct 2026, 17:00.
 
 **Urgencia:** Vercel considera comercial cualquier despliegue que busque un beneficio económico de quien participa en el proyecto, y pone como ejemplo «anunciar la venta de un producto o servicio», no solo cobrar ([Fair Use Guidelines](https://vercel.com/docs/limits/fair-use-guidelines)). Una web de empresa que presenta consultas y guías, aunque estén en «Próximamente», está como mínimo en zona gris: migrar cuanto antes.
 
-**Estado:** el código está terminado y probado en local en la rama `cloudflare`, que no está subida a GitHub. Probado en local:
-- compra completa: pago, webhook, un solo correo y descarga desde R2;
-- `npm run dev` y la build;
-- la ventana de Cal.com abriéndose sobre la página.
-
-Ya existen la cuenta de Cloudflare (clinicapomelo@gmail.com), el bucket R2 `pomelo-guias` con los PDF y el token de Web Analytics. Paso a paso detallado: `docs/migracion-cloudflare.md`.
-
-Para retomarlo: `git checkout cloudflare && npm ci`. La rama usa Astro 7.3.5 y el adaptador de Cloudflare; `main` sigue con Vercel.
-
-**Antes de subir la rama:** traer `main` (teléfono en Contacto, E3 de la consulta por correo y plantilla de correos, del 7 y 8 oct) y adaptar los archivos nuevos a cómo se leen las variables en Workers: `process.env` en lugar de `import.meta.env`, y `APP_ENV` en lugar de `VERCEL_ENV` (`src/lib/consulta-webhook.ts`, `src/pages/api/consulta-mensaje.ts`, `src/pages/api/checkout-consulta.ts` y `src/pages/consulta-mensaje/gracias.astro`).
+**Estado (8 oct 2026, 17:00):** migración hecha a falta de que el `.es` publique los nameservers de Cloudflare (ventana de las 18:00) y de las comprobaciones.
+- `main` tiene el código de Cloudflare; Vercel está desconectado de Git y sigue sirviendo su último despliegue mientras se propaga el DNS.
+- Workers `pomelo-bby-web` (producción, claves Live, rama `main`) y `pomelo-bby-web-preview` (Sandbox, rama `cloudflare`) publicados por Workers Builds.
+- Zona `pomelobaby.es` creada en Cloudflare (plan Free, nameservers `mark` y `nelly`), con los 20 registros de DonDominio en «DNS only» (incluido el DKIM `dddk._domainkey` del correo de DonDominio).
+- `pomelobaby.es` ya es Custom Domain del Worker de producción, con certificado: al activarse la zona, la web pasa sola al Worker.
+- **Vuelta atrás:** quitar el Custom Domain y crear el registro A `@` → `216.198.79.1` en «DNS only» (Vercel); `www` apunta a Vercel por CNAME.
+- El aviso de DonDominio «servicios del plan de alojamiento inactivos» es genérico con DNS externos: el correo del plan Mini sigue funcionando si los registros están en Cloudflare ([tutorial de DonDominio](https://dondominio.blog/tutoriales/como-configurar-las-dns-de-dondominio-en-cloudflare/)).
 
 ## Los Workers
 
@@ -52,34 +49,34 @@ La web corre en **Cloudflare Workers**, el equivalente a las funciones de Vercel
 
 ## 1. Decidir y preparar (sin publicar nada)
 
-- [ ] 1. **[Mar + Rafael]** Decidir la migración y el día del cambio. Avisar a Mar.
+- [x] 1. **[Mar + Rafael]** Decidir la migración y el día del cambio. Avisar a Mar.
 - [ ] 2. **[Rafael / Vicente]** Cloudflare → Manage Account → Billing: tarjeta y dirección de facturación de Piel de Pomelo S.L.P. La alerta de gasto de 1 $ ya está creada (2 oct 2026).
-- [ ] 3. **[Dev → Mar + asesoría]** Privacidad y Cookies: cambiar Vercel por Cloudflare (alojamiento, almacenamiento de las guías y analítica). **Redactado en la rama `cloudflare` el 8 oct; falta que Mar lo apruebe.** Se publica el día del cambio, no antes: ese día, poner la fecha en «Última actualización» de las dos páginas.
+- [x] 3. **[Dev → Mar + asesoría]** Privacidad y Cookies: cambiar Vercel por Cloudflare (alojamiento, almacenamiento de las guías y analítica). **Redactado en la rama `cloudflare` el 8 oct; falta que Mar lo apruebe.** Se publica el día del cambio, no antes: ese día, poner la fecha en «Última actualización» de las dos páginas.
 - [x] 4. **[Dev]** Cal.com: cambiada la opción obsoleta `styles` por `cssVarsPerTheme` en `src/scripts/cal-embed.js` (8 oct): coral, letras blancas y granate al pasar por encima. Falta verlo en la preview.
 
 ## 2. Preview en internet (no afecta a Vercel ni a pomelobaby.es)
 
-- [ ] 5. **[Rafael + Dev]** Cloudflare → Workers & Pages → conectar el repositorio de GitHub (Workers Builds) con la opción (a); la (b) queda como referencia:
+- [x] 5. **[Rafael + Dev]** Cloudflare → Workers & Pages → conectar el repositorio de GitHub (Workers Builds) con la opción (a); la (b) queda como referencia:
   - **(a) Dos Workers:** conectar el repositorio a cada uno. En `pomelo-bby-web`: rama de producción `main`, build `npm run build:cf`, deploy `npx wrangler deploy` y **Preview builds desactivadas**. En `pomelo-bby-web-preview`: rama de producción, la rama de pruebas (hoy `cloudflare`), el mismo build y deploy, y Preview builds desactivadas. `build:cf` elige el entorno por la rama (`WORKERS_CI_BRANCH`).
   - **(b) Worker Previews:** un solo Worker con rama de producción `main`, deploy `npx wrangler deploy` y Preview command `npx wrangler preview`; antes, adaptar `wrangler.jsonc` y probarlo.
   - Ya no hace falta `NODE_VERSION`: Node 24 es el predeterminado de la imagen de build ([Build image](https://developers.cloudflare.com/workers/ci-cd/builds/build-image)).
   - Si falta el subdominio `workers.dev`, abrir una vez Workers & Pages en el panel.
-- [ ] 6. **[Rafael]** Vercel → Settings → Git → Ignored Build Step: que no construya la rama `cloudflare`.
-- [ ] 7. **[Dev]** Subir la rama `cloudflare`. Se publica `pomelo-bby-web-preview` en `*.workers.dev`; tarda unos 5 minutos.
-- [ ] 8. **[Dev]** Secretos de la preview con las claves de **Sandbox** (`npx wrangler secret put … --env preview`). Crear en Stripe Sandbox un webhook que apunte a `https://<preview>.workers.dev/api/webhook`. Pedir a Rafael `RESEND_FROM_EMAIL` y las demás claves que no están en `.env`.
-- [ ] 9. **[Rafael + Mar]** Probar la preview:
+- [x] 6. **[Rafael]** Vercel → Settings → Git → Ignored Build Step: que no construya la rama `cloudflare`.
+- [x] 7. **[Dev]** Subir la rama `cloudflare`. Se publica `pomelo-bby-web-preview` en `*.workers.dev`; tarda unos 5 minutos.
+- [x] 8. **[Dev]** Secretos de la preview con las claves de **Sandbox** (`npx wrangler secret put … --env preview`). Crear en Stripe Sandbox un webhook que apunte a `https://<preview>.workers.dev/api/webhook`. Pedir a Rafael `RESEND_FROM_EMAIL` y las demás claves que no están en `.env`.
+- [x] 9. **[Rafael + Mar]** Probar la preview:
   - comprar una guía y descargarla desde el enlace real del correo (¿cae en spam?);
   - Contacto;
   - el calendario de Cal.com, con las consultas activadas solo en la preview;
   - desde el móvil;
   - que Mar la vea.
-- [ ] 10. **[Dev]** En Workers → Logs, comprobar que el webhook y las páginas de gracias usan **menos de 10 ms de CPU**, el límite del plan gratuito. Si no, valorar el plan de pago (5 $/mes).
+- [x] 10. **Medido el 8 oct:** en caliente 1–10 ms; la primera petición de cada instancia (arranque en frío) llega a 21–31 ms en el webhook y las páginas de gracias. Cloudflare tolera excesos ocasionales; vigilar el error 1102 la primera semana y, si aparece, pasar al plan de pago (5 $/mes). **[Dev]** En Workers → Logs, comprobar que el webhook y las páginas de gracias usan **menos de 10 ms de CPU**, el límite del plan gratuito. Si no, valorar el plan de pago (5 $/mes).
 
 ## 3. Preparar producción (se puede hacer el mismo día del cambio)
 
-- [ ] 11. **[Dev]** Secretos **Live** en `pomelo-bby-web`, los mismos que tiene hoy Vercel Production. Comprobar con `npx wrangler secret list --env production`.
+- [x] 11. **[Dev]** Secretos **Live** en `pomelo-bby-web`, los mismos que tiene hoy Vercel Production. Comprobar con `npx wrangler secret list --env production`.
 - [x] 12. ~~DonDominio: bajar el TTL 48 h antes.~~ No hace falta: el 8 oct los registros ya tenían 60 s. Solo comprobar que siguen igual el día del cambio.
-- [ ] 13. **[Rafael + Dev]** Añadir `pomelobaby.es` a Cloudflare (plan Free) **sin cambiar aún los nameservers**. Revisar uno a uno los registros importados con la tabla de `docs/migracion-cloudflare.md`:
+- [x] 13. **[Rafael + Dev]** Añadir `pomelobaby.es` a Cloudflare (plan Free) **sin cambiar aún los nameservers**. Revisar uno a uno los registros importados con la tabla de `docs/migracion-cloudflare.md`:
   - MX y SPF de DonDominio;
   - Search Console;
   - DMARC;
@@ -87,14 +84,14 @@ La web corre en **Cloudflare Workers**, el equivalente a las funciones de Vercel
   - `mail`, `autodiscover` y `autoconfig`.
   
   Todo lo de correo, en «DNS only».
-- [ ] 14. **[Rafael + Dev]** En Cloudflare, desactivar Email Address Obfuscation, Rocket Loader, Bot Fight Mode y la inyección automática de Web Analytics. Activar SSL «Full (strict)» y «Always Use HTTPS».
+- [x] 14. **Hecho y comprobado por API el 8 oct**, más: SPF de la raíz con `~all`, IA de entrenamiento bloqueada (búsqueda y agentes permitidos) y Bot Preference Sync apagado. **[Rafael + Dev]** En Cloudflare, desactivar Email Address Obfuscation, Rocket Loader, Bot Fight Mode y la inyección automática de Web Analytics. Activar SSL «Full (strict)» y «Always Use HTTPS».
 
 ## 4. Día del cambio
 
-- [ ] 15. **[Rafael]** Vercel → Settings → Git: desconectar el repositorio. La web sigue funcionando con el último despliegue.
-- [ ] 16. **[Dev]** Fusionar `cloudflare` en `main` y subir. Esperar unos 5 minutos y comprobar la web en la URL `*.workers.dev` de producción.
-- [ ] 17. **[Rafael]** DonDominio: cambiar los nameservers a los dos de Cloudflare. DNSSEC está desactivado, así que no hay que tocarlo. Esperar a que Cloudflare marque la zona como activa: de minutos a horas.
-- [ ] 18. **[Dev]**
+- [x] 15. **[Rafael]** Vercel → Settings → Git: desconectar el repositorio. La web sigue funcionando con el último despliegue.
+- [x] 16. **[Dev]** Fusionar `cloudflare` en `main` y subir. Esperar unos 5 minutos y comprobar la web en la URL `*.workers.dev` de producción.
+- [x] 17. **[Rafael]** DonDominio: cambiar los nameservers a los dos de Cloudflare. DNSSEC está desactivado, así que no hay que tocarlo. Esperar a que Cloudflare marque la zona como activa: de minutos a horas.
+- [ ] 18. **[Dev]** Hecho el 8 oct antes de activarse la zona: Custom Domain, `www` con proxy y Redirect Rule 301, y la regla de rate limit «Limitar formularios». **Falta** el commit con `"workers_dev": false` cuando `pomelobaby.es` responda desde el Worker.
   - Quitar los registros A y CNAME de Vercel y añadir `pomelobaby.es` como Custom Domain del Worker. Esperar al certificado.
   - Redirect Rule 301 de `www` al dominio principal.
   - Regla de WAF de límite de envíos, **sin `/api/webhook`**. En el plan gratuito solo hay 1 regla, ventana y bloqueo de 10 s, por IP, y la condición **solo puede usar la ruta** (no el método POST): poner la lista de rutas de `AGENTS.md`, que solo reciben POST ([Rate limiting](https://developers.cloudflare.com/waf/rate-limiting-rules/)).
