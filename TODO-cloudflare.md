@@ -4,7 +4,7 @@ Objetivo: dejar Vercel, porque el plan Hobby no permite uso comercial. Última r
 
 **Urgencia:** Vercel considera comercial cualquier despliegue que busque un beneficio económico de quien participa en el proyecto, y pone como ejemplo «anunciar la venta de un producto o servicio», no solo cobrar ([Fair Use Guidelines](https://vercel.com/docs/limits/fair-use-guidelines)). Una web de empresa que presenta consultas y guías, aunque estén en «Próximamente», está como mínimo en zona gris: migrar cuanto antes.
 
-**Estado (8 oct 2026, 17:00):** migración hecha a falta de que el `.es` publique los nameservers de Cloudflare (ventana de las 18:00) y de las comprobaciones.
+**Estado (8 oct 2026, 18:00):** **migración hecha.** La zona se activó a las 16:12 y `pomelobaby.es` se sirve desde el Worker; comprobaciones superadas. Queda revisar mañana y la limpieza de dentro de una semana.
 - `main` tiene el código de Cloudflare; Vercel está desconectado de Git y sigue sirviendo su último despliegue mientras se propaga el DNS.
 - Workers `pomelo-bby-web` (producción, claves Live, rama `main`) y `pomelo-bby-web-preview` (Sandbox, rama `cloudflare`) publicados por Workers Builds.
 - Zona `pomelobaby.es` creada en Cloudflare (plan Free, nameservers `mark` y `nelly`), con los 20 registros de DonDominio en «DNS only» (incluido el DKIM `dddk._domainkey` del correo de DonDominio).
@@ -96,17 +96,9 @@ La web corre en **Cloudflare Workers**, el equivalente a las funciones de Vercel
   - Redirect Rule 301 de `www` al dominio principal.
   - Regla de WAF de límite de envíos, **sin `/api/webhook`**. En el plan gratuito solo hay 1 regla, ventana y bloqueo de 10 s, por IP, y la condición **solo puede usar la ruta** (no el método POST): poner la lista de rutas de `AGENTS.md`, que solo reciben POST ([Rate limiting](https://developers.cloudflare.com/waf/rate-limiting-rules/)).
   - Commit con `"workers_dev": false` en producción.
-- [ ] 19. **[Rafael + Dev]** Comprobar:
-  - la web y `www`;
-  - HTTPS y HSTS;
-  - `robots.txt`;
-  - un correo de entrada y otro de salida en `hola@` y `mar@`;
-  - Resend verificado;
-  - Search Console;
-  - Web Analytics;
-  - el webhook de Stripe.
-  
-  **Repetir las comprobaciones de correo a las 24 h y a las 48 h**, por la propagación.
+- [x] 19. **Comprobado el 8 oct:** web, `www` → raíz, `http` → `https`, HSTS, certificado (Google Trust Services, hasta enero de 2027), `robots.txt`, analítica, webhook (400 sin firma), correo de entrada y salida en `hola@` y `mar@` (fuera de spam), Resend verificado y Search Console (URL disponible para Google, sitemap correcto).
+- [ ] 19b. **[Rafael]** 9 oct: repetir la prueba de correo (24 h de propagación) y mirar Search Console → Estadísticas de rastreo → Estado del host.
+- [ ] 19c. **[Dev]** Primera semana: revisar en Workers → Logs que no aparezca el error 1102 (CPU). Si aparece, plan de pago (5 $/mes).
 
 ## 5. Una semana después, sin problemas
 
