@@ -50,7 +50,7 @@ Los buzones `hola@` y `mar@` se leen y se responden desde el Gmail de Pomelo (`c
 | Usuario | la dirección completa (`hola@pomelobaby.es`, `mar@pomelobaby.es`) |
 | Contraseña | la del buzón |
 
-No usar `mailsrv1.dondominio.com` (al que apunta `smtp.pomelobaby.es`): tiene un certificado autofirmado y Gmail lo rechaza, aunque lo muestra como «Error de autenticación». Activar «Responder desde la misma dirección a la que se envió el mensaje».
+No usar `mailsrv1.dondominio.com` (al que apunta `smtp.pomelobaby.es`): tiene un certificado autofirmado y Gmail lo rechaza, aunque lo muestra como «Error de autenticación». «Responder desde la misma dirección a la que se envió el mensaje» activado. Probado el 8 oct: respuestas desde `hola@` y `mar@` con SPF, DKIM y DMARC en PASS.
 
 **Pendiente:** `chisme@pomelobaby.es` es un tercer buzón, no un alias, y no tiene reenvío: lo que llegue ahí se queda en DonDominio. Configurarlo igual cuando se active El Chisme.
 
