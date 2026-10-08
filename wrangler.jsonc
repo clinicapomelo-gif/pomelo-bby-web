@@ -17,6 +17,9 @@
     // Rama main: Stripe Live.
     "production": {
       "name": "pomelo-bby-web",
+      // Solo pomelobaby.es (Custom Domain); sin la URL *.workers.dev duplicada.
+      "workers_dev": false,
+      "routes": [{ "pattern": "pomelobaby.es", "custom_domain": true }],
       "vars": { "APP_ENV": "production", "SITE_URL": "https://pomelobaby.es" },
       "r2_buckets": [{ "binding": "GUIAS", "bucket_name": "pomelo-guias" }]
     },

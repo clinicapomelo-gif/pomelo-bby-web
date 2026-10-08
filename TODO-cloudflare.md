@@ -91,7 +91,7 @@ La web corre en **Cloudflare Workers**, el equivalente a las funciones de Vercel
 - [x] 15. **[Rafael]** Vercel → Settings → Git: desconectar el repositorio. La web sigue funcionando con el último despliegue.
 - [x] 16. **[Dev]** Fusionar `cloudflare` en `main` y subir. Esperar unos 5 minutos y comprobar la web en la URL `*.workers.dev` de producción.
 - [x] 17. **[Rafael]** DonDominio: cambiar los nameservers a los dos de Cloudflare. DNSSEC está desactivado, así que no hay que tocarlo. Esperar a que Cloudflare marque la zona como activa: de minutos a horas.
-- [ ] 18. **[Dev]** Hecho el 8 oct antes de activarse la zona: Custom Domain, `www` con proxy y Redirect Rule 301, y la regla de rate limit «Limitar formularios». **Falta** el commit con `"workers_dev": false` cuando `pomelobaby.es` responda desde el Worker.
+- [x] 18. **[Dev]** Hecho el 8 oct: Custom Domain (declarado también en `wrangler.jsonc`), `www` con proxy y Redirect Rule 301, regla «Limitar formularios» (probada: 429 a partir de la 11.ª petición, el webhook nunca se bloquea) y `"workers_dev": false` en producción. Zona activa a las 16:12.
   - Quitar los registros A y CNAME de Vercel y añadir `pomelobaby.es` como Custom Domain del Worker. Esperar al certificado.
   - Redirect Rule 301 de `www` al dominio principal.
   - Regla de WAF de límite de envíos, **sin `/api/webhook`**. En el plan gratuito solo hay 1 regla, ventana y bloqueo de 10 s, por IP, y la condición **solo puede usar la ruta** (no el método POST): poner la lista de rutas de `AGENTS.md`, que solo reciben POST ([Rate limiting](https://developers.cloudflare.com/waf/rate-limiting-rules/)).
