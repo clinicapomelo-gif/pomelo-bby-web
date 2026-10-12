@@ -1,4 +1,5 @@
 ---
+import PhonePrefix from '../../components/PhonePrefix.astro';
 import Layout from '../../layouts/Layout.astro';
 import Stripe from 'stripe';
 import {
@@ -80,9 +81,12 @@ const consultaEmail = process.env.RESEND_CONSULTA_TO_EMAIL ?? '';
             <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required data-error-required="Cuéntame cómo te llamas." />
           </div>
 
-          <div class="form__group">
+          <div class="form__group" data-validation-field>
             <label for="telefono">Teléfono de contacto <span>(opcional)</span></label>
-            <input type="tel" id="telefono" name="telefono" autocomplete="tel" maxlength="30" placeholder="Tu teléfono" aria-describedby="telefono-ayuda" />
+            <div class="phone">
+              <PhonePrefix />
+              <input type="tel" id="telefono" name="telefono" inputmode="tel" autocomplete="tel-national" maxlength="20" placeholder="612 345 678" data-phone aria-describedby="telefono-ayuda" />
+            </div>
             <small id="telefono-ayuda">Si lo dejas, puedo escribirte por WhatsApp cuando sea más fácil aclarar algo. Si no, te respondo por email.</small>
           </div>
 
@@ -132,6 +136,7 @@ const consultaEmail = process.env.RESEND_CONSULTA_TO_EMAIL ?? '';
 </Layout>
 
 <script>
+  import '../../lib/phone-field.ts';
   const consultaForm = document.querySelector<HTMLFormElement>('[data-consulta-form]');
   const consultaMessage = document.querySelector<HTMLParagraphElement>('[data-consulta-message]');
   const consultaButton = consultaForm?.querySelector<HTMLButtonElement>('button[type="submit"]');
@@ -150,7 +155,7 @@ const consultaEmail = process.env.RESEND_CONSULTA_TO_EMAIL ?? '';
     const lines: string[] = [];
     if (reference) lines.push(`Referencia: ${reference}`);
     lines.push(`Nombre: ${value('nombre')}`);
-    if (value('telefono')) lines.push(`Teléfono de contacto: ${value('telefono')}`);
+    if (value('telefono')) lines.push(`Teléfono de contacto: ${value('telefono_prefijo')} ${value('telefono')}`.replace('  ', ' '));
     lines.push(`Edad del bebé: ${value('edad')}`, '', '¿Qué me preocupa?', value('motivo'));
     if (value('contexto')) lines.push('', 'Contexto adicional', value('contexto'));
     const caseText = lines.join('\n');

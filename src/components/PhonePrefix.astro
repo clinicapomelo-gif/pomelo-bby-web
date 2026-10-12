@@ -1,0 +1,14 @@
+---
+import { PHONE_GRUPOS } from '../lib/phone-countries.mjs';
+---
+
+<select name="telefono_prefijo" class="phone__prefix" aria-label="Prefijo del país" data-phone-prefix>
+  {PHONE_GRUPOS.map(([titulo, paises]) => (
+    <optgroup label={titulo}>
+      {paises.map(([codigo, nombre]) => (
+        <option value={codigo} data-name={nombre} selected={codigo === '+34'}>{nombre} ({codigo})</option>
+      ))}
+    </optgroup>
+  ))}
+  <option value="" data-name="Otro país (escribe el +prefijo)">Otro país (escribe el +prefijo)</option>
+</select>

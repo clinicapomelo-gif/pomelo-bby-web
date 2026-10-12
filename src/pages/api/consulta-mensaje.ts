@@ -8,6 +8,7 @@ import {
   isRefundedConsultation,
 } from '../../lib/consulta-payment.mjs';
 import { renderEmail } from '../../lib/email-template.mjs';
+import { normalizePhone } from '../../lib/phone.mjs';
 import { getSiteUrl } from '../../lib/site-url';
 
 export const prerender = false;
@@ -56,7 +57,10 @@ export const POST: APIRoute = async ({ request, redirect }) => {
 
   sessionId = getString(values.session_id).trim();
   const nombre = getString(values.nombre).trim();
-  const telefono = getString(values.telefono).trim();
+  const telefono = normalizePhone(
+    getString(values.telefono),
+    values.telefono_prefijo === undefined ? undefined : getString(values.telefono_prefijo),
+  );
   const edad = getString(values.edad).trim();
   const motivo = getString(values.motivo).trim();
   const contexto = getString(values.contexto).trim();
@@ -93,7 +97,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
 
   if (
     !nombre || nombre.length > 100 ||
-    telefono.length > 30 ||
+    telefono === undefined ||
     !edad || edad.length > 100 ||
     !motivo || motivo.length > 10000 ||
     contexto.length > 5000

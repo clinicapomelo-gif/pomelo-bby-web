@@ -1,4 +1,5 @@
 ---
+import PhonePrefix from '../components/PhonePrefix.astro';
 import Layout from '../layouts/Layout.astro';
 ---
 
@@ -62,6 +63,7 @@ import Layout from '../layouts/Layout.astro';
                 <option value="orientacion">No sé qué consulta elegir</option>
                 <option value="colaboracion">Colaboración o prensa</option>
                 <option value="compra">Problema con una compra</option>
+                <option value="horario">Otro horario para una consulta</option>
                 <option value="otro">Otro</option>
               </select>
             </div>
@@ -84,13 +86,61 @@ import Layout from '../layouts/Layout.astro';
               />
             </div>
 
-            <div class="form__group">
+            <div class="form__group" data-validation-field>
               <label for="telefono">Teléfono de contacto <span>(opcional)</span></label>
-              <input type="tel" id="telefono" name="telefono" autocomplete="tel" maxlength="30" placeholder="Tu teléfono" aria-describedby="telefono-ayuda" />
+              <div class="phone">
+              <PhonePrefix />
+              <input type="tel" id="telefono" name="telefono" inputmode="tel" autocomplete="tel-national" maxlength="20" placeholder="612 345 678" data-phone aria-describedby="telefono-ayuda" />
+            </div>
               <small id="telefono-ayuda">Si lo dejas, puedo escribirte por WhatsApp cuando sea más fácil aclarar algo. Si no, te respondo por email.</small>
             </div>
 
-            <div class="form__group" data-validation-field>
+            <div id="campos-horario" hidden>
+              <div class="form__group" data-validation-field>
+                <label for="consulta">Consulta que quiero</label>
+                <select id="consulta" name="consulta" disabled data-error-required="Elige la consulta que quieres.">
+                  <option value="" disabled selected>Elige una opción</option>
+                  <option value="calma">Necesito hablar con calma</option>
+                  <option value="plan">Necesito un plan</option>
+                </select>
+              </div>
+
+              <fieldset class="chips" data-validation-field>
+                <legend>Días que me vienen bien</legend>
+                <div class="chips__list">
+                  <label class="chip"><input type="checkbox" name="dias" value="lunes" disabled data-error-required="Marca al menos un día." /><span>Lun</span></label>
+                  <label class="chip"><input type="checkbox" name="dias" value="martes" disabled /><span>Mar</span></label>
+                  <label class="chip"><input type="checkbox" name="dias" value="miércoles" disabled /><span>Mié</span></label>
+                  <label class="chip"><input type="checkbox" name="dias" value="jueves" disabled /><span>Jue</span></label>
+                  <label class="chip"><input type="checkbox" name="dias" value="viernes" disabled /><span>Vie</span></label>
+                </div>
+              </fieldset>
+
+              <fieldset class="chips" data-validation-field>
+                <legend>Franja</legend>
+                <div class="chips__list">
+                  <label class="chip"><input type="radio" name="franja" value="manana" disabled data-error-required="Elige una franja." /><span>Mañana</span></label>
+                  <label class="chip"><input type="radio" name="franja" value="tarde" disabled /><span>Tarde</span></label>
+                  <label class="chip"><input type="radio" name="franja" value="igual" disabled /><span>Me da igual</span></label>
+                </div>
+              </fieldset>
+
+              <div class="form__group">
+                <label for="notas">Hora concreta u otra cosa sobre horarios <span>(opcional)</span></label>
+                <textarea id="notas" name="notas" rows="3" maxlength="300" disabled placeholder="Por ejemplo: a partir de las 18:30"></textarea>
+              </div>
+
+              <div class="horario-pasos">
+                <p class="horario-pasos__titulo">Cómo funciona</p>
+                <ol>
+                  <li>Me cuentas qué horario te encaja.</li>
+                  <li>Te respondo con las horas disponibles en cuanto pueda.</li>
+                  <li>Reservas y pagas en ese momento.</li>
+                </ol>
+              </div>
+            </div>
+
+            <div id="campos-mensaje" class="form__group" data-validation-field>
               <label for="mensaje">¿En qué puedo ayudarte?</label>
               <textarea id="mensaje" name="mensaje" rows="5" required data-error-required="Cuéntame en qué puedo ayudarte."></textarea>
             </div>
@@ -109,12 +159,47 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <script>
+  import '../lib/phone-field.ts';
   const params = new URLSearchParams(window.location.search);
   const motivo = params.get('motivo');
   const select = document.querySelector<HTMLSelectElement>('#motivo');
   if (select && motivo && Array.from(select.options).some((option) => option.value === motivo)) {
     select.value = motivo;
   }
+
+  // «Otro horario» pide la consulta, los días, la franja y unas notas en campos propios en
+  // lugar del mensaje libre. Los campos del bloque oculto se desactivan para que no se
+  // envíen ni se validen.
+  const camposHorario = document.querySelector<HTMLElement>('#campos-horario');
+  const camposMensaje = document.querySelector<HTMLElement>('#campos-mensaje');
+  const dias = Array.from(document.querySelectorAll<HTMLInputElement>('input[name="dias"]'));
+  const franjas = Array.from(document.querySelectorAll<HTMLInputElement>('input[name="franja"]'));
+  // Un grupo de casillas no tiene «al menos una» nativo: mientras no haya ninguna marcada,
+  // la primera es obligatoria.
+  const exigirUnDia = () => {
+    dias.forEach((dia, i) => { dia.required = !dia.disabled && i === 0 && !dias.some((d) => d.checked); });
+  };
+  const mostrarCampos = () => {
+    if (!select || !camposHorario || !camposMensaje) return;
+    const horario = select.value === 'horario';
+    camposHorario.hidden = !horario;
+    camposMensaje.hidden = horario;
+    camposHorario.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('input, select, textarea').forEach((field) => {
+      field.disabled = !horario;
+      field.required = false;
+    });
+    camposHorario.querySelector<HTMLSelectElement>('#consulta')!.required = horario;
+    franjas[0].required = horario;
+    exigirUnDia();
+    const mensaje = camposMensaje.querySelector<HTMLTextAreaElement>('textarea');
+    if (mensaje) {
+      mensaje.disabled = horario;
+      mensaje.required = !horario;
+    }
+  };
+  select?.addEventListener('change', mostrarCampos);
+  dias.forEach((dia) => dia.addEventListener('change', exigirUnDia));
+  mostrarCampos();
 
   const error = document.querySelector<HTMLElement>('#contacto-error');
   if (error && params.has('error')) {
@@ -252,6 +337,106 @@ import Layout from '../layouts/Layout.astro';
     display: flex;
     flex-direction: column;
     gap: var(--spacing-xs);
+  }
+
+  .form__group[hidden] {
+    display: none;
+  }
+
+  #campos-horario:not([hidden]) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .chips {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+  }
+
+  .chips legend {
+    padding: 0;
+    margin-bottom: var(--spacing-sm);
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+
+  .chips__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+  }
+
+  .chip {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .chip input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .chip span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    min-width: 3.5rem;
+    min-height: 44px;
+    padding: 0 var(--spacing-md);
+    border: 1.5px solid var(--color-peach);
+    border-radius: var(--radius-md);
+    background-color: var(--color-white);
+    color: var(--color-text);
+    font-size: 0.95rem;
+  }
+
+  .chip input:checked + span {
+    border-color: var(--color-coral-hover);
+    background-color: var(--color-nude);
+    color: var(--color-coral-hover);
+    font-weight: 600;
+  }
+
+  .chip input:checked + span::before {
+    content: '✓';
+  }
+
+  .chip input:focus-visible + span {
+    outline: 2px solid var(--color-coral-hover);
+    outline-offset: 2px;
+  }
+
+  [data-validation-field].is-invalid .chip span {
+    border-color: var(--color-coral-hover);
+  }
+
+  .horario-pasos {
+    padding: var(--spacing-md);
+    background-color: var(--color-nude);
+    border-radius: var(--radius-md);
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .horario-pasos__titulo {
+    margin: 0 0 var(--spacing-xs);
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .horario-pasos ol {
+    margin: 0;
+    padding-left: 1.25rem;
   }
 
   .form__group label {

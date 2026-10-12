@@ -1,5 +1,9 @@
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
+import { composeHorarioMessage } from '../../lib/contact-horario.mjs';
+import { normalizePhone } from '../../lib/phone.mjs';
+import { renderEmail } from '../../lib/email-template.mjs';
+import { getSiteUrl } from '../../lib/site-url';
 
 export const prerender = false;
 
@@ -9,6 +13,7 @@ const MOTIVOS: Record<string, string> = {
   orientacion: 'Orientación',
   colaboracion: 'Colaboración',
   compra: 'Compra',
+  horario: 'Otro horario',
   otro: 'Otro',
 };
 
@@ -52,8 +57,13 @@ export const POST: APIRoute = async ({ request }) => {
   let nombre: string | undefined;
   let email: string | undefined;
   let telefono: string | undefined;
+  let prefijo: string | undefined;
   let mensaje: string | undefined;
   let motivo: string | undefined;
+  let consulta: string | undefined;
+  let dias: string[] = [];
+  let franja: string | undefined;
+  let notas: string | undefined;
   let honeypot: string | undefined;
 
   try {
@@ -62,16 +72,26 @@ export const POST: APIRoute = async ({ request }) => {
       nombre = typeof body.nombre === 'string' ? body.nombre : undefined;
       email = typeof body.email === 'string' ? body.email : undefined;
       telefono = typeof body.telefono === 'string' ? body.telefono : undefined;
+      prefijo = typeof body.telefono_prefijo === 'string' ? body.telefono_prefijo : undefined;
       mensaje = typeof body.mensaje === 'string' ? body.mensaje : undefined;
       motivo = typeof body.motivo === 'string' ? body.motivo : undefined;
+      consulta = typeof body.consulta === 'string' ? body.consulta : undefined;
+      dias = Array.isArray(body.dias) ? body.dias.filter((dia: unknown): dia is string => typeof dia === 'string') : [];
+      franja = typeof body.franja === 'string' ? body.franja : undefined;
+      notas = typeof body.notas === 'string' ? body.notas : undefined;
       honeypot = typeof body.website === 'string' ? body.website : undefined;
     } else {
       const formData = await request.formData();
       nombre = formData.get('nombre')?.toString();
       email = formData.get('email')?.toString();
       telefono = formData.get('telefono')?.toString();
+      prefijo = formData.get('telefono_prefijo')?.toString();
       mensaje = formData.get('mensaje')?.toString();
       motivo = formData.get('motivo')?.toString();
+      consulta = formData.get('consulta')?.toString();
+      dias = formData.getAll('dias').map(String);
+      franja = formData.get('franja')?.toString();
+      notas = formData.get('notas')?.toString();
       honeypot = formData.get('website')?.toString();
     }
   } catch {
@@ -85,12 +105,18 @@ export const POST: APIRoute = async ({ request }) => {
 
   nombre = nombre?.trim();
   email = email?.trim().toLowerCase();
-  telefono = telefono?.trim();
+  const telefonoNormalizado = normalizePhone(telefono, prefijo);
+  telefono = telefonoNormalizado;
   mensaje = mensaje?.trim();
+
+  // «Otro horario» con sus campos propios: se compone el mensaje. Sin ellos, vale el mensaje libre.
+  if (motivo === 'horario' && (consulta || franja || dias.length > 0)) {
+    mensaje = composeHorarioMessage({ consulta, dias, franja, notas });
+  }
 
   const motivoLabel = motivo && Object.hasOwn(MOTIVOS, motivo) ? MOTIVOS[motivo] : undefined;
 
-  if (!motivoLabel || !nombre || nombre.length > 100 || !email || email.length > 254 || !EMAIL_REGEX.test(email) || (telefono && telefono.length > 30) || !mensaje || mensaje.length > 5000) {
+  if (!motivoLabel || !nombre || nombre.length > 100 || !email || email.length > 254 || !EMAIL_REGEX.test(email) || telefonoNormalizado === undefined || !mensaje || mensaje.length > 5000) {
     return fail(400, 'Revisa los campos del formulario.');
   }
 
@@ -106,6 +132,29 @@ export const POST: APIRoute = async ({ request }) => {
     if (error) {
       console.error('Resend contact error:', error.name);
       return fail(502, 'No se pudo enviar el mensaje.');
+    }
+
+    // Acuse a la familia. Si falla, el mensaje ya ha llegado a Mar: solo se registra.
+    try {
+      const acuse = await resend.emails.send({
+        from: fromEmail,
+        to: email,
+        subject: 'He recibido tu mensaje — Pomelo Baby',
+        ...renderEmail({
+          siteUrl: getSiteUrl(request),
+          preheader: motivo === 'horario' ? 'Te respondo con las horas disponibles.' : 'Te respondo en 24–48 horas laborables.',
+          greeting: 'Hola,',
+          paragraphs: motivo === 'horario'
+            ? [
+                'Gracias por escribirme. Te respondo con las horas disponibles en cuanto pueda.',
+                'Reservarás y pagarás en ese momento.',
+              ]
+            : ['Gracias por escribirme. Te respondo en 24–48 horas laborables al correo con el que me has escrito.'],
+        }),
+      });
+      if (acuse.error) console.error('Resend contact receipt error:', acuse.error.name);
+    } catch (err: unknown) {
+      console.error('Resend contact receipt exception:', err instanceof Error ? err.name : 'UnknownError');
     }
 
     return Response.redirect(new URL('/gracias', request.url), 303);
