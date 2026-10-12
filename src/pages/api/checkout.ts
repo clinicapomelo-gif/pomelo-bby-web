@@ -7,6 +7,7 @@ import {
   isGuiaPurchasable,
 } from '../../data/guias';
 import { termsConsent } from '../../lib/checkout-consent';
+import { invoiceCreation } from '../../lib/checkout-invoice';
 import { isPrivateGuidePdfAvailable } from '../../lib/guide-storage';
 import { getSiteUrl } from '../../lib/site-url';
 
@@ -112,6 +113,7 @@ export const POST: APIRoute = async ({ request }) => {
       automatic_tax: { enabled: false },
       adaptive_pricing: { enabled: false },
       locale: 'es',
+      ...invoiceCreation('guia'),
       ...termsConsent(baseURL, 'guia'),
     });
 

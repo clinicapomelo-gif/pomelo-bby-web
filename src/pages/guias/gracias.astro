@@ -2,6 +2,7 @@
 import Stripe from 'stripe';
 import Layout from '../../layouts/Layout.astro';
 import { guias } from '../../data/guias';
+import { isRefundedConsultation } from '../../lib/consulta-payment.mjs';
 
 export const prerender = false;
 
@@ -17,16 +18,20 @@ const validSessionId = sessionId?.startsWith('cs_') && sessionId.length <= 255
 const stripeKey = process.env.STRIPE_SECRET_KEY;
 let state: PurchaseState = validSessionId ? 'error' : 'invalid';
 let guiaTitle: string | undefined;
+let downloadLabel = 'Descargar el PDF';
 
 if (validSessionId && stripeKey) {
   try {
     const stripe = new Stripe(stripeKey);
-    const session = await stripe.checkout.sessions.retrieve(validSessionId);
+    const session = await stripe.checkout.sessions.retrieve(validSessionId, { expand: ['payment_intent.latest_charge'] });
     const guia = guias.find((item) => item.id === session.metadata?.guiaId);
 
     if (session.metadata?.type === 'guia' && guia) {
       guiaTitle = guia.title;
-      state = session.payment_status === 'paid'
+      if (guia.kind === 'complete') downloadLabel = 'Descargar el ebook';
+      state = isRefundedConsultation(session)
+        ? 'invalid'
+        : session.payment_status === 'paid'
         ? 'paid'
         : session.status === 'complete'
           ? 'pending'
@@ -55,6 +60,7 @@ if (validSessionId && stripeKey) {
             <h1>Pago confirmado</h1>
             <p>Gracias por tu compra{guiaTitle ? ` de «${guiaTitle}»` : ''}. Estamos preparando el email con tu enlace de descarga.</p>
             <p class="gracias__note">Puede tardar unos minutos. Revisa también spam y promociones. Si no aparece, <a href="/contacto">escríbeme</a> y lo solucionamos.</p>
+            <a href={`/api/guias/download?session_id=${validSessionId}`} class="btn btn--primary">{downloadLabel}</a>
           </>
         )}
 

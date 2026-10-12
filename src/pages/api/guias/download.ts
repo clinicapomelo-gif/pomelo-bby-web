@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import Stripe from 'stripe';
 import { authorizeGuidePurchase, getStripeMode, guias } from '../../../data/guias';
+import { isRefundedConsultation } from '../../../lib/consulta-payment.mjs';
 import { getGuideDownloadExpiresAt } from '../../../lib/guide-delivery';
 import { privatePdfResponse } from '../../../lib/guide-storage';
 
@@ -48,7 +49,7 @@ export const GET: APIRoute = async ({ url }) => {
   let session: Stripe.Checkout.Session;
 
   try {
-    session = await stripe.checkout.sessions.retrieve(sessionId);
+    session = await stripe.checkout.sessions.retrieve(sessionId, { expand: ['payment_intent.latest_charge'] });
   } catch (error: unknown) {
     const type = errorType(error);
     console.error('Guide download verification error:', type);
@@ -61,7 +62,8 @@ export const GET: APIRoute = async ({ url }) => {
     session.payment_status !== 'paid' ||
     session.livemode !== (stripeMode === 'live') ||
     session.metadata?.type !== 'guia' ||
-    !guia
+    !guia ||
+    isRefundedConsultation(session)
   ) {
     return unavailable();
   }

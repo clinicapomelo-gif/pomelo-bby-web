@@ -5,7 +5,7 @@ const MESSAGES = {
   guia: (url: string) =>
     `He leído y acepto las [condiciones de venta](${url}). Quiero recibir la guía ahora y entiendo que, una vez entregada, pierdo mi derecho de desistimiento.`,
   consulta: (url: string) =>
-    `He leído y acepto las [condiciones de venta](${url}).`,
+    `He leído y acepto las [condiciones de venta](${url}). Quiero que la consulta empiece ya y entiendo que, una vez respondida, pierdo mi derecho de desistimiento.`,
 };
 
 export const termsConsent = (baseURL: string, kind: keyof typeof MESSAGES) => ({

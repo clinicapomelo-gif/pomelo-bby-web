@@ -11,6 +11,7 @@ import {
   isStripeSessionMode,
 } from '../../lib/consulta-payment.mjs';
 import { termsConsent } from '../../lib/checkout-consent';
+import { invoiceCreation } from '../../lib/checkout-invoice';
 import { getSiteUrl } from '../../lib/site-url';
 
 export const prerender = false;
@@ -76,6 +77,7 @@ export const POST: APIRoute = async ({ request }) => {
       metadata: { type: 'consulta-mensaje', priceId },
       expires_at: Math.floor(Date.now() / 1000) + CONSULTATION_CHECKOUT_TTL_SECONDS,
       automatic_tax: { enabled: false },
+      ...invoiceCreation('consulta'),
       ...termsConsent(siteURL, 'consulta'),
     });
 

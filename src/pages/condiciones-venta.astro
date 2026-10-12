@@ -2,14 +2,134 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Condiciones de venta" description="Condiciones de venta de Pomelo Baby" noindex={true}>
+<Layout title="Condiciones de venta" description="Condiciones de venta de las guías, la consulta por correo y las consultas por videollamada de Pomelo Baby.">
   <section class="legal">
     <div class="container">
       <h1>Condiciones de venta</h1>
-      <p class="legal__placeholder">
-        Este contenido está pendiente de redacción por parte de un profesional legal.
-        Si tienes alguna pregunta, contacta con nosotros en <a href="mailto:hola@pomelobaby.es">hola@pomelobaby.es</a>.
-      </p>
+      <p class="legal__intro">Estas condiciones regulan la compra de guías y la contratación de consultas en Pomelo&nbsp;Baby. Están escritas para que se entiendan a la primera. Léelas antes de pagar y, si algo no te queda claro, escríbenos a <a href="mailto:hola@pomelobaby.es">hola@pomelobaby.es</a>.</p>
+
+      <section class="legal__section" aria-labelledby="quien-vende">
+        <h2 id="quien-vende">1. Quién te vende</h2>
+        <dl class="legal__details">
+          <div>
+            <dt>Razón social</dt>
+            <dd>Piel de Pomelo S.L.P</dd>
+          </div>
+          <div>
+            <dt>NIF</dt>
+            <dd>B16353807</dd>
+          </div>
+          <div>
+            <dt>Domicilio social</dt>
+            <dd>Calle Enric Valor, 2, 03820 Cocentaina (Alicante)</dd>
+          </div>
+          <div>
+            <dt>Registro Mercantil</dt>
+            <dd>Alicante, hoja A-191902, inscripción 1.ª</dd>
+          </div>
+          <div>
+            <dt>Contacto</dt>
+            <dd><a href="mailto:hola@pomelobaby.es">hola@pomelobaby.es</a></dd>
+          </div>
+        </dl>
+        <p>Los servicios de enfermería los presta Mar Vall Requena, enfermera colegiada (n.º 16700). Más datos en el <a href="/aviso-legal">aviso legal</a>.</p>
+      </section>
+
+      <section class="legal__section" aria-labelledby="que-vendemos">
+        <h2 id="que-vendemos">2. Qué puedes comprar</h2>
+        <ul class="legal__list">
+          <li><strong>Guías y ebooks en PDF:</strong> contenido digital descargable. Se compran con un pago único.</li>
+          <li><strong>Consulta por correo:</strong> tú me cuentas tu caso por escrito y yo te respondo por correo.</li>
+          <li><strong>Consultas por videollamada:</strong> una conversación individual con Mar, que se reserva eligiendo día y hora. Una de ellas incluye seguimiento por correo durante 14 días, tal y como se indica en la página de <a href="/consultas">Consultas</a>.</li>
+        </ul>
+        <p>En cada página encontrarás qué incluye cada producto o servicio. Vale lo que figure en ella en el momento en que pagas.</p>
+      </section>
+
+      <section class="legal__section" aria-labelledby="naturaleza-servicios">
+        <h2 id="naturaleza-servicios">3. Qué son (y qué no son) las guías y las consultas</h2>
+        <p>Las guías son material de educación sanitaria. Las consultas son servicios individualizados de enfermería, no consultas médicas de pediatría.</p>
+        <p>No incluyen diagnóstico médico ni prescripción de tratamientos, no sustituyen una exploración presencial cuando sea necesaria y no funcionan como servicio de urgencias. Si el caso necesita valoración médica, exploración física o atención urgente, acude al recurso sanitario adecuado.</p>
+        <p>Para que una consulta tenga sentido, quien la contrata debe ser madre, padre, representante legal o persona autorizada para ocuparse del niño o niña, y debe facilitar información veraz.</p>
+      </section>
+
+      <section class="legal__section" aria-labelledby="precios">
+        <h2 id="precios">4. Precios y pago</h2>
+        <p>Los precios se muestran en euros y son los que ves antes de pagar. Las consultas de enfermería están exentas de IVA. En las guías, el precio incluye el IVA que corresponda.</p>
+        <p>El pago se hace con tarjeta a través de Stripe, que procesa los datos de forma segura. Pomelo&nbsp;Baby no recibe ni guarda los datos completos de tu tarjeta. En las consultas por videollamada, el pago se hace en el momento de reservar.</p>
+      </section>
+
+      <section class="legal__section" aria-labelledby="contrato">
+        <h2 id="contrato">5. Cuándo se firma el contrato</h2>
+        <p>Cuando completes el pago y aceptes estas condiciones en la casilla que aparece sobre el botón de pagar, el contrato queda formalizado. Recibirás un correo con la confirmación y, según lo que hayas comprado, el acceso a tu guía, el formulario para contarme tu caso o los datos de tu cita.</p>
+        <p>El contrato se redacta en castellano. Puedes guardar o imprimir estas condiciones; las que se aplican son las vigentes el día de tu compra.</p>
+      </section>
+
+      <section class="legal__section" aria-labelledby="entrega">
+        <h2 id="entrega">6. Cómo y cuándo recibes lo que has comprado</h2>
+        <h3>Guías</h3>
+        <p>Cuando se confirma el pago, recibes un correo con el enlace de descarga. Revisa también spam y promociones. El enlace estará disponible durante 30 días desde la compra. Si tienes algún problema para descargarla, escríbenos y lo solucionamos.</p>
+        <h3>Consulta por correo</h3>
+        <p>Tras el pago recibes un correo con una referencia y el enlace al formulario donde me cuentas tu caso. Te respondo en 24–48 horas laborables desde que lo envías, al correo con el que has pagado. Si necesito alguna imagen para orientarte, te explicaré qué necesito y cómo enviarla de forma segura.</p>
+        <h3>Consultas por videollamada</h3>
+        <p>Eliges día y hora al reservar. Te llega un recordatorio por correo 2 horas antes. La consulta se hace por Google Meet o, si dejas tu teléfono, por videollamada de WhatsApp que inicia Mar.</p>
+        <p>Si algún día no puedo atenderte por mi parte, te propondré una nueva cita o te devolveré el importe completo.</p>
+      </section>
+
+      <section class="legal__section" aria-labelledby="desistimiento">
+        <h2 id="desistimiento">7. Derecho de desistimiento</h2>
+        <p>Si eres persona consumidora, la ley te da 14 días naturales para desistir de un contrato a distancia, con algunas excepciones.</p>
+        <h3>Guías (contenido digital)</h3>
+        <p>La guía se entrega nada más confirmarse el pago. Por eso, antes de pagar te pedimos que aceptes recibirla ahora y que entiendes que, una vez entregada, pierdes el derecho de desistimiento. Es lo que dice la casilla del pago.</p>
+        <h3>Consultas (servicios)</h3>
+        <p>Puedes desistir durante 14 días naturales desde la contratación. Si has pedido expresamente que el servicio empiece antes de que acabe ese plazo y después desistes, pagarás la parte proporcional de lo que ya se haya prestado. Cuando el servicio se ha prestado por completo, con tu petición expresa y sabiendo que así pierdes el derecho de desistimiento, ya no puedes desistir.</p>
+        <h3>Cómo desistir</h3>
+        <p>Escribe a <a href="mailto:hola@pomelobaby.es">hola@pomelobaby.es</a> indicando que quieres desistir y el correo con el que pagaste. No hace falta que expliques el motivo. Te devolveremos el importe que corresponda, con el mismo medio de pago, en un máximo de 14 días naturales desde que recibamos tu comunicación.</p>
+      </section>
+
+      <section class="legal__section" aria-labelledby="cancelaciones">
+        <h2 id="cancelaciones">8. Cambios y cancelaciones de las consultas por videollamada</h2>
+        <ul class="legal__list">
+          <li><strong>Cambiar la cita:</strong> puedes reprogramarla hasta 2 veces y hasta 24 horas antes de la hora reservada.</li>
+          <li><strong>Cancelar con devolución:</strong> si cancelas al menos 48 horas antes, te devolvemos el importe completo.</li>
+          <li><strong>Cancelar con menos de 48 horas:</strong> el importe no se devuelve, salvo que la ley te reconozca ese derecho.</li>
+          <li><strong>Si cancela Mar:</strong> te ofrecemos otra cita o te devolvemos el importe completo.</li>
+        </ul>
+        <p>Lo dicho en esta sección se aplica sin perjuicio de los derechos que la ley te reconoce como persona consumidora, incluido el desistimiento del apartado 7.</p>
+      </section>
+
+      <section class="legal__section" aria-labelledby="reembolsos">
+        <h2 id="reembolsos">9. Reembolsos y problemas con tu compra</h2>
+        <ul class="legal__list">
+          <li>Si has pagado y no puedes recibir tu guía o no podemos atender tu consulta por correo, te lo solucionamos o te devolvemos el importe.</li>
+          <li>Los reembolsos se hacen por el mismo medio de pago que usaste. El banco puede tardar unos días en reflejarlos.</li>
+          <li>Cuando se reembolsa una guía, dejas de tener acceso a su descarga.</li>
+          <li>Tienes los derechos de conformidad que la ley reconoce sobre los contenidos y servicios digitales. Si algo no funciona como debería, escríbenos y lo revisamos.</li>
+        </ul>
+      </section>
+
+      <section class="legal__section" aria-labelledby="uso-contenidos">
+        <h2 id="uso-contenidos">10. Uso de las guías y propiedad intelectual</h2>
+        <p>Las guías, ebooks y demás materiales son obra de Mar y propiedad de Piel de Pomelo S.L.P. Al comprarlos obtienes una licencia personal e intransferible para usarlos tú y tu familia.</p>
+        <p>No puedes revenderlos, compartirlos con terceras personas, publicarlos ni distribuirlos, ni total ni parcialmente, por ningún medio.</p>
+      </section>
+
+      <section class="legal__section" aria-labelledby="facturas">
+        <h2 id="facturas">11. Factura</h2>
+        <p>Recibirás la factura o el documento justificativo de tu compra en el correo electrónico que facilites al pagar. Al comprar aceptas recibirla en formato electrónico. Si necesitas que incluya datos fiscales concretos, escríbenos a <a href="mailto:hola@pomelobaby.es">hola@pomelobaby.es</a>.</p>
+      </section>
+
+      <section class="legal__section" aria-labelledby="datos">
+        <h2 id="datos">12. Tus datos</h2>
+        <p>Tratamos tus datos para gestionar la compra y prestar el servicio. En la <a href="/proteccion-datos">política de protección de datos</a> te explicamos qué datos tratamos, durante cuánto tiempo y cuáles son tus derechos. Si la consulta incluye información de salud de un niño o niña, solo la usamos para atenderla.</p>
+      </section>
+
+      <section class="legal__section" aria-labelledby="reclamaciones">
+        <h2 id="reclamaciones">13. Si algo no ha ido bien</h2>
+        <p>Escríbenos a <a href="mailto:hola@pomelobaby.es">hola@pomelobaby.es</a>. Lo hablamos y buscamos una solución. Si no quedas conforme, puedes acudir a los servicios de consumo de tu comunidad autónoma.</p>
+        <p>Estas condiciones se rigen por la ley española. Si eres persona consumidora, puedes acudir a los juzgados y tribunales de tu domicilio.</p>
+      </section>
+
+      <p class="legal__updated">Última actualización: 12 de octubre de 2026.</p>
     </div>
   </section>
 </Layout>
@@ -20,15 +140,87 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .legal .container {
-    max-width: 700px;
+    max-width: 780px;
   }
 
   .legal h1 {
     margin-bottom: var(--spacing-lg);
   }
 
-  .legal__placeholder {
+  .legal__intro {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .legal__section + .legal__section {
+    margin-top: var(--spacing-xl);
+  }
+
+  .legal h2 {
+    font-size: 1.35rem;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .legal h3 {
+    font-size: 1rem;
+    margin: var(--spacing-lg) 0 var(--spacing-sm);
+  }
+
+  .legal p,
+  .legal__list {
     color: var(--color-text-secondary);
     line-height: 1.8;
+  }
+
+  .legal p + p {
+    margin-top: var(--spacing-md);
+  }
+
+  .legal__list {
+    display: grid;
+    gap: var(--spacing-sm);
+    padding-left: 1.25rem;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .legal__list strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .legal__details {
+    display: grid;
+    gap: var(--spacing-sm);
+    margin: 0 0 var(--spacing-md);
+    padding: var(--spacing-lg);
+    background-color: var(--color-white);
+    border-radius: var(--radius-md);
+  }
+
+  .legal__details div {
+    display: grid;
+    grid-template-columns: minmax(190px, 0.4fr) 1fr;
+    gap: var(--spacing-md);
+  }
+
+  .legal__details dt {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .legal__details dd {
+    margin: 0;
+    color: var(--color-text-secondary);
+  }
+
+  .legal__updated {
+    margin-top: var(--spacing-xl);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 600px) {
+    .legal__details div {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
   }
 </style>
