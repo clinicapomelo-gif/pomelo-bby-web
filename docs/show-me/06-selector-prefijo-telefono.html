@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Selector de prefijo del teléfono — Pomelo Baby</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --white: #fff;
+      --cream: #f6efe7;
+      --nude: #f5ecec;
+      --coral: #ef6e71;
+      --granate: #92363a;
+      --peach: #eac4c6;
+      --text: #2d2d2d;
+      --secondary: #5a5a5a;
+      --border: #e8d8d9;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--cream); color: var(--text); font-family: Montserrat, sans-serif; line-height: 1.6; }
+    main { width: min(1100px, calc(100% - 2rem)); margin: auto; padding: 3rem 0 5rem; }
+    h1 { margin: 0 0 .5rem; font-size: clamp(1.7rem, 5vw, 2.4rem); }
+    h2 { margin: 0 0 .25rem; font-size: 1.15rem; }
+    p { margin: 0 0 1rem; color: var(--secondary); }
+    .intro { max-width: 62ch; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 1.25rem; margin-top: 2rem; }
+    .card { background: var(--white); border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,.05); }
+    .card--reco { outline: 2px solid var(--granate); }
+    .tag { display: inline-block; margin-bottom: .5rem; padding: .1rem .6rem; border-radius: 999px; background: var(--nude); color: var(--granate); font-size: .75rem; font-weight: 600; }
+    .pros { margin: 0 0 1.25rem; padding-left: 1.1rem; color: var(--secondary); font-size: .85rem; }
+    .pros li { margin-bottom: .15rem; }
+    .pros .minus { color: var(--granate); list-style: '– '; }
+    .pros .plus { list-style: '+ '; }
+
+    /* Campo como en la web */
+    .field > label, .field > .legend { display: block; margin-bottom: .5rem; font-weight: 500; font-size: .9rem; color: var(--text); }
+    .field > label span { color: var(--secondary); font-weight: 400; }
+    .phone { display: flex; gap: .5rem; }
+    .phone input[type="tel"] { flex: 1 1 auto; min-width: 0; }
+    input[type="tel"], select, .combo__input {
+      width: 100%; min-height: 48px; padding: .7rem 1rem; border: 1.5px solid var(--border); border-radius: 12px;
+      background: var(--white); color: var(--text); font: inherit; font-size: .95rem;
+    }
+    input:focus-visible, select:focus-visible, .combo__input:focus-visible { outline: 2px solid var(--granate); outline-offset: 2px; }
+    .hint { margin: .5rem 0 0; font-size: .8rem; }
+    .result { margin: .75rem 0 0; padding: .5rem .75rem; border-radius: 8px; background: var(--nude); font-size: .85rem; color: var(--secondary); }
+    .result strong { color: var(--text); }
+    .result.is-bad { color: var(--granate); }
+
+    /* A: lista desplegable compacta. El <select> real va encima, transparente */
+    .prefix { position: relative; flex: 0 0 5.5rem; }
+    .prefix__view {
+      display: flex; align-items: center; justify-content: space-between; gap: .25rem; height: 100%; min-height: 48px;
+      padding: 0 .75rem 0 1rem; border: 1.5px solid var(--border); border-radius: 12px; background: var(--white); font-size: .95rem;
+    }
+    .prefix__view::after { content: '▾'; color: var(--secondary); font-size: .8rem; }
+    .prefix select { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+    .prefix:focus-within .prefix__view { outline: 2px solid var(--granate); outline-offset: 2px; }
+
+    /* A': lista desplegable tal cual */
+    .phone--plain select { flex: 0 0 14rem; width: auto; }
+
+    /* B: botones (como Días y Franja en la web) */
+    .chips { border: 0; margin: 0 0 .75rem; padding: 0; min-width: 0; }
+    .chips__list { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .chip { position: relative; display: inline-flex; }
+    .chip input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+    .chip span { display: inline-flex; align-items: center; gap: .35rem; min-height: 44px; padding: 0 1rem; border: 1.5px solid var(--peach); border-radius: 12px; background: var(--white); font-size: .9rem; }
+    .chip input:checked + span { border-color: var(--granate); background: var(--nude); color: var(--granate); font-weight: 600; }
+    .chip input:checked + span::before { content: '✓'; }
+    .chip input:focus-visible + span { outline: 2px solid var(--granate); outline-offset: 2px; }
+
+    /* C: un solo campo con +34 escrito */
+    /* D: buscador */
+    .phone--combo { position: relative; }
+    .combo { flex: 0 0 5.5rem; }
+    .combo__input { padding: .7rem .75rem .7rem 1rem; cursor: pointer; }
+    .combo__input:focus { cursor: text; }
+    .combo__list { position: absolute; z-index: 5; top: calc(100% + 4px); left: 0; right: 0; max-height: 18rem; overflow: auto; padding: .25rem; border: 1.5px solid var(--border); border-radius: 12px; background: var(--white); box-shadow: 0 8px 24px rgba(0,0,0,.12); }
+    .combo__list[hidden] { display: none; }
+    .combo__group-title { position: sticky; top: 0; padding: .4rem .75rem; background: var(--white); color: var(--granate); font-size: .72rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+    .combo__option { padding: .55rem .75rem; border-radius: 8px; cursor: pointer; font-size: .9rem; }
+    .combo__option span { color: var(--secondary); }
+    .combo__option[aria-selected="true"] { background: var(--nude); color: var(--granate); }
+    .combo__empty { padding: .6rem .75rem; color: var(--secondary); font-size: .85rem; }
+    .note { margin-top: 2rem; padding: 1rem 1.25rem; border-radius: 12px; background: var(--white); font-size: .9rem; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Selector de prefijo del teléfono</h1>
+  <p class="intro">Cinco formas de elegir el país del teléfono. Pruébalas con el ratón, el teclado y el ancho de ventana del móvil. Debajo de cada una verás cómo se guardaría el número.</p>
+
+  <div class="grid">
+
+    <!-- A -->
+    <section class="card">
+      <span class="tag">Lista desplegable</span>
+      <h2>A. Lista ordenada, con el prefijo compacto</h2>
+      <ul class="pros">
+        <li class="plus">En la caja solo se ve «+34»: ocupa poco.</li>
+        <li class="plus">Al abrirla, la lista del móvil o del navegador sale por grupos y por orden alfabético, con el nombre del país primero.</li>
+        <li class="plus">Es un <code>&lt;select&gt;</code> nativo: teclado, lector de pantalla y selector del móvil funcionan solos.</li>
+        <li class="minus">No tiene buscador: se escribe la inicial con el teclado para saltar al país.</li>
+      </ul>
+      <div class="field" data-demo="a">
+        <label for="tel-a">Teléfono de contacto <span>(opcional)</span></label>
+        <div class="phone">
+          <div class="prefix">
+            <span class="prefix__view" aria-hidden="true">+34</span>
+            <select aria-label="Prefijo del país" data-select></select>
+          </div>
+          <input type="tel" id="tel-a" inputmode="tel" autocomplete="tel-national" placeholder="612 345 678" data-number>
+        </div>
+        <p class="result" data-result></p>
+      </div>
+    </section>
+
+    <!-- A' -->
+    <section class="card">
+      <span class="tag">Lista desplegable</span>
+      <h2>A'. La misma lista, sin compactar</h2>
+      <ul class="pros">
+        <li class="plus">Se ve el país elegido en la caja: «España (+34)».</li>
+        <li class="minus">Ocupa mucho ancho. En el móvil casi la mitad de la fila, y los nombres largos se cortan.</li>
+      </ul>
+      <div class="field" data-demo="a2">
+        <label for="tel-a2">Teléfono de contacto <span>(opcional)</span></label>
+        <div class="phone phone--plain">
+          <select aria-label="Prefijo del país" data-select data-full></select>
+          <input type="tel" id="tel-a2" inputmode="tel" autocomplete="tel-national" placeholder="612 345 678" data-number>
+        </div>
+        <p class="result" data-result></p>
+      </div>
+    </section>
+
+    <!-- B -->
+    <section class="card">
+      <span class="tag">Botones</span>
+      <h2>B. Botones con los países más probables</h2>
+      <ul class="pros">
+        <li class="plus">Un toque, igual que Días y Franja.</li>
+        <li class="plus">Sin listas largas.</li>
+        <li class="minus">Solo caben unos pocos países. «Otro» obliga a escribir el +prefijo.</li>
+      </ul>
+      <div class="field" data-demo="b">
+        <span class="legend" id="leg-b">Teléfono de contacto <span>(opcional)</span></span>
+        <fieldset class="chips" aria-labelledby="leg-b">
+          <div class="chips__list" data-chips></div>
+        </fieldset>
+        <input type="tel" inputmode="tel" autocomplete="tel-national" placeholder="612 345 678" aria-label="Número de teléfono" data-number>
+        <p class="result" data-result></p>
+      </div>
+    </section>
+
+    <!-- C -->
+    <section class="card">
+      <span class="tag">Campo único</span>
+      <h2>C. Un solo campo con «+34» ya escrito</h2>
+      <ul class="pros">
+        <li class="plus">La interfaz más pequeña. Cualquier país sin listas.</li>
+        <li class="plus">El navegador puede autocompletar el número internacional completo.</li>
+        <li class="minus">Quien está fuera de España puede no darse cuenta de que puede cambiar el prefijo.</li>
+      </ul>
+      <div class="field" data-demo="c">
+        <label for="tel-c">Teléfono de contacto <span>(opcional)</span></label>
+        <input type="tel" id="tel-c" inputmode="tel" autocomplete="tel" value="+34 " data-number data-full-field>
+        <p class="hint" style="color:var(--secondary)">Puedes cambiar el +34 por el prefijo de tu país.</p>
+        <p class="result" data-result></p>
+      </div>
+    </section>
+
+    <!-- D -->
+    <section class="card card--reco">
+      <span class="tag">Buscador · con la organización de la A</span>
+      <h2>D. Lista con buscador, por grupos</h2>
+      <ul class="pros">
+        <li class="plus">Escribes «Méx» (o «+52») y filtra, sin perder los grupos.</li>
+        <li class="plus">Cerrada ocupa lo mismo que la A: solo «+34».</li>
+        <li class="plus">Teclado: flechas, Intro, Esc. Al enfocarla se abre con todos los países.</li>
+        <li class="minus">Es un componente propio: más código y más pruebas de accesibilidad que el <code>&lt;select&gt;</code>. Esto es una maqueta.</li>
+      </ul>
+      <div class="field" data-demo="d">
+        <label for="tel-d">Teléfono de contacto <span>(opcional)</span></label>
+        <div class="phone phone--combo">
+          <div class="combo">
+            <input class="combo__input" type="text" role="combobox" aria-expanded="false" aria-controls="lista-d" aria-autocomplete="list" aria-label="País del teléfono" autocomplete="off" value="+34" data-combo>
+          </div>
+          <input type="tel" id="tel-d" inputmode="tel" autocomplete="tel-national" placeholder="612 345 678" data-number>
+          <div class="combo__list" id="lista-d" role="listbox" aria-label="Países" hidden></div>
+        </div>
+        <p class="result" data-result></p>
+      </div>
+    </section>
+
+  </div>
+
+  <p class="note"><strong>Orden de la lista (A, A' y D):</strong> primero «Más habituales» (España arriba, el resto por orden alfabético), después Europa, América y el resto del mundo, cada grupo por orden alfabético en español. Al final, «Otro», para escribir el +prefijo a mano.</p>
+</main>
+
+<script>
+  // Datos: [prefijo, país]. Los grupos y el orden son los del diseño.
+  const GRUPOS = [
+    ['Más habituales', [['+34', 'España'], ['+54', 'Argentina'], ['+57', 'Colombia'], ['+52', 'México'], ['+351', 'Portugal']]],
+    ['Europa', [['+49', 'Alemania'], ['+376', 'Andorra'], ['+32', 'Bélgica'], ['+33', 'Francia'], ['+353', 'Irlanda'], ['+39', 'Italia'], ['+31', 'Países Bajos'], ['+44', 'Reino Unido'], ['+41', 'Suiza']]],
+    ['América', [['+591', 'Bolivia'], ['+56', 'Chile'], ['+506', 'Costa Rica'], ['+53', 'Cuba'], ['+593', 'Ecuador'], ['+503', 'El Salvador'], ['+1', 'Estados Unidos, Canadá y R. Dominicana'], ['+502', 'Guatemala'], ['+504', 'Honduras'], ['+505', 'Nicaragua'], ['+507', 'Panamá'], ['+595', 'Paraguay'], ['+51', 'Perú'], ['+598', 'Uruguay'], ['+58', 'Venezuela']]],
+    ['África y otros', [['+212', 'Marruecos']]],
+  ];
+  GRUPOS.slice(1).forEach(([, lista]) => lista.sort((a, b) => a[1].localeCompare(b[1], 'es')));
+  const TODOS = GRUPOS.flatMap(([, lista]) => lista);
+
+  // Misma lógica que src/lib/phone.mjs (copia reducida para la maqueta).
+  const normalizePhone = (value, prefix = '+34') => {
+    const raw = (value || '').trim();
+    if (!raw) return '';
+    if (!/^\+?[\d\s().-]+$/.test(raw)) return undefined;
+    let digits = raw.replace(/\D/g, ''), country = '';
+    if (raw.startsWith('+')) { /* incluye su prefijo */ }
+    else if (digits.startsWith('00')) digits = digits.slice(2);
+    else {
+      if (!/^\+\d{1,3}$/.test(prefix || '')) return undefined;
+      country = prefix.slice(1);
+      if (digits.startsWith('0') && country !== '39') digits = digits.slice(1);
+      digits = country + digits;
+    }
+    if (digits.startsWith('34')) return /^34[6-9]\d{8}$/.test(digits) ? `+34 ${digits.slice(2, 5)} ${digits.slice(5, 8)} ${digits.slice(8)}` : undefined;
+    if (digits.length < 8 || digits.length > 15) return undefined;
+    return country ? `+${country} ${digits.slice(country.length)}` : `+${digits}`;
+  };
+
+  const showResult = (demo, number, prefix) => {
+    const out = demo.querySelector('[data-result]');
+    const phone = normalizePhone(number.value, prefix);
+    out.classList.toggle('is-bad', phone === undefined);
+    out.innerHTML = phone === undefined
+      ? 'No se entiende este teléfono.'
+      : phone === '' ? 'Vacío: es opcional, se envía sin teléfono.' : `Se guardaría como: <strong>${phone}</strong>`;
+  };
+
+  // A y A'
+  for (const select of document.querySelectorAll('[data-select]')) {
+    const demo = select.closest('[data-demo]');
+    const number = demo.querySelector('[data-number]');
+    const full = select.hasAttribute('data-full');
+    for (const [titulo, lista] of GRUPOS) {
+      const group = document.createElement('optgroup');
+      group.label = titulo;
+      for (const [code, name] of lista) group.append(new Option(`${name} (${code})`, code, false, code === '+34'));
+      select.append(group);
+    }
+    select.append(new Option('Otro país (escribe el +prefijo)', ''));
+    const view = demo.querySelector('.prefix__view');
+    const update = () => {
+      if (view) view.textContent = select.value || '+…';
+      showResult(demo, number, select.value);
+    };
+    select.addEventListener('change', update);
+    number.addEventListener('input', update);
+    update();
+  }
+
+  // B
+  {
+    const demo = document.querySelector('[data-demo="b"]');
+    const list = demo.querySelector('[data-chips]');
+    const number = demo.querySelector('[data-number]');
+    const opciones = [['+34', 'España'], ['+351', 'Portugal'], ['+52', 'México'], ['+54', 'Argentina'], ['', 'Otro']];
+    opciones.forEach(([code, name], i) => {
+      const label = document.createElement('label');
+      label.className = 'chip';
+      label.innerHTML = `<input type="radio" name="prefijo-b" value="${code}" ${i === 0 ? 'checked' : ''}><span>${code ? `${code} ${name}` : name}</span>`;
+      list.append(label);
+    });
+    const update = () => {
+      const code = demo.querySelector('input[name="prefijo-b"]:checked').value;
+      number.placeholder = code ? '612 345 678' : '+57 300 1234567';
+      showResult(demo, number, code);
+    };
+    demo.addEventListener('change', update);
+    number.addEventListener('input', update);
+    update();
+  }
+
+  // C
+  {
+    const demo = document.querySelector('[data-demo="c"]');
+    const number = demo.querySelector('[data-number]');
+    const update = () => {
+      const solo = /^\+\d{1,3}\s*$/.test(number.value);
+      showResult(demo, { value: solo ? '' : number.value }, '');
+    };
+    number.addEventListener('input', update);
+    update();
+  }
+
+  // D: buscador con los grupos de la A (maqueta, sin pulir la accesibilidad de producción)
+  {
+    const demo = document.querySelector('[data-demo="d"]');
+    const input = demo.querySelector('[data-combo]');
+    const list = demo.querySelector('.combo__list');
+    const number = demo.querySelector('[data-number]');
+    const OTRO = ['', 'Otro país (escribe el +prefijo)'];
+    let prefix = '+34', active = 0, flat = [];
+    const sinTildes = (t) => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+    const render = (query) => {
+      const q = sinTildes(query.trim().replace(/^\+/, ''));
+      const match = ([code, name]) => !q || sinTildes(name).includes(q) || code.slice(1).startsWith(q);
+      flat = [];
+      let html = '';
+      GRUPOS.forEach(([titulo, lista], g) => {
+        const hits = lista.filter(match);
+        if (!hits.length) return;
+        html += `<div role="group" aria-labelledby="g-${g}"><div class="combo__group-title" id="g-${g}">${titulo}</div>`;
+        hits.forEach((item) => {
+          html += `<div role="option" class="combo__option" id="o-${flat.length}" data-i="${flat.length}">${item[1]} <span>(${item[0]})</span></div>`;
+          flat.push(item);
+        });
+        html += '</div>';
+      });
+      if (!q || sinTildes(OTRO[1]).includes(q)) {
+        html += `<div role="option" class="combo__option" id="o-${flat.length}" data-i="${flat.length}">${OTRO[1]}</div>`;
+        flat.push(OTRO);
+      }
+      if (!flat.length) html = '<div class="combo__empty">Sin resultados. Prueba con otro nombre.</div>';
+      list.innerHTML = html;
+      active = Math.max(0, flat.findIndex(([code]) => code === prefix && !q));
+      mark();
+    };
+    const mark = () => {
+      list.querySelectorAll('[role="option"]').forEach((el, i) => el.setAttribute('aria-selected', String(i === active)));
+      const el = list.querySelector(`#o-${active}`);
+      input.setAttribute('aria-activedescendant', el ? el.id : '');
+      el?.scrollIntoView({ block: 'nearest' });
+    };
+    const open = () => { list.hidden = false; input.setAttribute('aria-expanded', 'true'); };
+    const close = () => {
+      list.hidden = true;
+      input.setAttribute('aria-expanded', 'false');
+      input.removeAttribute('aria-activedescendant');
+      input.value = prefix || '+…';
+    };
+    const choose = (i) => {
+      if (!flat[i]) return;
+      prefix = flat[i][0];
+      close();
+      showResult(demo, number, prefix);
+      number.focus();
+    };
+
+    input.addEventListener('focus', () => { input.value = ''; input.placeholder = 'Buscar país'; render(''); open(); });
+    input.addEventListener('click', () => { if (list.hidden) { input.value = ''; render(''); open(); } });
+    input.addEventListener('input', () => { render(input.value); open(); });
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') { active = Math.min(active + 1, flat.length - 1); mark(); e.preventDefault(); }
+      else if (e.key === 'ArrowUp') { active = Math.max(active - 1, 0); mark(); e.preventDefault(); }
+      else if (e.key === 'Enter') { if (!list.hidden) { choose(active); e.preventDefault(); } }
+      else if (e.key === 'Escape') { close(); }
+    });
+    list.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      const el = e.target.closest('[data-i]');
+      if (el) choose(Number(el.dataset.i));
+    });
+    input.addEventListener('blur', () => { if (!list.hidden) close(); });
+    number.addEventListener('input', () => showResult(demo, number, prefix));
+    showResult(demo, number, prefix);
+  }
+</script>
+</body>
+</html>

@@ -125,6 +125,31 @@ Conviene evitar pedir una historia clínica detallada en el formulario. Solo se 
 
 El título que se guarda en los calendarios también debería ser genérico, sin datos médicos ni información sensible.
 
+## Horario de los miércoles y límites (12 oct 2026)
+
+Mar atiende los miércoles de 11:00 a 13:00 y de 16:00 a 18:00, con un máximo de **4 consultas cortas** y **2 largas** al día para no sobrecargarse. Con las franjas libres, las cortas pueden dejar las largas sin hueco aunque no se haya llegado al límite (en una simulación, solo el 14–58 % de los días salían las 6 consultas). Por eso cada tipo tiene su propio horario, con horas fijas, y los límites se mantienen como seguro.
+
+| Evento | Horario (Disponibilidad) | Horas que se ofrecen |
+| --- | --- | --- |
+| Necesito un plan (40 min) | «Consultas largas»: miércoles 11:00–11:45 y 16:00–16:45 | 11:00 y 16:00 |
+| Necesito hablarlo con calma (20 min) | «Consultas cortas»: miércoles 12:00–13:00 y 17:00–18:00 | 12:00, 12:30, 17:00 y 17:30 |
+
+Ajustes de cada evento (pestaña Limits):
+
+- **Antes del evento:** sin margen. **Después del evento:** 10 minutos.
+- **Aviso de reserva:** 12 horas (decidido por Mar el 12 oct).
+- **Frecuencia de reserva:** 4 al día en la corta y 2 al día en la larga.
+- **Intervalos de tiempo:** 30 minutos en la corta; «usar duración del evento» en la larga.
+- Apagados: «Limitar la duración total de la reserva» y «Considerar solo las reservas de este enlace». Opcional: «reservas próximas por usuario» a 1 y un límite de reservas futuras de 4–6 semanas.
+
+Por qué estas horas: el selector de Cal.com va de 15 en 15 minutos, así que la larga se abre de 11:00 a 11:45 (cabe un solo hueco de 40 min) y la primera corta empieza a las 12:00, más de 10 minutos después de que acabe. Con eso, las 4 cortas y las 2 largas caben siempre, se reserven en el orden que se reserven. Para cambiar las horas hay que mantener la regla: cada consulta empieza al menos 10 minutos después de que acabe la anterior y termina antes de que cierre su franja.
+
+Cuando una semana cambie, se editan las excepciones por fecha de **los dos horarios**. Los eventos «Ocupado» del calendario bloquean a los dos.
+
+### Familias a las que no les encaja el miércoles
+
+La familia lo pide desde `/contacto` con el motivo «Otro horario para una consulta» (campos: consulta, días de lunes a viernes, franja y notas). Mar responde por correo y, si acepta, añade una excepción por fecha en el horario de ese tipo de consulta y manda el enlace de `/consultas`. Los límites del evento (4 y 2 al día) siguen aplicándose. Alternativas y diseño de la versión automática: [`ideas-horarios-alternativos.md`](ideas-horarios-alternativos.md).
+
 ## Ajustes recomendados
 
 Mar debe decidir estos límites según su disponibilidad real:
