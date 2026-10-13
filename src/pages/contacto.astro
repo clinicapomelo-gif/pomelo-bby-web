@@ -107,7 +107,7 @@ import Layout from '../layouts/Layout.astro';
 
               <fieldset class="chips" data-validation-field>
                 <legend>Días que me vienen bien</legend>
-                <div class="chips__list">
+                <div class="chips__list chips__list--dias">
                   <label class="chip"><input type="checkbox" name="dias" value="lunes" disabled data-error-required="Marca al menos un día." /><span>Lun</span></label>
                   <label class="chip"><input type="checkbox" name="dias" value="martes" disabled /><span>Mar</span></label>
                   <label class="chip"><input type="checkbox" name="dias" value="miércoles" disabled /><span>Mié</span></label>
@@ -367,6 +367,24 @@ import Layout from '../layouts/Layout.astro';
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-sm);
+  }
+
+  .chips__list--dias {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.35rem;
+  }
+
+  .chips__list--dias .chip span {
+    min-width: 0;
+    padding: 0 0.25rem;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 480px) {
+    .chips__list--dias .chip input:checked + span::before {
+      content: none;
+    }
   }
 
   .chip {
