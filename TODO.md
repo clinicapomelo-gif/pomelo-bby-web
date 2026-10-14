@@ -42,12 +42,24 @@ Hecho en el código el 12 oct: factura automática de Stripe en los dos checkout
 - [ ] **[Mar + Rafael]** Plantilla de respuesta en Gmail y filtro por el asunto `[Otro horario]`. Responder a una petición es manual: Mar añade una excepción por fecha en el horario de ese tipo en Cal.com y manda el enlace de `/consultas`.
 - [ ] **[Rafael]** Cal.com: poner en la descripción de los dos eventos «¿No te encaja ningún horario? Escríbeme desde pomelobaby.es/contacto y buscamos otro.»; casilla obligatoria de aceptar las condiciones; confirmar «Necesito un plan» (horario de largas, 11:00 y 16:00, frecuencia 2 al día). Opcional: «reservas próximas por usuario» a 1, límite de reservas futuras y tope total por usuario (Settings → General, si aparece).
 - [ ] **[Rafael]** Stripe: activar **Pagos efectuados** en Configuración → Empresa → Correos electrónicos de clientes (así llega la factura), y los datos fiscales de Piel de Pomelo para las facturas. Coste de Stripe por factura: 0,4 % con máximo de 2 $.
-- [ ] **[Rafael + Dev]** Probar en Sandbox: compra de una guía (correo, botón de descarga, factura con «Enviar recibo» manual, reembolso y que la descarga se bloquee), y consulta por correo con el teléfono nuevo.
+- [x] **[Rafael + Dev]** Probar en Sandbox (hecho, 13 oct): compra de una guía (correo, botón de descarga, factura con «Enviar recibo» manual, reembolso y que la descarga se bloquee), y consulta por correo con el teléfono nuevo.
 - [ ] **[Rafael + Dev]** Probar con las variables de Resend en `.env` (con `RESEND_TO_EMAIL` apuntando a un correo propio) el formulario de `/contacto` completo: aviso a Mar y acuse. Confirmar que la regla de límite de envíos de Cloudflare incluye `/api/contact`.
 - [ ] **[Dev]** Probar el selector de prefijo (`src/lib/phone-prefix.ts`) con teclado, lector de pantalla, iPhone y Android.
 - [ ] **[Gestor]** IVA de las guías: el código pone «IVA incluido (21 %)» (`GUIDE_VAT_RATE`); confirmar si son 4 % por libro electrónico. Consultas: exentas (art. 20.Uno.3.º de la Ley 37/1992, según Mar).
 - [ ] **[Gestor + Dev]** Facturas de las reservas de Cal.com (49 y 89 €): no las genera el checkout. Opción: webhook de Cal.com y factura en Stripe pagada fuera de banda; antes, comprobar que Cal.com cobra con la misma cuenta de Stripe.
 - [ ] **[Dev]** Borrar o conservar la maqueta `docs/show-me/06-selector-prefijo-telefono.html`.
+
+# Apertura
+
+Decidido (14 oct): se abre todo el mismo día, **salvo El Chisme**, que se queda apagado (`CHISME_ENABLED=false`).
+
+- [ ] **[Gestor]** Respuesta sobre IVA y revisión de Aviso legal, Privacidad, Cookies y Condiciones (sección B).
+- [ ] **[Vicente / Mar]** Datos del Aviso legal: nº del Registro de Sociedades Profesionales, colegio de Mar, título y país.
+- [ ] **[Mar]** Aprobar los textos nuevos (sección A) y decidir lo de los 40 minutos.
+- [ ] **[Rafael]** Stripe («Pagos efectuados», datos fiscales, URL de las Condiciones en Sandbox y Live) y Cal.com (descripciones, casilla de condiciones, «Necesito un plan»).
+- [ ] **[Rafael + Dev]** Probar el formulario de `/contacto` con Resend y revisar `/contacto` en móvil (390 y 320 px).
+- [ ] **[Dev]** El día de apertura, en un solo commit a `main`: `GUIDES_ENABLED`, `CONSULTATIONS_ENABLED` y `FREE_GUIDES_ENABLED` a `true`, quitar `downloadEnabled: false` y `CONSULTA_CORREO_PAUSADA`; comprobar los mapeos `stripe.live`, el webhook Live, Resend y los PDF en R2.
+- [ ] **[Mar + Dev]** Justo después: compra real de 4,90 € (pago, webhook, correo, descarga) y reembolso; después una reserva de Cal.com y la consulta por correo.
 
 # B. Pendiente: esperan a una respuesta o a otra tarea
 
@@ -60,8 +72,8 @@ Hecho en el código el 12 oct: factura automática de Stripe en los dos checkout
 
 ## Esperan a la clínica (prioridad de Mar para abrir consultas)
 
-- [ ] **[Empresa]** Autorización sanitaria (titular, dirección, nº registral, U.2) con confirmación escrita de que cubre videollamada, formulario, correo y seguimiento. Después, **[Dev]** la publica.
-- [ ] **[Empresa]** Confirmación escrita del seguro: sociedad, Mar, menores y atención remota.
+- [x] **[Empresa]** Autorización sanitaria: la clínica está cubierta (13 oct). Falta que **[Dev]** publique sus datos (titular, dirección, nº registral, U.2); hay que pasárselos.
+- [x] **[Empresa]** Seguro: cubierto (13 oct).
 
 ## Esperan a lo anterior (Dev, salvo indicación)
 
