@@ -2,17 +2,15 @@
 
 Solo lo que bloquea o tiene fecha. Última revisión: 12 oct 2026.
 
-**Estado:** web publicada. Guías, consultas y El Chisme apagados por código (`GUIDES_ENABLED`, `CONSULTATIONS_ENABLED`, `CHISME_ENABLED`; la guía gratuita tiene el suyo, `FREE_GUIDES_ENABLED`). Stripe Live y Vercel Production listos para las guías, probadas en Sandbox (`docs/guias-de-pago.md`). Cal.com configurado (precios 49 € y 89 €) y, desde el 12 oct, con el horario fijo de los miércoles (`docs/configuracion-cal-com.md`). Mar envió el 2 oct el correo al gestor. Migración a Cloudflare en curso en la rama `cloudflare` (`TODO-cloudflare.md`). Los textos actuales los ha revisado Mar: no se tocan.
+**Estado:** web publicada. Guías, consultas y El Chisme apagados por código (`GUIDES_ENABLED`, `CONSULTATIONS_ENABLED`, `CHISME_ENABLED`; la guía gratuita tiene el suyo, `FREE_GUIDES_ENABLED`). Stripe Live y Cloudflare Production listos para las guías, probadas en Sandbox (`docs/guias-de-pago.md`). Cal.com configurado (precios 49 € y 89 €) y, desde el 12 oct, con el horario fijo de los miércoles (`docs/configuracion-cal-com.md`). Mar envió el 2 oct el correo al gestor. Migración a Cloudflare hecha el 8 oct: `main` despliega Production y queda la limpieza de Vercel (`TODO-cloudflare.md`). Los textos actuales los ha revisado Mar: no se tocan.
 
 # A. Podemos hacer ahora mismo
 
 No dependen de ninguna respuesta externa.
 
-## Esta semana, con fecha
+## Atrasado
 
-Production (push del 2 oct 2026) tiene el aviso de error de Contacto, los datos de empresa con el Registro Mercantil, `noindex` de las Condiciones y el precio de 89 €, y sigue sin poder cobrarse nada.
-
-- [ ] **[Rafael + Dev]** **5 oct:** activar la guía gratuita: `FREE_GUIDES_ENABLED = true` en `src/data/guias.ts`, quitar `"downloadEnabled": false` en `src/data/guias.json`, build y push. `GUIDES_ENABLED` se queda en `false`.
+- [ ] **[Rafael + Dev]** Activar la guía gratuita (estaba prevista para el 5 oct y sigue apagada): `FREE_GUIDES_ENABLED = true` en `src/data/guias.ts`, quitar `"downloadEnabled": false` en `src/data/guias.json`, build y push. `GUIDES_ENABLED` se queda en `false`.
 
 ## Pequeñas, de una sesión
 
@@ -27,7 +25,7 @@ Production (push del 2 oct 2026) tiene el aviso de error de Contacto, los datos 
 ## Decisiones
 
 - [ ] **[Mar]** ¿La web debe decir los 40 minutos de «Necesito un plan»? En Cal.com están en 40; la web solo dice los 20 minutos de la otra consulta. Sería texto nuevo.
-- [ ] **[Mar + Rafael]** Decidir cuándo enseñar la web en redes (Mar quiere hacerlo pronto). La web ya está pública y las ventas siguen cerradas: antes, terminar la migración a Cloudflare (sección C), porque anunciar ventas en Vercel Hobby ya es uso comercial, y comprobar que todo lo visible es correcto (precios, «Próximamente», textos legales).
+- [ ] **[Mar + Rafael]** Decidir cuándo enseñar la web en redes (Mar quiere hacerlo pronto). La web ya está pública, en Cloudflare, y las ventas siguen cerradas: antes, comprobar que todo lo visible es correcto (precios, «Próximamente», textos legales).
 
 ## Redacción y trabajo de Dev
 
@@ -63,7 +61,7 @@ Decidido (14 oct): se abre todo el mismo día, **salvo El Chisme**, que se queda
 
 # B. Pendiente: esperan a una respuesta o a otra tarea
 
-## Esperan al gestor (correo enviado el 2 oct; si en una semana no responde, volver a escribirle)
+## Esperan al gestor (correo enviado el 2 oct; ya pasó la semana de plazo: si no ha respondido, volver a escribirle)
 
 - [ ] **[Gestor]** IVA o exención de guías y consultas, qué pone la factura y que los precios son finales. Se factura a Piel de Pomelo S.L.P con su NIF (ya confirmado). Guías de 4,90 a 14,90 € hoy, con previsión de llegar a 24,90 €; consultas de 19, 49 y 89 €.
 - [ ] **[Gestor]** Revisar Aviso legal, Privacidad, Cookies, aviso sanitario del footer (Mar ya lo aprobó) y las capas de privacidad de los formularios. Mar lo prioriza («estar bien blindada legalmente»); Rafael lo ve opcional.
@@ -86,7 +84,7 @@ Decidido (14 oct): se abre todo el mismo día, **salvo El Chisme**, que se queda
 
 # C. Migración a Cloudflare
 
-Decidido el 2 oct 2026: Vercel Hobby no permite uso comercial (cobrar ni anunciar ventas). **Antes de cobrar o de enseñar la web en redes, la web tiene que estar en Cloudflare.** Lista completa, con tiempos de despliegue y de propagación del DNS: **[`TODO-cloudflare.md`](TODO-cloudflare.md)**.
+Hecha el 8 oct 2026: `pomelobaby.es` se sirve desde el Worker de Production y Vercel queda solo como vuelta atrás. Lo que falta (revisión y limpieza de Vercel) está en **[`TODO-cloudflare.md`](TODO-cloudflare.md)**.
 
 # Más adelante
 
