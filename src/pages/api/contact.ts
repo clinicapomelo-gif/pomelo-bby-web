@@ -123,7 +123,8 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     const { error } = await resend.emails.send({
       from: fromEmail,
-      to: toEmail,
+      // «Otro horario» es cosa de agenda: va al buzón de Mar (consultas). El resto, a Contacto.
+      to: motivo === 'horario' ? (process.env.RESEND_CONSULTA_TO_EMAIL || toEmail) : toEmail,
       replyTo: email,
       subject: `[${motivoLabel}] Nuevo mensaje de ${nombre.replace(/\s+/g, ' ')} — Pomelo Baby`,
       text: `Nuevo mensaje desde la web\n\nMotivo: ${motivoLabel}\nNombre: ${nombre}\nEmail: ${email}${telefono ? `\nTeléfono de contacto: ${telefono}` : ''}\n\nMensaje:\n${mensaje}`,
