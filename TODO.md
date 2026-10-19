@@ -1,16 +1,28 @@
 # TODO — Pomelo Baby
 
-Solo lo que bloquea o tiene fecha. Última revisión: 12 oct 2026.
+Solo lo que bloquea o tiene fecha. Última revisión: 19 oct 2026.
 
-**Estado:** web publicada. Guías, consultas y El Chisme apagados por código (`GUIDES_ENABLED`, `CONSULTATIONS_ENABLED`, `CHISME_ENABLED`; la guía gratuita tiene el suyo, `FREE_GUIDES_ENABLED`). Stripe Live y Cloudflare Production listos para las guías, probadas en Sandbox (`docs/guias-de-pago.md`). Cal.com configurado (precios 49 € y 89 €) y, desde el 12 oct, con el horario fijo de los miércoles (`docs/configuracion-cal-com.md`). Mar envió el 2 oct el correo al gestor. Migración a Cloudflare hecha el 8 oct: `main` despliega Production y queda la limpieza de Vercel (`TODO-cloudflare.md`). Los textos actuales los ha revisado Mar: no se tocan.
+**Estado:** **web abierta el 19 oct 2026** (commit `62ef56a`, desplegado en Production a las 17:30 UTC): guías de pago, guía gratuita, consultas y El Chisme activos (de El Chisme, de momento solo captar suscriptores: aún no hay ediciones) (`GUIDES_ENABLED`, `FREE_GUIDES_ENABLED`, `CONSULTATIONS_ENABLED` y `CHISME_ENABLED` a `true`; `CONSULTA_CORREO_PAUSADA` a `false`). Comprobado en la web: `/consultas` muestra «Reservar» y las guías de pago, «Comprar». **Compra Live real de una guía comprobada por Rafael el 19 oct: funciona.** Stripe Live y Cloudflare Production, probados en Sandbox (`docs/guias-de-pago.md`). Cal.com con el horario fijo de los miércoles, comprobado como correcto el 19 oct (`docs/configuracion-cal-com.md`). Mar envió el 2 oct el correo al gestor, sin respuesta registrada. Migración a Cloudflare hecha el 8 oct (`TODO-cloudflare.md`). Los textos actuales los ha revisado Mar: no se tocan.
+
+# Ahora, tras abrir
+
+Con las ventas abiertas, esto pasa a ser lo primero:
+
+- [x] **[Rafael]** Compra real Live de una guía y reembolso: funciona (19 oct). Queda mirar si el correo cae en spam (Gmail, Outlook, móvil) y que la factura llegue, cuando «Pagos efectuados» esté activado.
+- [ ] **[Dev]** Comprobar que las **demás** guías también tienen mapeo `stripe.live` y su PDF en R2 (`pomelo-guias`); la compra real solo prueba una. El webhook Live, `sk_live_` y Resend quedan probados por esa compra.
+- [ ] **[Mar + Rafael]** Una reserva real controlada de cada consulta de Cal.com (el cobro debe salir en el Stripe de Pomelo) y reembolsarla; y la consulta por correo, que ya se puede comprar. El horario de Cal.com ya está bien.
+- [ ] **[Rafael]** Search Console: **reenviar `sitemap-index.xml`** (la última lectura fue el 30 sept, antes de la migración; hoy responde 200). El aviso «Página alternativa con etiqueta canónica adecuada» es informativo (URL sin barra final que apunta a la versión con barra): se ignora.
+- [ ] **[Rafael]** Stripe: «Pagos efectuados», datos fiscales y URL de las Condiciones en **Sandbox y Live**, si no están (las facturas dependen de ello).
+- [ ] **[Rafael + Mar]** El Chisme (captando suscriptores, sin ediciones todavía): reenvío de `chisme@` a Gmail y limpiar los 2 contactos de prueba de Resend. Las 3 ediciones de Mar y el primer Broadcast con enlace de baja, antes de enviar nada.
+- [ ] **[Dev]** Cuando se pase por las páginas legales: los datos pendientes del Aviso legal (ver más abajo) siguen sin publicar con la web ya abierta.
 
 # A. Podemos hacer ahora mismo
 
 No dependen de ninguna respuesta externa.
 
-## Atrasado
+## Hecho el 19 oct
 
-- [ ] **[Rafael + Dev]** Activar la guía gratuita (estaba prevista para el 5 oct y sigue apagada): `FREE_GUIDES_ENABLED = true` en `src/data/guias.ts`, quitar `"downloadEnabled": false` en `src/data/guias.json`, build y push. `GUIDES_ENABLED` se queda en `false`.
+- [x] **[Rafael + Dev]** Guía gratuita activada (`FREE_GUIDES_ENABLED = true`, sin `downloadEnabled: false`), junto con el resto de la apertura.
 
 ## Pequeñas, de una sesión
 
@@ -25,12 +37,12 @@ No dependen de ninguna respuesta externa.
 ## Decisiones
 
 - [ ] **[Mar]** ¿La web debe decir los 40 minutos de «Necesito un plan»? En Cal.com están en 40; la web solo dice los 20 minutos de la otra consulta. Sería texto nuevo.
-- [ ] **[Mar + Rafael]** Decidir cuándo enseñar la web en redes (Mar quiere hacerlo pronto). La web ya está pública, en Cloudflare, y las ventas siguen cerradas: antes, comprobar que todo lo visible es correcto (precios, «Próximamente», textos legales).
+- [ ] **[Mar + Rafael]** Decidir cuándo enseñar la web en redes (Mar quiere hacerlo pronto). La web y las ventas ya están abiertas: antes de anunciarla, cerrar «Ahora, tras abrir».
 
 ## Redacción y trabajo de Dev
 
 - [ ] **[Gestor / abogado + Mar]** Revisar el borrador de las Condiciones de venta que Dev publicó el 12 oct en `src/pages/condiciones-venta.astro` (ya sin `noindex`): desistimiento, cancelaciones (2 reprogramaciones, hasta 24 h antes, reembolso con 48 h; el texto dice «sin perjuicio de los derechos que la ley te reconoce») y la nueva casilla de la consulta por correo (`src/lib/checkout-consent.ts`). Duda concreta: si «no se devuelve con menos de 48 h» es compatible con el desistimiento de 14 días antes de que se preste el servicio. Faltan los casos de ausencia y si cancela Mar con más detalle.
-- [ ] **[Mar + Rafael]** «Cuéntame por correo» (la consulta de 19 €): E3 programada el 7 oct con máximo de 10 al día y pausa desde la web, `CONSULTA_CORREO_PAUSADA` (`docs/consulta-por-correo.md`). Textos aprobados por Mar y 10 todos los días de la semana. Probada en Sandbox el 7 oct. Falta decidir expresamente abrir el cobro Live (hoy solo Sandbox). Mar aprobó también los textos de WhatsApp de la confirmación y de «¡Recibido!».
+- [ ] **[Mar + Rafael]** «Cuéntame por correo» (la consulta de 19 €): E3 programada el 7 oct con máximo de 10 al día y pausa desde la web, `CONSULTA_CORREO_PAUSADA` (`docs/consulta-por-correo.md`). Textos aprobados por Mar y 10 todos los días de la semana. Probada en Sandbox el 7 oct. Abierta con el resto el 19 oct (`CONSULTATIONS_ENABLED = true`): falta una compra real controlada. Mar aprobó también los textos de WhatsApp de la confirmación y de «¡Recibido!».
 
 ## Facturas, horarios y formularios (12 oct 2026)
 
@@ -47,17 +59,16 @@ Hecho en el código el 12 oct: factura automática de Stripe en los dos checkout
 - [ ] **[Gestor + Dev]** Facturas de las reservas de Cal.com (49 y 89 €): no las genera el checkout. Opción: webhook de Cal.com y factura en Stripe pagada fuera de banda; antes, comprobar que Cal.com cobra con la misma cuenta de Stripe.
 - [ ] **[Dev]** Borrar o conservar la maqueta `docs/show-me/06-selector-prefijo-telefono.html`.
 
-# Apertura
+# Apertura (hecha el 19 oct)
 
-Decidido (14 oct): se abre todo el mismo día, **salvo El Chisme**, que se queda apagado (`CHISME_ENABLED=false`).
+El 14 oct se decidió abrir todo el mismo día, salvo El Chisme; el 19 oct se abrió **todo, incluido El Chisme** (`62ef56a`). Lo que se había previsto como requisito y sigue sin hacerse:
 
-- [ ] **[Gestor]** Respuesta sobre IVA y revisión de Aviso legal, Privacidad, Cookies y Condiciones (sección B).
+- [ ] **[Gestor]** Respuesta sobre IVA y revisión de Aviso legal, Privacidad, Cookies y Condiciones (sección B). Hoy se cobra 21 % en las guías sin confirmar.
 - [ ] **[Vicente / Mar]** Datos del Aviso legal: nº del Registro de Sociedades Profesionales, colegio de Mar, título y país.
 - [ ] **[Mar]** Aprobar los textos nuevos (sección A) y decidir lo de los 40 minutos.
-- [ ] **[Rafael]** Stripe («Pagos efectuados», datos fiscales, URL de las Condiciones en Sandbox y Live) y Cal.com (descripciones, casilla de condiciones, «Necesito un plan»).
+- [ ] **[Rafael]** Cal.com: descripciones, casilla de condiciones y «Necesito un plan».
 - [ ] **[Rafael + Dev]** Probar el formulario de `/contacto` con Resend y revisar `/contacto` en móvil (390 y 320 px).
-- [ ] **[Dev]** El día de apertura, en un solo commit a `main`: `GUIDES_ENABLED`, `CONSULTATIONS_ENABLED` y `FREE_GUIDES_ENABLED` a `true`, quitar `downloadEnabled: false` y `CONSULTA_CORREO_PAUSADA`; comprobar los mapeos `stripe.live`, el webhook Live, Resend y los PDF en R2.
-- [ ] **[Mar + Dev]** Justo después: compra real de 4,90 € (pago, webhook, correo, descarga) y reembolso; después una reserva de Cal.com y la consulta por correo.
+- [x] **[Dev]** Banderas a `true`, `downloadEnabled` y `CONSULTA_CORREO_PAUSADA` fuera (19 oct).
 
 # B. Pendiente: esperan a una respuesta o a otra tarea
 
@@ -78,9 +89,21 @@ Decidido (14 oct): se abre todo el mismo día, **salvo El Chisme**, que se queda
 - [ ] **[Rafael + Dev]** Con la revisión de las Condiciones y la respuesta del IVA: dejar definitivos los textos de `src/lib/checkout-consent.ts`, poner la URL de las Condiciones (`https://pomelobaby.es/condiciones-venta`) en Stripe **Sandbox y Live** (Settings → Public details) y decidir `tax_behavior` de los Prices.
 - [ ] **[Dev + gestor]** Casilla de condiciones en la reserva de Cal.com, y reprogramaciones (hasta 2, hasta 24 h): Cal.com no las limita por sí mismo.
 - [ ] **[Mar + Rafael]** Reservar y reembolsar una prueba de cada consulta de Cal.com, cuando haya disponibilidad: el cobro debe aparecer en el Stripe de Pomelo. En «Necesito hablar con calma», una de ellas eligiendo teléfono: recordatorio del Workflow 2 h antes, número en el calendario de Mar, videollamada de WhatsApp, cambio de hora y cancelación.
-- [ ] **[Mar + Dev]** Compra real de 4,90 € (`conservacion-alimentos`): webhook 200 en Stripe, correo (¿spam en Gmail, Outlook y móvil?) y descarga; reembolsarla. Si cae en spam, revisar los informes DMARC: el `rua` ya está configurado y llegan a `dmarc@pomelobaby.es`. Después, `GUIDES_ENABLED = true` y push.
+- [x] Compra real de una guía: hecha el 19 oct (ver «Ahora, tras abrir»). Si el correo cae en spam, revisar los informes DMARC: el `rua` ya llega a `dmarc@pomelobaby.es`.
 - [ ] **[Mar + Dev]** «Cuéntame por correo»: compra de prueba y compra real controlada antes de abrirla.
 - [ ] **[Dev]** QA final: ya hecho enlaces (0 rotos), 404 (existe, sin enlace de vuelta; una 404 propia sería texto nuevo y la decide Mar), SEO (100), velocidad y Contacto en Production. Revisión manual de móvil, teclado y foco hecha por Rafael el 2 oct (funciona de 10 en móvil). Falta probar en Production los formularios que se abran.
+
+# Entornos de prueba (develop)
+
+Decidido el 16 oct (conversación): rama **`develop`** y entorno de pruebas con el Worker `pomelo-bby-web-preview`, Sandbox y recursos propios, en vez de migrar a Worker Previews antes del lanzamiento (novedad del 22 sept 2026 y cambio irreversible; revisar más adelante si hace falta una URL por rama). Flujo: ramas de trabajo → `develop` → pruebas → `main`; `main` solo recibe de `develop`.
+
+- [ ] **[Dev]** Crear la rama `develop` desde `main` y limitar el Worker `-preview` para que solo se despliegue desde ella (hoy cualquier rama lo pisa).
+- [ ] **[Dev + Rafael]** **Bucket R2 propio** (`pomelo-guias-develop`, con PDFs de prueba): hoy la preview y Production comparten `pomelo-guias`.
+- [ ] **[Rafael]** Dominio `develop.pomelobaby.es` en el Worker `-preview` (primer nivel, lo cubre el certificado gratuito) protegido con Cloudflare Access, y webhook propio en Stripe Sandbox para esa URL.
+- [ ] **[Dev + Rafael]** Resend: Segmento y Topic de pruebas, y `RESEND_TO_EMAIL` / `RESEND_CONSULTA_TO_EMAIL` a un correo propio en la preview. Comprobar qué usa hoy la preview (solo nombres, nunca valores).
+- [ ] **[Dev]** `noindex` en el dominio propio de develop (solo `workers.dev` lo lleva automático) y que las visitas no cuenten en Web Analytics.
+- [ ] **[Rafael + Mar]** Cal.com no tiene Sandbox y solo conecta una cuenta de Stripe: decidir si se prueba con una segunda cuenta de Cal.com conectada a Stripe Sandbox, con un evento oculto de coste real o solo con la reserva real controlada.
+- [ ] **[Dev]** Escribir `docs/entornos.md` con el mapa del stack (qué es compartido y qué tiene entorno propio) y la lista de correos que envía el sistema (a la familia y a Mar), para enseñárselo a Mar.
 
 # C. Migración a Cloudflare
 
@@ -90,7 +113,7 @@ Hecha el 8 oct 2026: `pomelobaby.es` se sirve desde el Worker de Production y Ve
 
 Verifactu: sin hacer nada hasta 2028 (Hacienda anunció el 5 oct 2026 el aplazamiento a octubre de 2028; falta el BOE). Reembolso automático ante un aviso de fraude de Stripe y respuesta de Mar con un clic para las peticiones de otro horario (diseño en `docs/ideas-horarios-alternativos.md`). 2FA en Cloudflare, Resend, DonDominio y GitHub, y DMARC estricto cuando SPF y DKIM lleven un tiempo en PASS.
 
-El Chisme (Mar: 3 ediciones y el primer Broadcast con enlace de baja; limpiar los 2 contactos de prueba de Resend; el flujo de alta, confirmación, baja y reactivación ya está probado en local), Manual de supervivencia (PDF de Mar) y fuentes en los artículos de salud.
+El Chisme está abierto solo para captar suscriptores (tareas en «Ahora, tras abrir»); las ediciones y el primer Broadcast, cuando Mar las tenga; el flujo de alta, confirmación, baja y reactivación está probado en local. Manual de supervivencia (PDF de Mar) y fuentes en los artículos de salud.
 
 ## Documentación
 
