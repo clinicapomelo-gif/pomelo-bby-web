@@ -1,1 +1,1 @@
-export const CHISME_ENABLED = false;
+export const CHISME_ENABLED = true;

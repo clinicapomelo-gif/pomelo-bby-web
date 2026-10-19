@@ -41,8 +41,8 @@ export type PurchasableGuia = Guia & { blobKey: string };
 
 // Solo en la preview de Cloudflare (Stripe Sandbox), para probar compras de punta a punta.
 // En Production y en local siguen apagadas; para abrir las ventas, cambiar a `true`.
-export const GUIDES_ENABLED = process.env.APP_ENV === 'preview';
-export const FREE_GUIDES_ENABLED = false;
+export const GUIDES_ENABLED = true;
+export const FREE_GUIDES_ENABLED = true;
 
 export const guias = catalog as Guia[];
 
