@@ -24,6 +24,8 @@ No dependen de ninguna respuesta externa.
 
 - [x] **[Rafael + Dev]** Guía gratuita activada (`FREE_GUIDES_ENABLED = true`, sin `downloadEnabled: false`), junto con el resto de la apertura.
 
+- [ ] **[Rafael]** **19 oct:** Search Console marca 403 en `/sobre-mi/`, `/blog/` y `/consultas/` desde el 13 oct. Causa: la regla gestionada de Cloudflare «Block AI training crawlers» bloqueaba a Googlebot (118 peticiones de Google LLC entre el 12 y el 19 oct). Cambiado Training a «disabled» en Seguridad → Configuración → Bots (confirmar que quedó guardado). **Comprobar el 21 oct:** en Seguridad → Análisis → Eventos de seguridad ya no debe haber bloqueos de esa regla desde Google; si es así, «Validar corrección» en Search Console (Indexación → «Bloqueada por 403»). Si siguen, revisar Reglas de seguridad y el Worker. Las «alternativas con canónica» (URLs sin barra rastreadas antes del 8 oct) y las 2 «descubiertas» se resuelven solas. Opcional: `robots.txt` que bloquee GPTBot y similares sin afectar a Google.
+
 ## Pequeñas, de una sesión
 
 - [ ] **[Mar]** Respuesta rápida de Instagram que derive las dudas de salud a `/consultas`.
