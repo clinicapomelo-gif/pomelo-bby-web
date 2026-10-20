@@ -72,9 +72,9 @@ test('limita el checkout a pagos de tarjeta confirmados al volver', () => {
   assert.deepEqual(CONSULTATION_PAYMENT_METHOD_TYPES, ['card']);
 });
 
-test('mantiene el checkout live cerrado hasta disponer de persistencia duradera', () => {
+test('abre el checkout en Sandbox y en Live, nunca sin modo de Stripe válido', () => {
   assert.equal(canCreateConsultationCheckout('test'), true);
-  assert.equal(canCreateConsultationCheckout('live'), false);
+  assert.equal(canCreateConsultationCheckout('live'), true);
   assert.equal(canCreateConsultationCheckout(undefined), false);
 });
 

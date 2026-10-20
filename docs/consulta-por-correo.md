@@ -1,6 +1,8 @@
 # Consulta por correo (19 €)
 
-Implementa la propuesta E3 (7 oct 2026). La consulta sigue apagada (`CONSULTATIONS_ENABLED = false`) y el cobro Live cerrado (`canCreateConsultationCheckout`): abrirlo es una decisión expresa.
+Implementa la propuesta E3 (7 oct 2026). Abierta en Production, con cobro Live, desde el 20 oct 2026 (decisión expresa).
+
+**Datos del caso:** la web no los guarda en ningún sitio. Llegan por correo a Mar (Resend) y el seguimiento va por correo o WhatsApp. Hasta el 20 oct el cobro Live estuvo bloqueado a la espera de una base de datos propia para los casos; se decidió que no hace falta. Si el envío falla tras 3 intentos, la familia recibe el caso para copiarlo y enviarlo por correo.
 
 ## Flujo
 

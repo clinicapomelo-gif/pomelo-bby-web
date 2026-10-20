@@ -18,7 +18,7 @@
   - `SITE_URL`: `https://pomelobaby.es`.
 - Mantener las claves `sk_test_...` y `whsec_...` del Sandbox en Preview.
 - Mantener `STRIPE_CATALOG_KEY` como clave restringida `rk_test_...` solo en Development.
-- No activar todavía las consultas Live: el código las mantiene bloqueadas hasta aprobar la persistencia de datos sanitarios.
+- La consulta por correo se cobra en Live desde el 20 oct 2026. Antes estaba bloqueada a la espera de guardar los casos en una base de datos; se decidió no guardarlos en ningún sitio aparte del correo y WhatsApp (ver `docs/consulta-por-correo.md`).
 - Probar una compra Live de una guía barata antes de publicar el resto.
 
 ## Stripe Elements

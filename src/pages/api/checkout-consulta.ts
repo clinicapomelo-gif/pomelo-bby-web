@@ -29,9 +29,12 @@ const unavailable = (reason: keyof typeof UNAVAILABLE_MESSAGES) => new Response(
 export const POST: APIRoute = async ({ request }) => {
   const stripeKey = process.env.STRIPE_SECRET_KEY;
   const stripeMode = getConsultationStripeMode(stripeKey, process.env.APP_ENV);
+  // Consultas apagadas o Stripe sin configurar: la web ya está abierta, así que no se habla de
+  // «próximamente»; es un fallo puntual del pago.
   if (!CONSULTATIONS_ENABLED || !stripeKey || !canCreateConsultationCheckout(stripeMode)) {
+    console.error('Consulta checkout: consultas apagadas o Stripe sin configurar');
     return new Response(
-      JSON.stringify({ error: 'Las consultas estarán disponibles próximamente.' }),
+      JSON.stringify({ error: 'No se pudo iniciar el pago. Inténtalo de nuevo.' }),
       { status: 503, headers: { 'Content-Type': 'application/json' } }
     );
   }

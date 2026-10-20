@@ -25,8 +25,9 @@ export const isConsultationSubmissionAuthorized = (session, lineItems, mode) => 
     Boolean(session.customer_details.email.trim());
 };
 
-// Live stays closed until a durable, approved store protects paid health data.
-export const canCreateConsultationCheckout = (mode) => mode === 'test';
+// Abierta en Sandbox y en Live (decisión del 20 oct 2026). El caso no se guarda en la web:
+// llega por correo a Mar y el seguimiento va por correo o WhatsApp (ver docs/consulta-por-correo.md).
+export const canCreateConsultationCheckout = (mode) => mode === 'test' || mode === 'live';
 
 // Un pago abierto reserva su hueco del día hasta que caduca. 30 minutos es el mínimo de
 // Stripe; se deja un minuto de margen para que Stripe no lo rechace por el reloj.
