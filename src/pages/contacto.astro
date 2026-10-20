@@ -70,7 +70,7 @@ import Layout from '../layouts/Layout.astro';
 
             <div class="form__group" data-validation-field>
               <label for="nombre">Nombre</label>
-              <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required data-error-required="Cuéntame cómo te llamas." />
+              <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" autocomplete="name" maxlength="100" required data-error-required="Cuéntame cómo te llamas." />
             </div>
 
             <div class="form__group" data-validation-field>
@@ -80,6 +80,9 @@ import Layout from '../layouts/Layout.astro';
                 id="email"
                 name="email"
                 placeholder="tu@email.com"
+                autocomplete="email"
+                inputmode="email"
+                maxlength="254"
                 required
                 data-error-required="Escribe tu correo para que pueda responderte."
                 data-error-invalid="Revisa el correo. Debe tener un formato como nombre@correo.com."
@@ -142,7 +145,7 @@ import Layout from '../layouts/Layout.astro';
 
             <div id="campos-mensaje" class="form__group" data-validation-field>
               <label for="mensaje">¿En qué puedo ayudarte?</label>
-              <textarea id="mensaje" name="mensaje" rows="5" required data-error-required="Cuéntame en qué puedo ayudarte."></textarea>
+              <textarea id="mensaje" name="mensaje" rows="5" maxlength="5000" required data-error-required="Cuéntame en qué puedo ayudarte."></textarea>
             </div>
 
             <p class="form__privacy"><strong>Privacidad:</strong> Piel de Pomelo S.L.P usará tus datos para responder a tu solicitud. Puedes ejercer tus derechos y consultar destinatarios, conservación y demás información en la <a href="/proteccion-datos" target="_blank" rel="noopener">política de privacidad</a>.</p>
@@ -159,7 +162,6 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <script>
-  import '../lib/phone-field.ts';
   const params = new URLSearchParams(window.location.search);
   const motivo = params.get('motivo');
   const select = document.querySelector<HTMLSelectElement>('#motivo');
@@ -200,6 +202,37 @@ import Layout from '../layouts/Layout.astro';
   select?.addEventListener('change', mostrarCampos);
   dias.forEach((dia) => dia.addEventListener('change', exigirUnDia));
   mostrarCampos();
+
+  // Si el servidor rechaza el envío, la página vuelve con ?error=1 y el formulario vacío: se
+  // guarda lo escrito en esta pestaña al enviar y se recupera solo en ese caso.
+  const form = document.querySelector<HTMLFormElement>('form[name="contacto"]');
+  const DRAFT_KEY = 'pomelo-contacto';
+  const restoreDraft = () => {
+    let draft: [string, string][] = [];
+    try { draft = JSON.parse(sessionStorage.getItem(DRAFT_KEY) || '[]'); } catch { return; }
+    if (!form || !Array.isArray(draft)) return;
+    draft.forEach(([name, value]) => {
+      form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(`[name="${CSS.escape(name)}"]`).forEach((field) => {
+        if (field instanceof HTMLInputElement && (field.type === 'checkbox' || field.type === 'radio')) {
+          if (field.value === value) field.checked = true;
+        } else {
+          field.value = value;
+        }
+      });
+    });
+  };
+  if (params.has('error')) {
+    restoreDraft();
+    select?.dispatchEvent(new Event('change'));
+    form?.querySelectorAll('[data-phone-prefix]').forEach((prefix) => prefix.dispatchEvent(new Event('change')));
+  }
+  try { sessionStorage.removeItem(DRAFT_KEY); } catch { /* sin almacenamiento */ }
+  form?.addEventListener('submit', (event) => {
+    if (event.defaultPrevented) return;
+    const entries = Array.from(new FormData(form).entries())
+      .filter(([name, value]) => name !== 'website' && typeof value === 'string');
+    try { sessionStorage.setItem(DRAFT_KEY, JSON.stringify(entries)); } catch { /* sin almacenamiento */ }
+  });
 
   const error = document.querySelector<HTMLElement>('#contacto-error');
   if (error && params.has('error')) {

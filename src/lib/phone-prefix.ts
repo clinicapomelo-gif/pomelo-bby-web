@@ -132,6 +132,8 @@ document.querySelectorAll<HTMLSelectElement>('select[data-phone-prefix]').forEac
   };
 
   input.value = currentLabel();
+  // Si otro script cambia el prefijo (p. ej. al recuperar un borrador), el buscador lo refleja.
+  select.addEventListener('change', () => { if (list.hidden) input.value = currentLabel(); });
   input.addEventListener('focus', () => input.select());
   input.addEventListener('click', () => { if (list.hidden) open(); });
   input.addEventListener('input', () => open(input.value));

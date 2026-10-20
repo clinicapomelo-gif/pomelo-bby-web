@@ -123,7 +123,7 @@ if (CONSULTATIONS_ENABLED) {
             </ul>
             <div class="consulta-card__footer">
               {CONSULTATIONS_ENABLED ? (
-                <button data-cal-link={`${CAL_USERNAME}/${CAL_EXPRESS_SLUG}`} data-cal-config='{"layout":"month_view"}' class="btn btn--primary">Reservar duda concreta</button>
+                <button data-cal-booking={`${CAL_USERNAME}/${CAL_EXPRESS_SLUG}`} data-cal-config='{"layout":"month_view"}' class="btn btn--primary">Reservar duda concreta</button>
               ) : (
                 <span class="btn btn--disabled" aria-disabled="true">Próximamente</span>
               )}
@@ -177,7 +177,7 @@ if (CONSULTATIONS_ENABLED) {
             </ul>
             <div class="consulta-card__footer">
               {CONSULTATIONS_ENABLED ? (
-                <button data-cal-link={`${CAL_USERNAME}/${CAL_PERSONALIZADA_SLUG}`} data-cal-config='{"layout":"month_view"}' class="btn btn--primary">Reservar consulta</button>
+                <button data-cal-booking={`${CAL_USERNAME}/${CAL_PERSONALIZADA_SLUG}`} data-cal-config='{"layout":"month_view"}' class="btn btn--primary">Reservar consulta</button>
               ) : (
                 <span class="btn btn--disabled" aria-disabled="true">Próximamente</span>
               )}
@@ -320,9 +320,10 @@ if (CONSULTATIONS_ENABLED) {
     margin-bottom: var(--spacing-sm);
   }
 
+  /* Coral con letras blancas, como en Instagram (aprobado el 20 oct 2026). */
   .consulta-card__badge--featured {
     background-color: var(--color-coral);
-    color: var(--color-text);
+    color: var(--color-white);
   }
 
   .consulta-card__summary h2 {

@@ -286,12 +286,10 @@ const { heading = 'h2', eyebrow = 'Guía gratuita', compact = false } = Astro.pr
     text-align: center;
   }
 
-  .lead-magnet__message--success {
-    color: var(--color-coral-text);
-  }
-
+  /* Granate: el coral sobre blanco no llega al contraste mínimo para texto. */
+  .lead-magnet__message--success,
   .lead-magnet__message--error {
-    color: var(--color-coral-text);
+    color: var(--color-coral-hover);
   }
 
   .lead-magnet__honeypot {

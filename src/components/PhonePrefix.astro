@@ -12,3 +12,10 @@ import { PHONE_GRUPOS } from '../lib/phone-countries.mjs';
   ))}
   <option value="" data-name="Otro país (escribe el +prefijo)">Otro país (escribe el +prefijo)</option>
 </select>
+
+<!-- El script del campo va con el componente y no en cada página: si dos páginas importan el
+     mismo módulo, Vite lo saca a un chunk compartido, la página deja de poder llevar su script
+     en línea y strict-dynamic bloquea el <script src> resultante. -->
+<script>
+  import '../lib/phone-field.ts';
+</script>

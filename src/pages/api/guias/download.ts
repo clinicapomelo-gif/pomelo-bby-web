@@ -15,25 +15,11 @@ const errorType = (error: unknown) => {
   return error instanceof Error ? error.name : 'UnknownError';
 };
 
-const textResponse = (message: string, status: number) => new Response(message, {
-  status,
-  headers: {
-    'Cache-Control': 'private, no-store',
-    'Content-Type': 'text/plain; charset=utf-8',
-  },
-});
+export const GET: APIRoute = async ({ url, redirect }) => {
+  // Los errores se explican en una página de la web (/guias/enlace), no en texto plano.
+  const unavailable = () => redirect('/guias/enlace?motivo=no-valido', 303);
+  const temporarilyUnavailable = () => redirect('/guias/enlace?motivo=temporal', 303);
 
-const unavailable = () => textResponse(
-  'No hemos podido verificar este enlace. Si necesitas ayuda, escríbenos desde la página de contacto.',
-  404,
-);
-
-const temporarilyUnavailable = () => textResponse(
-  'La descarga no está disponible temporalmente.',
-  503,
-);
-
-export const GET: APIRoute = async ({ url }) => {
   const sessionId = url.searchParams.get('session_id');
   if (!sessionId?.startsWith('cs_') || sessionId.length > 255) {
     return unavailable();
@@ -93,10 +79,7 @@ export const GET: APIRoute = async ({ url }) => {
   );
 
   if (Math.floor(Date.now() / 1000) > expiresAt) {
-    return textResponse(
-      'Este enlace ha caducado. Escríbenos desde la página de contacto y comprobaremos tu compra.',
-      410,
-    );
+    return redirect('/guias/enlace?motivo=caducado', 303);
   }
 
   try {

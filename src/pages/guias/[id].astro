@@ -89,6 +89,7 @@ const isAvailable = canDownloadFree || canCheckout;
                     {guia.kind === 'complete' ? 'Comprar la guía completa' : 'Comprar la guía rápida'}
                   </button>
                 </form>
+                <p class="producto__aviso" id="checkout-aviso" role="status" tabindex="-1" hidden></p>
                 <ul class="producto__garantias">
                   <li>✓ Pago seguro con Stripe</li>
                   <li>✓ {guia.kind === 'complete' ? 'Ebook descargable' : 'Guía descargable en PDF'}</li>
@@ -113,31 +114,42 @@ const isAvailable = canDownloadFree || canCheckout;
 <script>
   const form = document.querySelector<HTMLFormElement>('#checkout-form');
   const button = document.querySelector<HTMLButtonElement>('#btn-comprar');
+  const aviso = document.querySelector<HTMLParagraphElement>('#checkout-aviso');
 
   if (form && button) {
     const buttonLabel = button.textContent;
+    // Mismo patrón que la consulta por correo: el error queda en la página, junto al botón.
+    const showAviso = (message: string) => {
+      button.textContent = buttonLabel;
+      button.disabled = false;
+      if (!aviso) return;
+      aviso.textContent = message;
+      aviso.hidden = false;
+      aviso.focus();
+    };
+
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
-      button.textContent = 'Redirigiendo...';
+      button.textContent = 'Procesando…';
       button.disabled = true;
+      if (aviso) aviso.hidden = true;
 
       try {
         const response = await fetch(form.action, {
           method: 'POST',
           body: new FormData(form),
         });
-        const data = await response.json();
+        // Una respuesta que no es JSON (p. ej. el 429 del límite de envíos) no debe mostrar el error del parser.
+        const data = await response.json().catch(() => ({}));
 
         if (response.ok && data.url) {
           window.location.href = data.url;
           return;
         }
 
-        throw new Error(data.error || 'No se pudo iniciar el pago.');
-      } catch (error) {
-        button.textContent = buttonLabel;
-        button.disabled = false;
-        alert(error instanceof Error ? error.message : 'Ha ocurrido un error. Por favor, inténtalo de nuevo.');
+        showAviso(data.error || 'No se pudo iniciar el pago. Inténtalo de nuevo.');
+      } catch {
+        showAviso('No hay conexión. Inténtalo de nuevo.');
       }
     });
   }
@@ -146,6 +158,13 @@ const isAvailable = canDownloadFree || canCheckout;
 <style>
   .producto {
     padding: var(--spacing-xl) 0;
+  }
+
+  .producto__aviso {
+    margin-top: var(--spacing-sm);
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    text-align: center;
   }
 
   .producto__back {

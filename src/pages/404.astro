@@ -1,0 +1,78 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Página no encontrada" description="Esta página no existe o ha cambiado de sitio." noindex={true}>
+  <section class="no-encontrada">
+    <div class="container">
+      <div class="no-encontrada__content">
+        <p class="no-encontrada__codigo" aria-hidden="true">404</p>
+        <h1>No encuentro esta página</h1>
+        <p>Puede que el enlace esté mal escrito o que la página haya cambiado de sitio. No pasa nada: te dejo por dónde seguir.</p>
+        <a href="/" class="btn btn--primary">Volver al inicio</a>
+        <nav class="no-encontrada__links" aria-label="Otras secciones">
+          <a href="/blog">Blog</a>
+          <a href="/guias">Guías</a>
+          <a href="/consultas">Consultas</a>
+          <a href="/contacto">Contacto</a>
+        </nav>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .no-encontrada {
+    padding: var(--spacing-xl) 0;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .no-encontrada__content {
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .no-encontrada__codigo {
+    display: inline-block;
+    margin-bottom: var(--spacing-md);
+    padding: 0.25rem 1rem;
+    border-radius: 999px;
+    background-color: var(--color-nude);
+    color: var(--color-coral-hover);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+  }
+
+  .no-encontrada__content h1 {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .no-encontrada__content p {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .no-encontrada__links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-sm) var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+  }
+
+  .no-encontrada__links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--color-coral-hover);
+    font-weight: 600;
+  }
+
+  .no-encontrada__links a:hover {
+    text-decoration: underline;
+  }
+</style>

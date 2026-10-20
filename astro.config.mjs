@@ -19,6 +19,14 @@ export default defineConfig({
   // Sin sesiones ni astro:assets: evita los bindings KV (SESSION) e Images.
   adapter: cloudflare({ imageService: 'passthrough' }),
   session: false,
+  vite: {
+    build: {
+      // Los scripts de página van siempre en línea, aunque pasen de 4 KB: el CSP usa
+      // strict-dynamic y un <script src> generado por Astro no lleva hash ni integrity, así
+      // que se bloquearía. El resto de recursos conserva el límite por defecto (undefined).
+      assetsInlineLimit: (filePath) => (filePath.endsWith('.js') ? true : undefined),
+    },
+  },
   security: {
     csp: {
       directives: [

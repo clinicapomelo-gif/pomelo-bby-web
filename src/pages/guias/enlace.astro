@@ -1,0 +1,75 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+export const prerender = false;
+
+// Destino de /api/guias/download cuando el enlace de descarga no sirve. Los textos son los que
+// antes devolvía la API en texto plano.
+const MOTIVOS = {
+  'no-valido': {
+    status: 404,
+    title: 'No hemos podido verificar este enlace',
+    text: 'Si necesitas ayuda, escríbenos desde la página de contacto.',
+  },
+  caducado: {
+    status: 410,
+    title: 'Este enlace ha caducado',
+    text: 'Escríbenos desde la página de contacto y comprobaremos tu compra.',
+  },
+  temporal: {
+    status: 503,
+    title: 'La descarga no está disponible temporalmente',
+    text: 'Si necesitas ayuda, escríbenos desde la página de contacto.',
+  },
+} as const;
+
+const motivo = Astro.url.searchParams.get('motivo');
+const estado = motivo && Object.hasOwn(MOTIVOS, motivo)
+  ? MOTIVOS[motivo as keyof typeof MOTIVOS]
+  : MOTIVOS['no-valido'];
+
+Astro.response.status = estado.status;
+Astro.response.headers.set('Cache-Control', 'private, no-store');
+---
+
+<Layout title={estado.title} description="Descarga de una guía de Pomelo Baby." noindex={true}>
+  <section class="enlace">
+    <div class="container">
+      <div class="enlace__content">
+        <p class="enlace__icon">🤍</p>
+        <h1>{estado.title}</h1>
+        <p>{estado.text}</p>
+        <a href="/contacto?motivo=compra#formulario" class="btn btn--primary">Ir a contacto</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .enlace {
+    padding: var(--spacing-xl) 0;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .enlace__content {
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .enlace__icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .enlace__content h1 {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .enlace__content p {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-lg);
+  }
+</style>

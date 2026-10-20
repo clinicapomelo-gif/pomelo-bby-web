@@ -99,6 +99,15 @@ const maintenanceMode = process.env.MAINTENANCE_MODE === 'true' &&
         });
       });
 
+      // Escape cierra el menú móvil y devuelve el foco al botón.
+      document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape' || !navLinks?.classList.contains('nav__links--open')) return;
+        navLinks.classList.remove('nav__links--open');
+        toggle?.setAttribute('aria-expanded', 'false');
+        toggle?.setAttribute('aria-label', 'Abrir menú');
+        (toggle as HTMLElement | null)?.focus();
+      });
+
       type ValidatedField = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
 
       const clearValidationError = (field: ValidatedField) => {
@@ -112,8 +121,20 @@ const maintenanceMode = process.env.MAINTENANCE_MODE === 'true' &&
         }
       };
 
+      // Mismas reglas que el servidor: un texto con solo espacios cuenta como vacío y el correo
+      // necesita un punto tras la arroba (el navegador acepta «ana@gmail»). Si no, el servidor
+      // lo rechazaría después de enviar.
+      const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const isBlankText = (field: ValidatedField) =>
+        !(field instanceof HTMLSelectElement) && field.type !== 'checkbox' && field.type !== 'radio' &&
+        field.value.length > 0 && !field.value.trim();
+      const isInvalidEmail = (field: ValidatedField) =>
+        field.type === 'email' && field.value.trim() !== '' && !EMAIL_REGEX.test(field.value.trim());
+      const isFieldValid = (field: ValidatedField) =>
+        field.validity.valid && !isBlankText(field) && !isInvalidEmail(field);
+
       const validationMessage = (field: ValidatedField) => {
-        if (field.validity.typeMismatch) {
+        if (field.validity.typeMismatch || isInvalidEmail(field)) {
           return field.dataset.errorInvalid || 'Revisa este dato antes de continuar.';
         }
         return field.dataset.errorRequired || 'Completa este campo para continuar.';
@@ -138,7 +159,7 @@ const maintenanceMode = process.env.MAINTENANCE_MODE === 'true' &&
         if (!(event.target instanceof HTMLFormElement) || !event.target.matches('[data-friendly-validation]')) return;
 
         const fields = Array.from(event.target.querySelectorAll<ValidatedField>('[required]'));
-        const invalidFields = fields.filter((field) => !field.validity.valid);
+        const invalidFields = fields.filter((field) => !isFieldValid(field));
         fields.forEach(clearValidationError);
 
         if (invalidFields.length === 0) return;
@@ -363,6 +384,24 @@ const maintenanceMode = process.env.MAINTENANCE_MODE === 'true' &&
 
   .footer__legal a:hover {
     color: var(--color-coral-hover);
+  }
+
+  /* En el móvil los enlaces se reparten en varias líneas: sin los «·», que quedaban colgados
+     al final de una línea, y con altura suficiente para tocarlos con el dedo. */
+  @media (max-width: 600px) {
+    .footer__legal {
+      gap: 0 var(--spacing-md);
+    }
+
+    .footer__legal span {
+      display: none;
+    }
+
+    .footer__legal a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+    }
   }
 
   .footer__copy {

@@ -78,7 +78,7 @@ const consultaEmail = process.env.RESEND_CONSULTA_TO_EMAIL ?? '';
           <input type="hidden" name="session_id" value={sessionId} />
           <div class="form__group" data-validation-field>
             <label for="nombre">Tu nombre</label>
-            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required data-error-required="Cuéntame cómo te llamas." />
+            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" autocomplete="name" maxlength="100" required data-error-required="Cuéntame cómo te llamas." />
           </div>
 
           <div class="form__group" data-validation-field>
@@ -92,17 +92,17 @@ const consultaEmail = process.env.RESEND_CONSULTA_TO_EMAIL ?? '';
 
           <div class="form__group" data-validation-field>
             <label for="edad">Edad del bebé</label>
-            <input type="text" id="edad" name="edad" placeholder="Ej: 4 meses, 14 meses..." required data-error-required="Cuéntame qué edad tiene tu bebé." />
+            <input type="text" id="edad" name="edad" placeholder="Ej: 4 meses, 14 meses..." maxlength="100" required data-error-required="Cuéntame qué edad tiene tu bebé." />
           </div>
 
           <div class="form__group" data-validation-field>
             <label for="motivo">¿Qué te preocupa?</label>
-            <textarea id="motivo" name="motivo" rows="6" placeholder="Cuéntame con calma qué está pasando, desde cuándo, qué habéis probado... Todo lo que creas que me puede ayudar a entender vuestro caso." required data-error-required="Cuéntame qué te preocupa para que pueda ayudarte."></textarea>
+            <textarea id="motivo" name="motivo" rows="6" maxlength="10000" placeholder="Cuéntame con calma qué está pasando, desde cuándo, qué habéis probado... Todo lo que creas que me puede ayudar a entender vuestro caso." required data-error-required="Cuéntame qué te preocupa para que pueda ayudarte."></textarea>
           </div>
 
           <div class="form__group">
             <label for="contexto">Contexto adicional (opcional)</label>
-            <textarea id="contexto" name="contexto" rows="3" placeholder="Antecedentes, medicación, si ha pasado algo reciente..."></textarea>
+            <textarea id="contexto" name="contexto" rows="3" maxlength="5000" placeholder="Antecedentes, medicación, si ha pasado algo reciente..."></textarea>
           </div>
 
           <div class="form__group">
@@ -136,7 +136,6 @@ const consultaEmail = process.env.RESEND_CONSULTA_TO_EMAIL ?? '';
 </Layout>
 
 <script>
-  import '../../lib/phone-field.ts';
   const consultaForm = document.querySelector<HTMLFormElement>('[data-consulta-form]');
   const consultaMessage = document.querySelector<HTMLParagraphElement>('[data-consulta-message]');
   const consultaButton = consultaForm?.querySelector<HTMLButtonElement>('button[type="submit"]');
