@@ -71,8 +71,9 @@ export const handlePaidConsultation = async (
   try {
     const resend = new Resend(resendKey);
     // Avisos independientes y con clave de idempotencia: se envían a la vez y, si Stripe
-    // reintenta el webhook, Resend no duplica el que ya salió.
-    const [toMar, toFamily] = await Promise.all([
+    // reintenta el webhook, Resend no duplica el que ya salió. allSettled espera a los dos
+    // aunque uno falle, para no responder (y cortar el Worker) con el otro a medias.
+    const [marResult, familyResult] = await Promise.allSettled([
       resend.emails.send({
         from: sender,
         to: marEmail,
@@ -97,6 +98,9 @@ export const handlePaidConsultation = async (
         }),
       }, { idempotencyKey: `consulta-pago-familia-${session.id}` }),
     ]);
+    if (marResult.status === 'rejected') throw marResult.reason;
+    if (familyResult.status === 'rejected') throw familyResult.reason;
+    const [toMar, toFamily] = [marResult.value, familyResult.value];
 
     if (toMar.error || toFamily.error) {
       console.error('Consultation notice error:', reference, toMar.error?.name ?? toFamily.error?.name);
