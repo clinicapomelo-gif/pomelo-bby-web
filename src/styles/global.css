@@ -2,6 +2,18 @@
    Pomelo Baby — Global Styles
    =========================================== */
 
+/* ---- Fuente ----
+   Montserrat variable (400–700), subconjunto latino de Google Fonts, servida desde el propio
+   dominio: sin conexiones a terceros ni hoja de estilos externa que bloquee el render.
+   Si se cambia el archivo, cambia también su nombre (public/_headers lo cachea un año). */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/montserrat-latin.woff2') format('woff2');
+}
+
 /* ---- CSS Variables (paleta) ---- */
 :root {
   /* Fondos */

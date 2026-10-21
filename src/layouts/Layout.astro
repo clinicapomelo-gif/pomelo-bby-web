@@ -41,9 +41,7 @@ const maintenanceMode = process.env.MAINTENANCE_MODE === 'true' &&
     <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
     <link rel="icon" type="image/png" href="/favicon.png" sizes="192x192" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" />
+    <link rel="preload" href="/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin />
     <SEO
       title={maintenanceMode ? 'Estamos preparando la web' : title}
       description={maintenanceMode ? 'Estamos preparando Pomelo Baby. Muy pronto encontrarás información clara sobre salud infantil y crianza.' : description}
@@ -63,7 +61,14 @@ const maintenanceMode = process.env.MAINTENANCE_MODE === 'true' &&
     <header class="header">
       <nav class="container nav">
         <a href="/" class="nav__logo" aria-label="Inicio — Pomelo Baby">
-          <img src="/logo-pomelo-horizontal.webp" alt="" width="1650" height="500" />
+          <img
+            src="/logo-pomelo-horizontal-400.webp"
+            srcset="/logo-pomelo-horizontal-400.webp 400w, /logo-pomelo-horizontal-800.webp 800w"
+            sizes="12.375rem"
+            alt=""
+            width="1650"
+            height="500"
+          />
         </a>
         <button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-links">
           <span class="nav__toggle-bar"></span>
@@ -205,11 +210,14 @@ const maintenanceMode = process.env.MAINTENANCE_MODE === 'true' &&
         <div class="footer__brand">
           <img
             class="footer__logo"
-            src="/logo-pomelo-completo.webp"
+            src="/logo-pomelo-completo-576.webp"
+            srcset="/logo-pomelo-completo-576.webp 576w, /logo-pomelo-completo.webp 640w"
+            sizes="min(18rem, 80vw)"
             alt="Pomelo Baby — Criar con criterio"
             width="640"
             height="396"
             loading="lazy"
+            decoding="async"
           />
         </div>
         <div class="footer__social">

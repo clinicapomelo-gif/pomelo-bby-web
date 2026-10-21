@@ -8,10 +8,10 @@ const CAL_PERSONALIZADA_SLUG = 'consulta-personalizada';
 
 // La ventana de reserva de Cal.com se pinta con <style> dentro de un shadow DOM. Solo en
 // esta página se permiten estilos inline; con hashes en style-src se ignoraría, por eso
-// van en style-src-elem (que también cubre las hojas enlazadas: repite 'self' y Google Fonts)
+// van en style-src-elem (que también cubre las hojas enlazadas: repite 'self')
 // y style-src-attr.
 if (CONSULTATIONS_ENABLED) {
-  for (const resource of ["'self'", 'https://fonts.googleapis.com', "'unsafe-inline'"]) {
+  for (const resource of ["'self'", "'unsafe-inline'"]) {
     Astro.csp?.insertStyleResource({ resource, kind: 'element' });
   }
   Astro.csp?.insertStyleResource({ resource: "'unsafe-inline'", kind: 'attribute' });

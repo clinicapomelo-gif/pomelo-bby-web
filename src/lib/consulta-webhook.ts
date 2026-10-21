@@ -36,8 +36,10 @@ export const handlePaidConsultation = async (
   let session: Stripe.Checkout.Session;
   let lineItems: Stripe.ApiList<Stripe.LineItem>;
   try {
-    session = await stripe.checkout.sessions.retrieve(sessionId, { expand: ['payment_intent.latest_charge'] });
-    lineItems = await stripe.checkout.sessions.listLineItems(sessionId, { limit: 2 });
+    [session, lineItems] = await Promise.all([
+      stripe.checkout.sessions.retrieve(sessionId, { expand: ['payment_intent.latest_charge'] }),
+      stripe.checkout.sessions.listLineItems(sessionId, { limit: 2 }),
+    ]);
   } catch (error: unknown) {
     console.error('Consultation session retrieval error:', reference, error instanceof Error ? error.name : 'UnknownError');
     return text('No se pudo comprobar la consulta', 500);
@@ -68,30 +70,33 @@ export const handlePaidConsultation = async (
 
   try {
     const resend = new Resend(resendKey);
-    const toMar = await resend.emails.send({
-      from: sender,
-      to: marEmail,
-      replyTo: familyEmail,
-      subject: `Consulta por correo pagada ${consultaRef} — Pomelo Baby`,
-      text: `Se ha pagado una consulta por correo.\n\nReferencia: ${consultaRef}\nEmail de la familia: ${familyEmail}\nPago: ${paidAt}\n\nCuando la familia envíe su caso te llegará otro correo con esta misma referencia. Si en 24 horas no ha llegado, puedes escribirle tú primero respondiendo a este correo.`,
-    }, { idempotencyKey: `consulta-aviso-mar-${session.id}` });
-
-    const toFamily = await resend.emails.send({
-      from: sender,
-      to: familyEmail,
-      subject: `He recibido tu pago (${consultaRef}) — Pomelo Baby`,
-      ...renderEmail({
-        siteUrl: siteURL,
-        preheader: `Tu referencia es ${consultaRef}. Si aún no me has contado tu caso, puedes hacerlo aquí.`,
-        greeting: 'Hola,',
-        paragraphs: [
-          ['He recibido el pago de tu consulta por correo. Tu referencia es ', { strong: consultaRef }, '.'],
-          'Si todavía no me has contado tu caso, puedes hacerlo aquí:',
-        ],
-        button: { label: 'Contar mi caso', href: formURL.toString() },
-        afterButton: ['Si ya lo has enviado, no tienes que hacer nada más: te respondo en 24-48 horas laborables.'],
-      }),
-    }, { idempotencyKey: `consulta-pago-familia-${session.id}` });
+    // Avisos independientes y con clave de idempotencia: se envían a la vez y, si Stripe
+    // reintenta el webhook, Resend no duplica el que ya salió.
+    const [toMar, toFamily] = await Promise.all([
+      resend.emails.send({
+        from: sender,
+        to: marEmail,
+        replyTo: familyEmail,
+        subject: `Consulta por correo pagada ${consultaRef} — Pomelo Baby`,
+        text: `Se ha pagado una consulta por correo.\n\nReferencia: ${consultaRef}\nEmail de la familia: ${familyEmail}\nPago: ${paidAt}\n\nCuando la familia envíe su caso te llegará otro correo con esta misma referencia. Si en 24 horas no ha llegado, puedes escribirle tú primero respondiendo a este correo.`,
+      }, { idempotencyKey: `consulta-aviso-mar-${session.id}` }),
+      resend.emails.send({
+        from: sender,
+        to: familyEmail,
+        subject: `He recibido tu pago (${consultaRef}) — Pomelo Baby`,
+        ...renderEmail({
+          siteUrl: siteURL,
+          preheader: `Tu referencia es ${consultaRef}. Si aún no me has contado tu caso, puedes hacerlo aquí.`,
+          greeting: 'Hola,',
+          paragraphs: [
+            ['He recibido el pago de tu consulta por correo. Tu referencia es ', { strong: consultaRef }, '.'],
+            'Si todavía no me has contado tu caso, puedes hacerlo aquí:',
+          ],
+          button: { label: 'Contar mi caso', href: formURL.toString() },
+          afterButton: ['Si ya lo has enviado, no tienes que hacer nada más: te respondo en 24-48 horas laborables.'],
+        }),
+      }, { idempotencyKey: `consulta-pago-familia-${session.id}` }),
+    ]);
 
     if (toMar.error || toFamily.error) {
       console.error('Consultation notice error:', reference, toMar.error?.name ?? toFamily.error?.name);

@@ -33,7 +33,7 @@ export default defineConfig({
         "default-src 'self'",
         "base-uri 'self'",
         "connect-src 'self' https://app.cal.com https://cal.com https://*.cal.com https://cloudflareinsights.com",
-        "font-src 'self' data: https://fonts.gstatic.com",
+        "font-src 'self' data:",
         "form-action 'self'",
         "frame-ancestors 'none'",
         "frame-src https://app.cal.com https://cal.com https://*.cal.com",
@@ -46,7 +46,7 @@ export default defineConfig({
         strictDynamic: true,
       },
       styleDirective: {
-        resources: ["'self'", 'https://fonts.googleapis.com'],
+        resources: ["'self'"],
       },
     },
   },

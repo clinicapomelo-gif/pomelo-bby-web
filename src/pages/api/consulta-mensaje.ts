@@ -78,8 +78,12 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   let session: Stripe.Checkout.Session;
 
   try {
-    session = await stripe.checkout.sessions.retrieve(sessionId, { expand: ['payment_intent.latest_charge'] });
-    const lineItems = await stripe.checkout.sessions.listLineItems(sessionId, { limit: 2 });
+    // Las dos lecturas son independientes: en paralelo, una sola espera a Stripe.
+    let lineItems: Stripe.ApiList<Stripe.LineItem>;
+    [session, lineItems] = await Promise.all([
+      stripe.checkout.sessions.retrieve(sessionId, { expand: ['payment_intent.latest_charge'] }),
+      stripe.checkout.sessions.listLineItems(sessionId, { limit: 2 }),
+    ]);
     if (!isConsultationSubmissionAuthorized(session, lineItems, stripeMode)) {
       return fail(403, 'Pago no verificado.');
     }
