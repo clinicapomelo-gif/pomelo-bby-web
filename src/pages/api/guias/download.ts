@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import Stripe from 'stripe';
 import { authorizeGuidePurchase, getStripeMode, guias } from '../../../data/guias';
-import { isRefundedConsultation } from '../../../lib/consulta-payment.mjs';
+import { isCheckoutSessionIdForMode, isRefundedConsultation } from '../../../lib/consulta-payment.mjs';
 import { getGuideDownloadExpiresAt } from '../../../lib/guide-delivery';
 import { privatePdfResponse } from '../../../lib/guide-storage';
 
@@ -30,6 +30,8 @@ export const GET: APIRoute = async ({ url, redirect }) => {
   if (!stripeKey || !stripeMode) {
     return temporarilyUnavailable();
   }
+
+  if (!isCheckoutSessionIdForMode(sessionId, stripeMode)) return unavailable();
 
   const stripe = new Stripe(stripeKey);
   let session: Stripe.Checkout.Session;

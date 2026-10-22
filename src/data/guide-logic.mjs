@@ -72,6 +72,13 @@ export const getStripeMode = (key, appEnvironment) => {
   return undefined;
 };
 
+// Un session_id de Checkout llega en la URL: solo se consulta a Stripe si es del modo de la
+// clave. Uno de Sandbox en Live (o al revés) o uno inventado se rechaza sin llamar a Stripe.
+/** @type {(value: unknown, mode: string | undefined) => value is string} */
+export const isCheckoutSessionIdForMode = (value, mode) =>
+  typeof value === 'string' && (mode === 'test' || mode === 'live') &&
+  value.length <= 255 && value.startsWith(`cs_${mode}_`);
+
 export const getValidStripeMapping = (guia, mode) => {
   const mapping = mode && guia?.stripe?.[mode];
   return isValidStripeMapping(mapping) ? mapping : undefined;

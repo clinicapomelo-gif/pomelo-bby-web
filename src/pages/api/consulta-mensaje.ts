@@ -4,6 +4,7 @@ import Stripe from 'stripe';
 import {
   getConsultationReference,
   getConsultationStripeMode,
+  isCheckoutSessionIdForMode,
   isConsultationSubmissionAuthorized,
   isRefundedConsultation,
 } from '../../lib/consulta-payment.mjs';
@@ -67,8 +68,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
 
   // Verificar pago válido
   if (
-    !sessionId.startsWith('cs_') || sessionId.length > 255 ||
-    !stripeKey || !stripeMode
+    !stripeKey || !isCheckoutSessionIdForMode(sessionId, stripeMode)
   ) {
     sessionId = '';
     return fail(403, 'Sesión de pago no válida.');

@@ -1,8 +1,8 @@
 ---
 import Stripe from 'stripe';
 import Layout from '../../layouts/Layout.astro';
-import { guias } from '../../data/guias';
-import { isRefundedConsultation } from '../../lib/consulta-payment.mjs';
+import { getStripeMode, guias } from '../../data/guias';
+import { isCheckoutSessionIdForMode, isRefundedConsultation } from '../../lib/consulta-payment.mjs';
 
 export const prerender = false;
 
@@ -12,11 +12,11 @@ Astro.response.headers.set('Referrer-Policy', 'no-referrer');
 type PurchaseState = 'paid' | 'pending' | 'invalid' | 'error';
 
 const sessionId = Astro.url.searchParams.get('session_id');
-const validSessionId = sessionId?.startsWith('cs_') && sessionId.length <= 255
-  ? sessionId
-  : undefined;
 const stripeKey = process.env.STRIPE_SECRET_KEY;
-let state: PurchaseState = validSessionId ? 'error' : 'invalid';
+const stripeMode = getStripeMode(stripeKey);
+const validSessionId = isCheckoutSessionIdForMode(sessionId, stripeMode) ? sessionId : undefined;
+// Sin clave válida no se puede comprobar: es un fallo temporal, no un enlace malo.
+let state: PurchaseState = validSessionId || (!stripeMode && sessionId?.startsWith('cs_')) ? 'error' : 'invalid';
 let guiaTitle: string | undefined;
 let downloadLabel = 'Descargar el PDF';
 

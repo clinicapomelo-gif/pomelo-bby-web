@@ -11,6 +11,7 @@
     "build:cf": "CLOUDFLARE_ENV=$([ \"$WORKERS_CI_BRANCH\" = main ] && echo production || echo preview) npm run build",
     "preview": "astro preview",
     "test": "node --experimental-strip-types --test scripts/*.test.mjs",
+    "test:security": "node --test scripts/security-smoke.mjs",
     "check": "astro check",
     "check:domain": "bash scripts/check-domain.sh",
     "guides:check": "node scripts/check-guide-catalog.mjs",

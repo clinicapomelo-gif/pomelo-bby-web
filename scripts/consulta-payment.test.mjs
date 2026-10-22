@@ -7,6 +7,7 @@ import {
   getConsultationReference,
   getConsultationStripeMode,
   getMadridDayStart,
+  isCheckoutSessionIdForMode,
   isRefundedConsultation,
   isConsultationSubmissionAuthorized,
   isPaidConsultationSession,
@@ -116,4 +117,19 @@ test('detecta un pago devuelto con la carga expandida', () => {
 
 test('la referencia usa el final del identificador de la sesión', () => {
   assert.equal(getConsultationReference('cs_test_a1b2c3d4e5f6'), 'PB-D4E5F6');
+});
+
+test('solo consulta a Stripe un session_id del modo de la clave', () => {
+  assert.equal(isCheckoutSessionIdForMode('cs_live_a1B2c3', 'live'), true);
+  assert.equal(isCheckoutSessionIdForMode('cs_test_a1B2c3', 'test'), true);
+  // Un pago de Sandbox no abre nada en Live, ni al revés.
+  assert.equal(isCheckoutSessionIdForMode('cs_test_a1B2c3', 'live'), false);
+  assert.equal(isCheckoutSessionIdForMode('cs_live_a1B2c3', 'test'), false);
+  // Sin modo válido, inventados, vacíos o desmesurados: nunca.
+  assert.equal(isCheckoutSessionIdForMode('cs_live_a1B2c3', undefined), false);
+  assert.equal(isCheckoutSessionIdForMode('cs_a1B2c3', 'live'), false);
+  assert.equal(isCheckoutSessionIdForMode('pi_live_a1B2c3', 'live'), false);
+  assert.equal(isCheckoutSessionIdForMode('', 'live'), false);
+  assert.equal(isCheckoutSessionIdForMode(null, 'live'), false);
+  assert.equal(isCheckoutSessionIdForMode(`cs_live_${'a'.repeat(248)}`, 'live'), false);
 });

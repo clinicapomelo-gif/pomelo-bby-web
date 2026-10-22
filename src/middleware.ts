@@ -31,7 +31,11 @@ const mutable = (response: Response) => new Response(response.body, response);
 
 export const onRequest = defineMiddleware(async ({ url }, next) => {
   const response = mutable(await handle(url, next));
-  for (const [name, value] of Object.entries(SECURITY_HEADERS)) response.headers.set(name, value);
+  // Sin pisar la que fije una página: las de gracias llevan session_id en la URL y piden
+  // Referrer-Policy: no-referrer.
+  for (const [name, value] of Object.entries(SECURITY_HEADERS)) {
+    if (!response.headers.has(name)) response.headers.set(name, value);
+  }
   // Preview y *.workers.dev no deben indexarse (Vercel lo hacía solo en Preview).
   if (process.env.APP_ENV !== 'production') response.headers.set('X-Robots-Tag', 'noindex');
   return response;

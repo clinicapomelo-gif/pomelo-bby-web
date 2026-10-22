@@ -1,5 +1,7 @@
 import { getStripeMode } from '../data/guide-logic.mjs';
 
+export { isCheckoutSessionIdForMode } from '../data/guide-logic.mjs';
+
 export const CONSULTATION_PAYMENT_METHOD_TYPES = ['card'];
 
 export const getConsultationStripeMode = (key, appEnvironment) =>
