@@ -16,8 +16,10 @@ const DAY = 24 * 60 * 60;
 
 const apply = process.argv.includes('--apply');
 const stripeKey = process.env.STRIPE_LIVE_SECRET_KEY;
-if (!stripeKey?.startsWith('sk_live_')) {
-  console.error('STRIPE_LIVE_SECRET_KEY debe ser una clave sk_live_ guardada solo en tu .env local.');
+// Mejor una clave restringida (rk_live_) con Checkout Sessions: escritura y Charges y
+// PaymentIntents: lectura.
+if (!/^(sk|rk)_live_/.test(stripeKey ?? '')) {
+  console.error('STRIPE_LIVE_SECRET_KEY debe ser una clave Live (rk_live_ o sk_live_) guardada solo en tu .env local.');
   process.exit(1);
 }
 if (apply && (!process.env.RESEND_API_KEY || !process.env.RESEND_FROM_EMAIL)) {
