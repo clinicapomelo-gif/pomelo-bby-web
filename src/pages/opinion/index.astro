@@ -1,0 +1,283 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { VALORACIONES, getSurveyQuestion, parseNota } from '../../lib/encuesta.mjs';
+import { isValidSessionId, loadOpinionPurchase, type OpinionPurchase } from '../../lib/opinion';
+
+export const prerender = false;
+
+Astro.response.headers.set('Cache-Control', 'private, no-store');
+Astro.response.headers.set('Referrer-Policy', 'no-referrer');
+
+// Abrir la página no guarda nada: algunos correos abren los enlaces solos para revisarlos.
+// La respuesta del enlace solo llega marcada; se guarda al enviar.
+const url = new URL(Astro.request.url);
+const sessionId = url.searchParams.get('session_id');
+const nota = parseNota(url.searchParams.get('nota'));
+const hasSubmitError = url.searchParams.has('error');
+
+// «unchecked»: Stripe no respondió y se ofrece reintentar.
+let status: 'invalid' | 'unchecked' | 'ready' = 'invalid';
+let purchase: OpinionPurchase | undefined;
+if (isValidSessionId(sessionId)) {
+  try {
+    purchase = await loadOpinionPurchase(sessionId);
+    if (purchase) status = 'ready';
+  } catch {
+    status = 'unchecked';
+  }
+}
+
+if (purchase?.answered) return Astro.redirect('/opinion/gracias');
+
+const question = purchase ? getSurveyQuestion(purchase.product) : '';
+---
+
+<Layout title="Tu opinión" description="Cuéntame qué te ha parecido." noindex={true}>
+  <section class="opinion">
+    <div class="container">
+      {status === 'ready' && (
+        <>
+          <div class="opinion__header">
+            <h1>{question}</h1>
+            {purchase?.product === 'guia' && <p class="opinion__producto">{purchase.productName}</p>}
+            <p class="opinion__subtitle">Gracias por tomarte un momento. Elige una respuesta y, si te apetece, cuéntame algo más.</p>
+          </div>
+
+          <div class="opinion__wrapper">
+            <form method="POST" action="/api/opinion" class="form">
+              <input type="hidden" name="session_id" value={sessionId} />
+
+              <fieldset class="opinion__pregunta">
+                <legend>Tu respuesta</legend>
+                <div class="opinion__opciones">
+                  {VALORACIONES.map((valoracion) => (
+                    <label class="opinion__respuesta">
+                      <input type="radio" name="nota" value={valoracion.nota} checked={valoracion.nota === nota} required />
+                      <span>{valoracion.texto}</span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+
+              <div class="form__group">
+                <label for="comentario">¿Quieres contarme algo más? <span>(opcional)</span></label>
+                <textarea id="comentario" name="comentario" rows="4" maxlength="1000" placeholder="Lo que más te ha servido, lo que echaste en falta…" aria-describedby="comentario-ayuda"></textarea>
+                <small id="comentario-ayuda">No hace falta que me cuentes datos de salud de tu hijo o hija: con tu opinión me basta.</small>
+              </div>
+
+              <label class="opinion__compartir">
+                <input type="checkbox" name="compartir" value="si" />
+                <span>Me parece bien que compartas mi opinión, sin mi nombre, en la web o en Instagram.</span>
+              </label>
+
+              <p class="form__privacy">Piel de Pomelo S.L.P. usará tu opinión para mejorar sus guías y consultas. Puedes consultar destinatarios, conservación y derechos en la <a href="/proteccion-datos" target="_blank" rel="noopener">política de privacidad</a>.</p>
+
+              {hasSubmitError && (
+                <p class="form__message" role="alert">Vaya, no he podido guardar tu opinión. ¿Lo intentas de nuevo en unos minutos? Perdona, tendrás que volver a escribir el comentario.</p>
+              )}
+
+              <button type="submit" class="btn btn--primary btn--full">Enviar mi opinión</button>
+            </form>
+          </div>
+        </>
+      )}
+
+      {status === 'unchecked' && (
+        <div class="opinion__header" role="alert">
+          <h1>Algo no ha ido bien</h1>
+          <p class="opinion__subtitle">No es culpa tuya. Vuelve a intentarlo en unos minutos: el enlace de tu correo sigue funcionando.</p>
+          <a href={url.pathname + url.search} class="btn btn--primary">Volver a intentarlo</a>
+        </div>
+      )}
+
+      {status === 'invalid' && (
+        <div class="opinion__header">
+          <h1>Este enlace ya no funciona</h1>
+          <p class="opinion__subtitle">Puede que haya caducado. Si querías contarme algo, <a href="/contacto">escríbeme</a> y lo leo con calma.</p>
+          <a href="/" class="btn btn--secondary">Volver al inicio</a>
+        </div>
+      )}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .opinion {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .opinion__header {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto var(--spacing-lg);
+  }
+
+  .opinion__header h1 {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .opinion__producto {
+    font-weight: 600;
+    margin: 0 0 var(--spacing-sm);
+  }
+
+  .opinion__subtitle {
+    color: var(--color-text-secondary);
+    font-size: 1.05rem;
+    margin: 0 auto var(--spacing-md);
+  }
+
+  .opinion__subtitle a {
+    text-decoration: underline;
+  }
+
+  .opinion__wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: var(--color-white);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    padding: var(--spacing-lg);
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .opinion__pregunta {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+  }
+
+  /* El título ya hace la pregunta: la leyenda solo la leen los lectores de pantalla. */
+  .opinion__pregunta legend {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .opinion__opciones {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--spacing-sm);
+  }
+
+  @media (max-width: 480px) {
+    .opinion__opciones {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .opinion__respuesta {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    padding: var(--spacing-sm) var(--spacing-xs);
+    border: 2px solid var(--color-coral);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-white);
+    color: var(--color-coral-hover);
+    font-weight: 700;
+    font-size: 0.95rem;
+    line-height: 1.25;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  /* El radio sigue ahí para el teclado y los lectores de pantalla; se ve la tarjeta. */
+  .opinion__respuesta input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .opinion__respuesta:has(input:checked) {
+    background-color: var(--color-coral);
+    color: var(--color-white);
+  }
+
+  .opinion__respuesta:has(input:focus-visible) {
+    outline: 3px solid var(--color-coral-hover);
+    outline-offset: 2px;
+  }
+
+  .form__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .form__group label {
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+
+  .form__group label span,
+  .form__group small {
+    color: var(--color-text-secondary);
+    font-size: 0.82rem;
+    font-weight: 400;
+  }
+
+  .form__group textarea {
+    font-family: var(--font-family);
+    font-size: 0.95rem;
+    padding: 0.65rem 0.9rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-white);
+    color: var(--color-text);
+    resize: vertical;
+  }
+
+  .form__group textarea:focus {
+    border-color: var(--color-coral-hover);
+  }
+
+  .form__group textarea::placeholder {
+    color: var(--color-text-tertiary);
+  }
+
+  .opinion__compartir {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: flex-start;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+
+  .opinion__compartir input {
+    margin-top: 0.2rem;
+    accent-color: var(--color-coral);
+  }
+
+  .form__privacy {
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--color-text-tertiary);
+    margin: 0;
+  }
+
+  .form__privacy a {
+    text-decoration: underline;
+  }
+
+  .form__message {
+    margin: 0;
+    padding: var(--spacing-sm);
+    border-left: 4px solid var(--color-coral);
+    background-color: var(--color-nude);
+    font-size: 0.85rem;
+  }
+</style>

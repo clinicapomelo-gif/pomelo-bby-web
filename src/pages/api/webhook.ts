@@ -6,11 +6,42 @@ import { getGuideDownloadExpiresAt } from '../../lib/guide-delivery';
 import { isPrivateGuidePdfAvailable } from '../../lib/guide-storage';
 import { handlePaidConsultation } from '../../lib/consulta-webhook';
 import { renderEmail } from '../../lib/email-template.mjs';
+import { scheduleSatisfactionSurvey } from '../../lib/encuesta.mjs';
 import { getSiteUrl } from '../../lib/site-url';
 
 export const prerender = false;
 
 const eventReference = (event: Stripe.Event) => event.id.slice(-8);
+
+// Devolución total o parcial (el mismo criterio que la consulta): cancela la encuesta
+// programada, si la hay. Requiere `charge.refunded` en el webhook de Stripe.
+const cancelSurveyOnRefund = async (stripe: Stripe, charge: Stripe.Charge, reference: string) => {
+  const paymentIntent = typeof charge.payment_intent === 'string' ? charge.payment_intent : charge.payment_intent?.id;
+  if (!paymentIntent) return new Response('OK', { status: 200 });
+
+  let surveyEmailId: string | undefined;
+  try {
+    const { data } = await stripe.checkout.sessions.list({ payment_intent: paymentIntent, limit: 1 });
+    surveyEmailId = data[0]?.metadata?.encuestaEmailId;
+  } catch (error: unknown) {
+    console.error('Refund session lookup error:', reference, error instanceof Error ? error.name : 'UnknownError');
+    return new Response('No se pudo comprobar la devolución', { status: 500 });
+  }
+  if (!surveyEmailId) return new Response('OK', { status: 200 });
+
+  const resendKey = process.env.RESEND_API_KEY;
+  if (!resendKey) return new Response('Servicio no configurado', { status: 503 });
+
+  // ponytail: un fallo al cancelar solo se registra (puede que ya se enviara y Stripe
+  // reintentaría en vano); si se ve en los logs, cancelarla a mano en Resend.
+  try {
+    const { error } = await new Resend(resendKey).emails.cancel(surveyEmailId);
+    if (error) console.error('Survey cancel error:', reference, error.name);
+  } catch (error: unknown) {
+    console.error('Survey cancel exception:', reference, error instanceof Error ? error.name : 'UnknownError');
+  }
+  return new Response('OK', { status: 200 });
+};
 
 export const POST: APIRoute = async ({ request }) => {
   const stripeKey = process.env.STRIPE_SECRET_KEY;
@@ -37,6 +68,10 @@ export const POST: APIRoute = async ({ request }) => {
     );
   } catch {
     return new Response('Firma inválida', { status: 400 });
+  }
+
+  if (event.type === 'charge.refunded') {
+    return cancelSurveyOnRefund(stripe, event.data.object as Stripe.Charge, eventReference(event));
   }
 
   if (
@@ -162,6 +197,17 @@ export const POST: APIRoute = async ({ request }) => {
       return new Response('No se pudo enviar la guía', { status: 500 });
     }
 
+    const surveyEmailId = await scheduleSatisfactionSurvey(resend, {
+      from: sender,
+      to: customerEmail,
+      siteUrl: siteURL,
+      sessionId: session.id,
+      paidAt: event.created,
+      product: 'guia',
+      productName: guia.title,
+      reference: eventReference(event),
+    });
+
     await stripe.checkout.sessions.update(session.id, {
       metadata: {
         type: 'guia',
@@ -171,6 +217,7 @@ export const POST: APIRoute = async ({ request }) => {
         deliveryEmailId: data.id,
         deliveredAt: new Date().toISOString(),
         downloadExpiresAt: String(expiresAt),
+        ...(surveyEmailId ? { encuestaEmailId: surveyEmailId } : {}),
       },
     });
   } catch (error: unknown) {

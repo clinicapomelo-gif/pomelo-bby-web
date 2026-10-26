@@ -11,6 +11,7 @@ import {
   isStripeSessionMode,
 } from '../../lib/consulta-payment.mjs';
 import { termsConsent } from '../../lib/checkout-consent';
+import { discoveryField } from '../../lib/checkout-discovery';
 import { invoiceCreation } from '../../lib/checkout-invoice';
 import { getSiteUrl } from '../../lib/site-url';
 
@@ -82,6 +83,7 @@ export const POST: APIRoute = async ({ request }) => {
       automatic_tax: { enabled: false },
       ...invoiceCreation('consulta'),
       ...termsConsent(siteURL, 'consulta'),
+      ...discoveryField(),
     });
 
     if (!session.url || !isStripeSessionMode(session.livemode, stripeMode)) {

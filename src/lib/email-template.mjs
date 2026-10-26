@@ -47,6 +47,7 @@ const paragraphHtml = (paragraph, color = COLOR.text, size = 16) =>
  *   title?: string,
  *   greeting?: string,
  *   paragraphs?: EmailParagraph[],
+ *   choices?: { label: string, href: string }[],
  *   button?: { label: string, href: string },
  *   afterButton?: EmailParagraph[],
  *   signature?: string,
@@ -59,6 +60,7 @@ export const renderEmail = ({
   title,
   greeting,
   paragraphs = [],
+  choices = [],
   button,
   afterButton = [],
   signature = 'Mar · Pomelo Baby',
@@ -71,6 +73,13 @@ export const renderEmail = ({
             <tr><td style="background:${COLOR.coral};border-radius:8px;">
               <a href="${escapeHtml(button.href)}" style="display:inline-block;padding:14px 28px;font-family:${FONT};font-size:18px;font-weight:700;line-height:1.3;color:${COLOR.white};text-decoration:none;border-radius:8px;">${escapeHtml(button.label)}</a>
             </td></tr>
+          </table>` : '';
+  // Respuestas que son enlaces (la encuesta): botones apilados del mismo tamaño y estilo.
+  const choicesHtml = choices.length ? `
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:4px 0 16px;">${choices.map((choice) => `
+            <tr><td style="padding:0 0 8px;">
+              <a href="${escapeHtml(choice.href)}" style="display:block;padding:13px 16px;background:${COLOR.coral};border-radius:8px;font-family:${FONT};font-size:17px;font-weight:700;line-height:1.3;color:${COLOR.white};text-align:center;text-decoration:none;">${escapeHtml(choice.label)}</a>
+            </td></tr>`).join('')}
           </table>` : '';
   // El enlace de respaldo va al final: junto al botón compite con él y con lo que hay que leer.
   const fallbackHtml = button ? `
@@ -95,6 +104,7 @@ export const renderEmail = ({
           ${title ? `<h1 style="margin:0 0 16px;font-family:${FONT};font-size:22px;line-height:1.3;color:${COLOR.text};">${escapeHtml(title)}</h1>` : ''}
           ${greeting ? paragraphHtml(greeting) : ''}
           ${paragraphs.map((paragraph) => paragraphHtml(paragraph)).join('\n          ')}
+          ${choicesHtml}
           ${buttonHtml}
           ${afterButton.map((paragraph) => paragraphHtml(paragraph, COLOR.secondary, 15)).join('\n          ')}
           ${paragraphHtml(signature)}
@@ -110,6 +120,7 @@ export const renderEmail = ({
     title,
     greeting,
     ...paragraphs.map((paragraph) => partsOf(paragraph).map(partToText).join('')),
+    choices.length && choices.map((choice) => `${choice.label}:\n${choice.href}`).join('\n\n'),
     button && `${button.label}:\n${button.href}`,
     ...afterButton.map((paragraph) => partsOf(paragraph).map(partToText).join('')),
     signature,

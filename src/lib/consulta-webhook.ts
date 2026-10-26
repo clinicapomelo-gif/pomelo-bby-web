@@ -5,7 +5,9 @@ import {
   getConsultationStripeMode,
   isConsultationSubmissionAuthorized,
 } from './consulta-payment.mjs';
+import { getDiscoveryAnswer } from './checkout-discovery';
 import { renderEmail } from './email-template.mjs';
+import { scheduleSatisfactionSurvey } from './encuesta.mjs';
 
 const text = (body: string, status = 200) => new Response(body, { status });
 
@@ -79,7 +81,7 @@ export const handlePaidConsultation = async (
         to: marEmail,
         replyTo: familyEmail,
         subject: `Consulta por correo pagada ${consultaRef} — Pomelo Baby`,
-        text: `Se ha pagado una consulta por correo.\n\nReferencia: ${consultaRef}\nEmail de la familia: ${familyEmail}\nPago: ${paidAt}\n\nCuando la familia envíe su caso te llegará otro correo con esta misma referencia. Si en 24 horas no ha llegado, puedes escribirle tú primero respondiendo a este correo.`,
+        text: `Se ha pagado una consulta por correo.\n\nReferencia: ${consultaRef}\nEmail de la familia: ${familyEmail}\nPago: ${paidAt}\nNos ha conocido por: ${getDiscoveryAnswer(session) ?? 'no lo ha indicado'}\n\nCuando la familia envíe su caso te llegará otro correo con esta misma referencia. Si en 24 horas no ha llegado, puedes escribirle tú primero respondiendo a este correo.`,
       }, { idempotencyKey: `consulta-aviso-mar-${session.id}` }),
       resend.emails.send({
         from: sender,
@@ -107,8 +109,23 @@ export const handlePaidConsultation = async (
       return text('No se pudo avisar de la consulta', 500);
     }
 
+    const surveyEmailId = await scheduleSatisfactionSurvey(resend, {
+      from: sender,
+      to: familyEmail,
+      siteUrl: siteURL,
+      sessionId: session.id,
+      paidAt: getPaidAt(session),
+      product: 'consulta',
+      productName: 'Consulta por correo',
+      reference,
+    });
+
     await stripe.checkout.sessions.update(session.id, {
-      metadata: { avisoEnviado: 'true', avisoEnviadoAt: new Date().toISOString() },
+      metadata: {
+        avisoEnviado: 'true',
+        avisoEnviadoAt: new Date().toISOString(),
+        ...(surveyEmailId ? { encuestaEmailId: surveyEmailId } : {}),
+      },
     });
   } catch (error: unknown) {
     console.error('Consultation notice exception:', reference, error instanceof Error ? error.name : 'UnknownError');

@@ -19,6 +19,7 @@
     "guide:provision": "node scripts/guide-catalog.mjs provision",
     "guide:price": "node scripts/guide-catalog.mjs price",
     "guide:sync-live": "node --env-file-if-exists=.env scripts/sync-live-guide-catalog.mjs",
+    "encuesta:pendientes": "node --env-file-if-exists=.env scripts/encuesta-pendientes.mjs",
     "astro": "astro"
   },
   "dependencies": {

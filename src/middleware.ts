@@ -10,10 +10,13 @@ const CHISME_SIGNUP_PATHS = new Set([
 const MAINTENANCE_BYPASS_PATHS = new Set([
   '/api/consulta-mensaje',
   '/api/guias/download',
+  '/api/opinion',
   '/api/webhook',
   '/consulta-mensaje/enviado',
   '/consulta-mensaje/gracias',
   '/guias/gracias',
+  '/opinion',
+  '/opinion/gracias',
 ]);
 
 // Mismas cabeceras que public/_headers: en Cloudflare ese archivo solo cubre los
