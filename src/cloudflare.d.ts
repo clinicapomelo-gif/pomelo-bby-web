@@ -7,5 +7,6 @@ declare module 'cloudflare:workers' {
       head(key: string): Promise<R2Object | null>;
       get(key: string): Promise<(R2Object & { body: ReadableStream }) | null>;
     };
+    DESCARGAS?: { writeDataPoint(point: { blobs?: string[]; indexes?: string[] }): void };
   };
 }

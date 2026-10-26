@@ -38,6 +38,8 @@ No dependen de ninguna respuesta externa.
 
 ## Decisiones
 
+- [ ] **[Mar + Rafael + Dev]** **Opinión de la guía gratuita** (*Conservación de la leche materna*): no pide email, así que no se le puede enviar la encuesta a la semana como en las de pago. Propuesta (26 oct): una última página en el PDF con «¿Te ha servido?» y los tres botones (Sí, mucho / Un poco / No mucho) que abren `/opinion`, adaptada a guías gratuitas sin compra (anónima, con límite de envíos de Cloudflare y campo trampa). **Mar** añade la página al PDF con el texto y los enlaces que pase **Dev**; **Dev** adapta `/opinion` y vuelve a subir el PDF a R2. Descartado: pedir el email para descargarla (frena descargas y deja de ser un regalo) o preguntar al descargar (aún no la han leído). Del 19 al 26 oct se descargó unas 9 veces (sin contar Google), 3 desde la bio de Instagram.
+
 - [ ] **[Mar]** ¿La web debe decir los 40 minutos de «Necesito un plan»? En Cal.com están en 40; la web solo dice los 20 minutos de la otra consulta. Sería texto nuevo.
 - [ ] **[Mar + Rafael]** Decidir cuándo enseñar la web en redes (Mar quiere hacerlo pronto). La web y las ventas ya están abiertas: antes de anunciarla, cerrar «Ahora, tras abrir».
 

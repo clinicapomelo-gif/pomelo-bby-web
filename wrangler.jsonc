@@ -21,7 +21,9 @@
       "workers_dev": false,
       "routes": [{ "pattern": "pomelobaby.es", "custom_domain": true }],
       "vars": { "APP_ENV": "production", "SITE_URL": "https://pomelobaby.es" },
-      "r2_buckets": [{ "binding": "GUIAS", "bucket_name": "pomelo-guias" }]
+      "r2_buckets": [{ "binding": "GUIAS", "bucket_name": "pomelo-guias" }],
+      // Registro de descargas de las guías gratuitas (3 meses). Solo en Production.
+      "analytics_engine_datasets": [{ "binding": "DESCARGAS", "dataset": "pomelo_descargas" }]
     },
     // Otras ramas: Worker aparte para que nunca vea las claves Live. Sin SITE_URL: usa su propia URL.
     "preview": {

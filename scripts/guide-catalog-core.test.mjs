@@ -18,6 +18,7 @@ import {
   getGuiaAmountCents,
   getStripeMode,
   isGuiaVisible,
+  getDownloadSource,
 } from '../src/data/guide-logic.mjs';
 
 const paidGuide = () => ({
@@ -309,4 +310,15 @@ test('autoriza snapshots exactos con Blobs actuales o históricos', () => {
     ['price_old12345', 'price_old12345', undefined],
     ['price_old12345', undefined, guide.blobKey],
   ]) assert.equal(authorizeGuidePurchase(guide, 'test', ...args), undefined);
+});
+
+test('getDownloadSource: utm, app, web que enlaza o directo; robots aparte', () => {
+  const url = 'https://pomelobaby.es/api/guias/gratis?id=x';
+  assert.deepEqual(getDownloadSource(`${url}&utm_source=ig`, 'iPhone Instagram', null), { origen: 'ig', tipo: 'persona' });
+  assert.equal(getDownloadSource(url, 'iPhone Instagram 300', null).origen, 'instagram');
+  assert.equal(getDownloadSource(url, 'iPhone [FBAN/FBIOS]', null).origen, 'facebook');
+  assert.equal(getDownloadSource(url, 'iPhone', 'https://pomelobaby.es/guias/x/').origen, 'pomelobaby.es');
+  assert.equal(getDownloadSource(url, 'iPhone', 'no es una url').origen, 'directo');
+  assert.equal(getDownloadSource(url, null, null).origen, 'directo');
+  assert.equal(getDownloadSource(url, 'Mozilla/5.0 (compatible; Googlebot/2.1)', null).tipo, 'robot');
 });

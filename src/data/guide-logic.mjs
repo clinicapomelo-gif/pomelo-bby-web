@@ -115,3 +115,13 @@ export function authorizeGuidePurchase(guia, mode, linePriceId, snapshotPriceId,
 
   return snapshotBlobKey;
 }
+
+// De dónde llega una descarga: utm_source, la app de Instagram/Facebook, la web que enlaza o «directo».
+export const getDownloadSource = (url, userAgent, referer) => {
+  const ua = userAgent ?? '';
+  const origen =
+    new URL(url).searchParams.get('utm_source') ??
+    (/Instagram/.test(ua) ? 'instagram' : /FBAN|FBAV/.test(ua) ? 'facebook' : undefined) ??
+    (referer && URL.canParse(referer) ? new URL(referer).host : 'directo');
+  return { origen: origen.slice(0, 100), tipo: /bot|crawl|spider|slurp/i.test(ua) ? 'robot' : 'persona' };
+};
