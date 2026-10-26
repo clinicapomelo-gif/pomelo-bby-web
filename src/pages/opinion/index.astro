@@ -6,7 +6,9 @@ import { isValidSessionId, loadOpinionPurchase, type OpinionPurchase } from '../
 export const prerender = false;
 
 Astro.response.headers.set('Cache-Control', 'private, no-store');
-Astro.response.headers.set('Referrer-Policy', 'no-referrer');
+// same-origin y no no-referrer: con no-referrer el navegador envía el formulario con
+// Origin: null y Astro lo rechaza como envío desde otra web. Fuera de la web no se envía.
+Astro.response.headers.set('Referrer-Policy', 'same-origin');
 
 // Abrir la página no guarda nada: algunos correos abren los enlaces solos para revisarlos.
 // La respuesta del enlace solo llega marcada; se guarda al enviar.
