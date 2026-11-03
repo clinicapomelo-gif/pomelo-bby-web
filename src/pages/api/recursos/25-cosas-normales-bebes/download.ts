@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { privatePdfResponse } from '../../../../lib/guide-storage';
+import { privatePdfResponse, recordFreeDownload } from '../../../../lib/guide-storage';
 
 export const prerender = false;
 
@@ -14,9 +14,12 @@ const unavailable = () => new Response('La guía no está disponible temporalmen
   },
 });
 
-export const GET: APIRoute = async () => {
+export const GET: APIRoute = async ({ request }) => {
   try {
-    return await privatePdfResponse(PDF_KEY, '25-cosas-normales-bebes.pdf', 'no-store') ?? unavailable();
+    const response = await privatePdfResponse(PDF_KEY, '25-cosas-normales-bebes.pdf', 'no-store');
+    if (!response) return unavailable();
+    recordFreeDownload('25-cosas-normales-bebes', request);
+    return response;
   } catch (error) {
     console.error('Lead magnet PDF download error:', error instanceof Error ? error.name : 'UnknownError');
     return unavailable();
