@@ -2,7 +2,7 @@
 
 ## Decisión inicial
 
-Usaremos el plan **Mini de DonDominio** con dos buzones: `hola@pomelobaby.es` para contacto general y `mar@pomelobaby.es` para consultas pagadas. `chisme@pomelobaby.es` es un tercer buzón (no un alias). Desde el 8 oct 2026, `hola@` y `mar@` se reenvían sin copia al Gmail de Pomelo (ver «Gmail»).
+Usaremos el plan **Mini de DonDominio** con dos buzones: `hola@pomelobaby.es` para contacto general y `mar@pomelobaby.es` para consultas pagadas. `chisme@pomelobaby.es` es un tercer buzón (no un alias). Desde el 8 oct 2026, `hola@` y `mar@` se reenvían sin copia al Gmail de Pomelo, y `chisme@` desde el 2 nov (ver «Gmail»).
 
 No hace falta Google Workspace para esta configuración. DonDominio recibe el correo y proporciona el SMTP; Gmail se utilizará más adelante como bandeja de entrada. Resend envía los correos automáticos desde `mar@pomelobaby.es` y El Chisme desde `chisme@pomelobaby.es`.
 
@@ -35,11 +35,11 @@ El espacio web incluido no se utilizará. La web permanece alojada en Vercel.
 
 ## Gmail (hecho el 8 oct 2026)
 
-Los buzones `hola@` y `mar@` se leen y se responden desde el Gmail de Pomelo (`clinicapomelo@gmail.com`).
+Los buzones `hola@`, `mar@` y `chisme@` (este desde el 2 nov) se leen y se responden desde el Gmail de Pomelo (`clinicapomelo@gmail.com`).
 
 **Reenvío sin copia (DonDominio):** en el WebMail de cada buzón, Configuración → Filtros, un filtro «Reenviar a gmail» con ámbito «todos los mensajes» y una sola acción, «Redirigir mensaje a» el Gmail. Sin la acción «Copiar mensaje a», el correo reenviado se borra del servidor ([ayuda de DonDominio](https://www.dondominio.com/es/help/228/crear-reenvio-correos-desde-webmail/)). Los filtros van dentro de un conjunto (`roundcube`) que tiene que estar activo. Los buzones no se borran: reciben el correo y su contraseña es la del envío.
 
-**Filtros en Gmail:** `Para: hola@pomelobaby.es` y `Para: mar@pomelobaby.es` con «No enviarlo nunca a Spam» y sus etiquetas. Como no queda copia en DonDominio, un mensaje que acabara en spam podría perderse.
+**Filtros en Gmail:** `Para: hola@pomelobaby.es`, `Para: mar@pomelobaby.es` y `Para: chisme@pomelobaby.es` con «No enviarlo nunca a Spam» y sus etiquetas. Como no queda copia en DonDominio, un mensaje que acabara en spam podría perderse.
 
 **Enviar como** (Gmail → Cuentas e importación → Enviar correo como), una entrada por buzón, «Tratar como un alias»:
 
@@ -52,7 +52,7 @@ Los buzones `hola@` y `mar@` se leen y se responden desde el Gmail de Pomelo (`c
 
 No usar `mailsrv1.dondominio.com` (al que apunta `smtp.pomelobaby.es`): tiene un certificado autofirmado y Gmail lo rechaza, aunque lo muestra como «Error de autenticación». «Responder desde la misma dirección a la que se envió el mensaje» activado. Probado el 8 oct: respuestas desde `hola@` y `mar@` con SPF, DKIM y DMARC en PASS.
 
-**Pendiente:** `chisme@pomelobaby.es` es un tercer buzón, no un alias, y no tiene reenvío: lo que llegue ahí se queda en DonDominio. Configurarlo igual cuando se active El Chisme.
+`chisme@pomelobaby.es` es un tercer buzón, no un alias, configurado igual el 2 nov: filtro de reenvío sin copia, filtro de Gmail y «Enviar como» `El Chisme de Mar`.
 
 Las contraseñas y códigos de verificación no deben guardarse en Git ni compartirse por chat.
 
